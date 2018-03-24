@@ -7,4 +7,5 @@ This is to track all our AI endeavours, and wishlists
 
 * Get the data to start playing with food @ https://world.openfoodfacts.org/data
 * Get a subset of images if you tackling computer vision issues on the #computervision channel of Slack (https://slack.openfoodfacts.org)
+* Get a labelled dataset of annotated barcode images @ https://drive.google.com/file/d/1uThXXH8HiHAw6KlpdgcimBSbrvi0Mksf/view?usp=sharing
 * Other relevant channels #nlp #computervision #machinelearning
