@@ -8,3 +8,4 @@ This is to track all our AI endeavours, and wishlists
 * Get the data to start playing with food @ https://world.openfoodfacts.org/data
 * Get a subset of images if you tackling computer vision issues on the #computervision channel of Slack (https://slack.openfoodfacts.org)
 * Other relevant channels #nlp #ai-computervision #ai-machinelearning
+
