@@ -23,9 +23,9 @@ Command used to generate the test set:
 
 ## Ingredients cropping and extraction
 
-### France - French products (1k)
+### France - French products (1k + 12k)
 
-A set of 1k French products with:
+2 sets of 1k and 12k French products with:
 * original image containing an ingredients list
     * 3596710454181.ingredients.jpg
 * rotation angle and bouding box coordinates of the cropped ingredients list
@@ -37,7 +37,9 @@ A set of 1k French products with:
 * Ingredients list as entered by users (possibly from OCR and possibly with errors) in the OFF database
     * in the products.csv file
 
-Location: https://static.openfoodfacts.org/exports/ingredients-lc-fr-country-fr-last-edit-date-2019-08-1k.tar.gz (16.9 Gb)
+Location 1k products: https://static.openfoodfacts.org/exports/ingredients-lc-fr-country-fr-last-edit-date-2019-08-1k.tar.gz ()
+
+Location 12k products: https://static.openfoodfacts.org/exports/ingredients-lc-fr-country-fr-last-edit-date-2019-08.tar.gz ()
 
 Command used to generate the test set:
 ./extract_ingredients_test_set.pl --lc fr --query countries_tags=en:france --query last_edit_dates_tags=2019-08 --dir /srv/off/html/exports/ingredients-lc-fr-country-fr-last-edit-date-2019-08-1k
