@@ -12,3 +12,6 @@ venv
 
 # IPython
 .ipynb_checkpoints
+
+# Mac
+.DS_Store
