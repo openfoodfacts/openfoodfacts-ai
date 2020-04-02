@@ -19,15 +19,24 @@ def load_dataset(path):
     with correct_path.open('r', encoding='utf-8') as correct_file:
         correct_lines = correct_file.readlines()
 
+    tags_path = path / 'tags.txt'
+    with tags_path.open('r', encoding='utf-8') as tags_file:
+        tags_lines = tags_file.readlines()
+
     items = []
-    for original_line, correct_line in zip(original_lines, correct_lines):
+    for original_line, correct_line, tags_line in zip(original_lines, correct_lines, tags_lines):
         original_id, original_text = original_line.split('\t')
         correct_id, correct_text = correct_line.split('\t')
+        tags_split = tags_line.split()
+        tags_id = tags_split[0]
+        tags = tags_split[1:]
         assert(original_id == correct_id)
+        assert(original_id == tags_id)
         items.append({
             '_id': original_id,
             'original': original_text,
             'correct': correct_text,
+            'tags': tags,
         })
 
     return items
@@ -51,6 +60,15 @@ def save_dataset(path, items):
         correct_file.write(
             ''.join([
                 item['_id'] + '\t' + format_txt(item['correct']) + '\n'
+                for item in items
+            ])
+        )
+
+    tags_path = path / 'tags.txt'
+    with tags_path.open('w', encoding='utf-8') as tags_file:
+        tags_file.write(
+            ''.join([
+                ' '.join([item['_id']] + item.get('tags', [])) + '\n'
                 for item in items
             ])
         )

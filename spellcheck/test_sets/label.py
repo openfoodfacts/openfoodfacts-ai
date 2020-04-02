@@ -28,11 +28,13 @@ def display_image(item_id):
         st.error(e)
 
 
-def save_corrected_item(item, correct):
+def save_corrected_item(item, correct, tags):
+    status = 'NOT_VALID' if correct == 'NOT_VALID' else 'VALID'
     session.corrected_items.append({
         '_id': item['_id'],
         'original': item['ingredients_text_fr'],
         'correct': correct,
+        'tags': [status] + tags,
     })
     save_dataset('fr/uniform_sampling', session.corrected_items)
 
@@ -77,26 +79,22 @@ st.subheader('Correction')
 correct = st.text_area('Type corrected text here', value=item['ingredients_text_fr'])
 display_image(item['_id'])
 
+TAGS = [
+    'LABELLED_USING_IMAGE',
+    'INCOMPLETE_INGREDIENTS_LIST',
+    'MIXED_NUTRITION',
+    'MIXED_OTHER',
+    'MIXED_FOREIGN_LANGUAGE',
+    'FOREIGN_LANGUAGE_ONLY',
+    'TOO_NOISY',
+    'NOT_INGREDIENTS_LIST',
+]
+tags = st.multiselect('Tags', TAGS)
+
 if st.button('Submit'):
-    save_corrected_item(item, correct)
+    save_corrected_item(item, correct, tags)
     SessionState.rerun()
 
-elif st.button('Too noisy'):
-    save_corrected_item(item, 'NOT_VALID__TOO_NOISY')
-    SessionState.rerun()
-
-elif st.button('Incomplete'):
-    save_corrected_item(item, 'NOT_VALID__INCOMPLETE')
-    SessionState.rerun()
-
-elif st.button('Not ingredients'):
-    save_corrected_item(item, 'NOT_VALID__NOT_INGREDIENTS')
-    SessionState.rerun()
-
-elif st.button('Not expected language'):
-    save_corrected_item(item, 'NOT_VALID__NOT_LANGUAGE')
-    SessionState.rerun()
-
-elif st.button('Other'):
-    save_corrected_item(item, 'NOT_VALID__OTHER')
+elif st.button('Not valid'):
+    save_corrected_item(item, 'NOT_VALID', tags)
     SessionState.rerun()

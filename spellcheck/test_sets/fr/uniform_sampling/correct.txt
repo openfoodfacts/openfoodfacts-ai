@@ -1,12 +1,12 @@
 7610849907632	ail 85%, vinaigre de table, sel de cuisine, huile de colza. Teneur totale en sel de cuisine: 4.8%
 3560070962754	Ingrédients/Ingrediënten : Flocons d'avoine* 30%, chocolat au lait* 25% [sucre*, beurre de cacao*, poudre de lait entier*, pâte de cacao*, émulsifiant : lécithine (tournesol)*], sucre roux de canne*, graisse de palme* 12%, farine de blé complet* 9%, sirop de sucre inverti*, poudre à lever: carbonates de sodium, sel, sirop de sucre brut*, arôme naturel de vanille*. En * biologique. Peut contenir des traces de fruits à coque, d'arachides, de graines de sésame et d'œuf.
-7614200005975	NOT_VALID__TOO_NOISY
+7614200005975	NOT_VALID
 3700009264744	semoule de blé dur réhydratée* 46%, poivrons verts * 8,5%, tomates* 8 huile de tournesol*, carottes* 8%, eau, oignons*, raisins secs* (raisins*, huile de tournesol*), vinaigre d'alcool*, huile d'olive vierge extra*, menthe* 1,5%, sel, moutarde de Dijon* (graines de moutarde*, vinaigre d'alcool*, eau, sel), jus de citron concentré* 0,4%, mélange d'épices et de plantes aromatiques*, farine de riz*, épaississant : gomme xanthane. *Ingrédients issus de l'agriculture biologique. Traces éventuelles de céleri, soja et fruits à coque. Informations en gras destinées aux personnes allergiques.
 8850025000514	Eau de noix de coco 93.9%, Arôme natutel de fruit
 7617027815949	Viande de boeuf, sel de cuisine, épices, glucose, sucre, conservateur: E 252, acidifiant: E 331, antioxydant: E 301
 20151133	75% farine de maïs, huile de tournesol, dextrose, sel de cuisine, épices, maltodextrine, correcteur d'acidité: acétates de sodium, acide citrique; arômes. À conserver à l'abri de l'humidité. Bien fermer le sachet après chaque utilisation et à consommer sous 3 jours. Élaboré en Belgique.
 3297760098812	purée et morceaux de pommes 98,7%, jus de yuzu 1%, arôme naturel, antioxydants: acide ascorbique.
-6111099000254	NOT_VALID__NOT_INGREDIENTS
+6111099000254	NOT_VALID
 3184670008928	_Lait_* entier, _œufs_* entiers frais (16%), sucre, amidon de manioc, fécule de manioc, jaunes d'_œufs_* frais, arôme naturel de vanille Bourbon (0,7%), graines de vanille épuisées. Garniture (5g) : caramel (sucre, sirop de glucose-fructose, eau).
 3392590203457	Farine de blé, eau, huile d'olive vierge extra 6%, fibres de chicorée, alcool, sel, farine de blé fermentée, poudres à lever : diphosphate disodique et carbonate acide de sodium, gluten de blé, levure
 3329488811258	Graines de lin brun biologiques.
@@ -19,10 +19,10 @@
 3700254081721	Ingrédients : farine de blé, Comté AOP (lait) 3,5%, sirop de glucose, beurre pâtissier 13%, poudre de lait entier, œufs entiers, sel, fibre de blé, poivre de Madagascar. Fabriqué dans un atelier qui utilise des fruits à coque.
 8424409900617	100 % Coco sucre (Cocos nucifera). Modo d'emploi: Coco sucre peut être utilisé pour remplacer le sucre traditionnel.
 3240932425206	Farce : 52% semoule de blé dur, jambon cuit de porc* de qualité supérieure (jambon de porc*), bouillon : eau, couennes de porc*, oignons, os de porc*, carottes, sel, épices et aromates
-3433110000191	NOT_VALID__TOO_NOISY
-8710398169334	NOT_VALID__INCOMPLETE
+3433110000191	NOT_VALID
+8710398169334	NOT_VALID
 3154230065692	Pépites de chocolat 23% (sucre, pâte de cacao, beurre de cacao, émulsifiant : lécithine de tournesol, arôme naturel de vanille), farine de _blé_, margarine (huiles végétales (palme, colza), eau, émulsifiant : E471 - colorant : E160a ; correcteur d'acidité : E330), sucre, sucre de canne, amidon de _blé_, _œuf_ entier en poudre, sirop de glucose en poudre, poudres à lever : E500, E450 ; sel, arôme.
-3523680347823	NOT_VALID__TOO_NOISY
+3523680347823	NOT_VALID
 0055000139045	Sucre, cacao, lécithine de _soja_, sel, ascorbyle de palmitate de vitamine A, arôme et arôme artificiel.
 8001010039389	Poivrons grillés, vinaigrette (maltodextrine de pommes de terre, vinaigre de vin, sucre, sel, mélange d'herbes aromatiques, arômes naturels, épaississants: gomme de xanthane et pectine).
 3661112056995	Viande de porc, sel, conservateurs : E250 - E262 - E326, dextrose, antioxydant : E316.
@@ -35,17 +35,17 @@
 3395250003770	Sucre, beurre de cacao, poudre de LAIT entier, pâte de cacao, émulsifiant : lécithine de SOJA, arôme naturel de vanille.
 3502490014156	noix de coco, anhydrique sulfureux
 3332621066064	_Lait_ cru de vache, sel, présure, ferments.
-5949034000141	NOT_VALID__TOO_NOISY
+5949034000141	NOT_VALID
 4027900567743	Sel de table, oignon, panais, thym, marjolaine, herbes aromatiques ail.
 3560070397235	Eau, épaule de porc 25.6%, saucisse fumée 17.1% [viande de porc 16.6%, sel, épices et plantes aromatiques (poivre, coriandre, muscade, carvi), dextrose, conservateur: nitrite de sodium, antioxydant: ascorbate de sodium, boyau naturel de porc], lentilles vertes 14%, carottes 8.5%, oignons 4.5%, sel, extraits de légumes déshydratés (poireau, carotte), arômes naturels, épices et plantes aromatiques (ail, clou de girofle, thym, laurier), antioxydants: acide ascorbique et ascorbate de sodium, conservateur: nitrite de sodium, épaississants: gomme xanthane et gomme guar. Peut contenir des traces de gluten, crustacés, œufs, poissons, soja, lait, fruits à coques, céleri, moutarde, mollusques.
 0069905971	INGRÉDIENTS: SIROP DE MAÏS, SUCRE, LAIT ÉCRÉMÉ, HUILE DE PALME MODIFIÉE, EAU, LACTOSÉRUM EN POUDRE, SEL, ARÔMES ARTIFICIELS ET NATURELS DE SOJA, HUILE DE SOJA HYDROGÉNÉE, GEL DE CELLULOSE, GOMME DE CELLULOSE. CONTIENT LAIT, SOJA
-3401248113274	NOT_VALID__NOT_LANGUAGE
+3401248113274	NOT_VALID
 3700548631762	flocons de pomme de terre 36% (dont antioxygène : extrait de romarin), protéines de lait, lait écrémé, huile de soja (huile de soja*, sirop de glucose, protéines de lait, stabilisant triphosphates, antioxygène : extrait riche en tocophérols), arômes, épaississants : gomme guar et gomme xanthane, oignons rissolés (oignon, huile de tournesol, antioxygène : extrait de romarin), sel, minéraux (magnésium, fert zinc, cuivre, manganèse, iode, sélénium), vitamines (A, D, E, C, B1, B2, B3, B6, B9, B12, B8, B5), poivre, : riboflavine, antiagglomérant : dioxyde de silicium [nano]. *Soja non-OGM. Fabriqué dans un atelier qui utilise : lait soja, œuf, gluten, fruits à coque, sésame.
-3112300206512	NOT_VALID__TOO_NOISY
-04150862	NOT_VALID__NOT_LANGUAGE
+3112300206512	NOT_VALID
+04150862	NOT_VALID
 3700520501335	Pommes de terre, graisse de canard, huile de colza, persil, sel, ail, poivre
 2209620004223	Poulet, eau, sel, sirop de glucose de blé, stabilisants : di - et triphosphates ; épaississant : carraghénanes ; arômes, conservateur : nitrite de sodium.
-7613035376830	NOT_VALID__TOO_NOISY
+7613035376830	NOT_VALID
 3029330066552	Farine de blé (57%), eau, sucre, levure, semoule de blé dur (3,3%), jaune d'œuf en poudre, huile de colza, œufs entiers en poudre reconstitués (2,1%), arômes (contient alcool), sel, gluten de blé, conservateur : proplonate de calcium, extrait d'acérola, présence possible de lait, graines de sésame.
 5410063212947	Farine complète de blé, farine de blé, son de blé 24%, huile de colza, sucre de canne roux, pâte de figue 5,2%, arôme naturel de vanille, émulsifiant: lécithines de colza, poudre à lever: carbonates de potassium et carbonates d'ammonium, protéines de lait. Peut contenir des traces de fruits à coque, de soja, d’œuf et de lupin.
 3368953495005	_Lait_ de vache pasteurisé, sel, ferments (dont _lait_), présure.
@@ -53,13 +53,13 @@
 5050083509605	Farine de sucre, Sirop de glucose, Fibres de maïs, Sel, Extrait de malt d'orge, Colorant (Caroténoïdes). Vitamines et Minéraux : Phosphate tricalcique, Vitamines (Niacine, B6, B2, B1, Acide folique, D, B12) et Fer. Allergènes : voir les ingrédients en gras. Peut contenir : Gluten provenant d'autres céréales. INGREDIENTEN : Maïsmeel (74%), suiker, Glucosesiroop, Maïsvezels, Zout, Gerstemoutextract, Kleurstof(Carotenen). Vitaminen en Mineralen : Tricalciumfosfaat, Vitaminen (Niacine, B6, B2, BI, foliumzuur, D, BI 2), IJzer. Voor allergenen : zie ingrediënten in vet gemarkeerd. Bevat mogelijk : Gluten uit andere granen. 20 porties 20 portions Cette portion de 30 g est adaptable en fonction des besoins de chacun (âge, activité physique ) Deze portie van 30 g is aanpasbaar aan de individuele behoeften (leeftijd, fysieke activiteit NOS
 4260296930016	eau, huile de coco (25 %), amidon modifié, sel, correcteur d'acidité: (citrate de sodium, acide citrique), arôme, colorant: bêta-carotène, agent de démoulage: fécule de pomme de terre
 7610200244741	sirop de glucose, sucre, demi-crème 10%, lactose, beurre 4.5%, émulsifiant: lécithine de soja, sel de cuisine, arômes.
-3261680720719	NOT_VALID__TOO_NOISY
+3261680720719	NOT_VALID
 3254690086302	Jus de pomme à base de jus concentré (45,8%), Jus de cassis à base de jus concentré (4,2%), eau, sucre
 3245412476105	Farine de blé tendre 24,7%, semoule de blé dur 16,5%, eau, chapelure (farine de blé tendre, eau, sel), préparation de viande de bœuf 11,5% (viande de bœuf 11%, sel, farine de blé tendre), œufs frais 5,7% (soit 140 g d'œufs frais par kg de farine et semoule), huile de tournesol, flocons de pomme de terre (pomme de terre, émulsifiant : mono - et diglycérides d'acides gras), carotte, viande de bœuf 1,6%, concentré de tomate, basilic, oignon, sel, vin rouge, ail, arômes, laurier, romarin, poivre noir. Pourcentages exprimés sur l'ensemble du produit. Peut contenir des traces de lait, poisson et crustacés.
 3380790000785	Farine de froment, beurre concentré reconstitué, 27% sucre, œufs frais 15,0%, crème de caramel 10,0%, éclats de caramel 10,0%, sirop de sucre inverti, poudre levante (pyrophosphate et bicarbonate de soude alimentaire, amidon de maïs), sel, arôme artificiel. A consommer de préférence avant le :
 8029513213389	lait entier pasteurisé 44%, pâte de Tiramisu 8.4%, (sucre, jaune d’œuf pasteurisé 32%, marsala, sirop de glucose, stabilisant: gomme de guar, arômes), glucose, crème 8%, sucre, mascarpone frais 7%, pâte au cacao maigre 5.4% (huile d'arachide et huile de tournesol, sucre, noisettes, poudre de cacao, lait écrémé en poudre, lactosérum en poudre de lait, lactose, émulsifiant: lécithine de soja et le tournesol, arômes) dextrose, beurre de cacao, émulsifiants: E471, E477, E472b, stabilisant: gomme de guar, café instantané.
 3439495402575	Eau, purée de banane (25%), sucre, acidifiant : acide citrique.
-9346657000002	NOT_VALID__NOT_LANGUAGE
+9346657000002	NOT_VALID
 3290940002371	rhum agricole, sirop de sucre de canne roux, lait, lait extrait de noix de coco 12%, épices de nos iles, extraits naturels de plantes aromatiques
 3760197630639	Macarons moelleux, mousses de chocolat noir et de chocolat au lait (98,2%) : sucre, crème (crème, stabilisant : carraghénanes), œuf, eau, amande 13%, chocolat 7,4% (pâte de cacao, sucre, beurre de cacao, émulsifiant : lécithine de soja, vanille naturelle), beurre, chocolat au lait 3,1% (sucre, beurre de cacao, lait entier en poudre, pâte de cacao, émulsifiant : lécithine de soja), blanc d’œuf en poudre (blanc d’œuf, correcteur d'acidité : acide citrique, agent moussant : E1505), cacao en poudre, gélatine de bœuf. Décor (1,8%) : amandes, chocolat (pâte de cacao, sucre, beurre de cacao, vanille naturelle, colorants : E171 - curcumine).
 3257981609242	Eau - sucre - sirop de glucose-fructose - purée de framboise 12,9% - farine de _blé_ - jus de citron à base de concentré 5,7% - _lait_ écrémé réhydraté - matières grasses de palmiste, palme et coprah - _lactose_ et protéines de _lait_ - _crème_ fraîche - purée de framboise concentrée 1% - poudre de cacao maigre - émulsifiants: lécithines de _soja_, mono- et diglycérides d'acides gras - stabilisants: pectines, gomme guar, farine de graines de caroube, carraghénanes - jus de citron concentré - arôme naturel de framboise - protéines de pois hydrolysées - colorant: anthocyanes - dextrose - sureau concentré - arôme naturel - correcteur d'acidité: citrates de sodium - arôme naturel d'orange.
@@ -67,10 +67,10 @@
 3700548633469	Lentilles (90g), Carottes (10g), Tomates naturelles (10g), Poivron vert et rouge (10g), Huile d'olive extra vierge (7g), Jambon sec (5g), Chorizo (5g), Ail (5g), Oignon blanc (5g) et Sel marin (1g)
 3770008545007	Collagène marin pur Extrait de betterave (1%)
 3760150337469	farine de BLE tendre (origine france), poudre de cèpes 4%
-2000000099441	NOT_VALID__NOT_LANGUAGE
+2000000099441	NOT_VALID
 03346339	JAMBON DE PARIS DE QUALITÉ SUPÉRIEURE INGRÉDIENTS : Jambon de (origine : sel, dextrose, conservateur : nitrite de sodium. SANS GLUTEN. INFORMATIONS :
 3076000864208	Champagne (contient _sulfites_)
-8001665128261	NOT_VALID__TOO_NOISY
+8001665128261	NOT_VALID
 5099801002097	Flocons d'_avoine_ (39 %), Margarine végétale (graisse de palme, huile de colza, eau, sel, arôme naturel), Croustilles de chocolat belge (11 %) (sucre, pâte de cacao, beurre de cacao, émulsifiant (lécithine de _soja_), arôme naturel de vanille ), Sucre, sirop de sucre partiellement inversé, noix de coco desséchée, farine d'_avoine_ (5,5 %).
 3250390033813	Eau, alcool, sucre, extrait naturel de réglisse, anéthole de badiane 0.2%, colorant (caramel E150a)
 3302746938027	Boulgour cuit 26% (eau, _blé_ dur, curcuma), _colin_ d'Alaska (21%), courgettes (14%), poivrons rouges (10,8%), tomates (9,4%), aubergines préfrites 6,3% (aubergines, huile de tournesol), oignons, oignons frits (oignons, huile d'olive, sel), concentré de tomates, huile d'olive vierge extra, sel, ail, basilic, curry 0,07% (curcuma, coriandre, fenouil, fenugrec, cannelle, sel, cardamone, poivre, ail, piment, girofle, épices), cumin, sucre, poivre, herbes de Provence (basilic, origan, romarin, thym), persil, piment.
@@ -87,11 +87,11 @@
 20035259	Riz Thaî Jasmin long grain
 3254560035928	Cacahuètes (_arachide_) 96%, assaisonnement 4% (sel, farine de blé (contient _gluten_), glucose, colorant : extrait de paprika ; sorbitol, arômes (contient _lait_), arôme de fumée, levure en poudre, protéines végétales de blé hydrolysées (contient _gluten_), extrait de levures, poudre d'oignon, gomme arabique).
 0770981095882	SUCRE, FARINE DE BLÉ ENRICHIE, HUILE DE SOYA, BLANC D'ŒUF LIQUIDE, SIROP DE MAÏS, EAU, CHOCOLAT (SUCRE, LIQUEUR DE CHOCOLAT, BEURRE DE CACAO, LÉCITHINE DE SOYA, EXTRAIT DE VANILLE), POUDRE DE CACAO, SHORTENING (HUILE DE PALME, DE CANOLA ET DE PALME MODIFIÉE), SEL, ARÔME NATUREL ET ARTIFICIEL, SUBSTANCES LAITIÈRES MODIFIÉES, AMIDON DE MAÏS MODIFIÉ, POUDRE À PÂTE, LÉCITHINE DE SOYA. FABRIQUÉ DANS UNE USINE EXEMPTE D’ARACHIDES. PEUT CONTENIR DES NOIX.
-4260144927861	NOT_VALID__NOT_LANGUAGE
+4260144927861	NOT_VALID
 3270190129486	Eau gazéifiée à base de jus d'orange concentré 12%, sucre, pulpe d'orange 2%, acidifiant: acide citrique, arôme naturel d'oranges et autres arômes naturels, antioxydant: acide ascorbique, conservateur: sorbate de potassium, colorant lutéine.
 3292590831851	Pomme de terre 22%, carottes 21,7%, Courgettes 20%, navets blancs 16,8 %, garden peas 9%, poivrons rouges 4%, Poivrons verts 4%, huile de tournesol, sel, épices, plantes aromatiques.
 8717677860326	Eau, sucre, piments rouges 16%, ail, vinaigre, amidon modifié, sel, stabilisant : E412.
-3254550034689	NOT_VALID__TOO_NOISY
+3254550034689	NOT_VALID
 3230140002238	Eau, graines de _moutarde_, vinaigre, sel, antioxydant : _disulfite de potassium_, acidifiant : acide citrique, épice.
 3760157580493	Farine de Noix Sans Gluten
 3266191006864	Sucre de canne*, huile de tournesol*, pâte de noisettes 11%, lait en poudre*, poudre de cacao maigre* 6% beurre de cacao, farine de riz*, lécithine de tournesol*, extrait naturel de vanille*. Ingrédients agricoles issus de l'Agriculture Bioloqique. Peut contenir des traces d'autres fruits à coque. Fabriqué en Italie.
@@ -100,3 +100,101 @@
 3258561240695	eau, tomates (tomates, jus de tomates, antioxydant : acide citrique) Lasagne (13,7%) (semoule de blé dur, œufs, eau) viande bovine (11,6%), crème (crème, stabilisant : carraghénanes), carottes, échalotes, oignons, huile d'olive, épices et aromates, amidon transformé de maïs, beurre, sel, sucre, fécule et amidon transformé de manioc, arôme (donc lait) colorant : extrait de paprika
 0044000052492	NOT_VALID__NOT_INGREDIENTS
 7617027953344	Kiwi
+8410076472953	farine de _blé_, eau, stabilisant : glycérol, huile de tournesol, émulsifiant : mono - et diglycérides d'acides gras, dextrose, poudres à lever : carbonate acide de sodium, diphosphate disodique ; sel.
+3388600000260	Fraises 13%, Mûres 13%, Framboises 13%, Cerises Noires 12%, jus de fruits concentrés (raisin, datte) 48.2%, gélifiant : pectine, jus de citron.
+3263851376114	Haricots blancs secs trempés 50% - eau - purée de tomates double concentrée 2,1% - sel - amidon transformé de maïs - oignon en poudre.
+26065984	Lait, sel, ferments, coagulant.
+3144550008189	NOT_VALID
+3188720601107	Riz blanc et rouge précuits 51% (riz blanc, eau, riz rouge, huile de colza, sel), saumon Atlantique 23%, eau, _crème_ fraîche 4,2%, vin blanc 2,3%, beurre demi-sel 1,8%, échalotes 1,5%, vinaigre de vin blanc, jus de citron, amidon modifié de maïs, fécule de manioc, sel, épaississants : gomme xanthane et gomme guar, arômes naturels, protéines de _lait_, poivre, extrait de curcuma, colorant : extrait de paprika.
+8718774005948	ingrédients : 33,3% flocons d'orge, 33,3% flocons d’avoine, 33,3% flocons de blé
+8076809574334	semoule de blé dur, eau. Peut contenir des traces de soja. Peut contenir des traces d’œufs si produit dans l'établissement indiqué avec la lettre (A).
+3184670001585	FONDANT 60g : Lait* écrémé, crème* , sucre, chocolat noir (7%) (pâte de cacao, sucre), jaune d'œufs* frais, beurre, cacao (5%), œufs* frais, fibres d'agrumes. CREME ANGLAISE 50g : lait* entier, sucre, jaune d'œufs* frais (7,8%), amidon de manioc, fécule de manioc, arôme naturel de vanille Bourbon (0,8%), blanc d'œufs* frais , graines de vanille épuisées. Peut contenir des traces de gluten dans le fondant au chocolat. Les allergènes sont indiqués en gras. Origine : France. Nos œufs ne sont pas issus de poules élevées en cage. 2 DESSERTS AU CHOCOLAT ET LEUR CRÈME ANGLAISE
+26018775	Eau, œufs entiers, sucre, farine de blé, sirop de glucose-fructose, beurre concentré (5%) (contient du lait), lait en poudre, pâte de cacao, amidon modifié de manioc, cacao maigre en poudre, beurre de cacao, fibres végétales, poudre de cacao, émulsifiant : lécithine de sel, gélifiant : pectine arômes. Dont chocolat 8%. traces éventuelles de fruits à coques. emballage avec un sachet absorbeur d'oxygène : ne pas consommer rapidement après ouverture. consommer jusqu'au : voir sur le dessus de l'emballage.
+3352370002823	Champagne (contient des _sulfites_)
+0211581018890	jambon de porc 43,2% (Origine : France), épaule de porc (Origine : France), couenne de porc (Origine : France), gelée et gélatine porcine, vinaigre d'alcool, persil 3,1%, sel, vin blanc, ail, saccharose, dextrose, arômes naturels, extrait d'oignons et d'ail, antioxydant : ascorbate de sodium, conservateur : nitrite de sodium. gelée (gélatine porcine, persil 12,5%, sel, dextrose, Décor carraghénanes). Conditionné sous atmosphère épaississants . protectrice.
+8996001440049	NOT_VALID
+3222476116062	Eau - amidon de maïs - fécule de manioc - fécule de pomme de terre - huile de tournesol - fibre de psyllium - farine de maïs - farine de riz - farine de sarrasin 2,7% - sucre - stabilisant : glycérol - blancs d'_œufs_ en poudre - levure - épaississants : gomme xanthane, hydroxypropylméthylcellulose - fibre de bambou - jus de citron - sel - dextrose - conservateur : propionate de calcium. Traces de _fruits à coques_ et de _moutarde_.
+3033610002024	jambon Serrano STG, sel, sucre, conservateurs : E250, E252, antioxydant : E301.
+3770000451443	Lait* de nos vaches non homogénéisé et pasteurisé au bain-marie, ferments lactiques, présure. *Ingrédients issus de l'Agriculture Biologique.
+3560071235260	Avocat 91,9%, poivron rouge 2,2%, jus de citron vert 1,5%, piment Jalapeno, oignon, coriandre, sel, antioxydant : acide ascorbique, cumin, conservateur : sorbate de potassium, poudre d'ail, poivre noir, épaississant : gommę xanthane.
+3021891003601	Jus de pomme* *Produit issu de l'agriculture biologique
+3330720660121	Fraises 45%, sucre, pommes 15%, gélifiant : pectines, jus de citron concentré.
+8013108411465	NOT_VALID
+3608580004110	_Lait_ entier frais 58%, _crème_ fraîche, sucre, eau, semoule de _blé_ 5%, _œufs_ entiers frais, sirop de sucre inverti, raisins 3,4%, jaune d'_œufs_ frais, rhum à 54° 0,8%, fécule, jus de citron concentré
+7613404228852	yogourt (_lait_ [CH], _protéine du lait_), sucre, framboises 4,5%, purée de litchi 1,5%, amidon de maïs modifié, concentré de jus de citron, arôme naturel, concentré de jus de carottes noires.
+5000159012041	Sucre, sirop de glucose, huile de palme, acidifiants (acide citrique, acide malique), dextrine, maltodextrine, arômes, amidon modifié, correcteur d'acidité (citrate trisodique), colorants (E120, E100, E171, E132, E160e, E133), agent d'enrobage (Cire de carnauba), émulsifiant (esters polyglyceriques d'acides gras).
+3017620693809	Chocolat au lait 31,5% (sucre, beurre de cacao, pâte de cacao, lait écrémé en poudre, beurre concentré, émulsifiants: lécithines [soja], vanilline), sucre, huile de palme, farine de froment, noisettes broyées 10,8%, lait écrémé en poudre, lait en poudre, chocolat noir (sucre, pâte de cacao, beurre de cacao, émulsifiants: lécithines [soja], vanilline), cacao maigre, émulsifiants: lécithines [soja], poudres à lever (carbonate acide de sodium, carbonate acide d'ammonium), sel, vanilline.
+0017077205160	NOT_VALID
+8437012102088	Contient des _sulfites_.
+3343008850558	Sucre, sirop de glucose, pommes (20%), amandes (15%), miel, Pommeau de Normandie Château du Breuil (2%) , pain azyme (fécule de pomme de terre, eau, huile végétale), blanc d’œuf
+3472860096603	NOT_VALID
+3564707132893	Saumon atlantique* (Salmo salar) élevé au Royaume-Uni (Ecosse), Norvège ou Irlande** 97%, sel 3%. *Ingrédient issu de l'agriculture biologique. **Pays d'élevage : voir sur la face avant de l'emballage.
+8076802085738	Semoule de blé dur, eau. peut contenir des traces de soja.
+00807395	NOT_VALID
+3770006952395	arabica de variété « caturra », café variété « Bourbon»
+3270190020684	Viande de porc 91%, gras de porc, sel, poivre.
+5000118033834	Farine de blé, poudre de tomate (14%), amidon (maïs, pomme de terre), sel, sucre, extrait de levure, arômes (contiennent blé, orge), ail, poudre d'oignon, poivre, sauge, chlorure de potassium, feuilles de laurier, extrait de malt d'orge, romarin. Peut contenir lait, œuf et céleri. Indications allergie: Gluten, blé, levure, lait, œuf, céleri, lactose
+3423720002357	Œufs entiers*, Sucre de canne roux non raffiné*, pépites de chocolat équitable* (19%) (sucre de canne blanc*, pâte de cacao*, beurre de cacao*), huile de tournesol oléique désodorisée* (antioxydant : extrait de romarin*); farine de riz*, sirop de blé*, arôme naturel de vanille* (alcool*, vanille*), gomme de xanthane, sel de mer non raffiné. *Ingrédient issus de l'agriculture biologique
+4300175486620	Farine de _blé_ complet, sirop de blé, miel 16%, huiles végétales (huile de palme, huile de tournesol, huile de coco), sucre de canne, poudre d'_œuf_ entier, sel marin, eau, émulsifiant: lécithine de colza, bicarbonate, cannelle.
+8002710335160	petit _lait_ doux de bufflone pasteurisé, _lait_ de bufflone pasteurisé, sel.
+3173310012470	Farine de _blé_, _œufs_ frais, _beurre_ concentré reconstitué 16%, sucre, levain, eau, sel, levure, arôme. Décor sucre.
+3410280022987	Purée de pomme 96,6%, sucre, antioxydant : acide ascorbique.
+3263670923421	Foie de morue et son huile naturellement libérée, sel de Guérande 0,6%. Oméga 3 : 12gr
+9501100430007	Sucre 40%, lait entier ou écrémé 34,4%, poudre de lait écrémé 14%, huile de palme hydrogénée 7,2%, lactose 0,01%,
+3596710423040	Champignons de Paris 52% (champignons de Paris, eau, sel, acidifiant : acide citrique, antioxydant : acide ascorbique), sauce 39% (eau, purée de tomates double concentré, huile de colza, oignons émincés préfrits (dont huile de tournesol), amidon transformé de pommes de terre, sel, huile d'olive vierge extra 0,6 %, Vinaigre d'alcool, vin blanc , arômes (contient gluten et _lait_), sucre, jus concentré de citron, coriandre, épaississant : gomme xanthane, conservateur : sorbate de potassium), oignons, plantes aromatiques.
+3175690590203	Importé par La Monegasque France 64500 St Jean de luz ANCHOIS MARINES LA PROVENCALE : Anchois marinés 52% (anchois, vinaigre d'alcool, sel, acidifiant : acide citrique), huile de tournesol 40%, sauce provençale 8% (poivrons, oignons, herbes de provence, olives, paprika, vinaigre d'alcool, sel, acidifiant : acide citrique).
+3400930007945	hydroxyde d'aluminium hydroxyde de magnésium saccharose sorbitol E 420
+5000159420723	Sucre, farine de _blé_, huile de palme, _lait_ écrémé en poudre, noisettes (7,0%), beurre de cacao, pâte de cacao, _lactosérum_ en poudre (_lait_), beurre de cacao maigre, graisse de palme, émulsifiant (lécithine de _soja_), sel, extrait naturel de vanille.
+4060800125194	eau, acide carbonique, acidifiants: acide citrique et acide malique, arômes, correcteur d'acidité: E331, édulcorants: aspartame et acésulfame-K, conservateur: E221.
+7616700015331	SEMOULE DE BLÉ DUR.
+4009900523523	SUCRE, SIROP DE GLUCOSE, GRAISSE DE PALME, ACIDIFIANTS ACIDE CITRIQUE, ACIDE MALIQUE; DEXTRINE, MALTODEXTRINE, AROMES, COLORANTS E162, E171, EIOO, E160a, E132, E133, E163, E160e; AMIDON MODIFIE, CORRECTEUR CITRATE TRISODIQUE, AGENT D'ENROBAGE DE CARNAUBA. CONSERVER AU FRAIS ET AU SEC A CONSOMMER DE PREFERENCE AVANT LE: VOIR EN DESSOUS. IN EEN KNAPPERIG SUIKERLAAGJE MET FRUITSMMK. INGREDIÉNTEN: SUIKER, GLUCOSESTROOP, PALMVET, VOEDINGSZUREN CITROENZUUR,APPELZUUR; DEXTRINE, MRTODEXTRINE, AROMAS, KLEURSTOFFEN E162, E171, E100, E160a, E132, E133, E163, E160e; GEMODIFICEERD ZETMEEL, ZUURTEREGELAAR GIANSMIDDEL CARNAUBAWAS. EN ONDERZIJDE.
+8008912012106	Semoule de blé dur, eau.
+3392160050801	JAMBON CRU - 20 tranches min Jambon de porc, sel, dextrose, épices, sirop de glucose, arômes, extrait de levure, antioxydants : acide ascorbique, érythorbate de sodium; conservateur : nitrite de sodium; ferments, fumé au bois de hêtre,
+3254560321656	_Lait_ cru de brebis, sel, présure, ferments lactiques, Penicilium roqueforti.
+3587220000531	Farine de blé, sucre, beurre frais 12%, œufs entiers frais, crème fraîche 3,5%, sel, arômes naturels, gluten de blé, levure, eau de vie, émulsifiants (Mono et diglycérides d'acides gras, Stéaroyl-2-lactylate de sodium), protéines de lait, levure désactivée, colorant (béta carotène). Traces éventuelles de fruits à coque.
+5400141091472	eau, protéines de soja, acidifiant (E326), sel, colorant (E150a), extrait de levure, extrait de malt d'orge, sirop de glucose, huile de navette, protéines de soja hydrolysées, arômes (contient du gluten), plantes aromatiques et épices, fumarate ferreux, vitamine B12
+3560071112974	Pistaches 99%, sel 1%. Peut contenir des traces d'arachides et d'autres fruits à coque.
+3276620202446	concassées, concentré de tomates, oignons, huile de tournesol, amidon modifié E1422 sel, sucre, épices, ail (anhydride sulfureux et sulfites)
+3276559354711	NOT_VALID
+3700311865172	Pomme de terre 50% - tomate 12% - jambon cuit standard 10% (jambon de porc - eau - sel - sirop de glucose - exhausteur de goût : glutamate monosodique stabilisants : diphosphates - triphosphates - dextrose - sucre - gélifiants : carraghènanes, farine de graines de caroube - gélatine de porc - arômes - conservateurs : nitrite de sodium, ascorbate de sodium) - eau - huile de colza - œuf dur 4,7% - cornichons - vinaigre de vin rouge - moutarde (eau - graines de moutarde - vinaigre d'alcool - sel - acidifiant : acide citrique) - vinaigre d'alcool - sel - amidon transformé de pomme de terre - conservateur : sorbate de potassium - jaune d'œuf - acidifiant : acide lactique - épaississant gomme xanthane - arôme naturel de poivre - colorant caroténoïdes - poivre - affermissant : chlorure de calcium. Les informations en gras sont destinées aux personnes intolérantes ou allergiques.
+0002000000714	Lait de brebis écréme pasteurisé* ferments lactiques sélectionnés. * Issu de l'agriculture biologique
+3240930213348	Semoule de blé dur de qualité supérieure, eau, œufs frais 10,3 % (soit 140 g d’œufs/kg de semoule), sel.
+3760244981004	Jambon de porc, gras de porc, couenne de porc, sel, dextrose, arômes, antioxydant : érythorbate de sodium - ascorbate de sodium, conservateur : Kcl - nitrite de sodium.
+7614800108007	farine d'épeautre 69%, épeautre égrugé* 19%, huile de colza*, jus de betterave en poudre* 5,4%, sucre de canne brut*, sel, extrait de malt d'orge*, levure, ciboulette*, épices, oignons en poudre*, ail en poudre. *Ingrédients issus de l'agriculture biologique.
+3483460016182	Tofu* 69% (eau, _soja_*, gélifiants : chlorure de calcium, chlorure de magnésium (nigari)), tomate* 12%, flocons de riz*, _fromage_ de chèvre* 7%, huile de tournesol*, sel, sarriette*, poivre*. *Ingrédients d'origines agricoles obtenus selon les règles de production biologique.
+3700699917135	S25 Pastilles de chocolat assorti noir et LAIT Palets de chocolats assortis noir et LAIT. Chocolat noir (cacao Perou 64% minimum , cacao Madagascar 66% minimum) Chocolat LAIT (Cacao Mexique 40% minimum, cacao Costa Rica 38% minimum) Ingrédients : pâte de cacao, sucre, beurre de cacao, poudre de LAIT entier, émulsifiant: lécithine de SOJA, arôme vanille naturelle.
+3222472628736	Huile de _noix_.
+5400141427240	Sardines à l'huile de tournesol - 70% sardines [Sardina pilchardus, pêchées à la senne ou au chalut dans l'océan Atlantique Centre-Est (FAO 34)], 29% huile de tournesol, sel. Conditionnées au Maroc. Riches en oméga-3. Contient du poisson.
+7613035865853	Jambon frais de porc, bouillon (eau, couennes de porc, oignons, os de porc, carottes, sel, persil, ail, clou de girofles, poudre laurier, sel, dextrose de mais, arômes naturel antioxydant : isoascorbate de sodium, conservateur : nitrite de sodium
+3413880081262	France et les critères Ingrédients Quinoa real blanc (60%), quinoa real rouge (20%), quinoa real noir (20%). 100% des ingrédients sont issus du commerce équitable et de l'agriculture biologique. Conseil de préparation
+3250390184010	Farine de _blé_ 50%, beurre* concentré 26%, sucre, amidon de _blé_ , babeurre* en poudre, sel, _œuf_ entier en poudre, poudres à lever : carbonates de sodium – carbonates d'ammonium. *dont _lait_
+00101356	Farine de blé contient Gluten (avec Farine de blé, Carbonate de calcium, Fer, Niacine, Thiamine) • Sucre • Huile de palme • Lactosérum en poudre (Lait) • Poudre à lever : E503, Bicarbonate de soude • Sel • Émulsifiant : Lécithine de soja • Colorant : Caroténoïdes • Arômes. Pour les allergènes, voir les ingrédients indiqués 262 •
+3165950216295	Filets de maquereaux (85%), eau, sauce aux poivrons rouges grillés 3,8% (poivrons rouges, huile de tournesol, vinaigre d alcool, sel, sucre, eau, acidifiant : acide lactique, épaississant: gomme xanthane, antioxydant : acide ascorbique, conservateur : sorbate de potassium), sel, arômes, arômes de fumée, épaississant : gomme xanthane.
+3760228710019	choux 85%, sauce 8% (sucre, vinaigre d'alcool, eau, sel), sel, sucre, _moutarde_ de Dijon (eau, graines de _moutarde_, vinaigre d'alcool, sel, acidifiant E330, conservateur : di_sulfites_ de potassium), huile de tournesol, huile de _sésame_ pure, carotte 7%, _graines de sésame_
+3263850110719	100% Café.
+3760091661791	Flocons de Christophine sur amidon de maïs (43%) et de pomme de terre (pomme de terre, stabilisant E450i, épice, acidifiant E330, conservateur E223 (sulfites)/ antioxygène E320), oignon (sulfites), farine de blé, arôme. COMPOSITION DES HERBES DE PROVENCE Romarin, Sarriette, Origan, Thym, Basilic.
+3222477003071	Pâtes alimentaires conchiglie cuites 40% (eau - semoule de _blé_ dur de qualité supérieure) - eau - _crème_ 13% - pleurotes 11% - fève de _soja_ 7,4% - cèpes 3,7% - arôme naturel - _parmesan_ 1,5% - ail - huile d'olive - concentré de vin blanc - sel - farine de _blé_ - amidon de maïs - _beurre_ - poivre - curcuma. traces d'œufs, mollusques, poissons, crustacés, arachides, moutarde, fruits à coque, graines de sésame, céleri.
+8001100063669	cacao faible en gras - lait écrémé en poudre - alcool - stabilisants: pectine - conservateurs : sorbate de potassium - arômes) - œufs frais - sucre - beurre - huile de tournesol - levure naturelle (farine de blé - eau - levure) - sirop de glucose - émulsifiants: mono et diglycérides d'acides gras - alcool - lait écrémé en poudre - sel - arômes.
+3760243920011	eau, malts d'orge, houblons, levures
+3222471300091	Pruneaux d'Agen.
+8719324585040	_Arachides_ 35%, _sésame_ 25%, sucre, glucose.
+3560071013233	lait demi-écrémé stérilisé UHT.
+3266980878740	Poulet origine France : 96%, assaisonnement steakhouse : 4% (épices et plantes aromatiques (oignons, paprika, ail, persil, gingembre, poivre), semoule de riz, sel, arômes, dextrose, sucre, maltodextrine fumée et sel fumé, poivron, huile de tournesol)
+3460778551758	Ingrédients : Viande de porc de Normandie, oignons, amidon modifié, œufs, gros sel, calvados dénaturé 1%, poivre blanc, sucre
+3112940733973	Marrons entiers pelés au jus. Ingrédients : marrons, eau, sucre, sel, épaississants, gomme xanthane, gomme guar. Nutrition
+7613331744876	(F) Ingrédients: amandes grillées (Etats - Unis), noix (Chili), chips de banane sucrées (bananes (Philippines), huile de coco, sucre, arôme naturel), griottes séchées, sucrées (griottes (Etats-Unis], sucre, de tournesol).
+3560070487363	Sucre, huile de colza, _œufs_ frais 15,8%, chocolat 10% [sucre, pâte de cacao, beurre de cacao, émulsifiant : lécithines (_soja_), arôme naturel de vanille], pépites de chocolat 8,4% [sucre, pâte de cacao, beurre de cacao, cacao maigre en poudre, émulsifiant : lécithines (_soja_), arôme naturel de vanille], farine de _blé_ 7,2%, farine de _soja_, cacao en poudre, stabilisant : glycérol, poudres à lever : diphosphates et carbonates de sodium, sel, gélifiant : gomme xanthane, arôme, farine de _blé_ malté. Peut contenir des traces d'arachides, de fruits à coque et de lait.
+3270160869411	Riz jasmin cuit 40%, bouchée de filet de poulet rôti (viande de poulet (France) 21,1%, eau, fécule de pomme de terre, dextrose de blé), eau, lait de coco, sucre brun, oignon de printemps, gingembre 2,7%, échalote, sauce _poisson_ (eau, sel, extrait de _poisson_, sucre, vinaigre d'alcool), huile de colza, ail, vinaigre de riz, amidon de tapioca, sel, coriandre, chili, jus de citron vert.
+3564700564479	Sucre ; chocolat 23% (sucre, pâte de cacao, beurre de cacao, émulsifiant: lécithine de tournesol) ; flocons d´avoine 19% ; graisses végétales (karité, coco) ; farine de blé ; eau ; œufs en poudre ; poudres à lever : E500, E450, E503 ; sel ; arôme naturel ; amidon de maïs. Traces de lait et de fruits à coque.
+3270844007030	NOT_VALID
+3263851926012	Fruits 60% (figues 30%, poires 30%), sucre, acidifiant : acide citrique, gélifiant : pectine, antioxydant : acide ascorbique. Préparée avec 60 g de fruits pour 100 g. Teneur totale en sucres : 55 g pour 100 g.
+3226219000175	Farine de _blé_, sucre, _beurre_ d'Isigny AOP 14%, _œufs_ entiers, sel, poudres à lever : carbonates d'ammonium - diphosphates - carbonates de sodium, arôme naturel de vanille, _lait_ écrémé.
+3609200002837	jus de pommes concentré (52% - origine UE), purée de pommes concentrée (39%), purée de framboises concentrée (5%), jus de baies de sureau concentré, fibres naturelles (fruit citrus), gélifiant: pectine de fruits, arôme naturel de framboise. Peut contenir des traces de gluten et de lait
+3350031977633	Céréales 93% (grains de blé* 49%, grains de maïs*, grains de riz complet*) - graines de sésame* 5% - sel.
+3250390001034	Épinards hachés.
+4000512994688	Sirop de glucose; sucre; gélatine; acidifiants: acide citrique, acide lactique; gélifiant pectine; aliments colorants (cassis, carotte noire, curcuma, carthame, radis rouge, raisin rouge, cerise, citron, spiruline); arômes; huile de graine de palme; agents d'enrobage: cire d'abeille, blanc et jaune, cire de carnauba
+8004030101029	thon**, huile d'olive, sel.
+3250391883578	????? A COMPLETER Purée de pomme 76%, purée de banane 20%, sucre, antioxydant : acide ascorbique. Purée de pomme 70%, purée de fraise 16%, sucre, purée de mûre 4%, purée de framboise 3%, purée de myrtille 2%, antioxydant : acide ascorbique.
+0217247059894	Filets de poulets origine France. Élevés par Mr. Lebailly.
+3560070712663	100% arabica
+3222476859709	Huile vierge de _sésame_ issue de l'agriculture biologique. Traces de _fruits à coque_ et de _soja_.
