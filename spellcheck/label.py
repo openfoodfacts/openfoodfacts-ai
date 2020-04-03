@@ -6,8 +6,7 @@ from pymongo import MongoClient
 import SessionState
 from utils import load_dataset, save_dataset, format_txt
 
-
-DATASET_PATH = 'fr/uniform_sampling'
+from constants import FR_TEST_SET_PATH
 
 # Connect to local Mongo DB
 products = MongoClient(
@@ -39,7 +38,7 @@ def save_corrected_item(item, correct, tags):
     save_dataset('fr/uniform_sampling', session.corrected_items)
 
 
-@st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True, persist=True)
 def query_items(limit):
     query = products.aggregate([
         {'$match': {'ingredients_text_fr': {'$exists': True, '$ne': ''}}},
