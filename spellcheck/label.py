@@ -35,7 +35,7 @@ def save_corrected_item(item, correct, tags):
         'correct': correct,
         'tags': [status] + tags,
     })
-    save_dataset('fr/uniform_sampling', session.corrected_items)
+    save_dataset(FR_TEST_SET_PATH, session.corrected_items)
 
 
 @st.cache(allow_output_mutation=True, persist=True)
@@ -51,7 +51,7 @@ def query_items(limit):
 
 session = SessionState.get(
     cursor=0,
-    corrected_items=load_dataset(DATASET_PATH),
+    corrected_items=load_dataset(FR_TEST_SET_PATH),
 )
 
 # Select an item to label/correct
