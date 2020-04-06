@@ -46,29 +46,46 @@ def save_dataset(path, items):
     path = Path(path)
     path.mkdir(parents=True, exist_ok=True)
 
-    original_path = path / 'original.txt'
-    with original_path.open('w', encoding='utf-8') as original_file:
-        original_file.write(
-            ''.join([
-                item['_id'] + '\t' + format_txt(item['original']) + '\n'
-                for item in items
-            ])
-        )
+    if len(items) == 0:
+        return
+    first_item = items[0]
 
-    correct_path = path / 'correct.txt'
-    with correct_path.open('w', encoding='utf-8') as correct_file:
-        correct_file.write(
-            ''.join([
-                item['_id'] + '\t' + format_txt(item['correct']) + '\n'
-                for item in items
-            ])
-        )
+    if 'original' in first_item:
+        original_path = path / 'original.txt'
+        with original_path.open('w', encoding='utf-8') as original_file:
+            original_file.write(
+                ''.join([
+                    item['_id'] + '\t' + format_txt(item['original']) + '\n'
+                    for item in items
+                ])
+            )
 
-    tags_path = path / 'tags.txt'
-    with tags_path.open('w', encoding='utf-8') as tags_file:
-        tags_file.write(
-            ''.join([
-                ' '.join([item['_id']] + item.get('tags', [])) + '\n'
-                for item in items
-            ])
-        )
+    if 'correct' in first_item:
+        correct_path = path / 'correct.txt'
+        with correct_path.open('w', encoding='utf-8') as correct_file:
+            correct_file.write(
+                ''.join([
+                    item['_id'] + '\t' + format_txt(item['correct']) + '\n'
+                    for item in items
+                ])
+            )
+
+    if 'prediction' in first_item:
+        prediction_path = path / 'prediction.txt'
+        with prediction_path.open('w', encoding='utf-8') as prediction_file:
+            prediction_file.write(
+                ''.join([
+                    item['_id'] + '\t' + format_txt(item['prediction']) + '\n'
+                    for item in items
+                ])
+            )
+
+    if 'tags' in first_item:
+        tags_path = path / 'tags.txt'
+        with tags_path.open('w', encoding='utf-8') as tags_file:
+            tags_file.write(
+                ''.join([
+                    ' '.join([item['_id']] + item.get('tags', [])) + '\n'
+                    for item in items
+                ])
+            )

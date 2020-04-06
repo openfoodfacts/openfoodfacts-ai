@@ -4,9 +4,10 @@ import streamlit as st
 from pymongo import MongoClient
 
 import SessionState
+from regex import format_percentages
 from utils import load_dataset, save_dataset, format_txt
 
-from constants import FR_TEST_SET_PATH
+from paths import FR_TEST_SET_PATH
 
 # Connect to local Mongo DB
 products = MongoClient(
@@ -75,7 +76,8 @@ st.subheader(f'Item id : {item["_id"]}')
 st.subheader('Raw text')
 st.write(f'```{item["ingredients_text_fr"]}```')
 st.subheader('Correction')
-correct = st.text_area('Type corrected text here', value=item['ingredients_text_fr'])
+correct = st.text_area('Type corrected text here',
+                       value=format_percentages(item['ingredients_text_fr']))
 display_image(item['_id'])
 
 TAGS = [
