@@ -1,6 +1,7 @@
 
 import sys
 from statistics import mean
+from difflib import SequenceMatcher
 from ingredients import process_ingredients
 
 
@@ -8,11 +9,17 @@ def evaluation_metrics(items, prediction_txts):
     txt_metrics = per_items_list_txt_metrics(items, prediction_txts)
     ingredients_metrics = [per_item_ingredients_metrics(item, prediction_txt)
                            for item, prediction_txt in zip(items, prediction_txts)]
+    similarity_metric = [per_item_similarity_based_metric(item, prediction_txt)
+                         for item, prediction_txt in zip(items, prediction_txts)]
     return {
+        'number_items': txt_metrics['number_items'],
+        'number_changed': txt_metrics['number_changed'],
+        'number_should_have_been_changed': txt_metrics['number_should_have_been_changed'],
         'txt_precision': txt_metrics['precision'],
         'txt_recall': txt_metrics['recall'],
         'ingredients_precision': mean([metric['precision'] for metric in ingredients_metrics]),
         'ingredients_recall': mean([metric['recall'] for metric in ingredients_metrics]),
+        'similarity_metric': mean(similarity_metric),
     }
 
 
@@ -27,19 +34,22 @@ def per_items_list_txt_metrics(items, prediction_txts):
                 / number of times we should have changed something
     """
     number_correct_answers_when_changes = 0
-    number_changes = 0
+    number_changed = 0
     number_should_have_been_changed = 0
 
     for item, prediction_txt in zip(items, prediction_txts):
         if item['original'] != prediction_txt:
-            number_changes += 1
+            number_changed += 1
             if item['correct'] == prediction_txt:
                 number_correct_answers_when_changes += 1
         if item['original'] != item['correct']:
             number_should_have_been_changed += 1
 
     return {
-        'precision': 100.0 * number_correct_answers_when_changes / (number_changes + sys.float_info.epsilon),
+        'number_items': len(items),
+        'number_changed': number_changed,
+        'number_should_have_been_changed': number_should_have_been_changed,
+        'precision': 100.0 * number_correct_answers_when_changes / (number_changed + sys.float_info.epsilon),
         'recall': 100.0 * number_correct_answers_when_changes / (number_should_have_been_changed + sys.float_info.epsilon),
     }
 
@@ -71,3 +81,12 @@ def format_ingredients(ingredients_txt):
         for ingredient
         in process_ingredients(ingredients_txt).iter_normalized_ingredients()
     }
+
+
+def per_item_similarity_based_metric(item, prediction_txt):
+    matcher = SequenceMatcher(is_junk, item['correct'], prediction_txt)
+    return 100.0 * matcher.ratio()
+
+
+def is_junk(c):
+    return False

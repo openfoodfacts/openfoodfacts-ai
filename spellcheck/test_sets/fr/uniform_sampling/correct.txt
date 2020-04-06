@@ -17,7 +17,7 @@
 3760128080144	Figue - sucre.
 3664346306072	Sucre, cacao en poudre (22%), sucre glace, _lait_ écrémé en poudre du pays alpin (11%), dextrose, émulsifiant (lécithine de _soja_), arômes, sel.
 3700254081721	Ingrédients : farine de blé, Comté AOP (lait) 3,5%, sirop de glucose, beurre pâtissier 13%, poudre de lait entier, œufs entiers, sel, fibre de blé, poivre de Madagascar. Fabriqué dans un atelier qui utilise des fruits à coque.
-8424409900617	100 % Coco sucre (Cocos nucifera). Modo d'emploi: Coco sucre peut être utilisé pour remplacer le sucre traditionnel.
+8424409900617	100% Coco sucre (Cocos nucifera). Modo d'emploi: Coco sucre peut être utilisé pour remplacer le sucre traditionnel.
 3240932425206	Farce : 52% semoule de blé dur, jambon cuit de porc* de qualité supérieure (jambon de porc*), bouillon : eau, couennes de porc*, oignons, os de porc*, carottes, sel, épices et aromates
 3433110000191	NOT_VALID
 8710398169334	NOT_VALID

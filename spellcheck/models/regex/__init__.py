@@ -9,4 +9,15 @@ class RegexModel(BaseModel):
 
     def apply_regex(self, txt):
         txt = format_percentages(txt)
+        for replace_key, replace_value in REPLACE_LIST.items():
+            txt = txt.replace(replace_key, replace_value)
         return txt
+
+
+REPLACE_LIST = {
+    '&quot;': '*',
+    'oeu': 'œu',
+    'OEU': 'ŒU',
+    'OEu': 'Œu',
+    'Oeu': 'Œu',
+}
