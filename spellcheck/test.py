@@ -9,9 +9,10 @@ from models.identity import IdentityModel
 from evaluation.metrics import evaluation_metrics, format_ingredients
 
 models = [
-    PerfectModel(),
+    # PerfectModel(),
     IdentityModel(),
-    RegexModel(),
+    RegexModel('percentages'),
+    RegexModel('replacements'),
 ]
 
 items = load_dataset(FR_TEST_SET_PATH)
@@ -19,7 +20,7 @@ valid_items = [item for item in items if 'VALID' in item['tags']]
 
 results_dict = {}
 for model in models:
-    model_name = model.__class__.__name__
+    model_name = model.name
     t0 = time.time()
     results_dict[model_name] = evaluation_metrics(valid_items, model.predict_save(valid_items))
     t1 = time.time()

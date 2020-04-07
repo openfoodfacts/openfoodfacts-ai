@@ -5,10 +5,14 @@ from difflib import SequenceMatcher
 from ingredients import process_ingredients
 
 
+# TODO : refacto this scripts as a proper Evaluation class
+
 def evaluation_metrics(items, prediction_txts):
     txt_metrics = per_items_list_txt_metrics(items, prediction_txts)
-    ingredients_metrics = [per_item_ingredients_metrics(item, prediction_txt)
-                           for item, prediction_txt in zip(items, prediction_txts)]
+    # ingredients_metrics = [per_item_ingredients_metrics(item, prediction_txt, remove_originals=False)
+    #                        for item, prediction_txt in zip(items, prediction_txts)]
+    errors_ingredients_metrics = [per_item_ingredients_metrics(item, prediction_txt, remove_originals=True)
+                                  for item, prediction_txt in zip(items, prediction_txts)]
     similarity_metric = [per_item_similarity_based_metric(item, prediction_txt)
                          for item, prediction_txt in zip(items, prediction_txts)]
     return {
@@ -17,8 +21,10 @@ def evaluation_metrics(items, prediction_txts):
         'number_should_have_been_changed': txt_metrics['number_should_have_been_changed'],
         'txt_precision': txt_metrics['precision'],
         'txt_recall': txt_metrics['recall'],
-        'ingredients_precision': mean([metric['precision'] for metric in ingredients_metrics]),
-        'ingredients_recall': mean([metric['recall'] for metric in ingredients_metrics]),
+        # 'ingredients_precision': mean([metric['precision'] for metric in ingredients_metrics]),
+        # 'ingredients_recall': mean([metric['recall'] for metric in ingredients_metrics]),
+        'ingredients_precision_on_errors': mean([metric['precision'] for metric in errors_ingredients_metrics if metric is not None]),
+        'ingredients_recall_on_errors': mean([metric['recall'] for metric in errors_ingredients_metrics if metric is not None]),
         'similarity_metric': mean(similarity_metric),
     }
 
@@ -54,7 +60,7 @@ def per_items_list_txt_metrics(items, prediction_txts):
     }
 
 
-def per_item_ingredients_metrics(item, prediction_txt):
+def per_item_ingredients_metrics(item, prediction_txt, remove_originals=False):
     """
     Precision :
         number of times we have predicted a correct ingredient
@@ -67,7 +73,15 @@ def per_item_ingredients_metrics(item, prediction_txt):
     correct_ingredients = format_ingredients(item['correct'])
     predicted_ingredients = format_ingredients(prediction_txt)
 
-    true_positives = predicted_ingredients & correct_ingredients
+    if remove_originals:
+        original_ingredients = format_ingredients(item['original'])
+        correct_ingredients = correct_ingredients - original_ingredients
+        predicted_ingredients = predicted_ingredients - original_ingredients
+        if len(correct_ingredients) == 0:
+            # Original ingredients == Correct ingredient -> not relevant case
+            return
+
+    true_positives = (predicted_ingredients & correct_ingredients)
 
     return {
         'precision': 100.0 * len(true_positives) / (len(predicted_ingredients) + sys.float_info.epsilon),
