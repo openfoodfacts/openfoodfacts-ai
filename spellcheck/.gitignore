@@ -1,2 +1,5 @@
 experiments/
 corpus/
+
+sp_.model
+sp_.vocab
