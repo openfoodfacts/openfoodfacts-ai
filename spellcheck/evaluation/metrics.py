@@ -8,25 +8,24 @@ from ingredients import process_ingredients
 # TODO : refacto this scripts as a proper Evaluation class
 
 def evaluation_metrics(items, prediction_txts):
+    output = {}
+
     txt_metrics = per_items_list_txt_metrics(items, prediction_txts)
-    # ingredients_metrics = [per_item_ingredients_metrics(item, prediction_txt, remove_originals=False)
-    #                        for item, prediction_txt in zip(items, prediction_txts)]
-    errors_ingredients_metrics = [per_item_ingredients_metrics(item, prediction_txt, remove_originals=True)
-                                  for item, prediction_txt in zip(items, prediction_txts)]
-    similarity_metric = [per_item_similarity_based_metric(item, prediction_txt)
-                         for item, prediction_txt in zip(items, prediction_txts)]
-    return {
-        'number_items': txt_metrics['number_items'],
-        'number_changed': txt_metrics['number_changed'],
-        'number_should_have_been_changed': txt_metrics['number_should_have_been_changed'],
-        'txt_precision': txt_metrics['precision'],
-        'txt_recall': txt_metrics['recall'],
-        # 'ingredients_precision': mean([metric['precision'] for metric in ingredients_metrics]),
-        # 'ingredients_recall': mean([metric['recall'] for metric in ingredients_metrics]),
-        'ingredients_precision_on_errors': mean([metric['precision'] for metric in errors_ingredients_metrics if metric is not None]),
-        'ingredients_recall_on_errors': mean([metric['recall'] for metric in errors_ingredients_metrics if metric is not None]),
-        'similarity_metric': mean(similarity_metric),
-    }
+    output.update(txt_metrics)
+
+    ingredients_metrics = dict_list_mean([
+        per_item_ingredients_metrics(item, prediction_txt)
+        for item, prediction_txt in zip(items, prediction_txts)
+    ])
+    output.update(ingredients_metrics)
+
+    similarity_metric = mean([
+        per_item_similarity_based_metric(item, prediction_txt)
+        for item, prediction_txt in zip(items, prediction_txts)
+    ])
+    output['txt_similarity_metric'] = similarity_metric
+
+    return output
 
 
 def per_items_list_txt_metrics(items, prediction_txts):
@@ -55,8 +54,8 @@ def per_items_list_txt_metrics(items, prediction_txts):
         'number_items': len(items),
         'number_changed': number_changed,
         'number_should_have_been_changed': number_should_have_been_changed,
-        'precision': 100.0 * number_correct_answers_when_changes / (number_changed + sys.float_info.epsilon),
-        'recall': 100.0 * number_correct_answers_when_changes / (number_should_have_been_changed + sys.float_info.epsilon),
+        'txt_precision': ratio(number_correct_answers_when_changes, number_changed),
+        'txt_recall': ratio(number_correct_answers_when_changes, number_should_have_been_changed),
     }
 
 
@@ -70,23 +69,55 @@ def per_item_ingredients_metrics(item, prediction_txt, remove_originals=False):
         number of times we have predicted a correct ingredient
             / number of correct ingredients
     """
+    original_ingredients = format_ingredients(item['original'])
     correct_ingredients = format_ingredients(item['correct'])
     predicted_ingredients = format_ingredients(prediction_txt)
 
-    if remove_originals:
-        original_ingredients = format_ingredients(item['original'])
-        predicted_ingredients = predicted_ingredients - (original_ingredients & correct_ingredients)
-        correct_ingredients = correct_ingredients - original_ingredients
-        if len(correct_ingredients) == 0:
-            # Original ingredients == Correct ingredient -> not relevant case
-            return
-
-    true_positives = (predicted_ingredients & correct_ingredients)
+    original_correct_predicted_ingredients = original_ingredients & correct_ingredients & predicted_ingredients
+    original_correct_ingredients = original_ingredients & correct_ingredients
+    correct_predicted_ingredients = correct_ingredients & predicted_ingredients
 
     return {
-        'precision': 100.0 * len(true_positives) / (len(predicted_ingredients) + sys.float_info.epsilon),
-        'recall': 100.0 * len(true_positives) / (len(correct_ingredients) + sys.float_info.epsilon),
+        'ingr_precision': ratio(
+            correct_predicted_ingredients,
+            predicted_ingredients
+        ),
+        'ingr_precision_on_errors': ratio(
+            correct_predicted_ingredients - original_correct_predicted_ingredients,
+            predicted_ingredients - original_correct_predicted_ingredients
+        ),
+        'ingr_recall': ratio(
+            correct_predicted_ingredients,
+            correct_ingredients,
+        ),
+        'ingr_recall_on_errors': ratio(
+            correct_predicted_ingredients-original_correct_predicted_ingredients,
+            correct_ingredients-original_correct_predicted_ingredients,
+        ),
+        'ingr_fidelity': ratio(
+            original_correct_predicted_ingredients,
+            original_correct_ingredients,
+        ),
     }
+
+
+def ratio(numerator, denominator):
+    if isinstance(numerator, set):
+        numerator = len(numerator)
+    if isinstance(denominator, set):
+        denominator = len(denominator)
+    if denominator == 0:
+        return
+    return 100.0 * numerator / denominator
+
+
+def dict_list_mean(dict_list):
+    assert(len(dict_list) > 0)
+    first_item = dict_list[0]
+    output = {}
+    for key in first_item.keys():
+        output[key] = mean([item[key] for item in dict_list if item[key] is not None])
+    return output
 
 
 def format_ingredients(ingredients_txt):
