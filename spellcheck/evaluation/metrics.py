@@ -75,8 +75,8 @@ def per_item_ingredients_metrics(item, prediction_txt, remove_originals=False):
 
     if remove_originals:
         original_ingredients = format_ingredients(item['original'])
+        predicted_ingredients = predicted_ingredients - (original_ingredients & correct_ingredients)
         correct_ingredients = correct_ingredients - original_ingredients
-        predicted_ingredients = predicted_ingredients - original_ingredients
         if len(correct_ingredients) == 0:
             # Original ingredients == Correct ingredient -> not relevant case
             return
