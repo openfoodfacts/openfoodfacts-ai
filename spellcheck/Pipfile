@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 streamlit = "*"
 pymongo = "*"
+sentencepiece = "*"
+flashtext = "*"
 
 [requires]
 python_version = "3.7"
