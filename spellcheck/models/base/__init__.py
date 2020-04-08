@@ -4,6 +4,9 @@ from paths import new_experiment_path
 
 class BaseModel(object):
     def predict(self, items):
+        return [self.apply_one(item['original']) for item in items]
+
+    def apply_one(self, txt):
         raise NotImplementedError
 
     def predict_save(self, items):

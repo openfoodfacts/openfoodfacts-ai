@@ -25,11 +25,11 @@ class RegexModel(BaseModel):
                 elif current_replacement is None:
                     current_replacement = line
                 else:
-                    keyword_processor.add_keyword(line, current_replacement)
+                    keyword_processor[line.lower()] = current_replacement.lower()
+                    keyword_processor[line.upper()] = current_replacement.upper()
+                    keyword_processor[line.capitalize()] = current_replacement.capitalize()
+                    keyword_processor[line] = current_replacement
         return keyword_processor
-
-    def predict(self, items):
-        return [self.apply(item['original']) for item in items]
 
     @property
     def name(self):
@@ -38,7 +38,7 @@ class RegexModel(BaseModel):
         else:
             return f'RegexModel ({self.only_option})'
 
-    def apply(self, txt):
+    def apply_one(self, txt):
         if self.only_option is None:
             txt = self.apply_percentages(txt)
             txt = self.apply_replacements(txt)

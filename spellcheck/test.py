@@ -5,6 +5,8 @@ from paths import FR_TEST_SET_PATH
 from models.regex import RegexModel
 from models.perfect import PerfectModel
 from models.identity import IdentityModel
+from models.robotoff import RobotoffAPIModel
+from models.pipeline import PipelineModel
 from evaluation.metrics import evaluation_metrics, format_ingredients
 
 models = [
@@ -13,6 +15,13 @@ models = [
     RegexModel(),
     RegexModel('percentages'),
     RegexModel('replacements'),
+    RobotoffAPIModel(),
+    PipelineModel(
+        models=[
+            RegexModel(),
+            RobotoffAPIModel(),
+        ]
+    ),
 ]
 
 items = load_dataset(FR_TEST_SET_PATH)
