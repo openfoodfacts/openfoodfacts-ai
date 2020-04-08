@@ -1,5 +1,4 @@
 import time
-import pandas as pd
 from utils import load_dataset
 from paths import FR_TEST_SET_PATH
 
@@ -9,14 +8,15 @@ from models.identity import IdentityModel
 from evaluation.metrics import evaluation_metrics, format_ingredients
 
 models = [
-    # PerfectModel(),
+    PerfectModel(),
     IdentityModel(),
+    RegexModel(),
     RegexModel('percentages'),
     RegexModel('replacements'),
 ]
 
 items = load_dataset(FR_TEST_SET_PATH)
-valid_items = [item for item in items if 'VALID' in item['tags']]
+valid_items = [item for item in items if item['tags'] == ['VALID']]
 
 results_dict = {}
 for model in models:
@@ -26,6 +26,8 @@ for model in models:
     t1 = time.time()
     results_dict[model_name]['time_elapsed (s)'] = round(t1-t0, 4)
 
-results = pd.DataFrame(results_dict)
-
-print(results)
+for model_name, metrics in results_dict.items():
+    print('\n' + '-' * 60)
+    print(f'Model : {model_name}')
+    for key, value in metrics.items():
+        print(f'{key:33} : {value}')

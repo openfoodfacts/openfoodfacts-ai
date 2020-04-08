@@ -1,19 +1,13 @@
 import json
 import requests
 import streamlit as st
-from pymongo import MongoClient
+from mongo import products
 
 import SessionState
 from regex import format_percentages
 from utils import load_dataset, save_dataset, format_txt
 
 from paths import FR_TEST_SET_PATH
-
-# Connect to local Mongo DB
-products = MongoClient(
-    host='localhost',
-    port=27017,
-).off.products
 
 
 def display_image(item_id):
