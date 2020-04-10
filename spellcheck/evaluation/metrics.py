@@ -2,7 +2,7 @@
 import sys
 from statistics import mean
 from difflib import SequenceMatcher
-from ingredients import process_ingredients
+from ingredients import format_ingredients
 
 
 # TODO : refacto this scripts as a proper Evaluation class
@@ -118,14 +118,6 @@ def dict_list_mean(dict_list):
     for key in first_item.keys():
         output[key] = mean([item[key] for item in dict_list if item[key] is not None])
     return output
-
-
-def format_ingredients(ingredients_txt):
-    return {
-        ' '.join(ingredient.split())
-        for ingredient
-        in process_ingredients(ingredients_txt).iter_normalized_ingredients()
-    }
 
 
 def per_item_similarity_based_metric(item, prediction_txt):

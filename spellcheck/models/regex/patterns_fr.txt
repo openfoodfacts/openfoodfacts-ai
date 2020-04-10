@@ -15,3 +15,7 @@ canelle
 œuf
 oeuf
 ceuf
+
+bœuf
+boeuf
+bceuf
