@@ -15,11 +15,14 @@ models = [
     RegexModel(),
     RegexModel('percentages'),
     RegexModel('replacements'),
-    RobotoffAPIModel(),
+    RobotoffAPIModel(index='product', confidence=1),
+    RobotoffAPIModel(index='product', confidence=0.5),
+    RobotoffAPIModel(index='product', confidence=2),
+    RobotoffAPIModel(index='product_extended', confidence=1),
     PipelineModel(
         models=[
             RegexModel(),
-            RobotoffAPIModel(),
+            RobotoffAPIModel(index='product', confidence=1),
         ]
     ),
 ]

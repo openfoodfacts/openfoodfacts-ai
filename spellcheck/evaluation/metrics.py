@@ -19,7 +19,7 @@ def evaluation_metrics(items, prediction_txts):
     ])
     output.update(ingredients_metrics)
 
-    similarity_metric = mean([
+    similarity_metric = not_failing_mean([
         per_item_similarity_based_metric(item, prediction_txt)
         for item, prediction_txt in zip(items, prediction_txts)
     ])
@@ -62,41 +62,33 @@ def per_items_list_txt_metrics(items, prediction_txts):
 def per_item_ingredients_metrics(item, prediction_txt, remove_originals=False):
     """
     Precision :
-        number of times we have predicted a correct ingredient
-            / number of predicted ingredients
+        number of times a change introduce a correct ingredient
+            / number of time we change an ingredient
 
     Recall :
-        number of times we have predicted a correct ingredient
-            / number of correct ingredients
+        number of times a change introduce a correct ingredient
+            / number of time we should have changed an ingredient
+
+    Fidelity :
+        number of time we did not change an ingredient when it was already correct
+            / number of time we changed an ingredient that was correct but isn't anymore
     """
     original_ingredients = format_ingredients(item['original'])
     correct_ingredients = format_ingredients(item['correct'])
     predicted_ingredients = format_ingredients(prediction_txt)
 
-    original_correct_predicted_ingredients = original_ingredients & correct_ingredients & predicted_ingredients
-    original_correct_ingredients = original_ingredients & correct_ingredients
-    correct_predicted_ingredients = correct_ingredients & predicted_ingredients
-
     return {
         'ingr_precision': ratio(
-            correct_predicted_ingredients,
-            predicted_ingredients
-        ),
-        'ingr_precision_on_errors': ratio(
-            correct_predicted_ingredients - original_correct_predicted_ingredients,
-            predicted_ingredients - original_correct_predicted_ingredients
+            (correct_ingredients & predicted_ingredients) - original_ingredients,
+            predicted_ingredients - original_ingredients
         ),
         'ingr_recall': ratio(
-            correct_predicted_ingredients,
-            correct_ingredients,
-        ),
-        'ingr_recall_on_errors': ratio(
-            correct_predicted_ingredients-original_correct_predicted_ingredients,
-            correct_ingredients-original_correct_predicted_ingredients,
+            (correct_ingredients & predicted_ingredients) - original_ingredients,
+            correct_ingredients - original_ingredients,
         ),
         'ingr_fidelity': ratio(
-            original_correct_predicted_ingredients,
-            original_correct_ingredients,
+            original_ingredients & correct_ingredients & predicted_ingredients,
+            original_ingredients & correct_ingredients,
         ),
     }
 
@@ -116,8 +108,14 @@ def dict_list_mean(dict_list):
     first_item = dict_list[0]
     output = {}
     for key in first_item.keys():
-        output[key] = mean([item[key] for item in dict_list if item[key] is not None])
+        output[key] = not_failing_mean([item[key] for item in dict_list if item[key] is not None])
     return output
+
+
+def not_failing_mean(l):
+    if not l:
+        return 'NaN'
+    return mean(l)
 
 
 def per_item_similarity_based_metric(item, prediction_txt):
