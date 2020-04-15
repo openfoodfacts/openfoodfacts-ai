@@ -10,6 +10,7 @@ streamlit = "*"
 pymongo = "*"
 sentencepiece = "*"
 flashtext = "*"
+click = "*"
 
 [requires]
 python_version = "3.7"
