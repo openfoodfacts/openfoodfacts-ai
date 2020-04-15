@@ -45,12 +45,12 @@ class TokenLengthMismatchException(Exception):
 
 
 def format_ingredients(ingredients_txt):
-    ##
-    return {
+    ingredients = {
         ' '.join(ingredient.split())
         for ingredient
         in process_ingredients(ingredients_txt).iter_normalized_ingredients()
     }
+    return {ingredient for ingredient in ingredients if len(ingredient) > 0}
 
 
 def get_fr_known_tokens() -> Set[str]:
