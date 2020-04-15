@@ -1,65 +1,111 @@
 
 import sys
+import pandas as pd
 from statistics import mean
 from difflib import SequenceMatcher
 from ingredients import format_ingredients
 
 
-# TODO : refacto this scripts as a proper Evaluation class
+class Evaluation(object):
+    """docstring for Evaluation."""
 
-def evaluation_metrics(items, prediction_txts):
-    output = {}
+    def __init__(self, items, prediction_txts):
+        self.items = items
+        self.prediction_txts = prediction_txts
 
-    txt_metrics = per_items_list_txt_metrics(items, prediction_txts)
-    output.update(txt_metrics)
+        self.items_should_have_changed = None
+        self.items_changed = None
+        self.items_correct_answer_when_changed = None
+        self.items_ingr_metrics = None
+        self.items_ingr_precision = None
+        self.items_ingr_recall = None
+        self.items_ingr_fidelity = None
+        self.items_txt_similarity = None
+        self._preprocess()
 
-    ingredients_metrics = dict_list_mean([
-        per_item_ingredients_metrics(item, prediction_txt)
-        for item, prediction_txt in zip(items, prediction_txts)
-    ])
-    output.update(ingredients_metrics)
+    def metrics(self):
+        # Items
+        output = {
+            'number_items': len(self.items),
+            'number_should_have_been_changed': not_failing_sum(self.items_should_have_changed),
+            'number_changed': not_failing_sum(self.items_changed),
+            'number_correct_when_changed': not_failing_sum(self.items_correct_answer_when_changed),
+        }
 
-    similarity_metric = not_failing_mean([
-        per_item_similarity_based_metric(item, prediction_txt)
-        for item, prediction_txt in zip(items, prediction_txts)
-    ])
-    output['txt_similarity_metric'] = similarity_metric
+        # Exact text metrics
+        output['txt_precision'] = ratio(output['number_correct_when_changed'],
+                                        output['number_changed'])
+        output['txt_recall'] = ratio(output['number_correct_when_changed'],
+                                     output['number_should_have_been_changed'])
+        output['txt_similarity_metric'] = not_failing_mean(self.items_txt_similarity)
 
-    return output
+        # Ingredients metrics
+        output['ingr_precision'] = not_failing_mean(self.items_ingr_precision)
+        output['ingr_recall'] = not_failing_mean(self.items_ingr_recall)
+        output['ingr_fidelity'] = not_failing_mean(self.items_ingr_fidelity)
+
+        return output
+
+    def detailed_dataframe(self):
+        return pd.DataFrame(
+            list(zip(
+                [item['_id'] for item in self.items],
+                self.items_should_have_changed,
+                self.items_changed,
+                self.items_correct_answer_when_changed,
+                self.items_ingr_precision,
+                self.items_ingr_recall,
+                self.items_ingr_fidelity,
+                self.items_txt_similarity,
+            )),
+            columns=[
+                '_id',
+                'should_have_changed',
+                'changed',
+                'correct_answer_when_changed',
+                'ingr_precision',
+                'ingr_recall',
+                'ingr_fidelity',
+                'txt_similarity',
+            ]
+        )
+
+    def _preprocess(self):
+        self.items_should_have_changed = [
+            item['original'] != item['correct']
+            for item
+            in self.items
+        ]
+
+        self.items_changed = [
+            item['original'] != prediction_txt
+            for item, prediction_txt
+            in zip(self.items, self.prediction_txts)
+        ]
+
+        self.items_correct_answer_when_changed = [
+            item['correct'] == prediction_txt if item_changed else None
+            for item, prediction_txt, item_changed
+            in zip(self.items, self.prediction_txts, self.items_changed)
+        ]
+
+        self.items_ingr_metrics = [
+            per_item_ingredients_metrics(item, prediction_txt)
+            for item, prediction_txt
+            in zip(self.items, self.prediction_txts)
+        ]
+        self.items_ingr_precision = [metric['precision'] for metric in self.items_ingr_metrics]
+        self.items_ingr_recall = [metric['recall'] for metric in self.items_ingr_metrics]
+        self.items_ingr_fidelity = [metric['fidelity'] for metric in self.items_ingr_metrics]
+
+        self.items_txt_similarity = [
+            per_item_similarity_based_metric(item, prediction_txt)
+            for item, prediction_txt
+            in zip(self.items, self.prediction_txts)
+        ]
 
 
-def per_items_list_txt_metrics(items, prediction_txts):
-    """
-    Precision :
-        number of times we have the correct answer when we changed something
-                / number of times we changed something
-
-    Recall :
-        number of times we have the correct answer when we changed something
-                / number of times we should have changed something
-    """
-    number_correct_answers_when_changes = 0
-    number_changed = 0
-    number_should_have_been_changed = 0
-
-    for item, prediction_txt in zip(items, prediction_txts):
-        if item['original'] != prediction_txt:
-            number_changed += 1
-            if item['correct'] == prediction_txt:
-                number_correct_answers_when_changes += 1
-        if item['original'] != item['correct']:
-            number_should_have_been_changed += 1
-
-    return {
-        'number_items': len(items),
-        'number_changed': number_changed,
-        'number_should_have_been_changed': number_should_have_been_changed,
-        'txt_precision': ratio(number_correct_answers_when_changes, number_changed),
-        'txt_recall': ratio(number_correct_answers_when_changes, number_should_have_been_changed),
-    }
-
-
-def per_item_ingredients_metrics(item, prediction_txt, remove_originals=False):
+def per_item_ingredients_metrics(item, prediction_txt):
     """
     Precision :
         number of times a change introduce a correct ingredient
@@ -78,15 +124,15 @@ def per_item_ingredients_metrics(item, prediction_txt, remove_originals=False):
     predicted_ingredients = format_ingredients(prediction_txt)
 
     return {
-        'ingr_precision': ratio(
+        'precision': ratio(
             (correct_ingredients & predicted_ingredients) - original_ingredients,
             predicted_ingredients - original_ingredients
         ),
-        'ingr_recall': ratio(
+        'recall': ratio(
             (correct_ingredients & predicted_ingredients) - original_ingredients,
             correct_ingredients - original_ingredients,
         ),
-        'ingr_fidelity': ratio(
+        'fidelity': ratio(
             original_ingredients & correct_ingredients & predicted_ingredients,
             original_ingredients & correct_ingredients,
         ),
@@ -103,19 +149,15 @@ def ratio(numerator, denominator):
     return 100.0 * numerator / denominator
 
 
-def dict_list_mean(dict_list):
-    assert(len(dict_list) > 0)
-    first_item = dict_list[0]
-    output = {}
-    for key in first_item.keys():
-        output[key] = not_failing_mean([item[key] for item in dict_list if item[key] is not None])
-    return output
-
-
 def not_failing_mean(l):
+    l = [item for item in l if item is not None]
     if not l:
-        return 'NaN'
+        return
     return mean(l)
+
+
+def not_failing_sum(l):
+    return sum([item for item in l if item is not None])
 
 
 def per_item_similarity_based_metric(item, prediction_txt):

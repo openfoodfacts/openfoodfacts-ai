@@ -3,6 +3,10 @@ from paths import new_experiment_path
 
 
 class BaseModel(object):
+    def __init__(self):
+        super(BaseModel, self).__init__()
+        self.last_experiment_path = None
+
     def predict(self, items):
         return [self.apply_one(item['original']) for item in items]
 
@@ -10,13 +14,13 @@ class BaseModel(object):
         raise NotImplementedError
 
     def predict_save(self, items):
-        path = new_experiment_path(self.name)
+        self.last_experiment_path = new_experiment_path(self.name)
         predictions = self.predict(items)
 
         for item, prediction in zip(items, predictions):
             item['prediction'] = prediction
 
-        save_dataset(path, items)
+        save_dataset(self.last_experiment_path, items)
 
         for item, prediction in zip(items, predictions):
             del item['prediction']
