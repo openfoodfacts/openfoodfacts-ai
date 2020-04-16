@@ -72,7 +72,7 @@
 3076000864208	Champagne (contient _sulfites_)
 8001665128261	NOT_VALID
 5099801002097	Flocons d'_avoine_ (39 %), Margarine végétale (graisse de palme, huile de colza, eau, sel, arôme naturel), Croustilles de chocolat belge (11 %) (sucre, pâte de cacao, beurre de cacao, émulsifiant (lécithine de _soja_), arôme naturel de vanille ), Sucre, sirop de sucre partiellement inversé, noix de coco desséchée, farine d'_avoine_ (5,5 %).
-3250390033813	Eau, alcool, sucre, extrait naturel de réglisse, anéthole de badiane 0.2%, colorant (caramel E150a)
+3250390033813	Eau, alcool, sucre, extrait naturel de réglisse, anéthol de badiane 0.2%, colorant (caramel E150a)
 3302746938027	Boulgour cuit 26% (eau, _blé_ dur, curcuma), _colin_ d'Alaska (21%), courgettes (14%), poivrons rouges (10,8%), tomates (9,4%), aubergines préfrites 6,3% (aubergines, huile de tournesol), oignons, oignons frits (oignons, huile d'olive, sel), concentré de tomates, huile d'olive vierge extra, sel, ail, basilic, curry 0,07% (curcuma, coriandre, fenouil, fenugrec, cannelle, sel, cardamone, poivre, ail, piment, girofle, épices), cumin, sucre, poivre, herbes de Provence (basilic, origan, romarin, thym), persil, piment.
 0059800000031	CHOCOLAT AU LAIT (SUCRE, SUBSTANCES LAITIÈRES, BEURRE DE CACAO, PÂTE DE CACAO, POUDRE DE LACTOSÉRUM, LACTOSE, LÉCITHINE DE SOYA, POLYRICINOLÉATE DE POLYGLYCÉROL, ARÔME NATUREL), FARINE DE BLÉ, SUCRE, HUILE DE PALME MODIFIÉE, CACAO, BICARBONATE DE SODIUM, LÉCITHINE DE SOYA, LEVURE, ARÔME NATUREL.
 7613269396123	Produit champignon Quorn 58% (OFSP N no. 100259), eau, huile de colza, préparation d'épices (avec lactose et arôme), blanc d'oeuf (d'élevage au sol), protéines de lait, poivrons rouges et verts séchés 2.3%, gélifiant: pectine.

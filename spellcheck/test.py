@@ -1,7 +1,7 @@
 import time
 import json
 from utils import load_dataset
-from paths import FR_TEST_SET_PATH
+from paths import FR_TEST_SET_PATH, METRICS_DF_FILENAME
 
 from models.regex import RegexModel
 from models.perfect import PerfectModel
@@ -14,10 +14,9 @@ from evaluation.metrics import Evaluation
 models = [
     # PerfectModel(),
     # IdentityModel(),
-    RegexModel(),
+    # RegexModel(),
     # RegexModel('percentages'),
     # RegexModel('replacements'),
-    RobotoffAPIModel(index='product', confidence=1),
     # RobotoffAPIModel(index='product', confidence=0.5),
     # RobotoffAPIModel(index='product', confidence=2),
     # RobotoffAPIModel(index='product_extended', confidence=1),
@@ -27,7 +26,10 @@ models = [
     #         RobotoffAPIModel(index='product', confidence=1),
     #     ]
     # ),
-    # RobotoffAPIModel(index='product_all', confidence=1),
+    RobotoffAPIModel(index='product', confidence=1),
+    RobotoffAPIModel(index='product_all', confidence=1),
+    RobotoffAPIModel(index='product_extended', confidence=1),
+    RobotoffAPIModel(index='product_extended_all', confidence=1),
     # RobotoffAPIModel(index='product_all', confidence=5),
     # RobotoffAPIModel(index='product_all', confidence=10),
     # RobotoffAPIModel(index='product_all', confidence=20),
@@ -36,7 +38,7 @@ models = [
     # RobotoffAPIModel(index='product_all', confidence=500),
     # RobotoffAPIModel(index='product', confidence=500),
     # RobotoffAPIModel(index='product', confidence=500),
-    RobotoffAPIModel(index='product', confidence=1000),
+    # RobotoffAPIModel(index='product', confidence=1000),
     # RobotoffAPIModel(index='product', confidence=5000),
     # RobotoffAPIModel(index='product', confidence=10000),
     # RobotoffAPIModel(index='product', confidence=50000),
@@ -59,7 +61,7 @@ for model in models:
     with (model.last_experiment_path / 'metrics.json').open('w') as f:
         json.dump(metrics, f, indent=4, sort_keys=True)
 
-    evaluation.detailed_dataframe().to_csv(model.last_experiment_path / 'detailed_metrics.csv', index=False)
+    evaluation.detailed_dataframe().to_csv(model.last_experiment_path / METRICS_DF_FILENAME, index=False)
 
     print('\n' + '-' * 60)
     print(f'Model : {model.name}')

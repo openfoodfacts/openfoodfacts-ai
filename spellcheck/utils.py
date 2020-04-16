@@ -8,7 +8,7 @@ def format_txt(txt):
     return ' '.join(txt.split())
 
 
-def load_dataset(path):
+def load_dataset(path, as_dict=False):
     path = Path(path)
 
     original_path = path / 'original.txt'
@@ -19,32 +19,38 @@ def load_dataset(path):
     with correct_path.open('r', encoding='utf-8') as correct_file:
         correct_lines = correct_file.readlines()
 
-    prediction_path = path / 'prediction.txt'
-    with prediction_path.open('r', encoding='utf-8') as prediction_file:
-        prediction_lines = prediction_file.readlines()
-
     tags_path = path / 'tags.txt'
     with tags_path.open('r', encoding='utf-8') as tags_file:
         tags_lines = tags_file.readlines()
 
     items = []
-    for original_line, correct_line, prediction_line, tags_line in zip(original_lines, correct_lines, prediction_lines, tags_lines):
+    for original_line, correct_line, tags_line in zip(original_lines, correct_lines, tags_lines):
         original_id, original_text = original_line.split('\t')
         correct_id, correct_text = correct_line.split('\t')
-        prediction_id, prediction_text = prediction_line.split('\t')
         tags_split = tags_line.split()
         tags_id = tags_split[0]
         tags = tags_split[1:]
         assert(original_id == correct_id)
-        assert(original_id == prediction_id)
         assert(original_id == tags_id)
         items.append({
             '_id': original_id,
             'original': original_text,
             'correct': correct_text,
-            'prediction': prediction_text,
             'tags': tags,
         })
+
+    prediction_path = path / 'prediction.txt'
+    if prediction_path.exists():
+        with prediction_path.open('r', encoding='utf-8') as prediction_file:
+            prediction_lines = prediction_file.readlines()
+
+        for item, prediction_line in zip(items, prediction_lines):
+            prediction_id, prediction_text = prediction_line.split('\t')
+            assert(item['_id'] == prediction_id)
+            item['prediction'] = prediction_text
+
+    if as_dict:
+        return {item['_id']: item for item in items}
 
     return items
 

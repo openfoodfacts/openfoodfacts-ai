@@ -34,9 +34,9 @@ class RegexModel(BaseModel):
     @property
     def name(self):
         if self.only_option is None:
-            return 'RegexModel (all)'
+            return 'RegexModel__all'
         else:
-            return f'RegexModel ({self.only_option})'
+            return f'RegexModel__{self.only_option}'
 
     def apply_one(self, txt):
         if self.only_option is None:
