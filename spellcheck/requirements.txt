@@ -4,3 +4,5 @@ sentencepiece
 flashtext
 click
 spacy
+pytest
+joblib

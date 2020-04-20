@@ -1,9 +1,9 @@
+from difflib import SequenceMatcher
+from statistics import mean
 from typing import List
 
 import pandas as pd
-from statistics import mean
-from difflib import SequenceMatcher
-from ingredients import format_ingredients, normalize_ingredients
+from ingredients import normalize_ingredients, tokenize_ingredients
 
 
 def normalize_item_ingredients(item):
@@ -54,9 +54,19 @@ class Evaluation(object):
         output["txt_similarity_metric"] = not_failing_mean(self.items_txt_similarity)
 
         # Ingredients metrics
-        output["ingr_precision"] = not_failing_mean(self.items_ingr_precision)
-        output["ingr_recall"] = not_failing_mean(self.items_ingr_recall)
-        output["ingr_fidelity"] = not_failing_mean(self.items_ingr_fidelity)
+        output["ingr_micro_precision"] = not_failing_mean(self.items_ingr_precision)
+        output["ingr_micro_recall"] = not_failing_mean(self.items_ingr_recall)
+        output["ingr_micro_fidelity"] = not_failing_mean(self.items_ingr_fidelity)
+        output["ingr_macro_precision"] = (
+            sum(x["precision_num"] for x in self.items_ingr_metrics)
+            * 100
+            / sum(x["precision_den"] for x in self.items_ingr_metrics)
+        )
+        output["ingr_macro_recall"] = (
+            sum(x["recall_num"] for x in self.items_ingr_metrics)
+            * 100
+            / sum(x["recall_den"] for x in self.items_ingr_metrics)
+        )
 
         return output
 
@@ -104,7 +114,9 @@ class Evaluation(object):
         ]
 
         self.items_ingr_metrics = [
-            per_item_ingredients_metrics(item, prediction_txt)
+            per_item_ingredients_metrics(
+                item["original"], item["correct"], prediction_txt
+            )
             for item, prediction_txt in zip(self.items, self.prediction_txts)
         ]
         self.items_ingr_precision = [
@@ -123,7 +135,7 @@ class Evaluation(object):
         ]
 
 
-def per_item_ingredients_metrics(item, prediction_txt):
+def per_item_ingredients_metrics(original: str, correct: str, prediction: str):
     """
     Precision :
         number of times a change introduce a correct ingredient
@@ -137,23 +149,41 @@ def per_item_ingredients_metrics(item, prediction_txt):
         number of time we did not change an ingredient when it was already correct
             / number of time we changed an ingredient that was correct but isn't anymore
     """
-    original_ingredients = format_ingredients(item["original"])
-    correct_ingredients = format_ingredients(item["correct"])
-    predicted_ingredients = format_ingredients(prediction_txt)
+    original_ingredients = tokenize_ingredients(original)
+    correct_ingredients = tokenize_ingredients(correct)
+    predicted_ingredients = tokenize_ingredients(prediction)
+    original_count = len(original_ingredients)
+    correct_count = len(correct_ingredients)
+    predicted_count = len(predicted_ingredients)
+    min_original_correct_count = min(original_count, correct_count)
+    correct_predicted_count = get_matching_token_count(
+        correct_ingredients, predicted_ingredients
+    )
+    original_correct_count = get_matching_token_count(
+        original_ingredients, correct_ingredients
+    )
+    original_predicted_count = get_matching_token_count(
+        original_ingredients, predicted_ingredients
+    )
+    print(f"original_count: {original_count}")
+    print(f"correct_count: {correct_count}")
+    print(f"predicted_count: {predicted_count}")
+    print(f"correct_predicted_count: {correct_predicted_count}")
+    print(f"original_correct_count: {original_correct_count}")
+
+    precision_num = correct_predicted_count - original_correct_count
+    recall_num = precision_num
+    precision_den = predicted_count - original_predicted_count
+    recall_den = min_original_correct_count - original_correct_count
 
     return {
-        "precision": ratio(
-            (correct_ingredients & predicted_ingredients) - original_ingredients,
-            predicted_ingredients - original_ingredients,
-        ),
-        "recall": ratio(
-            (correct_ingredients & predicted_ingredients) - original_ingredients,
-            correct_ingredients - original_ingredients,
-        ),
-        "fidelity": ratio(
-            original_ingredients & correct_ingredients & predicted_ingredients,
-            original_ingredients & correct_ingredients,
-        ),
+        "precision": ratio(precision_num, precision_den),
+        "recall": ratio(recall_num, recall_den),
+        "fidelity": 100,
+        "precision_num": precision_num,
+        "precision_den": precision_den,
+        "recall_num": recall_num,
+        "recall_den": recall_den,
     }
 
 
@@ -178,10 +208,16 @@ def not_failing_sum(l):
     return sum([item for item in l if item is not None])
 
 
+def get_matching_token_count(a: List[str], b: List[str]) -> int:
+    matching_blocks = SequenceMatcher(is_junk_token, a, b).get_matching_blocks()
+    matching_blocks = matching_blocks[:-1]
+    return sum(x.size for x in matching_blocks)
+
+
 def per_item_similarity_based_metric(item, prediction_txt):
-    matcher = SequenceMatcher(is_junk, item["correct"], prediction_txt)
+    matcher = SequenceMatcher(None, item["correct"], prediction_txt)
     return 100.0 * matcher.ratio()
 
 
-def is_junk(c):
-    return False
+def is_junk_token(token: str) -> bool:
+    return token in {" "}
