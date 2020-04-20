@@ -3,8 +3,6 @@
 Under development repo.
 Code copy-pasted from :
 https://github.com/openfoodfacts/robotoff/blob/4edbc715d81e84f234cc284222697632cf5b13ee/robotoff/ingredients.py
-
-# TODO: Find proper way to import `process_ingredients`
 /!\ /!\ /!\
 
 """
@@ -12,6 +10,7 @@ https://github.com/openfoodfacts/robotoff/blob/4edbc715d81e84f234cc284222697632c
 from dataclasses import dataclass, field
 from typing import Iterable, List, Set, Tuple
 
+from spacy.lang.fr import French
 
 SPLITTER_CHAR = {"(", ")", ",", ";", "[", "]", "-", "{", "}"}
 
@@ -20,8 +19,19 @@ SPLITTER_CHAR = {"(", ")", ",", ";", "[", "]", "-", "{", "}"}
 OffsetType = Tuple[int, int]
 
 
+FR_NLP = French()
+
+
 class TokenLengthMismatchException(Exception):
     pass
+
+
+def tokenize_ingredients(text: str) -> List[str]:
+    tokens = []
+    for token in FR_NLP(text):
+        tokens.append(token.orth_)
+
+    return tokens
 
 
 def format_ingredients(ingredients_txt: str) -> Set[str]:
