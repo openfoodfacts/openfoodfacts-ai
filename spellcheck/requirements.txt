@@ -1,0 +1,6 @@
+streamlit
+pymongo
+sentencepiece
+flashtext
+click
+spacy
