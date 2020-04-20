@@ -34,36 +34,34 @@ class Evaluation(object):
         # Items
         output = {
             "number_items": len(self.items),
-            "number_should_have_been_changed": not_failing_sum(
-                self.items_should_have_changed
-            ),
-            "number_changed": not_failing_sum(self.items_changed),
-            "number_correct_when_changed": not_failing_sum(
+            "number_should_have_been_changed": safe_sum(self.items_should_have_changed),
+            "number_changed": safe_sum(self.items_changed),
+            "number_correct_when_changed": safe_sum(
                 self.items_correct_answer_when_changed
             ),
         }
 
         # Exact text metrics
-        output["txt_precision"] = not_failing_ratio(
+        output["txt_precision"] = safe_ratio(
             output["number_correct_when_changed"], output["number_changed"]
         )
-        output["txt_recall"] = not_failing_ratio(
+        output["txt_recall"] = safe_ratio(
             output["number_correct_when_changed"],
             output["number_should_have_been_changed"],
         )
-        output["txt_similarity_metric"] = not_failing_mean(self.items_txt_similarity)
+        output["txt_similarity_metric"] = safe_mean(self.items_txt_similarity)
 
         # Ingredients metrics micro
-        output["ingr_micro_precision"] = not_failing_mean(self.items_ingr_precision)
-        output["ingr_micro_recall"] = not_failing_mean(self.items_ingr_recall)
-        output["ingr_micro_fidelity"] = not_failing_mean(self.items_ingr_fidelity)
+        output["ingr_micro_precision"] = safe_mean(self.items_ingr_precision)
+        output["ingr_micro_recall"] = safe_mean(self.items_ingr_recall)
+        output["ingr_micro_fidelity"] = safe_mean(self.items_ingr_fidelity)
 
         # Ingredients metrics macro
-        output["ingr_macro_precision"] = not_failing_ratio(
+        output["ingr_macro_precision"] = safe_ratio(
             sum(x["precision_num"] for x in self.items_ingr_metrics),
             sum(x["precision_den"] for x in self.items_ingr_metrics),
         )
-        output["ingr_macro_recall"] = not_failing_ratio(
+        output["ingr_macro_recall"] = safe_ratio(
             sum(x["recall_num"] for x in self.items_ingr_metrics),
             sum(x["recall_den"] for x in self.items_ingr_metrics),
         )
@@ -158,13 +156,13 @@ def per_item_ingredients_metrics(original: str, correct: str, prediction: str):
     predicted_count = len(predicted_ingredients)
 
     min_original_correct_count = min(original_count, correct_count)
-    correct_predicted_count = get_matching_token_count(
+    correct_predicted_count = safe_matching_tokens_count(
         correct_ingredients, predicted_ingredients
     )
-    original_correct_count = get_matching_token_count(
+    original_correct_count = safe_matching_tokens_count(
         original_ingredients, correct_ingredients
     )
-    original_predicted_count = get_matching_token_count(
+    original_predicted_count = safe_matching_tokens_count(
         original_ingredients, predicted_ingredients
     )
 
@@ -174,8 +172,8 @@ def per_item_ingredients_metrics(original: str, correct: str, prediction: str):
     recall_den = min_original_correct_count - original_correct_count
 
     return {
-        "precision": not_failing_ratio(precision_num, precision_den),
-        "recall": not_failing_ratio(recall_num, recall_den),
+        "precision": safe_ratio(precision_num, precision_den),
+        "recall": safe_ratio(recall_num, recall_den),
         "fidelity": 100,
         "precision_num": precision_num,
         "precision_den": precision_den,
@@ -184,7 +182,7 @@ def per_item_ingredients_metrics(original: str, correct: str, prediction: str):
     }
 
 
-def not_failing_ratio(numerator, denominator):
+def safe_ratio(numerator, denominator):
     if isinstance(numerator, set):
         numerator = len(numerator)
     if isinstance(denominator, set):
@@ -194,18 +192,29 @@ def not_failing_ratio(numerator, denominator):
     return 100.0 * numerator / denominator
 
 
-def not_failing_mean(l):
+def safe_mean(l):
     l = [item for item in l if item is not None]
     if not l:
         return
     return mean(l)
 
 
-def not_failing_sum(l):
+def safe_sum(l):
     return sum([item for item in l if item is not None])
 
 
-def get_matching_token_count(a: List[str], b: List[str]) -> int:
+def safe_matching_tokens_count(a: List[str], b: List[str]) -> int:
+    count_a = _matching_tokens_count(a, b)
+    count_b = _matching_tokens_count(b, a)
+    if count_a != count_b:
+        print("Matching tokens count is not symmetric !!!")
+    return (count_a + count_b) / 2
+    if count_a != count_b:
+        raise ValueError("Matching tokens count is not symmetric !")
+    return count_a
+
+
+def _matching_tokens_count(a: List[str], b: List[str]) -> int:
     matching_blocks = SequenceMatcher(is_junk_token, a, b).get_matching_blocks()
     matching_blocks = matching_blocks[:-1]
     return sum(x.size for x in matching_blocks)
