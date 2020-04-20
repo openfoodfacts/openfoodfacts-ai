@@ -8,7 +8,7 @@ class BaseModel(object):
         self.last_experiment_path = None
 
     def predict(self, items):
-        return [self.apply_one(item['original']) for item in items]
+        return [self.apply_one(item["original"]) for item in items]
 
     def apply_one(self, txt):
         raise NotImplementedError
@@ -18,12 +18,12 @@ class BaseModel(object):
         predictions = self.predict(items)
 
         for item, prediction in zip(items, predictions):
-            item['prediction'] = prediction
+            item["prediction"] = prediction
 
         save_dataset(self.last_experiment_path, items)
 
         for item, prediction in zip(items, predictions):
-            del item['prediction']
+            del item["prediction"]
 
         return predictions
 

@@ -26,10 +26,10 @@ models = [
     #         RobotoffAPIModel(index='product', confidence=1),
     #     ]
     # ),
-    RobotoffAPIModel(index='product', confidence=1),
-    RobotoffAPIModel(index='product_all', confidence=1),
-    RobotoffAPIModel(index='product_extended', confidence=1),
-    RobotoffAPIModel(index='product_extended_all', confidence=1),
+    RobotoffAPIModel(index="product", confidence=1),
+    RobotoffAPIModel(index="product_all", confidence=1),
+    RobotoffAPIModel(index="product_extended", confidence=1),
+    RobotoffAPIModel(index="product_extended_all", confidence=1),
     # RobotoffAPIModel(index='product_all', confidence=5),
     # RobotoffAPIModel(index='product_all', confidence=10),
     # RobotoffAPIModel(index='product_all', confidence=20),
@@ -46,7 +46,7 @@ models = [
 ]
 
 items = load_dataset(FR_TEST_SET_PATH)
-valid_items = [item for item in items if item['tags'] == ['VALID']]
+valid_items = [item for item in items if item["tags"] == ["VALID"]]
 
 for model in models:
     t0 = time.time()
@@ -56,14 +56,16 @@ for model in models:
     df = Evaluation(valid_items, predictions).detailed_dataframe()
     t1 = time.time()
 
-    metrics['time_elapsed (s)'] = round(t1-t0, 4)
+    metrics["time_elapsed (s)"] = round(t1 - t0, 4)
 
-    with (model.last_experiment_path / 'metrics.json').open('w') as f:
+    with (model.last_experiment_path / "metrics.json").open("w") as f:
         json.dump(metrics, f, indent=4, sort_keys=True)
 
-    evaluation.detailed_dataframe().to_csv(model.last_experiment_path / METRICS_DF_FILENAME, index=False)
+    evaluation.detailed_dataframe().to_csv(
+        model.last_experiment_path / METRICS_DF_FILENAME, index=False
+    )
 
-    print('\n' + '-' * 60)
-    print(f'Model : {model.name}')
+    print("\n" + "-" * 60)
+    print(f"Model : {model.name}")
     for key, value in metrics.items():
-        print(f'{key:33} : {value}')
+        print(f"{key:33} : {value}")

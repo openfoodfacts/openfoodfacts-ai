@@ -72,7 +72,7 @@ def get(**kwargs):
     this_session = st_session()
 
     # Got the session object! Now let's attach some state into it.
-    if not hasattr(this_session, '_custom_session_state'):
+    if not hasattr(this_session, "_custom_session_state"):
         this_session._custom_session_state = SessionState(**kwargs)
 
     return this_session._custom_session_state
@@ -91,7 +91,7 @@ def st_session():
     this_session = None
 
     current_server = Server.get_current()
-    if hasattr(current_server, '_session_infos'):
+    if hasattr(current_server, "_session_infos"):
         # Streamlit < 0.56
         session_infos = current_server._session_infos.values()
     else:
@@ -100,18 +100,20 @@ def st_session():
     for session_info in session_infos:
         s = session_info.session
         if (
-            (hasattr(s, '_main_dg') and s._main_dg == ctx.main_dg)
+            (hasattr(s, "_main_dg") and s._main_dg == ctx.main_dg)
             # Streamlit < 0.54.0
             or
             # Streamlit >= 0.54.0
-            (not hasattr(s, '_main_dg') and s.enqueue == ctx.enqueue)
+            (not hasattr(s, "_main_dg") and s.enqueue == ctx.enqueue)
         ):
             this_session = s
 
     if this_session is None:
         raise RuntimeError(
             "Oh noes. Couldn't get your Streamlit Session object"
-            'Are you doing something fancy with threads?')
+            "Are you doing something fancy with threads?"
+        )
     return this_session
+
 
 # __all__ = [get, rerun]

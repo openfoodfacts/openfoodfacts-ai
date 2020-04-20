@@ -46,9 +46,10 @@ class TokenLengthMismatchException(Exception):
 
 def format_ingredients(ingredients_txt):
     ingredients = {
-        ' '.join(ingredient.split())
-        for ingredient
-        in process_ingredients(ingredients_txt).iter_normalized_ingredients()
+        " ".join(ingredient.split())
+        for ingredient in process_ingredients(
+            ingredients_txt
+        ).iter_normalized_ingredients()
     }
     return {ingredient for ingredient in ingredients if len(ingredient) > 0}
 
@@ -280,14 +281,14 @@ def generate_corrected_text(corrections: List[TermCorrection], text: str):
             corrected_fragments.append(text[: correction.start_offset])
         else:
             corrected_fragments.append(
-                text[last_correction.end_offset: correction.start_offset]
+                text[last_correction.end_offset : correction.start_offset]
             )
 
         corrected_fragments.append(correction.correction)
         last_correction = correction
 
     if last_correction is not None:
-        corrected_fragments.append(text[last_correction.end_offset:])
+        corrected_fragments.append(text[last_correction.end_offset :])
 
     return "".join(corrected_fragments)
 

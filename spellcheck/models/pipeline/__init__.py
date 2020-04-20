@@ -2,7 +2,6 @@ from models.base import BaseModel
 
 
 class PipelineModel(BaseModel):
-
     def __init__(self, models):
         self.models = models
 
