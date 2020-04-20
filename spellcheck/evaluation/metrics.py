@@ -118,8 +118,9 @@ class Evaluation(object):
         ]
 
         self.items_txt_similarity = [
-            per_item_similarity_based_metric(item, prediction_txt)
-            for item, prediction_txt in zip(self.items, self.prediction_txts)
+            txt_similarity(item['correct'], prediction_txt)
+            for item, prediction_txt
+            in zip(self.items, self.prediction_txts)
         ]
 
 
@@ -178,8 +179,8 @@ def not_failing_sum(l):
     return sum([item for item in l if item is not None])
 
 
-def per_item_similarity_based_metric(item, prediction_txt):
-    matcher = SequenceMatcher(is_junk, item["correct"], prediction_txt)
+def txt_similarity(correct_txt, prediction_txt):
+    matcher = SequenceMatcher(is_junk, correct_txt, prediction_txt)
     return 100.0 * matcher.ratio()
 
 
