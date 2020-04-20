@@ -56,11 +56,16 @@ class Ingredients:
         return len(self.offsets)
 
 
+def normalize_ingredients(ingredients: str) -> str:
+    normalized = ingredients.lower()
+    return normalized
+
+
 def process_ingredients(ingredient_text: str) -> Ingredients:
     offsets = []
     chars = []
 
-    normalized = ingredient_text
+    normalized = normalize_ingredients(ingredient_text)
     start_idx = 0
 
     for idx, char in enumerate(normalized):
