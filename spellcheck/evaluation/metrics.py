@@ -214,8 +214,8 @@ def get_matching_token_count(a: List[str], b: List[str]) -> int:
     return sum(x.size for x in matching_blocks)
 
 
-def txt_similarity(item, prediction_txt):
-    matcher = SequenceMatcher(None, item["correct"], prediction_txt)
+def txt_similarity(txt_a, txt_b):
+    matcher = SequenceMatcher(None, txt_a, txt_b)
     return 100.0 * matcher.ratio()
 
 
