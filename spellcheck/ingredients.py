@@ -19,7 +19,6 @@ from typing import List, Tuple, Iterable
 SPLITTER_CHAR = {"(", ")", ",", ";", "[", "]", "-", "{", "}"}
 
 # Food additives (EXXX) may be mistaken from one another, because of their edit distance proximity
-BLACKLIST_RE = re.compile(r"(?:\d+(?:[,.]\d+)?\s*%)|(?:E ?\d{3,5}[a-z]*)|(?:[_•:0-9])")
 
 OffsetType = Tuple[int, int]
 
@@ -75,30 +74,11 @@ class Correction:
     score: int
 
 
-def normalize_ingredients(ingredient_text: str):
-    normalized = ingredient_text
-
-    while True:
-        try:
-            match = next(BLACKLIST_RE.finditer(normalized))
-        except StopIteration:
-            break
-
-        if match:
-            start = match.start()
-            end = match.end()
-            normalized = normalized[:start] + " " * (end - start) + normalized[end:]
-        else:
-            break
-
-    return normalized
-
-
 def process_ingredients(ingredient_text: str) -> Ingredients:
     offsets = []
     chars = []
 
-    normalized = normalize_ingredients(ingredient_text)
+    normalized = ingredient_text
     start_idx = 0
 
     for idx, char in enumerate(normalized):
