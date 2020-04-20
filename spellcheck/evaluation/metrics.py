@@ -130,7 +130,7 @@ class Evaluation(object):
         ]
 
         self.items_txt_similarity = [
-            per_item_similarity_based_metric(item, prediction_txt)
+            txt_similarity(item["correct"], prediction_txt)
             for item, prediction_txt in zip(self.items, self.prediction_txts)
         ]
 

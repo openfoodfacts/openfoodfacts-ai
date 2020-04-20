@@ -4,3 +4,4 @@ corpus/
 sp_.model
 sp_.vocab
 .mypy_cache
+.venv/
