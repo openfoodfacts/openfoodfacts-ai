@@ -3,3 +3,5 @@ corpus/
 
 sp_.model
 sp_.vocab
+
+.venv/

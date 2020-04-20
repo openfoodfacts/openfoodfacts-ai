@@ -4,15 +4,24 @@ OpenFoodFact SpellCheck project aims to correct misspelled ingredients on produc
 
 ## Project install
 
-The project requires Python 3.7 and Pipenv (https://github.com/pypa/pipenv).
+This project runs using Python3.
 
 ### Install dependencies
 
-Run following command at the root of the project.
+Create a virtualenv.
 ```
-pipenv install
+virtualenv -p /path/to/python3 .venv
 ```
-Once completed, run `pipenv shell`.  
+
+Enter virtualenv.
+```
+source .venv/bin/activate
+```
+
+Install requirements.
+```
+pip install -r requirements.txt
+```
 
 ### Label data
 
