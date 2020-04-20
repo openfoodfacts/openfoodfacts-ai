@@ -1,5 +1,4 @@
 """
-
 /!\ /!\ /!\
 Under development repo.
 Code copy-pasted from :
@@ -9,8 +8,6 @@ https://github.com/openfoodfacts/robotoff/blob/4edbc715d81e84f234cc284222697632c
 /!\ /!\ /!\
 
 """
-
-import re
 
 from dataclasses import dataclass, field
 from typing import List, Tuple, Iterable
@@ -57,21 +54,6 @@ class Ingredients:
 
     def ingredient_count(self) -> int:
         return len(self.offsets)
-
-
-@dataclass
-class TermCorrection:
-    original: str
-    correction: str
-    start_offset: int
-    end_offset: int
-    is_valid: bool = True
-
-
-@dataclass
-class Correction:
-    term_corrections: List[TermCorrection]
-    score: int
 
 
 def process_ingredients(ingredient_text: str) -> Ingredients:
