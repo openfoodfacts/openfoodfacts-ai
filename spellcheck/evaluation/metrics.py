@@ -44,28 +44,28 @@ class Evaluation(object):
         }
 
         # Exact text metrics
-        output["txt_precision"] = ratio(
+        output["txt_precision"] = not_failing_ratio(
             output["number_correct_when_changed"], output["number_changed"]
         )
-        output["txt_recall"] = ratio(
+        output["txt_recall"] = not_failing_ratio(
             output["number_correct_when_changed"],
             output["number_should_have_been_changed"],
         )
         output["txt_similarity_metric"] = not_failing_mean(self.items_txt_similarity)
 
-        # Ingredients metrics
+        # Ingredients metrics micro
         output["ingr_micro_precision"] = not_failing_mean(self.items_ingr_precision)
         output["ingr_micro_recall"] = not_failing_mean(self.items_ingr_recall)
         output["ingr_micro_fidelity"] = not_failing_mean(self.items_ingr_fidelity)
-        output["ingr_macro_precision"] = (
-            sum(x["precision_num"] for x in self.items_ingr_metrics)
-            * 100
-            / sum(x["precision_den"] for x in self.items_ingr_metrics)
+
+        # Ingredients metrics macro
+        output["ingr_macro_precision"] = not_failing_ratio(
+            sum(x["precision_num"] for x in self.items_ingr_metrics),
+            sum(x["precision_den"] for x in self.items_ingr_metrics),
         )
-        output["ingr_macro_recall"] = (
-            sum(x["recall_num"] for x in self.items_ingr_metrics)
-            * 100
-            / sum(x["recall_den"] for x in self.items_ingr_metrics)
+        output["ingr_macro_recall"] = not_failing_ratio(
+            sum(x["recall_num"] for x in self.items_ingr_metrics),
+            sum(x["recall_den"] for x in self.items_ingr_metrics),
         )
 
         return output
@@ -152,9 +152,11 @@ def per_item_ingredients_metrics(original: str, correct: str, prediction: str):
     original_ingredients = tokenize_ingredients(original)
     correct_ingredients = tokenize_ingredients(correct)
     predicted_ingredients = tokenize_ingredients(prediction)
+
     original_count = len(original_ingredients)
     correct_count = len(correct_ingredients)
     predicted_count = len(predicted_ingredients)
+
     min_original_correct_count = min(original_count, correct_count)
     correct_predicted_count = get_matching_token_count(
         correct_ingredients, predicted_ingredients
@@ -165,11 +167,6 @@ def per_item_ingredients_metrics(original: str, correct: str, prediction: str):
     original_predicted_count = get_matching_token_count(
         original_ingredients, predicted_ingredients
     )
-    print(f"original_count: {original_count}")
-    print(f"correct_count: {correct_count}")
-    print(f"predicted_count: {predicted_count}")
-    print(f"correct_predicted_count: {correct_predicted_count}")
-    print(f"original_correct_count: {original_correct_count}")
 
     precision_num = correct_predicted_count - original_correct_count
     recall_num = precision_num
@@ -177,8 +174,8 @@ def per_item_ingredients_metrics(original: str, correct: str, prediction: str):
     recall_den = min_original_correct_count - original_correct_count
 
     return {
-        "precision": ratio(precision_num, precision_den),
-        "recall": ratio(recall_num, recall_den),
+        "precision": not_failing_ratio(precision_num, precision_den),
+        "recall": not_failing_ratio(recall_num, recall_den),
         "fidelity": 100,
         "precision_num": precision_num,
         "precision_den": precision_den,
@@ -187,7 +184,7 @@ def per_item_ingredients_metrics(original: str, correct: str, prediction: str):
     }
 
 
-def ratio(numerator, denominator):
+def not_failing_ratio(numerator, denominator):
     if isinstance(numerator, set):
         numerator = len(numerator)
     if isinstance(denominator, set):
