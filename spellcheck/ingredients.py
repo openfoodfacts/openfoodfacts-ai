@@ -10,7 +10,7 @@ https://github.com/openfoodfacts/robotoff/blob/4edbc715d81e84f234cc284222697632c
 """
 
 from dataclasses import dataclass, field
-from typing import List, Tuple, Iterable
+from typing import Iterable, List, Set, Tuple
 
 
 SPLITTER_CHAR = {"(", ")", ",", ";", "[", "]", "-", "{", "}"}
@@ -24,7 +24,7 @@ class TokenLengthMismatchException(Exception):
     pass
 
 
-def format_ingredients(ingredients_txt):
+def format_ingredients(ingredients_txt: str) -> Set[str]:
     ingredients = {
         " ".join(ingredient.split())
         for ingredient in process_ingredients(
@@ -58,6 +58,7 @@ class Ingredients:
 
 def normalize_ingredients(ingredients: str) -> str:
     normalized = ingredients.lower()
+    normalized = normalized.replace("œ", "oe")
     return normalized
 
 

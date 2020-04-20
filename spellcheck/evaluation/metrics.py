@@ -1,16 +1,24 @@
-import sys
+from typing import List
+
 import pandas as pd
 from statistics import mean
 from difflib import SequenceMatcher
-from ingredients import format_ingredients
+from ingredients import format_ingredients, normalize_ingredients
+
+
+def normalize_item_ingredients(item):
+    item = item.copy()
+    item["original"] = normalize_ingredients(item["original"])
+    item["correct"] = normalize_ingredients(item["correct"])
+    return item
 
 
 class Evaluation(object):
     """docstring for Evaluation."""
 
     def __init__(self, items, prediction_txts):
-        self.items = items
-        self.prediction_txts = prediction_txts
+        self.items = [normalize_item_ingredients(i) for i in items]
+        self.prediction_txts = [normalize_ingredients(t) for t in prediction_txts]
 
         self.items_should_have_changed = None
         self.items_changed = None
