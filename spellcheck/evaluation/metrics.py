@@ -1,8 +1,7 @@
-from difflib import SequenceMatcher
-from statistics import mean
-from typing import List
-
 import pandas as pd
+from typing import List
+from statistics import mean
+from collections import Counter
 from ingredients import normalize_ingredients, tokenize_ingredients
 
 
@@ -64,6 +63,10 @@ class Evaluation(object):
         output["ingr_macro_recall"] = safe_ratio(
             sum(x["recall_num"] for x in self.items_ingr_metrics),
             sum(x["recall_den"] for x in self.items_ingr_metrics),
+        )
+        output["ingr_macro_fidelity"] = safe_ratio(
+            sum(x["fidelity_num"] for x in self.items_ingr_metrics),
+            sum(x["fidelity_den"] for x in self.items_ingr_metrics),
         )
 
         return output
@@ -155,34 +158,42 @@ def per_item_ingredients_metrics(original: str, correct: str, prediction: str):
     correct_count = len(correct_ingredients)
     predicted_count = len(predicted_ingredients)
 
-    min_original_correct_count = min(original_count, correct_count)
-    correct_predicted_count = safe_matching_tokens_count(
-        correct_ingredients, predicted_ingredients
+    correct_predicted_count = _matching_tokens_count(
+        correct_ingredients, predicted_ingredients,
     )
-    original_correct_count = safe_matching_tokens_count(
-        original_ingredients, correct_ingredients
+    original_correct_count = _matching_tokens_count(
+        original_ingredients, correct_ingredients,
     )
-    original_predicted_count = safe_matching_tokens_count(
-        original_ingredients, predicted_ingredients
+    original_predicted_count = _matching_tokens_count(
+        original_ingredients, predicted_ingredients,
+    )
+    original_correct_predicted_count = _matching_tokens_count(
+        original_ingredients, predicted_ingredients, correct_ingredients,
     )
 
-    precision_num = correct_predicted_count - original_correct_count
-    recall_num = precision_num
+    precision_num = correct_predicted_count - original_correct_predicted_count
     precision_den = predicted_count - original_predicted_count
-    recall_den = min_original_correct_count - original_correct_count
+
+    recall_num = correct_predicted_count - original_correct_predicted_count
+    recall_den = correct_count - original_correct_count
+
+    fidelity_num = original_correct_predicted_count
+    fidelity_den = original_correct_count
 
     return {
-        "precision": safe_ratio(precision_num, precision_den),
-        "recall": safe_ratio(recall_num, recall_den),
-        "fidelity": 100,
         "precision_num": precision_num,
         "precision_den": precision_den,
+        "precision": safe_ratio(precision_num, precision_den),
         "recall_num": recall_num,
         "recall_den": recall_den,
+        "recall": safe_ratio(recall_num, recall_den),
+        "fidelity_num": fidelity_num,
+        "fidelity_den": fidelity_den,
+        "fidelity": safe_ratio(fidelity_num, fidelity_den),
     }
 
 
-def safe_ratio(numerator, denominator):
+def safe_ratio(numerator: int, denominator: int) -> float:
     if isinstance(numerator, set):
         numerator = len(numerator)
     if isinstance(denominator, set):
@@ -203,27 +214,19 @@ def safe_sum(l):
     return sum([item for item in l if item is not None])
 
 
-def safe_matching_tokens_count(a: List[str], b: List[str]) -> int:
-    count_a = _matching_tokens_count(a, b)
-    count_b = _matching_tokens_count(b, a)
-    if count_a != count_b:
-        print("Matching tokens count is not symmetric !!!")
-    return (count_a + count_b) / 2
-    if count_a != count_b:
-        raise ValueError("Matching tokens count is not symmetric !")
-    return count_a
+def _matching_tokens_count(*args: List[str]) -> int:
+    return sum(_matching_tokens(*args).values())
 
 
-def _matching_tokens_count(a: List[str], b: List[str]) -> int:
-    matching_blocks = SequenceMatcher(is_junk_token, a, b).get_matching_blocks()
-    matching_blocks = matching_blocks[:-1]
-    return sum(x.size for x in matching_blocks)
+def _matching_tokens(*args: List[str]) -> Counter:
+    if len(args) == 0:
+        return Counter()
+    count = Counter(args[0])
+    for arg in args[1:]:
+        count = count & Counter(arg)
+    return count
 
 
-def txt_similarity(txt_a, txt_b):
+def txt_similarity(txt_a: str, txt_b: str) -> float:
     matcher = SequenceMatcher(None, txt_a, txt_b)
     return 100.0 * matcher.ratio()
-
-
-def is_junk_token(token: str) -> bool:
-    return token in {" "}

@@ -31,6 +31,7 @@ def tokenize_ingredients(text: str) -> List[str]:
     for token in FR_NLP(text):
         tokens.append(token.orth_)
 
+    tokens = [token for token in tokens if any(c.isalnum() for c in token)]
     return tokens
 
 

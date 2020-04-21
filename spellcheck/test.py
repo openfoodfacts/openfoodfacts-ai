@@ -16,7 +16,7 @@ models = [
     # IdentityModel(),
     # RegexModel(),
     # RegexModel('percentages'),
-    RegexModel('replacements'),
+    # RegexModel('replacements'),
     # RobotoffAPIModel(index='product', confidence=0.5),
     # RobotoffAPIModel(index='product', confidence=2),
     # RobotoffAPIModel(index='product_extended', confidence=1),
@@ -26,7 +26,7 @@ models = [
     #         RobotoffAPIModel(index='product', confidence=1),
     #     ]
     # ),
-    # RobotoffAPIModel(index='product', confidence=1),
+    # RobotoffAPIModel(index="product", confidence=1),
     # RobotoffAPIModel(index='product_all', confidence=1),
     # RobotoffAPIModel(index='product_extended', confidence=1),
     # RobotoffAPIModel(index='product_extended_all', confidence=1),
