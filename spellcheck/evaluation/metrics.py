@@ -1,7 +1,6 @@
 import pandas as pd
 from typing import List
 from statistics import mean
-from collections import Counter
 from difflib import SequenceMatcher
 from ingredients import (
     normalize_ingredients,
@@ -212,19 +211,66 @@ def safe_sum(l):
     return sum([item for item in l if item is not None])
 
 
-def _matching_tokens_count(*args: List[str]) -> int:
-    return sum(_matching_tokens(*args).values())
+def safe_matching_tokens_count(a: List[str], b: List[str]) -> int:
+    count_a = _matching_tokens_count(a, b)
+    count_b = _matching_tokens_count(b, a)
+    if count_a != count_b:
+        print("Matching tokens count is not symmetric !!!")
+    return (count_a + count_b) / 2
+    if count_a != count_b:
+        raise ValueError("Matching tokens count is not symmetric !")
+    return count_a
 
 
-def _matching_tokens(*args: List[str]) -> Counter:
-    if len(args) == 0:
-        return Counter()
-    count = Counter(args[0])
-    for arg in args[1:]:
-        count = count & Counter(arg)
-    return count
+def _matching_tokens_count(*args: List[str]) -> List[str]:
+    return len(_matching_tokens(*args))
+
+
+def _matching_tokens(*args: List[str]) -> List[str]:
+    n_args = len(args)
+    tokens_list = []
+    tokens_list_a = []
+    tokens_list_b = []
+    if n_args == 2:
+        tokens_list_a = _pair_matching_tokens(args[0], args[1])
+        tokens_list_b = _pair_matching_tokens(args[1], args[0])
+    else:
+        for i_arg in range(n_args):
+            arg = args[i_arg]
+            args_without_i = args[:i_arg] + args[i_arg + 1 :]
+            tokens_list_a = _pair_matching_tokens(
+                arg, _matching_tokens(*args_without_i)
+            )
+            tokens_list_b = _pair_matching_tokens(
+                _matching_tokens(*args_without_i), arg
+            )
+    if len(tokens_list_a) > len(tokens_list):
+        tokens_list = tokens_list_a
+    if len(tokens_list_b) > len(tokens_list):
+        tokens_list = tokens_list_b
+    return tokens_list
+
+
+def _pair_matching_tokens(a: List[str], b: List[str]) -> List[str]:
+    matching_blocks = SequenceMatcher(is_junk_token, a, b).get_matching_blocks()
+    matching_tokens = []
+    for block in matching_blocks:
+        matching_tokens += a[block.a : block.a + block.size]
+    return matching_tokens
 
 
 def txt_similarity(txt_a: str, txt_b: str) -> float:
     matcher = SequenceMatcher(None, txt_a, txt_b)
     return 100.0 * matcher.ratio()
+
+
+def is_junk_token(token: str) -> bool:
+    return token in {" "}
+
+
+def _pair_matching_tokens(a: List[str], b: List[str]) -> List[str]:
+    matching_blocks = SequenceMatcher(is_junk_token, a, b).get_matching_blocks()
+    matching_tokens = []
+    for block in matching_blocks:
+        matching_tokens += a[block.a : block.a + block.size]
+    return matching_tokens
