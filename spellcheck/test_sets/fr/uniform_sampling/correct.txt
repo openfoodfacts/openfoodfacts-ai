@@ -405,7 +405,7 @@
 2630937000002	100% viande bovine
 2000000020754	malt d'orge, malt de blé
 3334806202540	NOT_VALID
-3760092341807	Ingrédients: Pêche 33%. pêche de vigne 28%, eau, sucre. sirop de glucose. arôme naturel, acidifiant : acide citrique. antioxydant : acide ascorbique, géliﬁant: pectine (origine végétale).
+3760092341807	Ingrédients: Pêche 33%. pêche de vigne 28%, eau, sucre. sirop de glucose. arôme naturel, acidifiant : acide citrique. antioxydant : acide ascorbique, gélifiant: pectine (origine végétale).
 3222471140925	_lait_ écrémé pasteurisé - _crème_ pasteurisée - fines herbes 2,8% (persil, ciboulette) - ail 1,4% - sel - arôme naturel d'ail - _babeurre_ déshydraté - _protéines de lait_ - poivre - ferments lactiques (contient _lait_). Traces de _fruits à coque_. lait et crème origine : France.
 3596710275380	_Colin_ d 'Alaska 50% (Theragra chalcogramma), eau, _crème_ fraîche, échalote, _beurre_ 2,9%, amidons transformés de maïs, concentré de citron 0,6%, fumet de poisson aromatisé (maltodextrine de pomme de terre et/ou _blé_ et/ou maïs, sel, farine de _blé_, _poisson_, sucre, légumes (oignon, poireau, _céleri_), _crème_, extrait de levure, huile d'olive vierge extra, arôme, _lactose_, _crevette_, épices et aromates, extrait de vin blanc), zeste de citron 0,4%, arômes, vin blanc concentré, sucre, sel, thym, mélange d'épices (épices, colorants : curcumine, extrait de paprika, carmin de cochenille, fécule de pomme de terre, maltodextrine de _blé_).
 3245270000924	Huile vierge d'Argan biologique.
