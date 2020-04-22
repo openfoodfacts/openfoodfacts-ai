@@ -2,14 +2,12 @@ import pandas as pd
 from typing import List
 from statistics import mean
 from collections import Counter
-from ingredients import normalize_ingredients, tokenize_ingredients
-
-
-def normalize_item_ingredients(item):
-    item = item.copy()
-    item["original"] = normalize_ingredients(item["original"])
-    item["correct"] = normalize_ingredients(item["correct"])
-    return item
+from difflib import SequenceMatcher
+from ingredients import (
+    normalize_ingredients,
+    normalize_item_ingredients,
+    tokenize_ingredients,
+)
 
 
 class Evaluation(object):

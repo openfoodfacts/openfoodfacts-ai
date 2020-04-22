@@ -8,7 +8,7 @@ https://github.com/openfoodfacts/robotoff/blob/4edbc715d81e84f234cc284222697632c
 """
 
 from dataclasses import dataclass, field
-from typing import Iterable, List, Set, Tuple
+from typing import Iterable, List, Set, Tuple, Dict
 
 from spacy.lang.fr import French
 
@@ -26,12 +26,29 @@ class TokenLengthMismatchException(Exception):
     pass
 
 
+def normalize_ingredients(ingredients: str) -> str:
+    normalized = ingredients.lower()
+    normalized = normalized.replace("œu", "oeu")
+    normalized = normalized.replace("’", "'")
+    return normalized
+
+
+def normalize_item_ingredients(item: Dict) -> Dict:
+    item = item.copy()
+    keys = ["original", "correct", "prediction"]
+    for key in keys:
+        if key in item:
+            item[key] = normalize_ingredients(item[key])
+    return item
+
+
 def tokenize_ingredients(text: str) -> List[str]:
     tokens = []
     for token in FR_NLP(text):
         tokens.append(token.orth_)
 
     tokens = [token for token in tokens if any(c.isalnum() for c in token)]
+    tokens = [token.rstrip("s") for token in tokens]
     return tokens
 
 
@@ -65,12 +82,6 @@ class Ingredients:
 
     def ingredient_count(self) -> int:
         return len(self.offsets)
-
-
-def normalize_ingredients(ingredients: str) -> str:
-    normalized = ingredients.lower()
-    normalized = normalized.replace("œ", "oe")
-    return normalized
 
 
 def process_ingredients(ingredient_text: str) -> Ingredients:

@@ -54,7 +54,7 @@ def load_dataset(path, as_dict=False):
             item["prediction"] = prediction_text
 
     if as_dict:
-        return {int(item['_id']): item for item in items}
+        return {item["_id"]: item for item in items}
 
     return items
 
