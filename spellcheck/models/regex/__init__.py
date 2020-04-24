@@ -1,7 +1,8 @@
 from pathlib import Path
 from regex import format_percentages
-from flashtext import KeywordProcessor
 
+from vocabulary import Vocabulary
+from ingredients import tokenize_ingredients
 from models.base import BaseModel
 
 # TODO : shall be a paraameter
@@ -9,13 +10,19 @@ patterns_path = Path(__file__).parent / "patterns_fr.txt"
 
 
 class RegexModel(BaseModel):
-    def __init__(self, only_option=None):
+    def __init__(self, mode=None):
         super(RegexModel, self).__init__()
-        self.only_option = only_option
-        self.keyword_processor = self._load_keywords()
+        self.mode = mode
+        if mode is None or mode == "replacements":
+            self.replacements = self._load_replacements()
+        if mode is None or mode == "vocabulary":
+            self.wikipedia_voc = Vocabulary("wikipedia_lower")
+            self.ingredients_voc = Vocabulary("ingredients_fr_tokens") | Vocabulary(
+                "ingredients_fr"
+            )
 
-    def _load_keywords(self):
-        keyword_processor = KeywordProcessor(case_sensitive=True)
+    def _load_replacements(self):
+        replacements = {}
         with patterns_path.open() as f:
             current_replacement = None
             for line in f.readlines():
@@ -25,33 +32,45 @@ class RegexModel(BaseModel):
                 elif current_replacement is None:
                     current_replacement = line
                 else:
-                    keyword_processor[line.lower()] = current_replacement.lower()
-                    keyword_processor[line.upper()] = current_replacement.upper()
-                    keyword_processor[
-                        line.capitalize()
-                    ] = current_replacement.capitalize()
-                    keyword_processor[line] = current_replacement
-        return keyword_processor
+                    replacements[line.lower()] = current_replacement.lower()
+                    replacements[line.upper()] = current_replacement.upper()
+                    replacements[line.capitalize()] = current_replacement.capitalize()
+                    replacements[line] = current_replacement
+        return replacements
 
     @property
     def name(self):
-        if self.only_option is None:
+        if self.mode is None:
             return "RegexModel__all"
         else:
-            return f"RegexModel__{self.only_option}"
+            return f"RegexModel__{self.mode}"
 
     def apply_one(self, txt):
-        if self.only_option is None:
+        if self.mode is None:
             txt = self.apply_percentages(txt)
             txt = self.apply_replacements(txt)
-        elif self.only_option == "percentages":
+            txt = self.apply_vocabulary(txt)
+        elif self.mode == "percentages":
             txt = self.apply_percentages(txt)
-        elif self.only_option == "replacements":
+        elif self.mode == "replacements":
             txt = self.apply_replacements(txt)
+        elif self.mode == "vocabulary":
+            txt = self.apply_vocabulary(txt)
         return txt
 
-    def apply_percentages(self, txt):
+    def apply_percentages(self, txt: str) -> str:
         return format_percentages(txt)
 
-    def apply_replacements(self, txt):
-        return self.keyword_processor.replace_keywords(txt)
+    def apply_replacements(self, txt: str) -> str:
+        for key, value in self.replacements.items():
+            txt = txt.replace(key, value)
+        return txt
+
+    def apply_vocabulary(self, txt: str) -> str:
+        for token in tokenize_ingredients(txt, remove_additives=True):
+            if all(c.isalpha() for c in token):
+                if not token in self.wikipedia_voc:
+                    suggestion = self.ingredients_voc.suggest_one(token)
+                    if suggestion is not None:
+                        txt = txt.replace(token, suggestion)
+        return txt

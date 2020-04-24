@@ -147,9 +147,9 @@ def per_item_ingredients_metrics(original: str, correct: str, prediction: str):
         number of time we did not change an ingredient when it was already correct
             / number of time we changed an ingredient that was correct but isn't anymore
     """
-    original_ingredients = tokenize_ingredients(original)
-    correct_ingredients = tokenize_ingredients(correct)
-    predicted_ingredients = tokenize_ingredients(prediction)
+    original_ingredients = tokenize_ingredients(original, remove_plural=True)
+    correct_ingredients = tokenize_ingredients(correct, remove_plural=True)
+    predicted_ingredients = tokenize_ingredients(prediction, remove_plural=True)
 
     original_count = len(original_ingredients)
     correct_count = len(correct_ingredients)

@@ -30,9 +30,15 @@ def review(path: str, item_id: str) -> None:
     if "tags" in item:
         print_with_newline(f'Tags     : {item["tags"]}')
 
-    original_ingredients = Counter(tokenize_ingredients(item["original"]))
-    correct_ingredients = Counter(tokenize_ingredients(item["correct"]))
-    predicted_ingredients = Counter(tokenize_ingredients(item["prediction"]))
+    original_ingredients = Counter(
+        tokenize_ingredients(item["original"], remove_plural=True)
+    )
+    correct_ingredients = Counter(
+        tokenize_ingredients(item["correct"], remove_plural=True)
+    )
+    predicted_ingredients = Counter(
+        tokenize_ingredients(item["prediction"], remove_plural=True)
+    )
 
     print_with_newline(f"Original ingredients :")
     print(original_ingredients)

@@ -6,7 +6,7 @@ https://github.com/openfoodfacts/robotoff/blob/4edbc715d81e84f234cc284222697632c
 /!\ /!\ /!\
 
 """
-
+import re
 from dataclasses import dataclass, field
 from typing import Iterable, List, Set, Tuple, Dict
 
@@ -15,6 +15,8 @@ from spacy.lang.fr import French
 SPLITTER_CHAR = {"(", ")", ",", ";", "[", "]", "-", "{", "}"}
 
 # Food additives (EXXX) may be mistaken from one another, because of their edit distance proximity
+ADDITIVES_REGEX = re.compile("(?:E ?\d{3,5}[a-z]*)", re.IGNORECASE)
+
 
 OffsetType = Tuple[int, int]
 
@@ -42,13 +44,18 @@ def normalize_item_ingredients(item: Dict) -> Dict:
     return item
 
 
-def tokenize_ingredients(text: str) -> List[str]:
+def tokenize_ingredients(
+    text: str, remove_plural: bool = False, remove_additives: bool = False
+) -> List[str]:
     tokens = []
     for token in FR_NLP(text):
         tokens.append(token.orth_)
 
     tokens = [token for token in tokens if any(c.isalnum() for c in token)]
-    tokens = [token.rstrip("s") for token in tokens]
+    if remove_plural:
+        tokens = [token.rstrip("s") for token in tokens]
+    if remove_additives:
+        tokens = [token for token in tokens if ADDITIVES_REGEX.match(token) is None]
     return tokens
 
 

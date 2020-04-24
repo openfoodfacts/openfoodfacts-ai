@@ -19,3 +19,6 @@ ceuf
 bœuf
 boeuf
 bceuf
+
+fi
+ﬁ

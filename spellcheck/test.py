@@ -17,11 +17,22 @@ models = [
     # RegexModel(),
     # RegexModel("percentages"),
     # RegexModel("replacements"),
+    # RegexModel("vocabulary"),
     # RobotoffAPIModel(index="product", confidence=0.5),
     # RobotoffAPIModel(index="product", confidence=2),
     # RobotoffAPIModel(index="product_extended", confidence=1),
     # PipelineModel(
-    #     models=[RegexModel(), RobotoffAPIModel(index="product", confidence=1),]
+    #     models=[
+    #         RegexModel("replacements"),
+    #         RobotoffAPIModel(index="product", confidence=1),
+    #     ]
+    # ),
+    # PipelineModel(
+    #     models=[
+    #         RegexModel("replacements"),
+    #         RobotoffAPIModel(index="product", confidence=1),
+    #         RegexModel("vocabulary"),
+    #     ]
     # ),
     # RobotoffAPIModel(index="product", confidence=1),
     # RobotoffAPIModel(index="product_all", confidence=1),
