@@ -122,7 +122,7 @@
 8013108411465	NOT_VALID
 3608580004110	_Lait_ entier frais 58%, _crème_ fraîche, sucre, eau, semoule de _blé_ 5%, _œufs_ entiers frais, sirop de sucre inverti, raisins 3,4%, jaune d'_œufs_ frais, rhum à 54° 0,8%, fécule, jus de citron concentré
 7613404228852	yogourt (_lait_ [CH], _protéine du lait_), sucre, framboises 4,5%, purée de litchi 1,5%, amidon de maïs modifié, concentré de jus de citron, arôme naturel, concentré de jus de carottes noires.
-5000159012041	Sucre, sirop de glucose, huile de palme, acidifiants (acide citrique, acide malique), dextrine, maltodextrine, arômes, amidon modifié, correcteur d'acidité (citrate trisodique), colorants (E120, E100, E171, E132, E160e, E133), agent d'enrobage (Cire de carnauba), émulsifiant (esters polyglyceriques d'acides gras).
+5000159012041	Sucre, sirop de glucose, huile de palme, acidifiants (acide citrique, acide malique), dextrine, maltodextrine, arômes, amidon modifié, correcteur d'acidité (citrate trisodique), colorants (E120, E100, E171, E132, E160e, E133), agent d'enrobage (Cire de carnauba), émulsifiant (esters polyglycériques d'acides gras).
 3017620693809	Chocolat au lait 31,5% (sucre, beurre de cacao, pâte de cacao, lait écrémé en poudre, beurre concentré, émulsifiants: lécithines [soja], vanilline), sucre, huile de palme, farine de froment, noisettes broyées 10,8%, lait écrémé en poudre, lait en poudre, chocolat noir (sucre, pâte de cacao, beurre de cacao, émulsifiants: lécithines [soja], vanilline), cacao maigre, émulsifiants: lécithines [soja], poudres à lever (carbonate acide de sodium, carbonate acide d'ammonium), sel, vanilline.
 0017077205160	NOT_VALID
 8437012102088	Contient des _sulfites_.
@@ -157,7 +157,7 @@
 3276620202446	concassées, concentré de tomates, oignons, huile de tournesol, amidon modifié E1422 sel, sucre, épices, ail (anhydride sulfureux et sulfites)
 3276559354711	NOT_VALID
 3700311865172	Pomme de terre 50% - tomate 12% - jambon cuit standard 10% (jambon de porc - eau - sel - sirop de glucose - exhausteur de goût : glutamate monosodique stabilisants : diphosphates - triphosphates - dextrose - sucre - gélifiants : carraghènanes, farine de graines de caroube - gélatine de porc - arômes - conservateurs : nitrite de sodium, ascorbate de sodium) - eau - huile de colza - œuf dur 4,7% - cornichons - vinaigre de vin rouge - moutarde (eau - graines de moutarde - vinaigre d'alcool - sel - acidifiant : acide citrique) - vinaigre d'alcool - sel - amidon transformé de pomme de terre - conservateur : sorbate de potassium - jaune d'œuf - acidifiant : acide lactique - épaississant gomme xanthane - arôme naturel de poivre - colorant caroténoïdes - poivre - affermissant : chlorure de calcium. Les informations en gras sont destinées aux personnes intolérantes ou allergiques.
-0002000000714	Lait de brebis écréme pasteurisé* ferments lactiques sélectionnés. * Issu de l'agriculture biologique
+0002000000714	Lait de brebis écrémé pasteurisé* ferments lactiques sélectionnés. * Issu de l'agriculture biologique
 3240930213348	Semoule de blé dur de qualité supérieure, eau, œufs frais 10,3 % (soit 140 g d’œufs/kg de semoule), sel.
 3760244981004	Jambon de porc, gras de porc, couenne de porc, sel, dextrose, arômes, antioxydant : érythorbate de sodium - ascorbate de sodium, conservateur : Kcl - nitrite de sodium.
 7614800108007	farine d'épeautre 69%, épeautre égrugé* 19%, huile de colza*, jus de betterave en poudre* 5,4%, sucre de canne brut*, sel, extrait de malt d'orge*, levure, ciboulette*, épices, oignons en poudre*, ail en poudre. *Ingrédients issus de l'agriculture biologique.
@@ -355,7 +355,7 @@
 3153571012815	ŒUFS frais 30%, farine de BLÉ 20%, eau, brochet 13%, huile de colza, blancs d’ŒUFS, sel, arôme naturel.
 3112940153009	Pommes de terre, eau, sel, antioxydant : acide ascorbique
 3222476530387	jus de pomme
-3222476750761	Eau - chapelure (farine de _blé_ 14% - levure - sel) - huiles végétales (tournesol, colza) - protéines de blé déshydratées 12% - farine de _blé_ 7% - blanc d'_œuf_ en poudre - amidon transformé de pomme de terre - arôme naturel - fibres de _blé_ 1,2% - vinaigre - épaississant: methylcellulose - fibre de psyllium. Élaboré dans un atelier utilisant poisson, lait, mollusques, céleri, soja.
+3222476750761	Eau - chapelure (farine de _blé_ 14% - levure - sel) - huiles végétales (tournesol, colza) - protéines de blé déshydratées 12% - farine de _blé_ 7% - blanc d'_œuf_ en poudre - amidon transformé de pomme de terre - arôme naturel - fibres de _blé_ 1,2% - vinaigre - épaississant: méthylcellulose - fibre de psyllium. Élaboré dans un atelier utilisant poisson, lait, mollusques, céleri, soja.
 4012836000570	NOT_VALID
 27085257	NOT_VALID
 8007100054508	NOT_VALID
@@ -364,7 +364,7 @@
 8718449063785	pinda 85%, zonnebloemolie, geheel gehard palmvet, zout.
 4104420007840	Boisson au jus de fruits bio épicée avec du jus de pomme, sureau et cerise. Teneur en jus de fruits: 95%
 0070177095253	thé noir, pétales de rose 2%, arôme
-3596710415137	Sauce condimentaire. Ingrédients : Eau, sucre, double concentré de tomate (20%), vinaigre d'alcool, épaississants : amidon modifié, gomme xanthane, gomme (contient des sulfites), sel, paprika fumé 1%, arômes, acidifiant : acide lactique, colorant : caramel 450C, épice 0,1%. CONSEIL DE CONSERVATION : la chaleur et l'humidité
+3596710415137	Sauce condimentaire. Ingrédients : Eau, sucre, double concentré de tomate (20%), vinaigre d'alcool, épaississants : amidon modifié, gomme xanthane, gomme (contient des sulfites), sel, paprika fumé 1%, arômes, acidifiant : acide lactique, colorant : caramel e150c, épice 0,1%. CONSEIL DE CONSERVATION : la chaleur et l'humidité
 3153571017216	ŒUFS frais 30%, farine de BLÉ 20%, eau, BROCHET 13%, huile de colza, blanc d’ŒUFS, sel, arôme naturel.
 3760158960973	artichauts* (56%) , huile d'olive*, oignons*, jus de citron, graines de moutarde*, vinaigre*, sel), ail*, persil*, sel, menthe*, poivre* [*ingrédients issus de l’agriculture Biologique]
 00780988	, d'olive • Sel • Levure déshydratée • Farine de blé malté (contient Gluten). Pour les allergènes, voir les ingrédients indiqués en gras. CONSERVATION
@@ -386,7 +386,7 @@
 3260260211142	Sucre, farine (_gluten_), _amandes_ (20%), blancs d’_œufs_, caramel salé.
 4260407950926	NOT_VALID
 3435660737862	Émincés de filet de Poulet 89% marinés 11%, crus - Ingrédients poulet, eau, conservateurs: lactate de potassium et acétates de sodium, dextrose, sel, arôme naturel de poivre trace de blé, lait et œuf. Viande de poulet origine France.
-26026657	Eau, jus d'ananas à base de concentré (12,6%), sucre, sirop de glucose-fructose, jus d'orange à base déconcentré de framboise à base de concentré (2,8%), colorants (caroténoïdes, extrait de paprika, curcumine, rouge de betterave, complexes cuivre-chlorophylles et cuivre - chlorophyllines), acidifiant (acide citrique), stabilisants (gomme guar; faine de graines de caroube pectines), arômes. Traces éventuelles d'arachides et fruits à coque. A conserver : plusieurs mois dans le compartiment à - 18°C d'un congélateur (limite du délai optimal de conservation),
+26026657	Eau, jus d'ananas à base de concentré (12,6%), sucre, sirop de glucose-fructose, jus d'orange à base déconcentré de framboise à base de concentré (2,8%), colorants (caroténoïdes, extrait de paprika, curcumine, rouge de betterave, complexes cuivre-chlorophylles et cuivre - chlorophyllines), acidifiant (acide citrique), stabilisants (gomme guar, farine de graines de caroube, pectines), arômes. Traces éventuelles d'arachides et fruits à coque. A conserver : plusieurs mois dans le compartiment à - 18°C d'un congélateur (limite du délai optimal de conservation),
 3596710394531	Champignons de Paris, eau, sel, acidifiant : acide citrique, antioxydant : acide ascorbique.
 7622300002824	Sucre, dextrose (25%), cacao fortement dégraissé (18%), émulsifiant (lécithine de SOJA), sel, arôme (vanilline).
 3424140008202	lait entier 78%, riz 10%, sucre 12%, vanille.
