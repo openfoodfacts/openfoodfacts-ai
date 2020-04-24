@@ -41,6 +41,9 @@ class Vocabulary(object):
     def __contains__(self, token: str) -> bool:
         return self.normalize(token) in self.voc
 
+    def _contains_deaccent(self, token: str) -> bool:
+        return self.deaccent(token) in self.deaccented_tokens
+
     def __or__(self, other):
         return Vocabulary(tokens=self.voc | other.voc)
 
@@ -54,10 +57,7 @@ class Vocabulary(object):
 
         suggestions = self.suggest_split(token)
         if len(suggestions) == 1:
-            suggestion = suggestions[0]
-            if suggestion[1] != "s":  # Keep plural forms
-                if suggestion[1] != "e":  # Keep last "e"
-                    return suggestion[0] + " " + suggestion[1]
+            return suggestions[0][0] + " " + suggestions[0][1]
 
     def suggest_deaccent(self, token: str) -> Optional[str]:
         if token in self:
@@ -71,11 +71,28 @@ class Vocabulary(object):
             return []
 
         suggestions = []
-        for i in range(len(token)):
+        for i in range(2, len(token) - 1):
+            # pre and post must be at least 2 letters long
             pre = token[:i]
             post = token[i:]
             if pre in self and post in self or (pre + " " + post) in self:
                 suggestions.append((pre, post))
+            else:
+                if self._contains_deaccent(pre) and post in self:
+                    pre_suggestion = self.deaccented_tokens[self.deaccent(pre)]
+                    if len(pre_suggestion) == 1:
+                        suggestions.append((pre_suggestion[0], post))
+
+                if pre in self and self._contains_deaccent(post):
+                    post_suggestion = self.deaccented_tokens[self.deaccent(post)]
+                    if len(post_suggestion) == 1:
+                        suggestions.append((pre, post_suggestion[0]))
+
+                if self._contains_deaccent(pre) and self._contains_deaccent(post):
+                    pre_suggestion = self.deaccented_tokens[self.deaccent(pre)]
+                    post_suggestion = self.deaccented_tokens[self.deaccent(post)]
+                    if len(pre_suggestion) == 1 and len(post_suggestion) == 1:
+                        suggestions.append((pre_suggestion[0], post_suggestion[0]))
         return suggestions
 
     @staticmethod
