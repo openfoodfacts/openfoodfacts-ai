@@ -4,7 +4,7 @@ import streamlit as st
 from mongo import products
 
 import SessionState
-from models.regex.utils import format_percentages
+from models.regex.percentages import format_percentages
 from utils import load_dataset, save_dataset, format_txt
 
 from paths import FR_TEST_SET_PATH

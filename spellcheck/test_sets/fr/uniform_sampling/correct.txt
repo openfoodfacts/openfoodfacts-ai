@@ -673,7 +673,7 @@
 5410188029765	INGRÉDIENT: Jus d'orange avec pulpe.
 00011105	Chou 41%, carottes 28%, huile de colza. eau, vinaigre d'alcool, sucre, oignons, MOUTARDE de Dijon [eau, graine de MOUTARDE, vinaigre d'alcool, sel, acidifiant : E330, conservateur : E224], jaune d'ŒUF, sel, amidon modifié de maïs. jus concentré de citron, conservateur : E202, épaississant : E415, poivre.
 3700225149078	Lentilles vertes.
-3089738192000	jambon de porc (origine France), sels dextroses bouillon (couenne et os de porcs extraits de légumes, épices et plantes aromatiques), arômes, Antioxydant E316 Conservateur : E250
+3089738192000	jambon de porc (origine France), sel, dextrose, bouillon (couenne et os de porcs extraits de légumes, épices et plantes aromatiques), arômes, Antioxydant E316 Conservateur : E250
 3760105173715	TARTARE SAUMON LÉGUMES DU SOLEIL ingrédients. SAUMON atlantique
 3578802000230	Farine de froment (BLÉ), ŒUFS pasteurisés, sucre semoule, LAIT en poudre à 26% MG, BEURRE concentré 10%, glucose, dextrose, sel.
 00052368	NOT_VALID

@@ -1,9 +1,10 @@
 from pathlib import Path
-from models.regex.utils import format_percentages
 
 from vocabulary import Vocabulary
 from ingredients import tokenize_ingredients
+
 from models.base import BaseModel
+from models.regex.percentages import format_percentages
 
 # TODO : shall be a paraameter
 patterns_path = Path(__file__).parent / "patterns_fr.txt"
