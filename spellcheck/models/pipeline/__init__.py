@@ -9,3 +9,7 @@ class PipelineModel(BaseModel):
         for model in self.models:
             txt = model.apply_one(txt)
         return txt
+
+    @property
+    def name(self):
+        return "PipelineModel__" + "__".join([model.name for model in self.models])
