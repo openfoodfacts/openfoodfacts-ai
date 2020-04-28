@@ -19,6 +19,10 @@ def cli():
 @click.option("--path", "-p", help="Path to dataset.")
 @click.option("--item-id", help="Item id to review.")
 def review(path: str, item_id: str) -> None:
+    __review(path, item_id)
+
+
+def __review(path: str, item_id: str) -> None:
     item = load_dataset(path, as_dict=True)[item_id]
     item = normalize_item_ingredients(item)
 
@@ -57,6 +61,9 @@ def review(path: str, item_id: str) -> None:
     print((correct_ingredients & predicted_ingredients) - original_ingredients)
     print_with_newline(f"Original, correct, not predicted")
     print((original_ingredients & correct_ingredients) - predicted_ingredients)
+
+    new_item_id = input("New item ?")
+    __review(path, new_item_id)
 
 
 def print_with_newline(*args, **kwargs):
