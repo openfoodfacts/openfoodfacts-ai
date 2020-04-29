@@ -773,10 +773,10 @@ u Breuil (2 % ) , pain
 u Breuil (2% ) , pain
 
 Irlande** 97 %, sel 3 %.
-Irlande** 97%, sel 3 %.
+Irlande** 97%, sel 3%.
 
 97 %, sel 3 %. *Ingrédi
-97 %, sel 3%. *Ingrédi
+97%, sel 3%. *Ingrédi
 
 de de porc 91%, gras de
 de de porc 91%, gras de
@@ -1235,7 +1235,7 @@ es de blé 2.7 %, miel 2.4
 es de blé 2,7%, miel 2.4
 
 7 %, miel 2.4 %, oeuf ent
-7 %, miel 2,4%, oeuf ent
+7%, miel 2,4%, oeuf ent
 
 e au sol) 1.4 %, pulpe de
 e au sol) 1,4%, pulpe de
@@ -1433,13 +1433,13 @@ pâtissier 27 % (soit 32
 pâtissier 27% (soit 32
 
 27 % (soit 32 % en beurre
-27 % (soit 32% en beurre
+27% (soit 32% en beurre
 
 pâtissier 20 % (soit 24
 pâtissier 20% (soit 24
 
 20 % (soit 24 % en beurre
-20 % (soit 24% en beurre
+20% (soit 24% en beurre
 
 oja_ I.P.* 5%, farine d
 oja_ I.P.* 5%, farine d
@@ -1475,7 +1475,7 @@ e de _blé_ 64% - sucre —
 —_beurre_ 16,3% (soit 19,
 
 3 % (soit 19,5 % de beurre
-3 % (soit 19,5% de beurre
+3% (soit 19,5% de beurre
 
 Lait de sui
 Lait de sui
@@ -1619,7 +1619,7 @@ on de maïs 62 %, œufs 19
 on de maïs 62%, œufs 19
 
 62 %, œufs 19 %, farine d
-62 %, œufs 19%, farine d
+62%, œufs 19%, farine d
 
 maïs jaune 10 %, farine d
 maïs jaune 10%, farine d
@@ -1910,7 +1910,7 @@ prika fumé 1%, arômes,
 0C, épice 0,1%. ONSEIL D
 
 1 %. ONSEIL DE CONSER
-1 %. ONSEIL DE CONSER
+1%. ONSEIL DE CONSER
 
 ŒUFS frais 30%, farine d
 ŒUFS frais 30%, farine d
@@ -2045,7 +2045,7 @@ de Poulet 89%marinés 11
 de Poulet 89% marinés 11
 
 89%marinés 11%crus Ingré
-89%marinés 11% crus Ingré
+89% marinés 11% crus Ingré
 
 oncentré (12,6%), sucre,
 oncentré (12,6%), sucre,
@@ -2657,7 +2657,7 @@ France) (95.4%) (Lait pa
 France) (95,4%) (Lait pa
 
 (95.4%) (Lait partie
-(95.4%) (Lait partie
+(95,4%) (Lait partie
 
 ), sucre (3%). arôme n
 ), sucre (3%). arôme n
@@ -3116,10 +3116,10 @@ x). Cacao: 34 % minimum d
 x). Cacao: 34% minimum d
 
 m blanc à 37,5 % vol (33 %
-m blanc à 37,5% vol (33 %
+m blanc à 37,5% vol (33%
 
 ,5 % vol (33 %) ; sucre
-,5 % vol (33%) ; sucre
+,5% vol (33%) ; sucre
 
 concentré 2,8 % ; acidifi
 concentré 2,8% ; acidifi
@@ -3530,7 +3530,7 @@ e de cacao 44 %, sucre 44
 e de cacao 44%, sucre 44
 
 4 %, sucre 44 %, beurre d
-4 %, sucre 44%, beurre d
+4%, sucre 44%, beurre d
 
 e de cacao 12 %, émulsifi
 e de cacao 12%, émulsifi
@@ -4052,7 +4052,7 @@ lait* 83.4%, 8%, Pâte
 lait* 83,4%, 8%, Pâte
 
 ait* 83.4%, 8%, Pâte de
-ait* 83.4%, 8%, Pâte de
+ait* 83,4%, 8%, Pâte de
 
 , amidon* 2.3%, carraghé
 , amidon* 2,3%, carraghé
@@ -4514,7 +4514,7 @@ de cacao 3,5 % LAIT écré
 de cacao 3,5% LAIT écré
 
 acao 3,5 % LAIT écrémé
-acao 3,5 % LAIT écrémé
+acao 3,5% LAIT écrémé
 
 ctosérum (LAIT), épai
 ctosérum (LAIT), épai
@@ -4529,7 +4529,7 @@ pâtissier 2,5 % (LAIT), s
 pâtissier 2,5% (LAIT), s
 
 er 2,5 % (LAIT), stab
-er 2,5 % (LAIT), stab
+er 2,5% (LAIT), stab
 
 Glaçage (11,1 %) : sucre,
 Glaçage (11,1%) : sucre,
