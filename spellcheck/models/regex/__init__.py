@@ -51,7 +51,6 @@ class RegexModel(BaseModel):
             "percentages": self.apply_percentages,
             "vocabulary": self.apply_vocabulary,
             "replacements": self.apply_replacements,
-            "punctuation": self.apply_punctuation,
         }
         if self.mode is None:
             for method, apply_function in methods.items():
@@ -75,8 +74,4 @@ class RegexModel(BaseModel):
                     suggestion = self.ingredients_voc.suggest_one(token)
                     if suggestion is not None:
                         txt = txt.replace(token, suggestion)
-        return txt
-
-    def apply_punctuation(self, txt: str) -> str:
-        txt = " ".join(txt.split())
         return txt
