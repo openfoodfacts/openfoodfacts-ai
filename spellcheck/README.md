@@ -2,7 +2,7 @@
 
 OpenFoodFact SpellCheck project aims to correct misspelled ingredients on product descriptions. Those errors mainly appear because of the use of the OCR.  
 
-## Install dependencies
+# Install dependencies
 
 This project runs using Python3.
 Create a virtualenv.
@@ -20,7 +20,14 @@ Install requirements.
 pip install -r requirements.txt
 ```
 
-## Label data
+### Vocabularies
+
+The RegexModel uses vocabularies in order to make corrections (see **Models**). Vocabularies come from the [RobotOFF github repository](https://github.com/openfoodfacts/robotoff/tree/master/data/taxonomies). Please run download script to use them :
+```
+sh ./download_vocabulary.sh
+```
+
+# Label data
 
 To label data, you must have a MongoDB running with the OFF database on it. By default, it will connect to localhost/port 27017 without any password. To change this behavior, edit the `mongo.py` file.  
 Once MongoDB is configured, run the following command :
@@ -29,9 +36,9 @@ streamlit run label.py
 ```
 It will open a streamlit dashboard on the browser.
 
-## Tests
+# Tests
 
-### Run tests
+## Run tests
 
 Command to run tests:
 ```
@@ -47,12 +54,12 @@ Each time the script is ran, a folder is created under `experiment/model_name/da
 - `metrics.json` : summary of the performances of the model.
 - `detailed_metrics.csv` : CSV containing metrics for each individual item.
 
-### Review
+## Review predictions
 
 A CLI tool is available to review model predictions once the test pipeline has been run. It takes the path to the experiment folder and an item_id as input. It outputs :
 - the original, correct and predicted descriptions with normalization (lowercase, œu->oe,...)
 - the original, correct and predicted ingredients Counter, as they are computed for the metrics
-- some curated ingredients Counters with only relevant ingredients (those appearing in the calculation of precision/recall/loyalty metrics)
+- some curated ingredients Counters with only relevant ingredients (those appearing in the calculation of precision/recall/fidelity metrics)
 
 See example bellow :
 
@@ -92,15 +99,15 @@ Original, correct, not predicted
 Counter()
 ```
 
-## Models
+# Models
 
 The test framework is based on models. Each model is a class inherited from `BaseModel` that implements a Spellcheck algorithm. The Model can then be evaluated on the test data using the `test.py` script.
 
-### Identity Model
+## Identity Model
 
 Basic model that doesn't correct anything on the input data. The objective is to have a baseline against which to compare algorithms.
 
-### RobotOFF API Model
+## RobotOFF API Model
 
 Model that wraps calls to the [RobotOFF API](https://github.com/openfoodfacts/robotoff). RobotOFF corrections are mainly based on some ElasticSearch suggestions. Rules are then applied to determine whether or not the suggestion is relevant.  
 The RobotOFF API has two parameters :
@@ -108,11 +115,11 @@ The RobotOFF API has two parameters :
 - `confidence` : float, default to 1. Threshold parameter for ElasticSearch.
 At the moment, RobotOFF API is the model that handles almost all the corrections. Especially, it performs well on misspelled words (maximum edit distance : 2). Calls are cached (using joblib) to speed up the tests.
 
-### Regex Model
+## Regex Model
 
 Model containing several rule-based algorithms.
 
-#### Pattern-based replacements
+### Pattern-based replacements
 
 Most basic algorithm that does some search and replace in the original string.  
 Patterns can be find in `./spellcheck/models/regex/patterns_fr.txt` . The file is divided in sections. Each section is composed of the correct form (first line) followed by common mistakes (following lines). The objective is to complete the document incrementally. Comments can be added using a `#` .  
@@ -126,7 +133,7 @@ ingedients
 ingédients
 ```
 
-#### Percentages
+### Percentages
 
 Regex-based rules that aim to handle all occurrences of percentages in a string and format them to a standard shape.
 
@@ -147,9 +154,9 @@ A dataset specific to percentages has been created (`./spellcheck/test_sets/perc
 - If no separator is found (only a whitespace), we concatenate the digits (example : `4 0%` -> `40%`). Just as a guarantee, we make sure that the value is below (or equals) 100.
 - In addition to these rules, we pad the match with whitespaces if context needs it. Pad is added if previous or next char is an alphanumerical character (`raisin7%` -> `raisin 7%`) or an opening/closing parenthesis (`19%(lait` -> `19% (lait`).
 
-#### Vocabulary corrections
+### Vocabulary corrections
 
-This third method is based on dictionaries of known words. The first vocabulary is extracted and curated from the Wikipedia dataset (called WikipediaVoc). This vocabulary is very large and contains a lot of rare words. Hopefully, it doesn't contain a lot of misspelled words (only words occurring more than 3 times are kept). Second vocabulary is created from the OFF database. This voc is smaller but more specialized for foods (called IngredientsVoc). Vocabularies come from the [RobotOFF github repository](https://github.com/openfoodfacts/robotoff/tree/master/data/taxonomies). At the moment, vocabularies are not stored in this repository. They need to be manually downloaded and placed at the right place. If not, an error will be thrown. This behavior must be corrected soon.
+This third method is based on dictionaries of known words. The first vocabulary is extracted and curated from the Wikipedia dataset (called WikipediaVoc). This vocabulary is very large and contains a lot of rare words. Hopefully, it doesn't contain a lot of misspelled words (only words occurring more than 3 times are kept). Second vocabulary is created from the OFF database. This voc is smaller but more specialized for foods (called IngredientsVoc). Vocabularies come from the [RobotOFF github repository](https://github.com/openfoodfacts/robotoff/tree/master/data/taxonomies). They need to be downloaded before running the model using the `download_vocabulary.sh` script (see **Install dependencies**).
 
 Method : first we tokenize the full description. For each alphabetical tokens, we check whether the token is a know word of WikipediaVoc. If not, 2 methods are used.
 
@@ -162,20 +169,36 @@ Sometimes the OCR outputs the good word but without accents. Example : `ingredie
 
 Both methods are complementary and rely heavily on the quality of the vocabularies.
 
-### Pipeline Model
+## Pipeline Model
 
 The Pipeline model is an abstraction that enable chained-algorithms to be tested against the dataset. It became clear that the best model would be a combination of different algorithms to deal with the different types of errors.
 
 The Pipeline model takes as input a list of models and apply prediction by chaining predictions from them.
 
-## Performances
+# Performances
 
-### Metrics
+## Metrics
 
-TO BE COMPLETED
-TODO : explain metrics here.
+Several generic metrics are computed to compare models :
+- **number_items** : total number of items tested.
+- **number_should_have_been_changed** : number of items that needs a correction .
+- **number_changed** : number of items that has at least 1 modification.
+- number_correct_when_changed : number of changed items that are exactly correct, character by character.
+- **txt_precision** : precision of the model using an exact matching. Equals 'number_correct_when_changed' / 'number_changed'.
+- **txt_recall** : recall of the model using an exact matching. Equals 'number_correct_when_changed' / 'number_should_have_been_changed'.
+- **txt_similarity** : similarity score between predicted and correct descriptions. Similarity is computed using SequenceMatcher.
 
-### FR dataset
+It turns out that those metrics were not good enough to assess the performances of the spellchecker. For instance, a model could be penalized because a correct change has been made to an ingredient but the full description was still containing a mistake. Overall, txt_precision is higher on models that does less changes.
+
+
+To deal with this problem, we introduced "per ingredient metrics". The main strategy has been to split descriptions into lists of ingredients and compare those lists. Metrics are computed using 3 lists of ingredients : the original list, the predicted list and the correct list. The idea is to compare those lists to determine, for example, how many ingredients are simultaneously in predicted list and correct list but not original list. Different approaches has been tested (using sets, Counters and Sequence matching). The current one is the most advanced. It uses Sequence Matching from Python's Difflib library, applied on the lists. We struggled to use it at first because of the non-symmetrical aspect of the algorithm. We made it artificially symmetrical by wrapping it into a process that computes all possible combinations and take the best one. Metrics are :
+- **ingr_recall** : How many correct ingredients that were not in original description have been predicted ?
+- **ingr_precision** : How many predicted ingredients that were not in original description are correct ?
+- **ingr_fidelity** : How many correct ingredients from the original description are still correct in prediction ?
+
+Those metrics can be computed on an item per item basis. Micro and Macro averages are computed for global metrics.
+
+## FR dataset
 
 Another review of the performances is also available [here](https://docs.google.com/spreadsheets/d/1iuc3O_6oSvnKM9uHNpRD1dTd8wXESVXdlEOCct2QcGY/edit#gid=0).
 

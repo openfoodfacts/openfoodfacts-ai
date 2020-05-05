@@ -26,7 +26,7 @@ class Vocabulary(object):
                     )
             except FileNotFoundError:
                 raise FileNotFoundError(
-                    "Repo is currently under development. Vocabulary files have not been committed yet."
+                    "Vocabulary files need to be downloaded. See README for installation."
                 )
 
         if tokens is not None:
