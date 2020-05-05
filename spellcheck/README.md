@@ -113,7 +113,9 @@ Model that wraps calls to the [RobotOFF API](https://github.com/openfoodfacts/ro
 The RobotOFF API has two parameters :
 - `index` :  can be either `product` (default), `product_all`, `product_extended` or `product_extended_all`]. Specify the vocabulary used by ES.
 - `confidence` : float, default to 1. Threshold parameter for ElasticSearch.
-At the moment, RobotOFF API is the model that handles almost all the corrections. Especially, it performs well on misspelled words (maximum edit distance : 2). Calls are cached (using joblib) to speed up the tests.
+
+
+At the moment, RobotOFF API is the model that handles almost all the spelling corrections. Especially, it performs well on misspelled words (maximum edit distance : 2). Calls are cached using joblib to speed up the tests so make sure to refresh the cache if RobotOFF behavior changed.
 
 ## Regex Model
 
@@ -151,17 +153,21 @@ A dataset specific to percentages has been created (`./spellcheck/test_sets/perc
 - First we match substrings following this pattern : `[0 to 2 digits][(optionally) a whitespace][a separator][0 to 2 digits][(optionally) a whitespace][a % or similar symbol]`.
 - If the match contains/is part of an additive (e.g. Exxx), we drop it and to nothing.
 - Depending on whether the first or last digits are present or not, we format the match accordingly (e.g `XX,XX%` or `XX%`).
-- If no separator is found (only a whitespace), we concatenate the digits (example : `4 0%` -> `40%`). Just as a guarantee, we make sure that the value is below (or equals) 100.
+- If no separator is found (only a whitespace), we concatenate the digits (example : `4 0%` -> `40%`). Just as a guarantee, we make sure that the value is below (or equals) to 100.
 - In addition to these rules, we pad the match with whitespaces if context needs it. Pad is added if previous or next char is an alphanumerical character (`raisin7%` -> `raisin 7%`) or an opening/closing parenthesis (`19%(lait` -> `19% (lait`).
 
 ### Vocabulary corrections
 
-This third method is based on dictionaries of known words. The first vocabulary is extracted and curated from the Wikipedia dataset (called WikipediaVoc). This vocabulary is very large and contains a lot of rare words. Hopefully, it doesn't contain a lot of misspelled words (only words occurring more than 3 times are kept). Second vocabulary is created from the OFF database. This voc is smaller but more specialized for foods (called IngredientsVoc). Vocabularies come from the [RobotOFF github repository](https://github.com/openfoodfacts/robotoff/tree/master/data/taxonomies). They need to be downloaded before running the model using the `download_vocabulary.sh` script (see **Install dependencies**).
+This third method is based on dictionaries of known words. The first vocabulary, called WikipediaVoc, is extracted and curated from the Wikipedia dataset. This vocabulary is very large and contains a lot of rare words. Hopefully, it doesn't contain a lot of misspelled words since only words occurring more than 3 times are kept. Second vocabulary, called IngredientsVoc, is created from the OFF database. This voc is smaller but more specialized for foods. Vocabularies come from the [RobotOFF github repository](https://github.com/openfoodfacts/robotoff/tree/master/data/taxonomies). They need to be downloaded before running the model using the `download_vocabulary.sh` script (see **Install dependencies**).
 
-Method : first we tokenize the full description. For each alphabetical tokens, we check whether the token is a know word of WikipediaVoc. If not, 2 methods are used.
+Method used :
+- We first tokenize the full description.
+- For each alphabetical tokens, we check whether the token is a know word of WikipediaVoc.
+- If not, 2 methods are used to make suggestions.
 
 **Finding the right split**  
-Sometimes the OCR misses a whitespace between two words (example : `farinede blé` -> `farine de blé`). In general, ElasticSearch is unable to suggest the good correction (example: `farine blé`). The idea is to look at every potential split (`fa rinede`, `far inede`, `fari nede`,... `farine de`) and keep it if both words exist in the IngredientsVoc (here : `farine de`). If multiple correct splits are possible, no changes is applied. Additional rule : we don't consider splits that create a 1-char word in order to prevent introducing new errors. NB: This last rule is more conservative and sometimes misses some corrections (example : `àcoque` -> `à coque`).
+Sometimes the OCR misses a whitespace between two words (example : `farinede blé` -> `farine de blé`). In general, ElasticSearch is unable to suggest the good correction (example: `farine blé`). The idea is to look at every potential split (`fa rinede`, `far inede`, `fari nede`, (...), `farine de`) and keep it if both words exist in the IngredientsVoc (here : `farine de`). If multiple correct splits are possible, no changes is applied. Additionally, we don't consider splits that create a 1-char word in order to prevent introducing new errors.  
+*NB:* This last rule is conservative and sometimes misses some corrections (example : `àcoque` -> `à coque`).
 
 **Finding a correct variant**  
 Sometimes the OCR outputs the good word but without accents. Example : `ingredients` -> `ingrédients`. For each unknown token, we check whether an accented variant of the token exists in the IngredientsVoc. If a variant exists, we make the change. If multiple variants are found, we prefer not to correct the token.
@@ -183,15 +189,15 @@ Several generic metrics are computed to compare models :
 - **number_items** : total number of items tested.
 - **number_should_have_been_changed** : number of items that needs a correction .
 - **number_changed** : number of items that has at least 1 modification.
-- number_correct_when_changed : number of changed items that are exactly correct, character by character.
-- **txt_precision** : precision of the model using an exact matching. Equals 'number_correct_when_changed' / 'number_changed'.
-- **txt_recall** : recall of the model using an exact matching. Equals 'number_correct_when_changed' / 'number_should_have_been_changed'.
+- **number_correct_when_changed** : number of changed items that are exactly correct, character by character.
+- **txt_precision** : precision of the model using an exact matching. Equals `number_correct_when_changed / number_changed`.
+- **txt_recall** : recall of the model using an exact matching. Equals `number_correct_when_changed / number_should_have_been_changed`.
 - **txt_similarity** : similarity score between predicted and correct descriptions. Similarity is computed using SequenceMatcher.
 
-It turns out that those metrics were not good enough to assess the performances of the spellchecker. For instance, a model could be penalized because a correct change has been made to an ingredient but the full description was still containing a mistake. Overall, txt_precision is higher on models that does less changes.
+It turns out that those metrics were not good enough to assess the performances of the spellchecker. For instance, a model could be penalized because a correct change has been made to an ingredient but the full description was still containing a mistake. Overall, txt_precision is higher on models that does less changes which is not our purpose.
 
 
-To deal with this problem, we introduced "per ingredient metrics". The main strategy has been to split descriptions into lists of ingredients and compare those lists. Metrics are computed using 3 lists of ingredients : the original list, the predicted list and the correct list. The idea is to compare those lists to determine, for example, how many ingredients are simultaneously in predicted list and correct list but not original list. Different approaches has been tested (using sets, Counters and Sequence matching). The current one is the most advanced. It uses Sequence Matching from Python's Difflib library, applied on the lists. We struggled to use it at first because of the non-symmetrical aspect of the algorithm. We made it artificially symmetrical by wrapping it into a process that computes all possible combinations and take the best one. Metrics are :
+To deal with this problem, we introduced "per ingredient metrics". The main strategy has been to split descriptions into lists of ingredients and compare those lists. Metrics are computed using 3 lists of ingredients : the original list, the predicted list and the correct list. The idea is to compare those lists to determine, for example, how many ingredients are simultaneously in predicted list and correct list but not original list. Different approaches has been tested (using sets, Counters and Sequence matching). The current one is the most advanced. It uses Sequence Matching from Python's Difflib library, applied on the lists. We struggled to use it because of the non-symmetrical aspect of the algorithm. We made it artificially symmetrical by wrapping it into a process that computes all possible combinations and take the best one. Metrics are :
 - **ingr_recall** : How many correct ingredients that were not in original description have been predicted ?
 - **ingr_precision** : How many predicted ingredients that were not in original description are correct ?
 - **ingr_fidelity** : How many correct ingredients from the original description are still correct in prediction ?
