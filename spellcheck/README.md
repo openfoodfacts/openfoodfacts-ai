@@ -1,6 +1,6 @@
 # SpellCheck
 
-OpenFoodFact SpellCheck project aims to correct misspelled ingredients on product descriptions. Those errors mainly appear because of the use of the OCR.  
+The Open Food Facts SpellCheck project aims to correct misspelled ingredients on product descriptions. Those errors mainly appear because of the use of the OCR.  
 
 - [Install dependencies](#install-dependencies)
 - [Label data](#label-data)
