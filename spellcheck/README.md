@@ -2,6 +2,12 @@
 
 OpenFoodFact SpellCheck project aims to correct misspelled ingredients on product descriptions. Those errors mainly appear because of the use of the OCR.  
 
+- [Install dependencies](#install-dependencies)
+- [Label data](#label-data)
+- [Tests](#tests)
+- [Models](#models)
+- [Performances](#performances)
+
 # Install dependencies
 
 This project runs using Python3.
