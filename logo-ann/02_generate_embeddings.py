@@ -33,16 +33,12 @@ def generate_embeddings_iter(
 ):
     with h5py.File(str(file_path), "r") as f:
         image_dset = f["image"]
-        barcode_dset = f["barcode"]
-        image_id_dset = f["image_id"]
-        resolution_dset = f["resolution"]
-        bounding_box_dset = f["bounding_box"]
         confidence_dset = f["confidence"]
         external_id_dset = f["external_id"]
 
         for slicing in chunked(range(len(image_dset)), batch_size):
             slicing = np.array(slicing)
-            mask = image_id_dset[slicing] == 0
+            mask = external_id_dset[slicing] == 0
 
             if np.all(mask):
                 break
@@ -62,11 +58,6 @@ def generate_embeddings_iter(
             max_embeddings = np.max(embeddings, (-1, -2))
             yield (
                 max_embeddings,
-                barcode_dset[slicing][mask],
-                image_id_dset[slicing][mask],
-                resolution_dset[slicing][mask],
-                bounding_box_dset[slicing][mask],
-                confidence_dset[slicing][mask],
                 external_id_dset[slicing][mask],
             )
 
@@ -78,40 +69,13 @@ def generate_embedding_from_hdf5(
         embedding_dset = f.create_dataset(
             "embedding", (count, output_dim), dtype="f", chunks=True
         )
-        barcode_dset = f.create_dataset(
-            "barcode", (count,), dtype=h5py.string_dtype(), chunks=True
-        )
-        image_id_dset = f.create_dataset("image_id", (count,), dtype="i", chunks=True)
-        resolution_dset = f.create_dataset(
-            "resolution", (count, 2), dtype="i", chunks=True
-        )
-        bounding_box_dset = f.create_dataset(
-            "bounding_box", (count, 4), dtype="f", chunks=True
-        )
-        confidence_dset = f.create_dataset(
-            "confidence", (count,), dtype="f", chunks=True
-        )
         external_id_dset = f.create_dataset(
             "external_id", (count,), dtype="i", chunks=True
         )
         offset = 0
-        for batch in data_gen:
-            (
-                embeddings_batch,
-                barcode_batch,
-                image_id_batch,
-                resolution_batch,
-                bounding_box_batch,
-                confidence_batch,
-                external_id_batch,
-            ) = batch
+        for (embeddings_batch, external_id_batch) in data_gen:
             slicing = slice(offset, offset + len(embeddings_batch))
             embedding_dset[slicing] = embeddings_batch
-            barcode_dset[slicing] = barcode_batch
-            image_id_dset[slicing] = image_id_batch
-            resolution_dset[slicing] = resolution_batch
-            bounding_box_dset[slicing] = bounding_box_batch
-            confidence_dset[slicing] = confidence_batch
             external_id_dset[slicing] = external_id_batch
             offset += len(embeddings_batch)
 
