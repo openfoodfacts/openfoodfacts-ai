@@ -3,7 +3,7 @@ import json
 from math import floor
 import pathlib
 import re
-from typing import Iterable, List, Optional, Tuple
+from typing import Iterable, List, Optional, Set, Tuple
 
 import h5py
 import numpy as np
@@ -11,6 +11,25 @@ import lycon
 from PIL import Image
 from more_itertools import chunked
 import tqdm
+
+
+def get_offset(f: h5py.File) -> int:
+    external_id_dset = f["external_id"]
+    array = external_id_dset[:]
+    non_zero_indexes = np.flatnonzero(array)
+    return int(non_zero_indexes[-1]) + 1
+
+
+def get_seen_set(hdf5_path: pathlib.Path) -> Set[int]:
+    if hdf5_path.is_file():
+        with h5py.File(str(hdf5_path), "r") as f:
+            external_id_dset = f["external_id"]
+            array = external_id_dset[:]
+            non_zero_indexes = np.flatnonzero(array)
+            max_offset = non_zero_indexes[-1]
+            return set(int(x) for x in array[: max_offset + 1])
+
+    return set()
 
 
 def save_hdf5(
@@ -22,41 +41,72 @@ def save_hdf5(
     size: int,
     batch_size: int = 256,
     compression: Optional[str] = None,
-    chunks: Optional[bool] = None,
 ):
-    kwargs = {"chunks": chunks} if chunks else {}
-    with h5py.File(str(output_file), "w") as f:
-        image_dset = f.create_dataset(
-            "image",
-            (count, size, size, 3),
-            dtype="uint8",
-            compression=compression,
-            **kwargs
-        )
-        barcode_dset = f.create_dataset(
-            "barcode",
-            (count,),
-            dtype=h5py.string_dtype(),
-            compression=compression,
-            **kwargs
-        )
-        image_id_dset = f.create_dataset(
-            "image_id", (count,), dtype="i", compression=compression, **kwargs
-        )
-        resolution_dset = f.create_dataset(
-            "resolution", (count, 2), dtype="i", compression=compression, **kwargs
-        )
-        bounding_box_dset = f.create_dataset(
-            "bounding_box", (count, 4), dtype="f", compression=compression, **kwargs
-        )
-        confidence_dset = f.create_dataset(
-            "confidence", (count,), dtype="f", compression=compression, **kwargs
-        )
-        external_id_dset = f.create_dataset(
-            "external_id", (count,), dtype="i", compression=compression, **kwargs
-        )
+    file_exists = output_file.is_file()
 
-        offset = 0
+    with h5py.File(str(output_file), "a") as f:
+        if not file_exists:
+            image_dset = f.create_dataset(
+                "image",
+                (count, size, size, 3),
+                dtype="uint8",
+                compression=compression,
+                chunks=(2048, size, size, 3),
+            )
+            barcode_dset = f.create_dataset(
+                "barcode",
+                (count,),
+                dtype=h5py.string_dtype(),
+                compression=compression,
+                chunks=(2048,),
+            )
+            image_id_dset = f.create_dataset(
+                "image_id",
+                (count,),
+                dtype="i",
+                compression=compression,
+                chunks=(2048,),
+            )
+            resolution_dset = f.create_dataset(
+                "resolution",
+                (count, 2),
+                dtype="i",
+                compression=compression,
+                chunks=(2048, 2),
+            )
+            bounding_box_dset = f.create_dataset(
+                "bounding_box",
+                (count, 4),
+                dtype="f",
+                compression=compression,
+                chunks=(2048, 4),
+            )
+            confidence_dset = f.create_dataset(
+                "confidence",
+                (count,),
+                dtype="f",
+                compression=compression,
+                chunks=(2048,),
+            )
+            external_id_dset = f.create_dataset(
+                "external_id",
+                (count,),
+                dtype="i",
+                compression=compression,
+                chunks=(2048,),
+            )
+            offset = 0
+        else:
+            offset = get_offset(f)
+            image_dset = f["image"]
+            barcode_dset = f["barcode"]
+            image_id_dset = f["image_id"]
+            resolution_dset = f["resolution"]
+            bounding_box_dset = f["bounding_box"]
+            confidence_dset = f["confidence"]
+            external_id_dset = f["external_id"]
+
+        print("Offset: {}".format(offset))
 
         for batch in chunked(data_iter, batch_size):
             barcode_batch = np.array([x[0] for x in batch])
@@ -134,9 +184,14 @@ def count_results(base_image_dir: pathlib.Path, result_path: pathlib.Path) -> in
 
 
 def get_data_gen(
-    base_image_dir: pathlib.Path, data_path: pathlib.Path, size: int
+    base_image_dir: pathlib.Path, data_path: pathlib.Path, size: int, seen_set: Set[int]
 ) -> Iterable[Tuple[str, int, np.ndarray, Tuple[int, int], List[float], float, int]]:
     for logo_annotation in iter_jsonl(data_path):
+        logo_id = logo_annotation["id"]
+
+        if logo_id in seen_set:
+            continue
+
         image_prediction = logo_annotation["image_prediction"]
         image = image_prediction["image"]
         barcode = image["barcode"]
@@ -156,7 +211,6 @@ def get_data_gen(
 
         bounding_box = logo_annotation["bounding_box"]
         score = logo_annotation["score"]
-        logo_id = logo_annotation["id"]
         cropped_img = crop_image(base_img, bounding_box)
         original_height = int(cropped_img.shape[0])
         original_width = int(cropped_img.shape[1])
@@ -183,10 +237,9 @@ def parse_args():
     parser.add_argument("image_dir", type=pathlib.Path)
     parser.add_argument("data_path", type=pathlib.Path)
     parser.add_argument("output_path", type=pathlib.Path)
-    parser.add_argument("--chunks", action="store_true", default=False)
     parser.add_argument("--size", type=int, required=True)
     parser.add_argument("--compression")
-    parser.add_argument("--count", type="int", required=True)
+    parser.add_argument("--count", type=int, required=True)
     return parser.parse_args()
 
 
@@ -195,22 +248,20 @@ if __name__ == "__main__":
     assert args.image_dir.is_dir()
     assert args.data_path.is_file()
     assert args.size > 100
-    assert not args.output_path.exists(), "output file already exists: {}".format(
-        args.output_path
-    )
     print(
-        "Generating image dump HDF5 file in {}, from data: {}, image dir: {}; size: {}, chunks: {}".format(
-            args.output_path, args.data_path, args.image_dir, args.size, args.chunks
+        "Generating image dump HDF5 file in {}, from data: {}, image dir: {}; size: {}".format(
+            args.output_path, args.data_path, args.image_dir, args.size
         )
     )
     print("Number of items: {}".format(args.count))
-    data_gen = tqdm.tqdm(get_data_gen(args.image_dir, args.data_path, args.size))
+
+    seen_set = get_seen_set(args.output_path)
+    print("Number of seen items: {}".format(len(seen_set)))
+
+    data_gen = tqdm.tqdm(
+        get_data_gen(args.image_dir, args.data_path, args.size, seen_set)
+    )
     save_hdf5(
-        args.output_path,
-        data_gen,
-        args.count,
-        args.size,
-        compression=args.compression,
-        chunks=args.chunks,
+        args.output_path, data_gen, args.count, args.size, compression=args.compression,
     )
     print("Dump completed")
