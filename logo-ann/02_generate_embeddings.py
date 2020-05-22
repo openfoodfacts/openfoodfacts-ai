@@ -38,6 +38,7 @@ def generate_embeddings_iter(
         resolution_dset = f["resolution"]
         bounding_box_dset = f["bounding_box"]
         confidence_dset = f["confidence"]
+        external_id_dset = f["external_id"]
 
         for slicing in chunked(range(len(image_dset)), batch_size):
             slicing = np.array(slicing)
@@ -66,6 +67,7 @@ def generate_embeddings_iter(
                 resolution_dset[slicing][mask],
                 bounding_box_dset[slicing][mask],
                 confidence_dset[slicing][mask],
+                external_id_dset[slicing][mask],
             )
 
 
@@ -89,7 +91,9 @@ def generate_embedding_from_hdf5(
         confidence_dset = f.create_dataset(
             "confidence", (count,), dtype="f", chunks=True
         )
-
+        external_id_dset = f.create_dataset(
+            "external_id", (count,), dtype="i", chunks=True
+        )
         offset = 0
         for batch in data_gen:
             (
@@ -99,6 +103,7 @@ def generate_embedding_from_hdf5(
                 resolution_batch,
                 bounding_box_batch,
                 confidence_batch,
+                external_id_batch,
             ) = batch
             slicing = slice(offset, offset + len(embeddings_batch))
             embedding_dset[slicing] = embeddings_batch
@@ -107,6 +112,7 @@ def generate_embedding_from_hdf5(
             resolution_dset[slicing] = resolution_batch
             bounding_box_dset[slicing] = bounding_box_batch
             confidence_dset[slicing] = confidence_batch
+            external_id_dset[slicing] = external_id_batch
             offset += len(embeddings_batch)
 
 
