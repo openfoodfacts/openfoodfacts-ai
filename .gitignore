@@ -9,6 +9,7 @@ __pycache__/
 *.pyc
 venv
 .env
+.mypy_cache
 
 # IPython
 .ipynb_checkpoints

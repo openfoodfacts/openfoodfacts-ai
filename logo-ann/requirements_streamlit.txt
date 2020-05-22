@@ -1,0 +1,4 @@
+annoy
+Pillow
+requests
+streamlit

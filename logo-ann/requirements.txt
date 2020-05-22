@@ -1,0 +1,7 @@
+lycon==0.2.0
+matplotlib==3.2.1
+Pillow
+h5py
+more_itertools
+Pillow
+tqdm
