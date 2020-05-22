@@ -16,7 +16,7 @@ import tqdm
 def save_hdf5(
     output_file: pathlib.Path,
     data_iter: Iterable[
-        Tuple[str, int, np.ndarray, Tuple[int, int], List[float], float]
+        Tuple[str, int, np.ndarray, Tuple[int, int], List[float], float, int]
     ],
     count: int,
     size: int,
@@ -52,6 +52,9 @@ def save_hdf5(
         confidence_dset = f.create_dataset(
             "confidence", (count,), dtype="f", compression=compression, **kwargs
         )
+        external_id_dset = f.create_dataset(
+            "external_id", (count,), dtype="i", compression=compression, **kwargs
+        )
 
         offset = 0
 
@@ -62,6 +65,7 @@ def save_hdf5(
             resolution_batch = np.array([list(x[3]) for x in batch])
             bounding_box_batch = np.array([list(x[4]) for x in batch])
             confidence_batch = np.array([x[5] for x in batch])
+            external_id_batch = np.array([x[6] for x in batch])
             slicing = slice(offset, offset + len(batch))
             barcode_dset[slicing] = barcode_batch
             image_id_dset[slicing] = image_id_batch
@@ -69,6 +73,7 @@ def save_hdf5(
             resolution_dset[slicing] = resolution_batch
             bounding_box_dset[slicing] = bounding_box_batch
             confidence_dset[slicing] = confidence_batch
+            external_id_dset[slicing] = external_id_batch
             offset += len(batch)
 
 
@@ -129,16 +134,13 @@ def count_results(base_image_dir: pathlib.Path, result_path: pathlib.Path) -> in
 
 
 def get_data_gen(
-    base_image_dir: pathlib.Path, result_path: pathlib.Path, size: int
-) -> Iterable[Tuple[str, int, np.ndarray, Tuple[int, int], List[float], float]]:
-    for item in iter_jsonl(result_path):
-        results = item["result"]
-
-        if not results:
-            continue
-
-        barcode = item["barcode"]
-        image_id = int(item["image_id"])
+    base_image_dir: pathlib.Path, data_path: pathlib.Path, size: int
+) -> Iterable[Tuple[str, int, np.ndarray, Tuple[int, int], List[float], float, int]]:
+    for logo_annotation in iter_jsonl(data_path):
+        image_prediction = logo_annotation["image_prediction"]
+        image = image_prediction["image"]
+        barcode = image["barcode"]
+        image_id = int(image["image_id"])
         file_path = base_image_dir / generate_image_path(barcode, str(image_id))
 
         if not file_path.is_file():
@@ -152,27 +154,28 @@ def get_data_gen(
 
         assert base_img.shape[-1] == 3
 
-        for result in item["result"]:
-            bounding_box = result["bounding_box"]
-            score = result["score"]
-            cropped_img = crop_image(base_img, bounding_box)
-            original_height = int(cropped_img.shape[0])
-            original_width = int(cropped_img.shape[1])
-            original_resolution = (original_width, original_height)
-            cropped_resized_img = lycon.resize(
-                cropped_img,
-                width=size,
-                height=size,
-                interpolation=lycon.Interpolation.CUBIC,
-            )
-            yield (
-                barcode,
-                image_id,
-                cropped_resized_img,
-                original_resolution,
-                bounding_box,
-                score,
-            )
+        bounding_box = logo_annotation["bounding_box"]
+        score = logo_annotation["score"]
+        logo_id = logo_annotation["id"]
+        cropped_img = crop_image(base_img, bounding_box)
+        original_height = int(cropped_img.shape[0])
+        original_width = int(cropped_img.shape[1])
+        original_resolution = (original_width, original_height)
+        cropped_resized_img = lycon.resize(
+            cropped_img,
+            width=size,
+            height=size,
+            interpolation=lycon.Interpolation.CUBIC,
+        )
+        yield (
+            barcode,
+            image_id,
+            cropped_resized_img,
+            original_resolution,
+            bounding_box,
+            score,
+            logo_id,
+        )
 
 
 def parse_args():
