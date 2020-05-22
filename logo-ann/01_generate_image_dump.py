@@ -186,6 +186,7 @@ def parse_args():
     parser.add_argument("--chunks", action="store_true", default=False)
     parser.add_argument("--size", type=int, required=True)
     parser.add_argument("--compression")
+    parser.add_argument("--count", type="int", required=True)
     return parser.parse_args()
 
 
@@ -202,14 +203,12 @@ if __name__ == "__main__":
             args.output_path, args.data_path, args.image_dir, args.size, args.chunks
         )
     )
-    # count = count_results(args.image_dir, args.data_path)
-    count = 800000
-    print("Number of items: {}".format(count))
+    print("Number of items: {}".format(args.count))
     data_gen = tqdm.tqdm(get_data_gen(args.image_dir, args.data_path, args.size))
     save_hdf5(
         args.output_path,
         data_gen,
-        count,
+        args.count,
         args.size,
         compression=args.compression,
         chunks=args.chunks,
