@@ -19,6 +19,9 @@ def get_output_dim(model_type: str):
     if model_type == "efficientnet-b0":
         return 1280
 
+    if model_type == "efficientnet-b5":
+        return 2048
+
     raise ValueError("unknown model type: {}".format(model_type))
 
 
@@ -86,6 +89,7 @@ def parse_args():
     parser.add_argument("output_path", type=pathlib.Path)
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--min-confidence", type=float, default=0.5)
+    parser.add_argument("--model-type", required=True)
     return parser.parse_args()
 
 
@@ -93,7 +97,10 @@ if __name__ == "__main__":
     args = parse_args()
     assert args.data_path.is_file()
     assert not args.output_path.is_file()
-    model_type = "efficientnet-b0"
+    assert (
+        args.model_type.startswith("efficientnet-b") and args.model_type[-1].isdigit()
+    )
+    model_type = args.model_type
     model = build_model(model_type)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("Device: {}".format(device))
