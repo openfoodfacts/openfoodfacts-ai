@@ -1,0 +1,7 @@
+requests
+Pillow
+tensorflow-gpu<2.0.0
+numpy
+joblib
+dataclasses
+tqdm
