@@ -322,6 +322,7 @@ def run_model(
                 "result": result.to_json(threshold=0.1),
             }
             f.write(json.dumps(output) + "\n")
+            f.flush()
 
 
 def parse_args():
