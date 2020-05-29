@@ -1,6 +1,6 @@
-
 h5py
 more_itertools
 tqdm
 efficientnet_pytorch
 torch
+annoy
