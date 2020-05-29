@@ -1,6 +1,6 @@
 import argparse
 import pathlib
-from typing import Iterable
+from typing import Iterable, Set
 
 import h5py
 from more_itertools import chunked
@@ -9,6 +9,8 @@ import tqdm
 
 from efficientnet_pytorch import EfficientNet
 import torch
+
+from utils import get_offset, get_seen_set
 
 
 def build_model(model_type: str):
@@ -32,7 +34,12 @@ def get_item_count(file_path: pathlib.Path) -> int:
 
 
 def generate_embeddings_iter(
-    model, file_path: pathlib.Path, batch_size: int, device, min_confidence: float = 0.5
+    model,
+    file_path: pathlib.Path,
+    batch_size: int,
+    device: torch.device,
+    seen_set: Set[int],
+    min_confidence: float = 0.5,
 ):
     with h5py.File(str(file_path), "r") as f:
         image_dset = f["image"]
@@ -41,12 +48,17 @@ def generate_embeddings_iter(
 
         for slicing in chunked(range(len(image_dset)), batch_size):
             slicing = np.array(slicing)
-            mask = external_id_dset[slicing] == 0
+            external_ids = external_id_dset[slicing]
+            mask = external_ids == 0
 
             if np.all(mask):
                 break
 
             mask = (~mask) & (confidence_dset[slicing] >= min_confidence)
+
+            for i, external_id in enumerate(external_ids):
+                if int(external_id) in seen_set:
+                    mask[i] = 0
 
             if np.all(~mask):
                 continue
@@ -61,21 +73,31 @@ def generate_embeddings_iter(
             max_embeddings = np.max(embeddings, (-1, -2))
             yield (
                 max_embeddings,
-                external_id_dset[slicing][mask],
+                external_ids[mask],
             )
 
 
 def generate_embedding_from_hdf5(
     data_gen: Iterable, output_path: pathlib.Path, output_dim: int, count: int,
 ):
-    with h5py.File(str(output_path), "w") as f:
-        embedding_dset = f.create_dataset(
-            "embedding", (count, output_dim), dtype="f", chunks=True
-        )
-        external_id_dset = f.create_dataset(
-            "external_id", (count,), dtype="i", chunks=True
-        )
-        offset = 0
+    file_exists = output_path.is_file()
+
+    with h5py.File(str(output_path), "a") as f:
+        if not file_exists:
+            embedding_dset = f.create_dataset(
+                "embedding", (count, output_dim), dtype="f", chunks=True
+            )
+            external_id_dset = f.create_dataset(
+                "external_id", (count,), dtype="i", chunks=True
+            )
+            offset = 0
+        else:
+            offset = get_offset(f)
+            embedding_dset = f["embedding"]
+            external_id_dset = f["external_id"]
+
+        print("Offset: {}".format(offset))
+
         for (embeddings_batch, external_id_batch) in data_gen:
             slicing = slice(offset, offset + len(embeddings_batch))
             embedding_dset[slicing] = embeddings_batch
@@ -105,9 +127,18 @@ if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("Device: {}".format(device))
     model = model.to(device)
+
+    seen_set = get_seen_set(args.output_path)
+    print("Number of seen items: {}".format(len(seen_set)))
+
     data_gen = tqdm.tqdm(
         generate_embeddings_iter(
-            model, args.data_path, args.batch_size, device, args.min_confidence
+            model,
+            args.data_path,
+            args.batch_size,
+            device,
+            seen_set,
+            args.min_confidence,
         )
     )
     output_dim = get_output_dim(model_type)
