@@ -2,12 +2,11 @@ import argparse
 import pathlib
 from typing import Iterable, Set
 
+from efficientnet_pytorch import EfficientNet
 import h5py
 from more_itertools import chunked
 import numpy as np
 import tqdm
-
-from efficientnet_pytorch import EfficientNet
 import torch
 
 from utils import get_offset, get_seen_set
