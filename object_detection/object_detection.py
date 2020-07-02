@@ -7,9 +7,9 @@ import tempfile
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
 from joblib import Parallel, delayed
+import numpy as np
 import PIL
 from PIL import Image
-import numpy as np
 import requests
 import tensorflow as tf
 import tqdm
@@ -208,13 +208,18 @@ def get_image_from_url(
             return None
 
     image = image.convert("RGB") if image.mode != "RGB" else image
-    image.load()
+
+    try:
+        image.load()
+    except OSError as e:
+        print(e)
+        return None
 
     return image
 
 
 def get_images_batch(
-    batch: List[Tuple[str, str]]
+    batch: List[Tuple[str, str]], invalid_path: Optional[pathlib.Path]
 ) -> List[Tuple[str, str, Image.Image]]:
     image_urls = [
         generate_image_url(barcode, image_id) for (barcode, image_id) in batch
@@ -222,11 +227,21 @@ def get_images_batch(
     images = Parallel(n_jobs=10)(
         delayed(get_image_from_url)(image_url) for image_url in image_urls
     )
-    return [
-        (*item, image)
-        for item, image in zip(batch, images)
-        if image is not None and image.width >= 100 and image.height >= 100
-    ]
+
+    results = []
+    invalid = []
+    for item, image in zip(batch, images):
+        if image is not None and image.width >= 100 and image.height >= 100:
+            results.append((*item, image))
+        else:
+            invalid.append({"barcode": item[0], "image_id": item[1]})
+
+    if invalid and invalid_path:
+        with invalid_path.open("a") as f:
+            for i in invalid:
+                f.write("{}\n".format(json.dumps(i)))
+
+    return results
 
 
 BARCODE_PATH_REGEX = re.compile(r"^(...)(...)(...)(.*)$")
@@ -251,7 +266,10 @@ def generate_image_url(barcode: str, image_name: str) -> str:
 
 
 def iter_images_batch(
-    file_path: pathlib.Path, batch_size: int, seen_set: Set[Tuple[str, str]]
+    file_path: pathlib.Path,
+    batch_size: int,
+    seen_set: Set[Tuple[str, str]],
+    invalid_path: Optional[pathlib.Path],
 ) -> Iterable[List[Tuple[str, str, Image.Image]]]:
     current_dim = None
     batch: List[Tuple[str, str]] = []
@@ -268,7 +286,7 @@ def iter_images_batch(
             if len(batch) < batch_size:
                 print("New image dimension: {}".format(dim))
 
-            images_batch = get_images_batch(batch)
+            images_batch = get_images_batch(batch, invalid_path)
 
             if images_batch:
                 yield images_batch
@@ -282,7 +300,7 @@ def iter_images_batch(
         current_dim = dim
 
     if batch:
-        images_batch = get_images_batch(batch)
+        images_batch = get_images_batch(batch, invalid_path)
 
         if images_batch:
             yield images_batch
@@ -307,10 +325,15 @@ def run_model(
     output_path: pathlib.Path,
     model: ObjectDetectionModel,
     batch_size: int,
+    invalid_path: Optional[pathlib.Path],
 ):
     seen_set = get_seen_set(output_path)
+
+    if invalid_path:
+        seen_set = seen_set.union(get_seen_set(invalid_path))
+
     print("{} items in seen set".format(len(seen_set)))
-    batch_iter = iter_images_batch(file_path, batch_size, seen_set)
+    batch_iter = iter_images_batch(file_path, batch_size, seen_set, invalid_path)
 
     with output_path.open("a") as f:
         for barcode, image_id, result, image in tqdm.tqdm(
@@ -330,6 +353,9 @@ def parse_args():
     parser.add_argument("input_dir", type=pathlib.Path)
     parser.add_argument("data_path", type=pathlib.Path)
     parser.add_argument("--batch-size", type=int, default=16)
+    parser.add_argument(
+        "--invalid-path", type=pathlib.Path,
+    )
     return parser.parse_args()
 
 
@@ -340,4 +366,13 @@ if __name__ == "__main__":
     label_path = input_dir / "labels.pbtxt"
     data_path = args.data_path
     model = ObjectDetectionModel.load(graph_path, label_path)
-    run_model(data_path, input_dir / "output.jsonl", model, batch_size=args.batch_size)
+    invalid_path = args.invalid_path
+
+    run_model(
+        data_path,
+        input_dir / "output.jsonl",
+        model,
+        batch_size=args.batch_size,
+        invalid_path=invalid_path,
+    )
+
