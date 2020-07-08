@@ -1,0 +1,3 @@
+base_path : <YOUR_DATA_PATH> 
+endpoint : <YOUR_API_ENDPOINT>
+apim_key : <YOUR_API_KEY>
