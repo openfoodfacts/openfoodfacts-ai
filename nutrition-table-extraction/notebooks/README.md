@@ -57,7 +57,7 @@ You should get a working tree similar to this:
     - **endpoint:** formRecognizer api endpoint
     - **apim_key:** API key
 # Next steps
-- FormRecongnizer API description in order to get **endpoint** and **apim_key**
+- FormRecognizer API description in order to get **endpoint** and **apim_key**
 - Train the custom FormRecognizer API
 - Develop data processing pipeline. (cf description in the data_exploration notebook)
 - Develop line detection algorithm to handle cases where the table structure is not detected
