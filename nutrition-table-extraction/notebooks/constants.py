@@ -5,7 +5,7 @@ suffix_json = ".nutriments.json"
 suffix_cropped_json = ".nutrition.cropped.json"
 
 clear_imgs_sample_ids = [
-    "13016639",
+    "1402016760005",
     "3560071139902",
     "000000001576",
     "0002000010539",
@@ -15,7 +15,7 @@ clear_imgs_sample_ids = [
 
 ]
 
-challenging_imgs_sample_ids = [
+random_typologies_imgs_sample_ids = [
     "00013932",
     "0002000021337",
     "00022941",
