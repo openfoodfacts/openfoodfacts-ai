@@ -1,3 +1,29 @@
+# Files description
+You can find the following files in order:
+```
+├── README.md: 
+    Describe the steps to follow in order to run the notebooks and the next steps.
+├── api_output_000000001576.json: 
+    Example of API response
+├── config_example.yml: 
+    Includes data path, and API params
+├── constants.py: 
+    Constants used in the code including lists of manually chosen ids for the displayed images in the notebook
+├── data_exploration.ipynb: 
+    Explore the chosen images including a few insights 
+├── download_dataset.sh: 
+    Download the dataset and perform the partition to be aligned with the notebooks
+├── formRecognizer_API_results.ipynb: 
+    Send queries and display the results for each images. Insights are provided at the end of the notebook. Results include: 
+        - Visual display of the bounding boxes and their corresponding text
+        - Data Frame of the reconstructed table (if available)
+└── tools.py: 
+    Functions used in the notebooks. The most worth mentioning ones are:
+        - get_table_df: reconstructs the nutrition table based on the API response (pageResults) and returns a dataframe
+        - test_single_img: takes an image id and returns the full results of the API 
+
+```
+
 # First steps to run the notebooks:
 
 ## Dowload the Dataset
