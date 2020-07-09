@@ -4,6 +4,7 @@ import json
 import pathlib
 import re
 import tempfile
+import traceback
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
 from joblib import Parallel, delayed
@@ -188,10 +189,17 @@ def get_image_from_url(
     error_raise: bool = False,
     session: Optional[requests.Session] = None,
 ) -> Optional[Image.Image]:
-    if session:
-        r = session.get(image_url)
-    else:
-        r = requests.get(image_url)
+    try:
+        if session:
+            r = session.get(image_url)
+        else:
+            r = requests.get(image_url)
+    except requests.exceptions.RequestException as e:
+        if error_raise:
+            raise e
+        else:
+            traceback.print_exc()
+            return None
 
     if error_raise:
         r.raise_for_status()
@@ -375,4 +383,3 @@ if __name__ == "__main__":
         batch_size=args.batch_size,
         invalid_path=invalid_path,
     )
-
