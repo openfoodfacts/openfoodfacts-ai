@@ -14,7 +14,7 @@ You can find the following files in order:
 
 # First steps to run the notebooks:
 
-## Dowload the Dataset
+## Download the Dataset
 ```
 bash download_dataset.sh <YOUR_BASE_PATH>
 ```
