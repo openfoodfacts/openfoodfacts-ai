@@ -69,9 +69,11 @@ def post_api_request(endpoint, apim_keys, post_url, source, headers):
 @retry(wait=wait_fixed(40))
 def get_api_resp(endpoint, apim_keys, post_url, source, headers):
     img_name = source.split("/")[-1]
+    #print("getting results for %s" %img_name)
     get_url = post_api_request(endpoint, apim_keys, post_url, source, headers)
     resp = get(url = get_url, headers = headers)
     if resp.status_code != 200:
+        print("exception with %s" %img_name)
         raise Exception("GET analyze failed:\n%s" % resp.text)
 
     json_data = json.loads(resp.text)
@@ -84,13 +86,17 @@ def get_api_resp(endpoint, apim_keys, post_url, source, headers):
     print("Done...%s" %img_name)
     return json_data
 
-def show_img(image, img_id, dim=10):
+def show_img(image, img_id, img_type, dim=10):
     plt.figure(figsize=(dim, dim))
-    plt.title(img_id)
+    plt.title(img_id + " - " + img_type)
     plt.imshow(image)
 
 def display_bb(img_path, lines, base_path, show_text=True):
     img_id = img_path.split("/")[-1].split(".")[0]
+    img_type = "original"
+    if "unwrapped" in img_path.split("/")[-1].split("."):
+        img_type = "unwrapped"
+    
     vmin = 1
     vmax = len(lines)
 
@@ -115,7 +121,7 @@ def display_bb(img_path, lines, base_path, show_text=True):
                 draw.rectangle((x, y-h, x + w, y), fill=(0,0,0,0))
                 draw.text((x, y-h), text, font=fnt, fill=(209, 239, 8) )
             #bb.add(image, a, b, c, d, text)
-        show_img(image, img_id)
+        show_img(image, img_id, img_type)
         
 def get_table_df(json_data):
     api_table = json_data['analyzeResult']['pageResults'][0]['tables'][0]
