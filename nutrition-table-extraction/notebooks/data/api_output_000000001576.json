@@ -8,7 +8,8 @@
       "width": 1302,
       "height": 1200,
       "unit": "pixel",
-      "lines": [{"boundingBox": [182, 107, 757, 107, 757, 191, 182, 190],
+      "lines": [
+        {"boundingBox": [182, 107, 757, 107, 757, 191, 182, 190],
         "text": "Jus de pomme (Pur jus)",
         "words": [{"boundingBox": [194, 114, 264, 113, 267, 186, 198, 185],
           "text": "Jus",
@@ -147,7 +148,8 @@
           "text": "<0,01",
           "confidence": 0.435}]}]}],
     "pageResults": [{"page": 1,
-      "tables": [{"rows": 8,
+      "tables": [
+        {"rows": 8,
         "columns": 2,
         "cells": [{"rowIndex": 0,
           "columnIndex": 0,

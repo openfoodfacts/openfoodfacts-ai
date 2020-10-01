@@ -58,6 +58,11 @@ def explore_image(img_id, base_path):
     print("*"*100)
 
 
+def save_api_json(json_data, source, base_path):
+    json_source = base_path + "form_recognizer_layout_json/" + '.'.join(source.split("/")[-1].split('.')[:-1]) + ".form_recognizer.json"
+    with open(json_source, 'w') as outfile:
+        json.dump(json_data, outfile)
+
 @retry(wait=wait_fixed(40))
 def post_api_request(endpoint, apim_keys, post_url, source, headers):
     with open(source, "rb") as f:
@@ -67,24 +72,38 @@ def post_api_request(endpoint, apim_keys, post_url, source, headers):
     return get_url
 
 @retry(wait=wait_fixed(40))
-def get_api_resp(endpoint, apim_keys, post_url, source, headers):
+def get_api_resp(endpoint, apim_keys, post_url, source, headers, base_path):
     img_name = source.split("/")[-1]
-    #print("getting results for %s" %img_name)
-    get_url = post_api_request(endpoint, apim_keys, post_url, source, headers)
-    resp = get(url = get_url, headers = headers)
-    if resp.status_code != 200:
-        print("exception with %s" %img_name)
-        raise Exception("GET analyze failed:\n%s" % resp.text)
-
-    json_data = json.loads(resp.text)
-    while json_data['status'] != 'succeeded':
-        #print("sleeping 2s..")
-        time.sleep(2)
+    json_source = base_path + "form_recognizer_layout_json/" + '.'.join(source.split("/")[-1].split('.')[:-1]) + ".form_recognizer.json"
+    print("source json: %s" %json_source)
+    try:
+        f = open (json_source, "r") 
+        json_data = json.loads(f.read()) 
+        print()
+        print("\n" + "=-"*50)
+        print("Loaded existing results...%s" %img_name)
+    except:
+        #print("getting results for %s" %img_name)
+        get_url = post_api_request(endpoint, apim_keys, post_url, source, headers)
         resp = get(url = get_url, headers = headers)
+        if resp.status_code != 200:
+            print("exception with %s" %img_name)
+            raise Exception("GET analyze failed:\n%s" % resp.text)
+
         json_data = json.loads(resp.text)
-    print("\n" + "=-"*50)
-    print("Done...%s" %img_name)
+        if 'status' not in json_data.keys:
+            print(json_data)
+        while json_data['status'] != 'succeeded':
+            #print("sleeping 2s..")
+            time.sleep(2)
+            resp = get(url = get_url, headers = headers)
+            json_data = json.loads(resp.text)
+        save_api_json(json_data, source, base_path)
+        print("\n" + "=-"*50)
+        print("Done...%s" %img_name)
     return json_data
+
+
 
 def show_img(image, img_id, img_type, dim=10):
     plt.figure(figsize=(dim, dim))

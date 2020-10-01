@@ -64,3 +64,7 @@ You should get a working tree similar to this:
     > Idea: take the middle point of the bounding box (x_middle, y_middle) and perform a clustering technique based on y_middle.    
     >> Bounding boxes on the same line tend to have very close y_middle values => same cluster.
     >> The API returns the document rotation angle, it should be taken into account while projecting the middle points on the y_axis of the image.
+
+
+------
+
