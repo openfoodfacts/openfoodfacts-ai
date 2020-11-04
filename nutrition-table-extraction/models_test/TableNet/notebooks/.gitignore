@@ -1,0 +1,8 @@
+dataset/
+
+.ipynb_checkpoints/
+
+.vscode
+
+*.jpg
+*.txt

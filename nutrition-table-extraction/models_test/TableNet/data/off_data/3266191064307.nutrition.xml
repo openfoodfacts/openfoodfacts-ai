@@ -1,0 +1,38 @@
+<annotation>
+	<folder>selected_images</folder>
+	<filename>3266191064307.nutrition.jpg</filename>
+	<path>C:\Users\sadok.guermazi\Documents\Projects\Open Food Facts\data\selected_images\3266191064307.nutrition.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>795</width>
+		<height>1200</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>table</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>39</xmin>
+			<ymin>779</ymin>
+			<xmax>715</xmax>
+			<ymax>1161</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>column</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>70</xmin>
+			<ymin>792</ymin>
+			<xmax>689</xmax>
+			<ymax>1145</ymax>
+		</bndbox>
+	</object>
+</annotation>

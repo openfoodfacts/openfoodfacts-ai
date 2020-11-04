@@ -1,0 +1,26 @@
+<annotation>
+	<folder>tables_to_use_for_test</folder>
+	<filename>3100080055000.nutrition.jpg</filename>
+	<path>C:\Users\yasmine.mouhsine\OneDrive - Accenture\OpenFoodFacts\dev\openfoodfacts-ai\nutrition-table-extraction\tables_dataset\images_to_annotate\tables_to_use_for_test\3100080055000.nutrition.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>583</width>
+		<height>1200</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>table</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>59</xmin>
+			<ymin>697</ymin>
+			<xmax>404</xmax>
+			<ymax>992</ymax>
+		</bndbox>
+	</object>
+</annotation>
