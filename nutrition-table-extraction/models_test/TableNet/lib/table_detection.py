@@ -33,17 +33,42 @@ def get_biggest_gap_index(elements_list):
     and the function will return (4,10) representing the maximum gap.
 
     Keyword arguments:
-    bounding_box_coordinates -- Rectangle coordinates with first point coordinates, width, height (x,y,w,h)
-    shape -- image shape
+    elements_list -- list of integers
     """
+    #compute list of difference between element and next element
     steps = [x-y for y,x in zip(elements_list,elements_list[1:])]
+    #Get index where element has biggest gap with next element
     index_where_biggest_gap = np.where(steps==max(steps))[0][0]
+    #return element and next element
     return elements_list[index_where_biggest_gap], elements_list[index_where_biggest_gap+1]
 
 
 def get_sub_mask_by_removing_overfilled_borders(mask,axis):
-    mask_summed_on_axis = mask.sum(axis=axis)
-    indexes = np.where(mask_summed_on_axis>mask_summed_on_axis.max()*0.8)[0]
+    """ Compute sum of a matrix (mask) following an axis, get indexes where sum is higher than 80% of the maximum 
+    then find biggest submatrix within detected borders. If axis=1, columns will be removed (else, lines will be removed)
+
+    Keyword arguments:
+    mask -- binary image
+    axis -- integer (0 or 1)
+    """
+    #Compute sum over the axis
+    summed_on_axis = mask.sum(axis=axis)
+    #Get maximum value
+    maximum_value = summed_on_axis.max()
+    #Find lines or columns where sum is over 80% of maximum sum.
+    indexes = np.where(summed_on_axis>maximum_value*0.8)[0]
+    #Use get_biggest_gap_index to get biggest submatrix within matrix by setting excluded elements to 0
+    #
+    #               ______________ ________
+    #               _______ ____ __________
+    #               _______________________
+    #           --> 
+    # Detected |
+    # Submatrix|
+    #           --> ______ ______ _________
+    #               __ _______________ ____
+    #
+    #
     start, end = get_biggest_gap_index(indexes)
     if axis == 1:
         mask[:start]=0
