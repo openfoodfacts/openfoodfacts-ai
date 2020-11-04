@@ -13,14 +13,32 @@ from collections import namedtuple
 Rectangle = namedtuple('Rectangle', 'xmin ymin xmax ymax')
 
 def get_mask_from_bounding_box(bounding_box_coordinates,shape):
-    x,y,w,h = bounding_box_coordinates
-    corrected_mask = np.zeros(shape, np.uint8)
-    return cv2.rectangle(corrected_mask,(x,y),(x+w,y+h),(255,255,255),-1)
+    """Get a mask of detected table from detected table bounding box coordinates.
 
-def get_biggest_gap_index(index_list):
-    steps = [x-y for y,x in zip(index_list,index_list[1:])]
+    Keyword arguments:
+    bounding_box_coordinates -- Rectangle coordinates with first point coordinates, width, height (x,y,w,h)
+    shape -- image shape
+    """
+    #unwrap bouding box coordinates
+    x,y,w,h = bounding_box_coordinates
+    #create blank image with corresponding shape
+    blank_image = np.zeros(shape, np.uint8)
+    #create corrected mask
+    corrected_mask = cv2.rectangle(corrected_mask,(x,y),(x+w,y+h),(255,255,255),-1)
+    return corrected_mask
+
+def get_biggest_gap_index(elements_list):
+    """Compute difference between element and next element in a list and return elements where difference is maximum.
+    For instance if we take the list [1,2,3,4,10,12,15], we will compute the list [1,1,1,6,2,3] 
+    and the function will return (4,10) representing the maximum gap.
+
+    Keyword arguments:
+    bounding_box_coordinates -- Rectangle coordinates with first point coordinates, width, height (x,y,w,h)
+    shape -- image shape
+    """
+    steps = [x-y for y,x in zip(elements_list,elements_list[1:])]
     index_where_biggest_gap = np.where(steps==max(steps))[0][0]
-    return index_list[index_where_biggest_gap], index_list[index_where_biggest_gap+1]
+    return elements_list[index_where_biggest_gap], elements_list[index_where_biggest_gap+1]
 
 
 def get_sub_mask_by_removing_overfilled_borders(mask,axis):
