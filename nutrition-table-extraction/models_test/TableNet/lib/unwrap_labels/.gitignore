@@ -1,7 +1,0 @@
-.idea/*
-__pycache__
-build/*
-dist/*
-unwrap_labels.egg-info/*
-*pyc
-venv/*
