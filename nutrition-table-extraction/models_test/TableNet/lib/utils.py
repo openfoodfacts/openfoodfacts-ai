@@ -1,5 +1,9 @@
 import matplotlib.pyplot as plt
 import tensorflow as tf
+import numpy as np
+import json
+from collections import namedtuple
+Rectangle = namedtuple('Rectangle', 'xmin ymin xmax ymax')
 
 
 img_height, img_width = 256, 256
@@ -63,3 +67,63 @@ def get_absolute_coordinates(rect1,rect2):
     y2 = y11 + y21 + h2
     
     return (x1,y1, x2-x1, y2-y1)
+
+
+
+
+def convert_to_dict(string):
+    #Convert dict string to dict object from json file
+    return json.loads(string.replace("\'", "\"").replace('None','null'))
+
+
+def circumscribed_rectangle(bounding_box):
+    '''
+    get circumscribed rectangle for this kind of bounding box
+     ----------------
+    |1-------------2|
+    | \           / | 
+    |   4--------3  |
+    -----------------
+    '''
+    pt1 = bounding_box[0]
+    pt2 = bounding_box[1]
+    pt3 = bounding_box[2]
+    pt4 = bounding_box[3]
+    
+    #Get furthest point left
+    x1 = min(pt1['x'],pt4['x'])
+    y1 = min(pt1['y'],pt2['y'])
+    
+    #Get furthest point right
+    x2 = max(pt2['x'],pt3['x'])
+    y2 = max(pt3['y'],pt4['y'])
+    
+    #Return rectangle as two points
+    return Rectangle(x1,y1,x2,y2)
+
+def dist(x1,x2):
+    return abs(x1-x2)
+
+def area(rect):
+    l = rect.xmax-rect.xmin
+    h = rect.ymax-rect.ymin
+    return l*h
+
+
+def intersection_area(rect1,rect2):
+    #Compute intersaction of two straight rectangles
+    dx = min(rect1.xmax, rect2.xmax) - max(rect1.xmin, rect2.xmin)
+    dy = min(rect1.ymax, rect2.ymax) - max(rect1.ymin, rect2.ymin)
+    if (dx>=0) and (dy>=0):
+        return dx*dy
+    else:
+        return 0
+
+
+def rotate_point(point,center,angle):
+    #apply rotation and translation a point to find new coordinates
+    coordinates = np.array([point['x'],point['y']])
+    new_x = np.cos(angle) * (coordinates[0] - center[0]) + np.sin(angle) * (coordinates[1] - center[1]) + center[0]
+    new_y = -np.sin(angle) * (coordinates[0] - center[0]) + np.cos(angle) * (coordinates[1] - center[1]) + center[1];
+    new_point = {'x':round(new_x),'y':round(new_y)}
+    return new_point
