@@ -2,22 +2,20 @@ import cv2
 import numpy as np
 from urllib.request import urlopen
 import sys
+import json
 sys.path.append('../lib')
 from utils import convert_to_dict, circumscribed_rectangle, area, intersection_area, rotate_point
 
 
 class OFFImage:
     
-    def __init__(self,image_url,table_bbx=None,json_ocr=None):
+    def __init__(self,image_url,table_bbx=None):
         self.image_url = image_url
         self.table_bbx = table_bbx
-        self.json_ocr = json_ocr
         self.ocr = None
         self.image = None
         self.cropped_image = None
         self.corrected_image = None
-        self.corrected_cropped_image = None
-        self.corrected_ocr = None
         self.center = None
         self.angle = None
     
@@ -34,13 +32,27 @@ class OFFImage:
     @staticmethod
     def url_to_json(url):
         #Will use it to retreive ocr json file from image url, replace .jpg with .json
-        pass
-    
+        response = urlopen(url)
+        result = response.read().decode('utf8')
+        return json.loads(result)
+        
+        
     def get_ocr(self):
         #Build Word object for each ocr detected word and filter out words where bounding box is missing a component (x or y for any point)
+        
+        #replace .jpg to .json to retreive json file
+        json_url = self.image_url.replace('.jpg','.json')
+        
+        #get json
+        json_response = self.url_to_json(json_url)
+        
+        #get text annotation from json file
+        ocr_json = json_response['responses'][0]['textAnnotations']
+
+        #build word objects list from result
         self.ocr = [Word(description=word['description'],
-                         bounding_box=word['boundingPoly']['vertices']) for word in self.json_ocr
-                   if all('x' in coordinate.keys() and 'y' in coordinate.keys() for coordinate in word['boundingPoly']['vertices'])]
+                         bounding_box=word['boundingPoly']['vertices']) for word in ocr_json
+                   if all('x' in coordinate.keys() and 'y' in coordinate.keys() for coordinate in word['boundingPoly']['vertices']) and 'locale' not in word.keys()]
     
     
     def get_image(self):
@@ -65,7 +77,8 @@ class OFFImage:
     def find_words_relative_coordinates(self):
         #compute new coordinates of points inside cropped area
         for word in self.ocr:
-            word.find_relative_bounding_box_coordinates(self.table_bbx)
+            if word.included_in_nutrition_table:
+                word.find_relative_bounding_box_coordinates(self.table_bbx)
     
     def is_included_in_nutrition_table(self,word):
         
@@ -113,8 +126,8 @@ class OFFImage:
         #To compute absolute rotation of bounding boxes, we need to compute the relative rotation around the center of the bounding box (cent_1) 
         #and apply a translation of the vector Vect(Vect(0,cent1)-Vect(0,cent1))
         for word in self.ocr:
-            #YICHEN, CAN WE REUSE DETERMINE ROTATION MATRIX FROM IMAGE ROTATION MATRIX ?
-            word.rotate(self.center,self.angle)
+            if word.included_in_nutrition_table:
+                word.rotate(self.center,self.angle)
             
             
 
