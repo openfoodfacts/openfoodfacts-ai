@@ -1,5 +1,4 @@
 import tensorflow as tf
-
 import cv2
 import numpy as np
 np.seterr(divide='ignore', invalid='ignore')
@@ -9,6 +8,7 @@ from scipy.misc import electrocardiogram
 from scipy.signal import find_peaks
 import itertools
 from sklearn.preprocessing import Normalizer
+from tqdm import tqdm
 from collections import namedtuple
 Rectangle = namedtuple('Rectangle', 'xmin ymin xmax ymax')
 
@@ -24,9 +24,17 @@ def get_mask_from_bounding_box(bounding_box_coordinates,shape):
     #create blank image with corresponding shape
     blank_image = np.zeros(shape, np.uint8)
     #create corrected mask
-    corrected_mask = cv2.rectangle(corrected_mask,(x,y),(x+w,y+h),(255,255,255),-1)
+    corrected_mask = cv2.rectangle(blank_image,(x,y),(x+w,y+h),(255,255,255),-1)
     return corrected_mask
 
+def find_first_and_last_zero_in_list(l):
+    zero_indices = np.where(l==0)[0]
+    if len(zero_indices)>0:
+        return zero_indices[0],zero_indices[-1]
+    else:
+        #if no zero, return first indice twice
+        return 0,0
+    
 def get_biggest_gap_index(elements_list):
     """Compute difference between element and next element in a list and return elements where difference is maximum.
     For instance if we take the list [1,2,3,4,10,12,15], we will compute the list [1,1,1,6,2,3] 
@@ -43,7 +51,7 @@ def get_biggest_gap_index(elements_list):
     return elements_list[index_where_biggest_gap], elements_list[index_where_biggest_gap+1]
 
 
-def get_sub_mask_by_removing_overfilled_borders(mask,axis):
+def get_sub_mask_by_removing_overfilled_borders(mask,axis,limit_ratio=0.8):
     """ Compute sum of a matrix (mask) following an axis, get indexes where sum is higher than 80% of the maximum 
     then find biggest submatrix within detected borders. If axis=1, columns will be removed (else, lines will be removed)
 
@@ -56,7 +64,7 @@ def get_sub_mask_by_removing_overfilled_borders(mask,axis):
     #Get maximum value
     maximum_value = summed_on_axis.max()
     #Find lines or columns where sum is over 80% of maximum sum.
-    indexes = np.where(summed_on_axis>maximum_value*0.8)[0]
+    indexes = np.where(summed_on_axis>=maximum_value*limit_ratio)[0]
     #Use get_biggest_gap_index to get biggest submatrix within matrix by setting excluded elements to 0
     #
     #               ______________ ________
@@ -93,10 +101,17 @@ def process_column_mask(mask):
     d_im = cv2.dilate(result, kernel, iterations=1)
     e_im = cv2.erode(d_im, kernel, iterations=1)
     
-    #overfilled lines borders are removed
-    processed_mask = get_sub_mask_by_removing_overfilled_borders(e_im,axis=1)
+    ##overfilled lines borders are removed
+    #processed_mask = get_sub_mask_by_removing_overfilled_borders(e_im.copy(),axis=1)
     
-    return processed_mask
+    for i, line in enumerate(e_im):
+        first,last = find_first_and_last_zero_in_list(e_im[i])
+        #all pixels before first zero are set to 0
+        e_im[i,:first] = 0
+        #all pixels after last zero are set to 0
+        e_im[i,last:]=0
+        
+    return e_im
 
 def process_line_mask(mask):
     
@@ -108,26 +123,33 @@ def process_line_mask(mask):
     result = (255*(close<128)).astype(np.uint8)
     
     #dilate then erode to connect "broken lines"
-    kernel = np.ones((1,20), np.uint8)  # note this is a horizontal kernel
+    kernel = np.ones((1,10), np.uint8)  # note this is a horizontal kernel
     d_im = cv2.dilate(result, kernel, iterations=1)
     e_im = cv2.erode(d_im, kernel, iterations=1)
     
     #Get smoother lines
-    kernel1 = cv2.getStructuringElement(cv2.MORPH_RECT,(20,5))
+    kernel1 = cv2.getStructuringElement(cv2.MORPH_RECT,(10,2))
     close = cv2.morphologyEx(e_im,cv2.MORPH_OPEN,kernel1)
     
-    #Get inverse of the mask, connect lines (which correspond to connect empty space in masks within a line) and apply in on mask to get smoother lines
+    ##Get inverse of the mask, connect lines (which correspond to connect empty space in masks within a line) and apply in on mask to get smoother lines
     inverse_mask = (255-close)
-    kernel = np.ones((1,100), np.uint8)  # note this is a horizontal kernel
+    kernel = np.ones((1,10), np.uint8)  # note this is a horizontal kernel
     d_im = cv2.dilate(inverse_mask, kernel, iterations=1)
     e_im = cv2.erode(d_im, kernel, iterations=1)
     
     #apply it on mask
     close[e_im==255]=0
     
-    #overfilled lines borders are removed
-    processed_mask = get_sub_mask_by_removing_overfilled_borders(close,axis=0)
+    ##overfilled lines borders are removed
+    #processed_mask =  get_sub_mask_by_removing_overfilled_borders(close,axis=0)
     
+    for i, line in enumerate(close):
+        first,last = find_first_and_last_zero_in_list(close[:,i])
+        #all pixels before first zero are set to 0
+        close[:first,i] = 0
+        #all pixels after last zero are set to 0
+        close[last:,i]=0
+        
     return close
 
 class TableMask:
@@ -267,29 +289,28 @@ class Pipeline:
 class Signal:
     def __init__(self, signal):
         self.signal=signal
+        self.processed_signal = None
         
     @staticmethod   
     def normalize(s):
         normalizer = Normalizer()
-        normalizer.fit_transform([s])[0]
-        
-        return 
+        return normalizer.fit_transform([s])[0]
     
     def process_signal(self):
         normalized_signal = self.normalize(self.signal)
         return normalized_signal
     
     def find_peaks(self,method='std',distance=None):
-        processed_signal = self.process_signal()
-        processed_signal = np.insert(self.signal,0,0) #add a 0 to consider first peak
+        self.processed_signal = self.process_signal()
+        #processed_signal = np.insert(self.signal,0,0) #add a 0 to consider first peak
         
         if method=='std':
-            prominence = self.signal.std()
+            prominence = self.processed_signal.std()
         elif method=='variance':
-            prominence = self.signal.std()**2
+            prominence = self.processed_signal.var()
             
-        peaks, _ = find_peaks(self.signal, prominence=prominence, distance = distance)
-        peaks = peaks[:-1] #Remove last peak as it is not significant
+        peaks, _ = find_peaks(self.processed_signal, prominence=prominence, distance = distance)
+        #peaks = peaks[:-1] #Remove last peak as it is not significant
         
         return peaks
               
@@ -317,7 +338,6 @@ class LineDetection:
     
     
     def find_peaks(self, window_size, distance,axis, method='std'):
-        print(method)
         vertical_sum = self.mask.sum(axis=axis)
         signal = self.runningMean(vertical_sum,window_size)
         self.signal = Signal(signal)
@@ -339,26 +359,25 @@ class Table:
         self.lines = None
         self.table = []
         
-        
+    
     def find_columns(self):
         preprocessed_column_mask = process_column_mask(self.column_mask.astype(np.uint8))
-        line_detect = LineDetection(preprocessed_column_mask, self.original_image_shape)
-        line_detect.find_peaks(window_size = 25, distance = 10, axis = 0)
-        self.columns = line_detect.peaks
+        self.column_detect = LineDetection(preprocessed_column_mask, self.original_image_shape)
+        self.column_detect.find_peaks(window_size = 20, distance = 5, method='std', axis = 0)
+        self.columns = self.column_detect.peaks
         self.columns.insert(0,0)
         self.columns.append(self.original_image_shape[1])
         
     def find_lines(self):
         preprocessed_line_mask = process_line_mask(self.line_mask.astype(np.uint8))
-        line_detect = LineDetection(preprocessed_line_mask, self.original_image_shape)
-        line_detect.find_peaks(window_size = 10, distance = 5,method='std', axis = 1)
-        self.lines = line_detect.peaks
+        self.line_detect = LineDetection(preprocessed_line_mask, self.original_image_shape)
+        self.line_detect.find_peaks(window_size = 10, distance = 2,method='std', axis = 1)
+        self.lines = self.line_detect.peaks
         self.lines.insert(0,0)
         self.lines.append(self.original_image_shape[0])
         
     
     def find_table(self):
-        
         
         self.find_columns()
         self.find_lines()
@@ -372,4 +391,36 @@ class Table:
                 point2 = points[i][j]
                 line.append(Rectangle(point1[0],point1[1],point2[0],point2[1]))
             self.table.append(line)
+            
+    def get_table_from_text_bounding_boxes(self,words):
+        #get image shape
+        shape = self.original_image_shape
+        table_shape = (np.array(self.table).shape[0],np.array(self.table).shape[1])
+        extracted_table = np.empty(shape=table_shape+(0,)).tolist()
+        for i, word in tqdm(enumerate(words)):
+            if word.included_in_nutrition_table:
+                try:
+                    word_rect = circumscribed_rectangle(word.relative_bounding_box)
+                    word_area = area(word_rect)
+                    column_inclusion_score = []
+                    for col_num,col in enumerate(self.table):
+                        col_x_min = col[0].xmin
+                        col_x_max = col[0].xmax
+                        column_rect = Rectangle(col_x_min,0,col_x_max,shape[0])
+                        column_inclusion_score.append(intersection_area(column_rect,word_rect)/word_area)
+                    if max(column_inclusion_score)==0:
+                        pass
+                    column_number = np.argmax(column_inclusion_score)
+                    cell_inclusion_score = []
+                    for line_num,cell in enumerate(self.table[column_number]):
+                        cell_inclusion_score.append(intersection_area(cell,word_rect)/word_area)
+                    line_number = np.argmax(cell_inclusion_score)
+                    extracted_table[column_number][line_number].append(words[i].description)      
+                except KeyboardInterrupt:
+                    print("Interrupted")
+                    break
+                except:
+                    print('Error while processing {}'.format(words[i].description))
+        
+        return extracted_table
     
