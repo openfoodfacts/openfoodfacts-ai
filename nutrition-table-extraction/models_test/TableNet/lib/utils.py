@@ -8,10 +8,10 @@ Rectangle = namedtuple('Rectangle', 'xmin ymin xmax ymax')
 
 img_height, img_width = 256, 256
 def decode_img(img):
-  # convert the compressed string to a 3D uint8 tensor
-  img = tf.image.decode_jpeg(img)
-  # resize the image to the desired size
-  return tf.image.resize(img, [img_height, img_width]), img.shape
+    # convert the compressed string to a 3D uint8 tensor
+    img = tf.image.decode_jpeg(img)
+    # resize the image to the desired size
+    return tf.image.resize(img, [img_height, img_width]), img.shape
 
 def normalize(input_image):
     input_image = tf.cast(input_image, tf.float32) / 255.0
@@ -58,6 +58,11 @@ def display(display_list):
     
 
 def get_absolute_coordinates(rect1,rect2):
+    """Get relative coordinates of rect1 inside rect2
+    Keyword arguments:
+    rect1 -- tuple (x,y,width,height)
+    rect2 -- tuple (x,y,width,height)
+    """
     x11, y11, w1, h1 = rect1
     x21, y21, w2, h2 = rect2
     
@@ -72,18 +77,26 @@ def get_absolute_coordinates(rect1,rect2):
 
 
 def convert_to_dict(string):
+    """Converts json string to dict
+    
+    Keyword arguments:
+    string -- String
+    """
     #Convert dict string to dict object from json file
     return json.loads(string.replace("\'", "\"").replace('None','null'))
 
 
 def circumscribed_rectangle(bounding_box):
     '''
-    get circumscribed rectangle for this kind of bounding box
+    Return Rectangle named tuple of cumscribed rectangle for this kind of bounding box
      ----------------
     |1-------------2|
     | \           / | 
     |   4--------3  |
     -----------------
+    
+    Keyword arguments:
+    bounding_box -- String
     '''
     pt1 = bounding_box[0]
     pt2 = bounding_box[1]
@@ -102,18 +115,39 @@ def circumscribed_rectangle(bounding_box):
     return Rectangle(x1,y1,x2,y2)
 
 def dist(x1,x2):
+    '''
+    Compute absolute distance between two 1-D points
+    
+    Keyword arguments:
+    x1 -- float
+    x2 -- float
+    '''
     return abs(x1-x2)
 
 def area(rect):
+    '''
+    Compute rectangle area
+    
+    Keyword arguments:
+    rect -- Rectangle named tuple ('Rectangle', 'xmin ymin xmax ymax')
+    '''
     l = rect.xmax-rect.xmin
     h = rect.ymax-rect.ymin
     return l*h
 
 
 def intersection_area(rect1,rect2):
+    '''
+    return intersection area between two rectangles.
+    
+    Keyword arguments:
+    rect1 -- Rectangle named tuple ('Rectangle', 'xmin ymin xmax ymax')
+    rect2 -- Rectangle named tuple ('Rectangle', 'xmin ymin xmax ymax')
+    '''
     #Compute intersaction of two straight rectangles
     dx = min(rect1.xmax, rect2.xmax) - max(rect1.xmin, rect2.xmin)
     dy = min(rect1.ymax, rect2.ymax) - max(rect1.ymin, rect2.ymin)
+    #both deltas need to be positive
     if (dx>=0) and (dy>=0):
         return dx*dy
     else:
@@ -121,9 +155,19 @@ def intersection_area(rect1,rect2):
 
 
 def rotate_point(point,center,angle):
+    '''
+    Compute point {'x':x, 'y':y} new coordinates after rotation of a certain angle and a center (Cx,Cy)
+    
+    Keyword arguments:
+    point -- dict 
+    center -- tuple
+    angle -- float
+    '''
     #apply rotation and translation a point to find new coordinates
     coordinates = np.array([point['x'],point['y']])
+    
     new_x = np.cos(angle) * (coordinates[0] - center[0]) + np.sin(angle) * (coordinates[1] - center[1]) + center[0]
-    new_y = -np.sin(angle) * (coordinates[0] - center[0]) + np.cos(angle) * (coordinates[1] - center[1]) + center[1];
+    new_y = -np.sin(angle) * (coordinates[0] - center[0]) + np.cos(angle) * (coordinates[1] - center[1]) + center[1]
+    
     new_point = {'x':round(new_x),'y':round(new_y)}
     return new_point
