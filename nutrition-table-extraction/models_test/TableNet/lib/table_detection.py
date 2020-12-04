@@ -360,27 +360,27 @@ class Table:
         self.table = []
         
     
-    def find_columns(self):
+    def find_columns(self,window_size, min_distance_between_peaks, method):
         preprocessed_column_mask = process_column_mask(self.column_mask.astype(np.uint8))
         self.column_detect = LineDetection(preprocessed_column_mask, self.original_image_shape)
-        self.column_detect.find_peaks(window_size = 20, distance = 5, method='std', axis = 0)
+        self.column_detect.find_peaks(window_size = window_size, distance = min_distance_between_peaks, method=method, axis = 0)
         self.columns = self.column_detect.peaks
         self.columns.insert(0,0)
         self.columns.append(self.original_image_shape[1])
         
-    def find_lines(self):
+    def find_lines(self,window_size, min_distance_between_peaks, method):
         preprocessed_line_mask = process_line_mask(self.line_mask.astype(np.uint8))
         self.line_detect = LineDetection(preprocessed_line_mask, self.original_image_shape)
-        self.line_detect.find_peaks(window_size = 10, distance = 2,method='std', axis = 1)
+        self.line_detect.find_peaks(window_size = window_size, distance = min_distance_between_peaks, method=method, axis = 1)
         self.lines = self.line_detect.peaks
         self.lines.insert(0,0)
         self.lines.append(self.original_image_shape[0])
         
     
-    def find_table(self):
+    def find_table(self,col_config,line_config):
         
-        self.find_columns()
-        self.find_lines()
+        self.find_columns(window_size = col_config['widnow_size'], min_distance_between_peaks = col_config['min_distance_between_peaks'],method=col_config['method'])
+        self.find_lines(window_size = line_config['widnow_size'], min_distance_between_peaks = line_config['min_distance_between_peaks'],method=line_config['method'])
         points = np.array(list(itertools.product(self.columns,self.lines)))
         points = points.reshape(len(self.columns),len(self.lines),2)
         
