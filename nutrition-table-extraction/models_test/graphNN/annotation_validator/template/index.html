@@ -1,0 +1,67 @@
+{% extends base %}
+{% block preamble %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<style>
+	@import url('https://fonts.googleapis.com/css?family=Quicksand');
+	body {
+	font-family: "Quicksand";
+	}
+	.bk-root {
+	font-family: "Quicksand" !important;
+	}
+	.slick-header-columns, .slick-header-column {
+	background-color: #DDDDDD !important;
+	background-image: none !important;
+	}
+	</style>
+{% endblock %}
+{% block contents%}
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>Annotation validator</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<b>
+					Viewing image
+				</b>
+				{{ embed(roots.source_index) }}
+				<b>
+					out of
+				</b>
+				{{ embed(roots.image_amount) }}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<div class="row">
+					<b>
+					Cropped Image
+					</b>
+				</div>
+				<div class="row">
+					{{ embed(roots.p) }}
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="row">
+					<b>
+					Table Generated from Annotation 
+					</b>
+				</div>
+				<div class="row">
+					{{ embed(roots.data_table) }}
+				</div>
+				<div class="row">
+					{{ embed(roots.val) }}
+				</div>
+				<div class="row">
+					{{ embed(roots.f) }}
+				</div>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
