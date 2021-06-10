@@ -148,6 +148,7 @@ class Evaluator():
         fig_path="confidence_by_category.png"
         ):       
         """Print a KDE Plot with model confidence for every category"""
+        
         if not self._data_ready:
             self.build_data()
             self._data_ready = True 
