@@ -475,7 +475,7 @@ Despite using drop-out in the LSTM layer, this model largely overfit : we get le
 We also trained the AWD LSTM of fastai (pretrained on Wikipedia). We got about 65% of accuracy ([code here]()). We think a better text preprocessing and tokenization may lead to sensibly better results.
 AWD LSTM is inspired by this [original paper](https://arxiv.org/abs/1708.02182). A good way to explore the fastai version is [this notebook](https://github.com/fastai/fastbook/blob/master/12_nlp_dive.ipynb). To reproduce the model in plain pytorch, you can also look at [this github repo](https://github.com/a-martyn/awd-lstm) and [this one](https://github.com/ahmetumutdurmus/awd-lstm).
 
-Another project would be to train an encoder with selected data that could be interesting to classify food based on ingredients : supermarket & other food grocery websites, or cooking blog, etc. We did not think too much about this idea but it maye be a good project to explore (we also can think with this method to otehr pjects tan classification).
+Another project would be to train an encoder with selected data that could be interesting to classify food based on ingredients : supermarket & other food grocery websites, or cooking blog, etc. We did not think too much about this idea but it may be a good project to explore (we also can think with this method to other projects than classification).
 
 Finally, because of the multilingual nature of text in the dataset, we thought about some architectures to explore :
 
