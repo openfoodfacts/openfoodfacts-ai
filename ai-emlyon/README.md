@@ -36,7 +36,7 @@ Our goal was to predict a "high-level" category of products with this database. 
   * The second group (oftend denoted as *G2* or pnns_groups_2), composed of 38 unique labels. **These are sub categories of group 1**.
 
 Full list of labels members is accessible [here](food_model/files/labels_G1_code_reference.json) for group 1 
-and [here](food_model/files/labels_G2_code_reference.json) for group 2.
+and [here](https://github.com/AntoineBONELLI/openfoodfacts-ai/blob/off_emlyon_ai/ai-emlyon/food_model/files/labels_G2_code_reference.json) for group 2.
 
 ### Dataset 
 
