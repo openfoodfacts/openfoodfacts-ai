@@ -15,12 +15,12 @@
 
 ## <a name="repo_summary"> </a> Repo content summary
  
- * [EDA_and_Preprocessing](ai-emlyon/EDA_and_Preprocessing) : Notebooks `.ipynb` with features & labels preprocessing
- * [ML Models](ai-emlyon/ML%20Models) : Notebooks `.ipynb` with model selection & evaluation
- * [food_model](ai-emlyon/food_model) : Python scripts `.py` with models & evaluation class :
-    * [XG Food](ai-emlyon/food_model/xgfood.py) (Class with the full final model process, from preprocessing to filtering)
-    * [Evaluator](ai-emlyon/food_model/evaluator.py) (Class used to plot graphs & metrics for model evaluation)
-    * [Files](ai-emlyon/food_model/files) (Files reference for xgfood)
+ * [EDA_and_Preprocessing](EDA_and_Preprocessing) : Notebooks `.ipynb` with features & labels preprocessing
+ * [ML Models](ML%20Models) : Notebooks `.ipynb` with model selection & evaluation
+ * [food_model](food_model) : Python scripts `.py` with models & evaluation class :
+    * [XG Food](food_model/xgfood.py) (Class with the full final model process, from preprocessing to filtering)
+    * [Evaluator](food_model/evaluator.py) (Class used to plot graphs & metrics for model evaluation)
+    * [Files](food_model/files) (Files reference for xgfood)
 
 ## <a name="context"> </a> Context & data
 
