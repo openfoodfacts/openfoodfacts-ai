@@ -26,10 +26,14 @@
 
 ### Context
 
+
+>This project was carried out by 5 students for 5 months (February - June 2021), as part of a specialization in AI at emlyon business school (Lyon, France). 
+>Lucain ([github](https://github.com/Wauplin)), an Open Food Facts contributor; guided, helped and mentored us during this project (and we thank him very much!). 
+
 Labeling is a time-consuming and expensive task, but is needed for many applications. More than 50% of Open Food Facts products are unlabelled,
 which make some useful and interesting applications more difficult or impossible (statistics, research, scores calculation -nutri score for example-, etc).
   
-The Open Food Facts database was, At the time of this project, composed by appr. 1.7 millions products and 185 columns with various informations and filled percentage.
+The Open Food Facts database was, at the time of this project, composed by appr. 1.7 millions products and 185 columns with various informations and filled percentage.
 
 Our goal was to predict a "high-level" category of products with this database. We have 2 labels to predict : 
   * The first group (often denoted as *G1* or pnns_groups_1), composed of 9 unique labels (can be beverages, salty snacks, etc)
@@ -434,9 +438,57 @@ Evaluator.plot_confidence(metric='precision', col_wrap=5)
 
 ## <a name="limits"> </a> Limitations, possible areas for improvements & future work
 
+> This part is a discussion about limits of the method adopted, 
+> some areas of improvement and future work possibilities we found potentially interesting.
+
 ### Preprocessing
+
+Results are quite interesting and XGBoost perform well on both validation and test sets. 
+However, the method we used to preprocess features has some limitations.
+
+* We select only N most frequent words and ingredients. Some "outliers" products may have no discriminative ingredients or words.
+Some products would have a null vector (0 everywhere), or only a few non-null features that not help the tree directions to classify with an acceptable confidence level.
+* Moreover, our method end up with 900+ features. This makes the model difficult to interpret and features difficult to explore. Another processing method may give a less complex dataset.
+* When we fill the features relative to ingredients, we first try with the percent estimate. If it is not available, we then try with percent min and percent max. Finally, we fill with "1" or the median when the ingredient is present in the product but no info about percent is available. This method could be improved.
+* Finally, the cleaning for words and ingredients list may be largely improved to avoid duplicates ('juice' and 'juices' for example) and uninteresting words.
+
+We did not explore some potentially interesting features in the original dataset. A more in-depth work on text & object features could lead to better results.
 
 ### Model selection & tuning
 
+We tuned the model for a long time "manually" and have finally run a cross-validation grid search to get interesting parameters.
+However, XGBoost library give a lot of possibilities to tune the model. 
+Is it largely possible we did not tune correctly enough the model and a more carrefuly selected parameters list for grid search and a better control of the bias/variance tradeoff could lead to better results. 
+Is it well known for example that gamma (loss complexity control) has a huge impact and the tuning depend largely on both other parameters and dataset.
+
 ### Natural Language Processing & Deep Learning
 
+Finally, we show that text features (ingredients, product name, etc) are strongly effective predictors. To get the most of those features, natural language processing techniques, especially in the deep learning area (recurrent neural networks or attention models for example) would be a good solution.
+
+We tried some approachs without going in depth. Our models do not give very good results (50-65% macro accuracy) but are largely improvable.
+
+Using ingredients raw text and product_name combined in a single feature 'text', we tried to build a bidirectionnal LSTM in pytorch.
+Code can be found [here]() and the architecture is as follow :
+
+<img src="https://github.com/AntoineBONELLI/openfoodfacts-ai/blob/off_emlyon_ai/ai-emlyon/images/lstm_pytorch.png" width=600>
+
+We use spacy to tokenize the data and word embedding from glove 6B 300dim pretrained vectors.
+
+Despite using drop-out in the LSTM layer, this model largely overfit : we get less than 0.05 loss error on the training and 1.65 on validation. We did not explore how to improve architecture and prevent overfitting. But a future work in this area could lead to very interesting results.
+
+We also trained the AWD LSTM of fastai (pretrained on Wikipedia). We got about 65% of accuracy ([code here]()). We think a better text preprocessing and tokenization may lead to sensibly better results.
+AWD LSTM is inspired by this [original paper](https://arxiv.org/abs/1708.02182). A good way to explore the fastai version is [this notebook](https://github.com/fastai/fastbook/blob/master/12_nlp_dive.ipynb). To reproduce the model in plain pytorch, you can also look at [this github repo](https://github.com/a-martyn/awd-lstm) and [this one](https://github.com/ahmetumutdurmus/awd-lstm).
+
+Another project would be to train an encoder with selected data that could be interesting to classify food based on ingredients : supermarket & other food grocery websites, or cooking blog, etc. We did not think too much about this idea but it may be a good project to explore (we also can think with this method to other projects than classification).
+
+Finally, because of the multilingual nature of text in the dataset, we thought about some architectures to explore :
+
+We can train a multingual model or a model per language like this :
+
+<img src="https://github.com/AntoineBONELLI/openfoodfacts-ai/blob/off_emlyon_ai/ai-emlyon/images/nlp_track.png" width=600>
+
+Or finally, translate text with an API before fitting a unique english model :
+
+<img src="https://github.com/AntoineBONELLI/openfoodfacts-ai/blob/off_emlyon_ai/ai-emlyon/images/nlp_translate.png" width=600>
+
+Neural nets in NLP are definitly an interesting a good way for this context.
