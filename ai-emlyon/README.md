@@ -104,9 +104,9 @@ to increase the precision and get a deployable model but keep most of the origin
 Tresholds definition is based on probabilities distribution per label 
 on the validation dataset with a `hue=pred_is_true` (`green` if pred is true, `red` else) :
 
-* [G1 KDEs plots per category](ai-emlyon/images/xgb_G1_valid_conf.png)
+* [G1 KDEs plots per category](images/xgb_G1_valid_conf.png)
 
-* [G2 KDEs plots per category](ai-emlyon/images/confidence_xg2.png)
+* [G2 KDEs plots per category](images/confidence_xg2.png)
 
 <p>&nbsp;</p>
 
@@ -115,13 +115,13 @@ on the validation dataset with a `hue=pred_is_true` (`green` if pred is true, `r
 
 We used Cross-Entropy as evaluation metric. The loss path for the first label (G1) with no regularization is the following :
 
-<img src="ai-emlyon/images/xgboost_noreg.png" width=600 >
+<img src="images/xgboost_noreg.png" width=600 >
 
 <p>&nbsp;</p>
 
 When we control the complexity, we obtain closer train & valid error paths : 
 
-<img src="ai-emlyon/images/xgboost_reg2.png" width=600 >
+<img src="images/xgboost_reg2.png" width=600 >
 
 <p>&nbsp;</p>
 
@@ -166,7 +166,7 @@ We use similar parameters then to fit a model to predict label 2 (G2).
 
 Our finals results, with metrics that matters to deploy the model are the following :
 
-<img src="ai-emlyon/images/table.PNG" width=750 >
+<img src="images/table.PNG" width=750 >
 
 Where :
   - G1 is the first label prediction (9 unique labels) 
@@ -191,14 +191,14 @@ Where :
 
 ## <a name="xgfood"> </a> XGFood
 
-You can use the final model with the class XGFood ([code here](ai-emlyon/food_model/xgfood.py)).
+You can use the final model with the class XGFood ([code here](food_model/xgfood.py)).
 
 To try the model, the dataset with 167 548 labelled (`y_true`) and unprocessed products (`X_raw`) 
 can be found [on this Google drive](https://drive.google.com/drive/folders/1yg8kT_MpYA2rKGDwiEJ2chs_UNnfq1IC).
 
 Models files `.model` can be downloaded [here](https://drive.google.com/drive/folders/1LyuYedAdya_lGW5fowTtKw8hr1FZhmRh?usp=sharing).
 
-Finally, you can download the small folder [with json files](ai-emlyon/food_model/xgfood.py).
+Finally, you can download the small folder [with json files](food_model/xgfood.py).
 
 >**Put the `.model` files in the files folder, and the files folder in the same folder that `xgfood.py` before run the model. 
 >Otherwise, you will not be able to load every dependent files.
@@ -259,7 +259,7 @@ predictions = model.predict(X, preprocess=False)
 
 Given a X_raw, predictions are obtained with the following processus :
 
-<img src="ai-emlyon/images/class_arch_2.png" width=850 >
+<img src="images/class_arch_2.png" width=850 >
 
  1. Creation of a null `X` matrix *938_features, n_samples*, where *938* corresponds to the variables and N the number of products to be labeled
  2. Navigation in the `ingredients` column provided to fill the *450* variables relating to the ingredients with estimates on the percentage present of the ingredient for each product
@@ -301,7 +301,7 @@ evaluation.build_data(y_true=y_true, y_pred=y_pred)
 
 > List of available methods :
 
-<img src="ai-emlyon/images/eval_class.png" width=650 >
+<img src="images/eval_class.png" width=650 >
 
 
 ### Global Classification Metrics
