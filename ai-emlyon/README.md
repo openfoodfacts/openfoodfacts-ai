@@ -35,12 +35,12 @@ Our goal was to predict a "high-level" category of products with this database. 
   * The first group (often denoted as *G1* or pnns_groups_1), composed of 9 unique labels (can be beverages, salty snacks, etc)
   * The second group (oftend denoted as *G2* or pnns_groups_2), composed of 38 unique labels. **These are sub categories of group 1**.
 
-Full list of labels members is accessible [here](ai-emlyon/food_model/files/labels_G1_code_reference.json) for group 1 
-and [here](ai-emlyon/food_model/files/labels_G2_code_reference.json) for group 2.
+Full list of labels members is accessible [here](food_model/files/labels_G1_code_reference.json) for group 1 
+and [here](food_model/files/labels_G2_code_reference.json) for group 2.
 
 ### Dataset 
 
-We decided to keep only 2 features : `ingredients` and `product_name`. We then create a total of 938 new features, based on most frequent ingredients and words.
+We decided to keep 2 features : `ingredients` and `product_name`. We then create a total of 938 new features, based on most frequent ingredients and words.
 Our features engineering & preprocessing method give deployable results without using information that is less frequently completed by open food facts userd, like nutritional values.
 However, our method has some limitations and could be largely improved : more on that at later.
 
@@ -306,6 +306,7 @@ evaluation.build_data(y_true=y_true, y_pred=y_pred)
 
 ### Global Classification Metrics
 ```python
+#Default arguments
 Evaluator.global_metrics(average='weighted', name='Model')
 ```
 
@@ -341,7 +342,10 @@ F1-score : 89.77%
 
 ### Structured Classification Report
 ```python
-Evaluator.classification_report(sortby='precision', name='model', save_report=False, report_path='classification_report.csv')
+#Default arguments
+Evaluator.classification_report(
+sortby='precision', name='model', save_report=False, report_path='classification_report.csv'
+)
 ```
 Return a standard `sklearn.metrics.classification_report()` but in `pandas.DataFrame` format. 
 
@@ -377,9 +381,56 @@ Evaluator.classification_report(name='XGBoost G1')
 |y_unknown               | 0.00 | 0.00 | 0.00 | 0.00    |
 
 
+### Point plot of sorted categories scores 
+```python
+#Default arguments
+Evaluator.plot_categories_scores(
+metric='precision', name='Model', figsize=(8, 10), save_fig=False, fig_path='score_by_category.png'
+)
+```
+Return a point plot with desired metric per category, sorted by metric. Default metric is precision.
 
+Here too you can change the name (it will effect on the title), save the figure. You can also change the figsize :
 
+```python
+Evaluator.plot_categories_scores(name=r'XGBoost$G_2$, Valid Set', figsize=(8, 10))
+```
 
+<img src="images/xgbg2_valid_prec.png" width=650 >
+
+### Confusion Matrix with seaborn heatmap design
+```python
+#Default arguments
+Evaluator.plot_confusion_matrix(
+name='Model', figsize=(20, 15), annot=True, cmap='Greens', save_fig=False, fig_path='confidence_by_category.png'
+)
+```
+
+Return a confusion matrix with annotations, seaborn heatmap design.
+
+```python
+Evaluator.plot_confusion_matrix()
+```
+<img src="images/conf_mat_G1_tresh.png" width=1000 >
+
+You can also remove annotations by passing `annot=False`.
+
+### Probabilities distribution per category and performance
+```python
+#Default arguments
+Evaluator.plot_confidence(
+name='Model', metric='precision', col_wrap=5, save_fig=False, fig_path='confidence_by_category.png'
+)
+```
+Return a KDE plot for every category, with confidence (probabilities) distribution (hue=pred_is_true, with green if pred was true, red else).
+The desired metric for is also present on the title of each category plot (default precision).
+
+You can save the figure, and you can change the number of plots per line/row with `col_wrap` (default is `col_wrap=5`) :
+
+```python
+Evaluator.plot_confidence(metric='precision', col_wrap=5)
+```
+<img src="images/xgb_G1_valid_conf.png">
 
 ## <a name="limits"> </a> Limitations, possible areas for improvements & future work
 
