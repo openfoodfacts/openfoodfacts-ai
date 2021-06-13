@@ -26,10 +26,14 @@
 
 ### Context
 
+
+>This project was carried out by 5 students for 5 months (February - June 2021), as part of a specialization in AI at emlyon business school (Lyon, France). 
+>Lucain ([github](https://github.com/Wauplin)), an Open Food Facts contributor; guided, helped and mentored us during this project (and we thank him very much!). 
+
 Labeling is a time-consuming and expensive task, but is needed for many applications. More than 50% of Open Food Facts products are unlabelled,
 which make some useful and interesting applications more difficult or impossible (statistics, research, scores calculation -nutri score for example-, etc).
   
-The Open Food Facts database was, At the time of this project, composed by appr. 1.7 millions products and 185 columns with various informations and filled percentage.
+The Open Food Facts database was, at the time of this project, composed by appr. 1.7 millions products and 185 columns with various informations and filled percentage.
 
 Our goal was to predict a "high-level" category of products with this database. We have 2 labels to predict : 
   * The first group (often denoted as *G1* or pnns_groups_1), composed of 9 unique labels (can be beverages, salty snacks, etc)
