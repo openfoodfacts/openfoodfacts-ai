@@ -81,7 +81,7 @@ We finally opted for a chain classification with XGBoost to predict multiple lab
 
 <p>&nbsp;</p>
 
-<img src="ai-emlyon/images/chain_classif.png" width=500 >
+<img src="images/chain_classif.png" width=500 >
 
 We first train a model to predict G1 (9 labels), append the prediction to the features matrix X and finally fit a model to predict G2.
 
