@@ -2,14 +2,14 @@
 
 ## <a name="xgfood"> </a> XGFood
 
-You can use the final model with the class XGFood ([code here](food_model/xgfood.py)).
+You can use the final model with the class XGFood ([code here](xgfood.py)).
 
 To try the model, the dataset with 167 548 labelled (`y_true`) and unprocessed products (`X_raw`) 
 can be found [on this Google drive](https://drive.google.com/drive/folders/1yg8kT_MpYA2rKGDwiEJ2chs_UNnfq1IC).
 
 Models files `.model` can be downloaded [here](https://drive.google.com/drive/folders/1LyuYedAdya_lGW5fowTtKw8hr1FZhmRh?usp=sharing).
 
-Finally, you can download the small folder [with json files](food_model/xgfood.py).
+Finally, you can download the small folder [with json files](files).
 
 >**Put the `.model` files in the files folder, and the files folder in the same folder that `xgfood.py` before run the model. 
 >Otherwise, you will not be able to load every dependent files.
@@ -93,7 +93,7 @@ The Evaluator class is dedicated to evaluate quickly model performances with bas
 The class is composed of a method `build_data` dedicated to build the dataset used and then different simple plot & metrics methods.
 Simple plots showed before in this documents are some examples.
 
-You can access the code here
+You can access the code [here](evaluator.py)
 After downloaded `evaluator.py`, you can instantiate the class and build the dataset with your inputs :
 
 ```python
