@@ -3,15 +3,15 @@
 > **Note** : This readme present a summary of the project with key insights and the final reusable models. 
 > If you want to access only the documentation for model and evaluation classes, click here. 
 
-## Table of contents :
+## Table of content :
 
-* [Repo Summary](repo_summary)
-* [Context & Data](context)
-* [Machine Learning Modeling](ml_models)
-* [Results](results)
-* [XGFood (Final model class)](xgfood)
-* [Evaluator (Evaluation Class)](eval)
-* [Limitations, possible areas for improvements & future work](limits)
+* [Repo Summary](https://github.com/AntoineBONELLI/openfoodfacts-ai/tree/off_emlyon_ai/ai-emlyon#--repo-content-summary)
+* [Context & Data](https://github.com/AntoineBONELLI/openfoodfacts-ai/tree/off_emlyon_ai/ai-emlyon#--context--data)
+* [Machine Learning Modeling](https://github.com/AntoineBONELLI/openfoodfacts-ai/tree/off_emlyon_ai/ai-emlyon#--machine-learning-modeling)
+* [Results](https://github.com/AntoineBONELLI/openfoodfacts-ai/tree/off_emlyon_ai/ai-emlyon#--results)
+* [XGFood (Final model class)](https://github.com/AntoineBONELLI/openfoodfacts-ai/tree/off_emlyon_ai/ai-emlyon#--xgfood)
+* [Evaluator (Evaluation Class)](https://github.com/AntoineBONELLI/openfoodfacts-ai/tree/off_emlyon_ai/ai-emlyon#--evaluator)
+* [Limitations, possible areas for improvements & future work](https://github.com/AntoineBONELLI/openfoodfacts-ai/tree/off_emlyon_ai/ai-emlyon#--limitations-possible-areas-for-improvements--future-work)
 
 ## <a name="repo_summary"> </a> Repo content summary
  
@@ -476,7 +476,7 @@ We use spacy to tokenize the data and word embedding from glove 6B 300dim pretra
 
 Despite using drop-out in the LSTM layer, this model largely overfit : we get less than 0.05 loss error on the training and 1.65 on validation. We did not explore how to improve architecture and prevent overfitting. But a future work in this area could lead to very interesting results.
 
-We also trained the AWD LSTM of fastai (pretrained on Wikipedia). We got about 65% of accuracy ([code here]()). We think a better text preprocessing and tokenization may lead to sensibly better results.
+We also trained the AWD LSTM of fastai (pretrained on Wikipedia). We got about 65% of accuracy ([code here](https://github.com/AntoineBONELLI/openfoodfacts-ai/tree/off_emlyon_ai/ai-emlyon/ML%20Models/NLP)). We think a better text preprocessing and tokenization may lead to sensibly better results.
 AWD LSTM is inspired by this [original paper](https://arxiv.org/abs/1708.02182). A good way to explore the fastai version is [this notebook](https://github.com/fastai/fastbook/blob/master/12_nlp_dive.ipynb). To reproduce the model in plain pytorch, you can also look at [this github repo](https://github.com/a-martyn/awd-lstm) and [this one](https://github.com/ahmetumutdurmus/awd-lstm).
 
 Another project would be to train an encoder with selected data that could be interesting to classify food based on ingredients : supermarket & other food grocery websites, or cooking blog, etc. We did not think too much about this idea but it may be a good project to explore (we also can think with this method to other projects than classification).
