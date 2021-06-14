@@ -491,4 +491,4 @@ Or finally, translate text with an API before fitting a unique english model :
 
 <img src="https://github.com/AntoineBONELLI/openfoodfacts-ai/blob/off_emlyon_ai/ai-emlyon/images/nlp_translate.png" width=600>
 
-Neural nets in NLP are definitly an interesting a good way for this context.
+Neural nets in NLP are definitly promising.
