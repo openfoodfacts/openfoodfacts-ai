@@ -70,7 +70,7 @@ predictions = model.predict(X, preprocess=False)
 
 Given a X_raw, predictions are obtained with the following processus :
 
-<img src="images/class_arch_2.png" width=850 >
+<img src="https://github.com/AntoineBONELLI/openfoodfacts-ai/blob/off_emlyon_ai/ai-emlyon/images/class_arch_2.png" width=850 >
 
  1. Creation of a null `X` matrix *938_features, n_samples*, where *938* corresponds to the variables and N the number of products to be labeled
  2. Navigation in the `ingredients` column provided to fill the *450* variables relating to the ingredients with estimates on the percentage present of the ingredient for each product
@@ -112,7 +112,7 @@ evaluation.build_data(y_true=y_true, y_pred=y_pred)
 
 > List of available methods :
 
-<img src="images/eval_class.png" width=650 >
+<img src="https://github.com/AntoineBONELLI/openfoodfacts-ai/blob/off_emlyon_ai/ai-emlyon/images/eval_class.png" width=650 >
 
 
 ### Global Classification Metrics
@@ -207,7 +207,7 @@ Here too you can change the name (it will effect on the title), save the figure.
 Evaluator.plot_categories_scores(name=r'XGBoost$G_2$, Valid Set', figsize=(8, 10))
 ```
 
-<img src="images/xgbg2_valid_prec.png" width=650 >
+<img src="https://github.com/AntoineBONELLI/openfoodfacts-ai/blob/off_emlyon_ai/ai-emlyon/images/xgbg2_valid_prec.png" width=650 >
 
 ### Confusion Matrix with seaborn heatmap design
 ```python
@@ -222,7 +222,7 @@ Return a confusion matrix with annotations, seaborn heatmap design.
 ```python
 Evaluator.plot_confusion_matrix()
 ```
-<img src="images/conf_mat_G1_tresh.png" width=1000 >
+<img src="https://github.com/AntoineBONELLI/openfoodfacts-ai/blob/off_emlyon_ai/ai-emlyon/images/conf_mat_G1_tresh.png" width=1000 >
 
 You can also remove annotations by passing `annot=False`.
 
@@ -241,4 +241,4 @@ You can save the figure, and you can change the number of plots per line/row wit
 ```python
 Evaluator.plot_confidence(metric='precision', col_wrap=5)
 ```
-<img src="images/xgb_G1_valid_conf.png">
+<img src="https://github.com/AntoineBONELLI/openfoodfacts-ai/blob/off_emlyon_ai/ai-emlyon/images/xgb_G1_valid_conf.png">
