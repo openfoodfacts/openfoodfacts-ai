@@ -1,7 +1,7 @@
 # Mutli-label multi-class classification of foodstuffs products with Open Food Facts data
 
 > **Note** : This readme present a summary of the project with key insights and the final reusable models. 
-> If you want to access only the documentation for model and evaluation classes, click here. 
+> If you want to access only the documentation for model and evaluation classes, [click here](https://github.com/AntoineBONELLI/openfoodfacts-ai/tree/off_emlyon_ai/ai-emlyon/food_model#readme). 
 
 ## Table of content :
 
