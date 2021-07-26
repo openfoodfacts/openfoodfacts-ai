@@ -1,4 +1,6 @@
 # openfoodfacts-ai
+
+# What this repository is and is not.
 This repository is to track and store all our experimental AI endeavours, and wishlists. The Robotoff repo is the place to integrate them into production, and file more trivial issues.
 
 # Data-Science
@@ -10,4 +12,4 @@ This repository is to track and store all our experimental AI endeavours, and wi
 
 * Get the data to start playing with food @ https://world.openfoodfacts.org/data
 * Get a subset of images if you tackling computer vision issues on the #computervision channel of Slack (https://slack.openfoodfacts.org)
-* Other relevant channels #nlp #computervision #machinelearning
+* Other relevant channels #robotoff 
