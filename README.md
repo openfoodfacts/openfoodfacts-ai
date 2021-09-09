@@ -6,7 +6,7 @@ This repository is to track and store all our experimental AI endeavours, and wi
 # README
 * https://github.com/openfoodfacts/openfoodfacts-ai/tree/develop/GSoC2018/table_detection
 * https://github.com/openfoodfacts/openfoodfacts-ai/blob/develop/ai-emlyon/README.md
-* https://github.com/openfoodfacts/openfoodfacts-ai/tree/develop/data4good_logo_detection
+* https://github.com/openfoodfacts/openfoodfacts-ai/blob/develop/data4good_logo_detection/README.md
 * https://github.com/openfoodfacts/openfoodfacts-ai/blob/develop/nutrition-table-extraction/data_exploration/README.md
 * https://github.com/openfoodfacts/openfoodfacts-ai/blob/develop/spellcheck/README.md
 
