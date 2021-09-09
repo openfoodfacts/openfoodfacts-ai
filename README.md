@@ -3,6 +3,13 @@
 # What this repository is and is not.
 This repository is to track and store all our experimental AI endeavours, and wishlists. The Robotoff repo is the place to integrate them into production, and file more trivial issues.
 
+# README
+* https://github.com/openfoodfacts/openfoodfacts-ai/tree/develop/GSoC2018/table_detection
+* https://github.com/openfoodfacts/openfoodfacts-ai/blob/develop/ai-emlyon/README.md
+* https://github.com/openfoodfacts/openfoodfacts-ai/tree/develop/data4good_logo_detection
+* https://github.com/openfoodfacts/openfoodfacts-ai/blob/develop/nutrition-table-extraction/data_exploration/README.md
+* https://github.com/openfoodfacts/openfoodfacts-ai/blob/develop/spellcheck/README.md
+
 # Data-Science
 * You can see many great analysis of Open Food Facts data in notebooks at: https://www.kaggle.com/openfoodfacts/world-food-facts
 # Have a look 
