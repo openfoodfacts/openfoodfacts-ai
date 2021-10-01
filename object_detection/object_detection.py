@@ -358,6 +358,7 @@ def run_model(
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    print('hello!you are insde main block')
     parser.add_argument("input_dir", type=pathlib.Path)
     parser.add_argument("data_path", type=pathlib.Path)
     parser.add_argument("--batch-size", type=int, default=16)
