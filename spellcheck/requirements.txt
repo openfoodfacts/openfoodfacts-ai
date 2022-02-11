@@ -2,7 +2,7 @@ pytest
 joblib
 streamlit==0.57.3
 pymongo==3.10.1
-spacy==2.2.4
+spacy==3.2.2
 flashtext==2.7
 click==7.1.1
 dataclasses>=0.6;python_version<"3.7"
