@@ -1,6 +1,6 @@
 pytest
 joblib
-streamlit==0.57.3
+streamlit==1.6.0
 pymongo==3.10.1
 spacy==2.2.4
 flashtext==2.7
