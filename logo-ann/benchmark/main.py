@@ -1,6 +1,9 @@
+import argparse
 from collections import Counter, defaultdict
+import json
 from pathlib import Path
-from typing import Callable, List, Optional, Set, Tuple
+import time
+from typing import Callable, Dict, List, Optional, Set, Tuple
 
 import numpy as np
 from PIL import Image
@@ -70,34 +73,40 @@ class LogoDataset(Dataset):
 
 def generate_embeddings(
     model: torch.nn.Module, data_loader: DataLoader, device: torch.device
-) -> Tuple[torch.Tensor, torch.Tensor]:
+) -> Tuple[torch.Tensor, torch.Tensor, float]:
     model.eval()
     embedding_all = []
     labels_all = []
+    elapsed = 0.0
 
     with torch.inference_mode():
         for inputs, labels in tqdm.tqdm(data_loader):
+            start_time = time.monotonic()
             output = model(inputs.to(device))
+            elapsed += time.monotonic() - start_time
             embedding_all.append(output)
             labels_all.append(labels)
 
-        return torch.cat(embedding_all), torch.cat(labels_all)
+        return torch.cat(embedding_all), torch.cat(labels_all), elapsed
 
 
 def generate_embeddings_clip(
     model: torch.nn.Module, data_loader: DataLoader, device: torch.device
-) -> Tuple[torch.Tensor, torch.Tensor]:
+) -> Tuple[torch.Tensor, torch.Tensor, float]:
     model.eval()
     embedding_all = []
     labels_all = []
+    elapsed = 0.0
 
     with torch.inference_mode():
         for inputs, labels in tqdm.tqdm(data_loader):
+            start_time = time.monotonic()
             outputs = model(**{"pixel_values": inputs.to(device)})
+            elapsed += time.monotonic() - start_time
             embedding_all.append(outputs.pooler_output)
             labels_all.append(labels)
 
-        return torch.cat(embedding_all), torch.cat(labels_all)
+        return torch.cat(embedding_all), torch.cat(labels_all), elapsed
 
 
 def pairwise_squared_euclidian_distance_numpy(A: np.ndarray) -> np.ndarray:
@@ -120,15 +129,15 @@ def run_model(
     model_name: str,
     batch_size: int,
     device: torch.device,
-) -> Tuple[torch.Tensor, torch.Tensor, LogoDataset]:
+) -> Tuple[torch.Tensor, torch.Tensor, LogoDataset, float]:
     model = timm.create_model(model_name, pretrained=True, num_classes=0)
     model.to(device)
     config = resolve_data_config({}, model=model)
     transform_func = create_transform(**config)
     dataset = LogoDataset(root_dir, transform_func, split_set)
     data_loader = DataLoader(dataset, batch_size, num_workers=2)
-    embeddings, labels = generate_embeddings(model, data_loader, device)
-    return embeddings, labels, dataset
+    embeddings, labels, elapsed = generate_embeddings(model, data_loader, device)
+    return embeddings, labels, dataset, elapsed
 
 
 def run_clip_model(
@@ -146,8 +155,8 @@ def run_clip_model(
     ]
     dataset = LogoDataset(root_dir, transform_func, split_set)
     data_loader = DataLoader(dataset, batch_size, num_workers=2)
-    embeddings, labels = generate_embeddings_clip(model, data_loader, device)
-    return embeddings, labels, dataset
+    embeddings, labels, elapsed = generate_embeddings_clip(model, data_loader, device)
+    return embeddings, labels, dataset, elapsed
 
 
 def compute_metrics(
@@ -272,7 +281,7 @@ def save_metrics(metrics, dataset, model_name: str):
                 print(f"  k = {k}:    {value}", file=f)
 
 
-if __name__ == "__main__":
+def evaluate():
     with open("val.txt", "r") as f:
         split_set = set(map(str.strip, f))
 
@@ -284,7 +293,7 @@ if __name__ == "__main__":
             distance_matrix = np.random.rand(6367, 6367)
         else:
             run_func = run_clip_model if model_name.startswith("clip") else run_model
-            embeddings, labels, dataset = run_func(
+            embeddings, labels, dataset, _ = run_func(
                 root_dir=Path("logo_dataset"),
                 split_set=split_set,
                 model_name=model_name,
@@ -305,3 +314,51 @@ if __name__ == "__main__":
             max_label_count=max_label_count,
         )
         save_metrics(metrics, dataset, model_name)
+
+
+def run_latency_benchmark(device: torch.device):
+    with open("val.txt", "r") as f:
+        split_set = set(map(str.strip, f))
+
+    batch_size = 8
+    results: Dict[str, Dict] = {}
+    n = batch_size * 10
+    split_set = set(list(split_set)[:n])
+    for model_name in MODEL_NAMES:
+        results[model_name] = {}
+        if model_name == "random":
+            continue
+        run_func = run_clip_model if model_name.startswith("clip") else run_model
+        embeddings, _, __, elapsed = run_func(
+            root_dir=Path("logo_dataset"),
+            split_set=split_set,
+            model_name=model_name,
+            batch_size=batch_size,
+            device=device,
+        )
+        results[model_name]["elapsed_total"] = elapsed
+        results[model_name]["elapsed_per_sample"] = elapsed / n
+        results[model_name]["embedding_size"] = int(embeddings.shape[0])
+        print(
+            f"{model_name}, elapsed_total: {elapsed} (s), elapsed_per_sample: {elapsed/n}"
+        )
+        print(f"{model_name}: {embeddings.shape}")
+
+    with open("latency_benchmark.json", "w") as f:
+        json.dump(results, f)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest="subparser_name")
+    evaluate_parser = subparsers.add_parser("evaluate", help="Launch evaluation")
+    benchmark_parser = subparsers.add_parser(
+        "benchmark", help="Launch latency benchmark"
+    )
+    benchmark_parser.add_argument("--gpu", action="store_true")
+    args = parser.parse_args()
+
+    if args.subparser_name == "evaluate":
+        evaluate()
+    elif args.subparser_name == "benchmark":
+        run_latency_benchmark(torch.device("cuda:0" if args.gpu else "cpu"))
