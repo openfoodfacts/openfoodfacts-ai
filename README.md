@@ -25,3 +25,4 @@
 * [Get the data to start playing with food](https://world.openfoodfacts.org/data)
 * Get a subset of images if you tackling computer vision issues on the [#computervision channel of Slack](https://slack.openfoodfacts.org)
 * Other relevant channels [#robotoff](https://slack.openfoodfacts.org)
+* [Data Sets](https://github.com/openfoodfacts/openfoodfacts-ai/blob/develop/data-sets.md)
