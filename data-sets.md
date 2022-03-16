@@ -1,4 +1,21 @@
 # Training and testing data sets
+## Licence of the datasets
+All datasets are OdBL for data, CC-BY-SA for images
+
+## Robotoff Insight export
+
+## Product database samples
+https://world.openfoodfacts.org/data
+### Small dataset (Mongo dump + images)
+* https://static.openfoodfacts.org/exports/products.random-modulo-10000.tar.gz
+* https://static.openfoodfacts.org/exports/products.random-modulo-10000.images.tar.gz
+### Slightly larger (Mongo dump + images)
+* https://static.openfoodfacts.org/exports/products.random-modulo-1000.tar.gz
+* https://static.openfoodfacts.org/exports/products.random-modulo-1000.images.tar.gz 
+
+## Category datasets
+* Ground truth data is in the Product database sample
+* Predicted categories are in the Robotoff insight dump which is accessible at ****
 
 ## Nutrition tables cropping and nutrition facts extraction
 
