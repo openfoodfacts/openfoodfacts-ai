@@ -35,7 +35,7 @@ Logos:
 
 * [Labels and Logo detection (Data 4 Good, by Raphael, Charlotte and Antoine](./data4good_logo_detection/README.md) - code is duplicated and integrated in Robotoff
 * logo-ann (related to logos and labels) - classification using approximate KNN search - deployed in [robotoff-ann](https://github.com/openfoodfacts/robotoff-ann)
-
+* Updating the pre-weighted model to recent publications offers a nice no-effort boost
 
 Spellcheck
 
