@@ -10,6 +10,8 @@
 
   [A Google spreadsheet](https://docs.google.com/spreadsheets/d/1p2tvA5ySm0RJpTjUwT3fFrDJNJLXNlVTkxxU-izTIMA/edit#gid=0) also tracks active models.
 
+## [What can I work on ?](https://github.com/openfoodfacts/openfoodfacts-ai/issues/76)
+
 
 ## 🔬 Projects
 
