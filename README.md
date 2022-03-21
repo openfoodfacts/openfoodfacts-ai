@@ -8,7 +8,7 @@
 
 * Most trained Models and useful datasets are attached to [releases of this project](https://github.com/openfoodfacts/openfoodfacts-ai/releases) or [releases on robotoff-models](https://github.com/openfoodfacts/robotoff-models/releases).
 
-  [A google spreasheet](https://docs.google.com/spreadsheets/d/1p2tvA5ySm0RJpTjUwT3fFrDJNJLXNlVTkxxU-izTIMA/edit#gid=0) also tracks active models.
+  [A Google spreadsheet](https://docs.google.com/spreadsheets/d/1p2tvA5ySm0RJpTjUwT3fFrDJNJLXNlVTkxxU-izTIMA/edit#gid=0) also tracks active models.
 
 
 ## 🔬 Projects
