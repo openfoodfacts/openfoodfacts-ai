@@ -15,12 +15,13 @@
 
 Here are different experiments.
 
-Nutrition table:
+### Nutrition table
 
 * [Nutrition table detection and extraction (2018 GSoc work by Sagar)](./GSoC2018/table_detection) - integrated in Robotoff, used for the detection part by the Graphnet and TableNet models
 * [Nutrition Table Extraction (2020 by Sadok, Yichen and Ramzi)](./nutrition-table-extraction/data_exploration/README.md) - on Graphnet and TableNet
 * Basic nutrition extraction for text tables, already in the Robotoff API
-Category prediction:
+
+### Category prediction
 
 * deployed
 
@@ -31,17 +32,17 @@ Category prediction:
   * [EM Lyon Category prediction (2020)](./ai-emlyon/README.md)  - not yet evaluated and integrated
   * [Category from OCR prediction, Laure (Laurel16) (2021)](https://github.com/Laurel16/OpenFoodFactsCategorizer) - not yet evaluated and integrated - Categories maybe too general
 
-Logos:
+### Logos
 
 * [Labels and Logo detection (Data 4 Good, by Raphael, Charlotte and Antoine](./data4good_logo_detection/README.md) - code is duplicated and integrated in Robotoff
 * logo-ann (related to logos and labels) - classification using approximate KNN search - deployed in [robotoff-ann](https://github.com/openfoodfacts/robotoff-ann)
 * Updating the pre-weighted model to recent publications offers a nice no-effort boost
 
-Spellcheck
+### Spellcheck
 
 * [Spellcheck (by Wauplin)](./spellcheck/README.md) - code is duplicated and integrated in Robotoff
 
-To be documented:
+### To be documented
 
 * ocr-cleaning (please add a description)
 * object-detection (related to logos and labels)
