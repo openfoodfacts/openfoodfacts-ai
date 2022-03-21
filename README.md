@@ -19,7 +19,7 @@ Nutrition table:
 
 * [Nutrition table detection and extraction (2018 GSoc work by Sagar)](./GSoC2018/table_detection) - integrated in Robotoff, used for the detection part by the Graphnet and TableNet models
 * [Nutrition Table Extraction (2020 by Sadok, Yichen and Ramzi)](./nutrition-table-extraction/data_exploration/README.md) - on Graphnet and TableNet
-
+* Basic nutrition extraction for text tables, already in the Robotoff API
 Category prediction:
 
 * deployed
