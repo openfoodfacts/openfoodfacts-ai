@@ -34,6 +34,8 @@ Here are different experiments.
   * [EM Lyon Category prediction (2020)](./ai-emlyon/README.md)  - not yet evaluated and integrated
   * [Category from OCR prediction, Laure (Laurel16) (2021)](https://github.com/Laurel16/OpenFoodFactsCategorizer) - not yet evaluated and integrated - Categories maybe too general
 
+* on-going project @ https://github.com/openfoodfacts/off-category-classification/issues/2
+
 ### Logos
 
 * [Labels and Logo detection (Data 4 Good, by Raphael, Charlotte and Antoine](./data4good_logo_detection/README.md) - code is duplicated and integrated in Robotoff
