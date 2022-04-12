@@ -1,6 +1,6 @@
 requests
 Pillow
-tensorflow-gpu<2.0.0
+tensorflow-gpu<3.0.0
 numpy
 joblib
 dataclasses
