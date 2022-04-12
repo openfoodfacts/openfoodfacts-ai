@@ -8,7 +8,7 @@ updates:
       prefix: "chore"
       include: "scope"
   - package-ecosystem: "pip"
-    directory: "spellcheck/requirements.txt" # Location of package manifests
+    directory: "spellcheck/" # Location of package manifests
     schedule:
       interval: "daily"
     commit-message:
@@ -16,7 +16,7 @@ updates:
       include: "scope"
     open-pull-requests-limit: 300
   - package-ecosystem: "pip"
-    directory: "object_detection/requirements.txt" # Location of package manifests
+    directory: "object_detection/" # Location of package manifests
     schedule:
       interval: "daily"
     commit-message:
@@ -24,7 +24,7 @@ updates:
       include: "scope"
     open-pull-requests-limit: 300
   - package-ecosystem: "pip"
-    directory: "logo-ann/benchmark/requirements.txt" # Location of package manifests
+    directory: "logo-ann/benchmark/" # Location of package manifests
     schedule:
       interval: "daily"
     commit-message:
@@ -32,7 +32,7 @@ updates:
       include: "scope"
     open-pull-requests-limit: 300
   - package-ecosystem: "pip"
-    directory: "logo-ann/generation/requirements.txt" # Location of package manifests
+    directory: "data4good_logo_detection/" # Location of package manifests
     schedule:
       interval: "daily"
     commit-message:
@@ -40,7 +40,7 @@ updates:
       include: "scope"
     open-pull-requests-limit: 300
   - package-ecosystem: "pip"
-    directory: "data4good_logo_detection/requirements.txt" # Location of package manifests
+    directory: "nutrition-table-extraction/models_test/graphNN/TIES-2.0/" # Location of package manifests
     schedule:
       interval: "daily"
     commit-message:
@@ -48,23 +48,7 @@ updates:
       include: "scope"
     open-pull-requests-limit: 300
   - package-ecosystem: "pip"
-    directory: "nutrition-table-extraction/models_test/graphNN/TIES-2.0/requirements.txt" # Location of package manifests
-    schedule:
-      interval: "daily"
-    commit-message:
-      prefix: "chore"
-      include: "scope"
-    open-pull-requests-limit: 300
-  - package-ecosystem: "pip"
-    directory: "logo-ann/generation/requirements_ml.txt" # Location of package manifests
-    schedule:
-      interval: "daily"
-    commit-message:
-      prefix: "chore"
-      include: "scope"
-    open-pull-requests-limit: 300
-  - package-ecosystem: "pip"
-    directory: "logo-ann/generation/requirements_streamlit.txt" # Location of package manifests
+    directory: "logo-ann/generation/" # Location of package manifests
     schedule:
       interval: "daily"
     commit-message:
