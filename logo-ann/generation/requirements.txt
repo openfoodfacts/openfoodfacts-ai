@@ -1,5 +1,5 @@
 lycon==0.2.0
-matplotlib==3.2.1
+matplotlib==3.6.0
 Pillow
 h5py
 more_itertools
