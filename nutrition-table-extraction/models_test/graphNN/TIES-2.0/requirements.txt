@@ -3,7 +3,7 @@ matplotlib==3.0.3
 networkx==2.2
 numpy==1.16.2
 opencv-python==4.0.0.21
-tensorboard==1.12.2
+tensorboard==2.10.1
 overrides
 configparser
 Pillow==6.2.0
