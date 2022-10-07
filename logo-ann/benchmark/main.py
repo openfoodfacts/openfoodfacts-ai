@@ -21,9 +21,9 @@ MODEL_NAMES = [
     "efficientnet_b1",
     "efficientnet_b2",
     "efficientnet_b4",
-    "beit_base_patch16_384",
-    "beit_large_patch16_224_in22k",
-    "beit_large_patch16_384",
+    #"beit_base_patch16_384",
+    #"beit_large_patch16_224_in22k",  beit models don't work currently, see https://github.com/rwightman/pytorch-image-models/issues/1346 for more
+    #"beit_large_patch16_384", 
     "clip-vit-base-patch16",
     "clip-vit-base-patch32",
     "clip-vit-large-patch14",
@@ -122,6 +122,10 @@ def pairwise_squared_euclidian_distance(A: np.ndarray) -> torch.Tensor:
     squared_sum = torch.sum(A ** 2.0, axis=1, keepdim=True)
     return squared_sum + squared_sum.T - 2 * dot_product
 
+def cosine_similarity(A: torch.Tensor) -> torch.Tensor:
+    assert len(A.shape) == 2
+    normalized = torch.nn.functional.normalize(A,p=2.0,dim=1)
+    return 1-torch.matmul(normalized,normalized.T)
 
 def run_model(
     root_dir: Path,
@@ -304,7 +308,7 @@ def evaluate():
             # print(f"Labels shape: {labels.shape}")
             with torch.inference_mode():
                 distance_matrix = (
-                    pairwise_squared_euclidian_distance(embeddings).cpu().numpy()
+                    pairwise_squared_euclidian_distance(embeddings).cpu().numpy() #you can change here the distance used
                 )
 
         metrics = compute_metrics(
@@ -356,7 +360,7 @@ if __name__ == "__main__":
         "benchmark", help="Launch latency benchmark"
     )
     benchmark_parser.add_argument("--gpu", action="store_true")
-    args = parser.parse_args()
+    args = parser.parse_args()#put "evaluate" or "benchmark" to run the right function
 
     if args.subparser_name == "evaluate":
         evaluate()
