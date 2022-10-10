@@ -1,8 +1,11 @@
 import argparse
 from collections import Counter, defaultdict
+import email
 import json
+from math import dist
 from pathlib import Path
 import time
+from turtle import distance
 from typing import Callable, Dict, List, Optional, Set, Tuple
 
 import numpy as np
@@ -22,8 +25,8 @@ MODEL_NAMES = [
     "efficientnet_b2",
     "efficientnet_b4",
     #"beit_base_patch16_384",
-    #"beit_large_patch16_224_in22k",  beit models don't work currently, see https://github.com/rwightman/pytorch-image-models/issues/1346 for more
-    #"beit_large_patch16_384", 
+    #"beit_large_patch16_224_in22k",
+    #"beit_large_patch16_384",
     "clip-vit-base-patch16",
     "clip-vit-base-patch32",
     "clip-vit-large-patch14",
@@ -124,7 +127,7 @@ def pairwise_squared_euclidian_distance(A: np.ndarray) -> torch.Tensor:
 
 def cosine_similarity(A: torch.Tensor) -> torch.Tensor:
     assert len(A.shape) == 2
-    normalized = torch.nn.functional.normalize(A,p=2.0,dim=1)
+    normalized = torch.nn.functional.normalize(A, p=2.0, dim=1)
     return 1-torch.matmul(normalized,normalized.T)
 
 def run_model(
@@ -138,7 +141,7 @@ def run_model(
     model.to(device)
     config = resolve_data_config({}, model=model)
     transform_func = create_transform(**config)
-    dataset = LogoDataset(root_dir, transform_func, split_set)
+    dataset = LogoDataset(root_dir, transform_func, split_set) #our dataset is built on the data written in val.txt
     data_loader = DataLoader(dataset, batch_size, num_workers=2)
     embeddings, labels, elapsed = generate_embeddings(model, data_loader, device)
     return embeddings, labels, dataset, elapsed
@@ -226,7 +229,7 @@ def compute_metrics_k(
     top_k_labels = labels[sort_indices]
     # matches: (sample, max_k)
     matches = (top_k_labels == labels[:, None]).astype(int)
-    print(f"label count: {label_count}")
+    #print(f"label count: {label_count}")
     for k in k_list:
         tp_sum = 0
         tp_fp_sum = 0
@@ -236,11 +239,11 @@ def compute_metrics_k(
         for label in label_count:
             # tp: (number of true positive for label, )
             tp = matches_k[np.where(labels == label)[0]]
-            print(f"tp for label {label}: {tp}")
+            #print(f"tp for label {label}: {tp}")
             positive_all = tp.shape[0]
-            print(f"positive_all for label {label}: {positive_all}")
+            #print(f"positive_all for label {label}: {positive_all}")
             tp_fp = k * positive_all
-            print(f"tp_fp for label {label}: {tp_fp}")
+            #print(f"tp_fp for label {label}: {tp_fp}")
             tp_fn = max_label_count * positive_all
             results["precision"][k][label] = tp.sum() / tp_fp
             results["recall"][k][label] = tp.sum() / tp_fn
@@ -285,7 +288,7 @@ def save_metrics(metrics, dataset, model_name: str):
                 print(f"  k = {k}:    {value}", file=f)
 
 
-def evaluate():
+def evaluate(distance_func):
     with open("val.txt", "r") as f:
         split_set = set(map(str.strip, f))
 
@@ -293,6 +296,9 @@ def evaluate():
     k_list = [1, 2, 4, 10, 100]
     max_label_count = 4
     for model_name in MODEL_NAMES:
+        print(f"\n\n****************************")
+        print(f"Let's run {model_name} :\n")
+
         if model_name == "random":
             distance_matrix = np.random.rand(6367, 6367)
         else:
@@ -308,7 +314,7 @@ def evaluate():
             # print(f"Labels shape: {labels.shape}")
             with torch.inference_mode():
                 distance_matrix = (
-                    pairwise_squared_euclidian_distance(embeddings).cpu().numpy() #you can change here the distance used
+                    distance_func(embeddings).cpu().numpy()
                 )
 
         metrics = compute_metrics(
@@ -318,8 +324,7 @@ def evaluate():
             max_label_count=max_label_count,
         )
         save_metrics(metrics, dataset, model_name)
-
-
+    
 def run_latency_benchmark(device: torch.device):
     with open("val.txt", "r") as f:
         split_set = set(map(str.strip, f))
@@ -359,10 +364,15 @@ if __name__ == "__main__":
     benchmark_parser = subparsers.add_parser(
         "benchmark", help="Launch latency benchmark"
     )
+    evaluate_parser.add_argument("--distance", choices=["cosine","euclidian"], help="Choose the distance used to compute the evaluation")
     benchmark_parser.add_argument("--gpu", action="store_true")
-    args = parser.parse_args()#put "evaluate" or "benchmark" to run the right function
+    args = parser.parse_args()
 
     if args.subparser_name == "evaluate":
-        evaluate()
-    elif args.subparser_name == "benchmark":
+        if args.distance == "cosine":
+            evaluate(cosine_similarity)
+        elif args.distance == "euclidian":
+            evaluate(pairwise_squared_euclidian_distance)
+    if args.subparser_name == "benchmark":
         run_latency_benchmark(torch.device("cuda:0" if args.gpu else "cpu"))
+
