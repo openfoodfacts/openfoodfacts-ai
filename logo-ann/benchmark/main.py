@@ -1,11 +1,8 @@
 import argparse
 from collections import Counter, defaultdict
-import email
 import json
-from math import dist
 from pathlib import Path
 import time
-from turtle import distance
 from typing import Callable, Dict, List, Optional, Set, Tuple
 
 import numpy as np
@@ -17,6 +14,7 @@ import torch
 from torch.utils.data import DataLoader, Dataset
 import tqdm
 from transformers import CLIPModel, CLIPProcessor
+from sklearn.metrics import precision_score, recall_score
 
 
 MODEL_NAMES = [
@@ -24,9 +22,9 @@ MODEL_NAMES = [
     "efficientnet_b1",
     "efficientnet_b2",
     "efficientnet_b4",
-    #"beit_base_patch16_384",
-    #"beit_large_patch16_224_in22k",
-    #"beit_large_patch16_384",
+    # "beit_base_patch16_384",
+    # "beit_large_patch16_224_in22k",
+    # "beit_large_patch16_384",
     "clip-vit-base-patch16",
     "clip-vit-base-patch32",
     "clip-vit-large-patch14",
@@ -125,10 +123,12 @@ def pairwise_squared_euclidian_distance(A: np.ndarray) -> torch.Tensor:
     squared_sum = torch.sum(A ** 2.0, axis=1, keepdim=True)
     return squared_sum + squared_sum.T - 2 * dot_product
 
-def cosine_similarity(A: torch.Tensor) -> torch.Tensor:
+
+def pairwise_cosine_distance(A: torch.Tensor) -> torch.Tensor:
     assert len(A.shape) == 2
     normalized = torch.nn.functional.normalize(A, p=2.0, dim=1)
-    return 1-torch.matmul(normalized,normalized.T)
+    return 1 - torch.matmul(normalized, normalized.T)
+
 
 def run_model(
     root_dir: Path,
@@ -141,7 +141,9 @@ def run_model(
     model.to(device)
     config = resolve_data_config({}, model=model)
     transform_func = create_transform(**config)
-    dataset = LogoDataset(root_dir, transform_func, split_set) #our dataset is built on the data written in val.txt
+    dataset = LogoDataset(
+        root_dir, transform_func, split_set
+    )  # our dataset is built on the data written in val.txt
     data_loader = DataLoader(dataset, batch_size, num_workers=2)
     embeddings, labels, elapsed = generate_embeddings(model, data_loader, device)
     return embeddings, labels, dataset, elapsed
@@ -173,20 +175,33 @@ def compute_metrics(
     max_label_count: int = 5,
 ):
     mask = get_distance_matrix_mask(
-        distance_matrix.shape[0], max_label_count=max_label_count, labels=labels,
+        distance_matrix.shape[0], max_label_count=max_label_count, labels=labels
     )
-    return compute_metrics_k(distance_matrix, mask, labels, k_list, max_label_count)
+    return compute_classifier_metrics_k(
+        distance_matrix, mask, labels, k_list
+    )  # to compute the efficiency fo the models as classifiers
+    # return compute_model_metrics_k(distance_matrix, mask, labels, k_list, max_label_count)  # to compute the brut efficiency of the models
 
 
 def get_distance_matrix_mask(
-    size: int, max_label_count: int = 0, labels: Optional[np.ndarray] = None,
+    size: int, max_label_count: int = 0, labels: Optional[np.ndarray] = None
 ) -> np.ndarray:
+    """
+    It returns a boolean matrix of shape size*size.
+
+    mask[n,m] = False If we want to keep this logo for the 
+    computation of the closest neighbours. 
+
+    The idea is to keep at max max_label_count logos per label and not to take 
+    into account the embedding itself when computeing the closest neighbours. 
+    """
     mask = np.ones((size, size), dtype=bool)
 
     if max_label_count:
         if labels is None:
             raise ValueError("labels must be provided if max_label_count != 0")
 
+        # unique_labels is a list of all the indices used for labels sorted by gowing order (for ex [1,2,3,...,116])
         unique_labels = set(map(int, labels))
         for row_idx in range(size):
             query_label = labels[row_idx]
@@ -194,6 +209,7 @@ def get_distance_matrix_mask(
                 population = np.where(labels == label)[0]
                 if label == query_label:
                     population = population[population != row_idx]
+                # we keep at max max_label_count logos of the current label
                 column_indices = np.random.choice(
                     population,
                     size=min(len(population), max_label_count),
@@ -204,7 +220,91 @@ def get_distance_matrix_mask(
     return mask
 
 
-def compute_metrics_k(
+def compute_classifier_metrics_k(
+    distance_matrix: np.ndarray, mask: np.ndarray, labels: np.ndarray, k_list: List[int]
+):
+    # label_count is a dict with label : number_of_logos_of_the_label
+    label_count = Counter(map(int, labels))
+    n_labels = len(set(labels))
+    assert sorted(label_count) == list(range(labels.max() + 1))
+    results = {
+        "precision": defaultdict(lambda: np.zeros(n_labels)),
+        "recall": defaultdict(lambda: np.zeros(n_labels)),
+        "F1": defaultdict(lambda: np.zeros(n_labels)),
+        "micro_precision": {},
+        "macro_precision": {},
+        "micro_recall": {},
+        "macro_recall": {},
+        "micro_F1": {},
+        "macro_F1": {},
+    }
+    distance_matrix = distance_matrix.copy()
+    distance_matrix[mask] = np.inf
+    max_k = max(k_list)
+    # sort_indices is a matrix of shape nb_vectors * max_k. For each row first
+    # index is the closest neighbour, second the second closest etc...
+    sort_indices = np.argsort(distance_matrix, axis=1)[:, :max_k]
+
+    top_k_labels = labels[sort_indices]
+
+    # print(f"label count: {label_count}")
+    for k in k_list:
+
+        closest_k_labels = top_k_labels[:, :k]
+
+        # count_neighbours is an array of Counters, giving the amount of labels represented among the closest neighbours
+        count_neighbours = np.array(
+            [
+                Counter(map(int, closest_k_labels[i]))
+                for i in range(closest_k_labels.shape[0])
+            ]
+        )
+        # count_neighbours = np.apply_along_axis(lambda x: np.bincount(x, minlength=len(label_count)), axis=1, arr=closest_k_labels)
+
+        # predicted_labels gives us the best labels for each embedding
+        predicted_labels = np.array(
+            [
+                max(count_neighbours[i], key=lambda x: count_neighbours[i][x])
+                for i in range(len(count_neighbours))
+            ]
+        )
+        # predicted_labels = count_neighbours.argmax(axis=1)
+
+        tp_sum = 0
+        tp_fp_sum = 0
+        tp_fn_sum = 0
+
+        for label in label_count:
+            # the indices for which the current label has been predicted :
+            tp_fp = np.where(predicted_labels == label)[0]
+            # the indices for which the current label is actual :
+            tp_fn = np.where(labels == label)[0]
+            # the indices for which the current label is predicted and actual :
+            tp = np.where(predicted_labels[tp_fn] == label)[0]
+
+            tp_fp = len(tp_fp)
+            tp_fn = len(tp_fn)
+            tp = len(tp)
+
+            if tp_fp != 0:
+                results["precision"][k][label] = 0 if tp_fp == 0 else tp / tp_fp
+            results["recall"][k][label] = tp / tp_fn
+            results["F1"][k][label] = (2 * tp) / (tp_fp + tp_fn)
+            tp_sum += tp
+            tp_fp_sum += tp_fp
+            tp_fn_sum += tp_fn
+
+        results["micro_precision"][k] = tp_sum / tp_fp_sum
+        results["micro_recall"][k] = tp_sum / tp_fn_sum
+        results["micro_F1"][k] = 2 * tp_sum / (tp_fn_sum + tp_fp_sum)
+        results["macro_precision"][k] = float(results["precision"][k].mean())
+        results["macro_recall"][k] = float(results["recall"][k].mean())
+        results["macro_F1"][k] = float(results["F1"][k].mean())
+
+    return results
+
+
+def compute_model_metrics_k(
     distance_matrix: np.ndarray,
     mask: np.ndarray,
     labels: np.ndarray,
@@ -221,6 +321,8 @@ def compute_metrics_k(
         "macro_precision": {},
         "micro_recall": {},
         "macro_recall": {},
+        "micro_F1": {},
+        "macro_F1": {},
     }
     distance_matrix = distance_matrix.copy()
     distance_matrix[mask] = np.inf
@@ -229,7 +331,7 @@ def compute_metrics_k(
     top_k_labels = labels[sort_indices]
     # matches: (sample, max_k)
     matches = (top_k_labels == labels[:, None]).astype(int)
-    #print(f"label count: {label_count}")
+    print(f"label count: {label_count}")
     for k in k_list:
         tp_sum = 0
         tp_fp_sum = 0
@@ -239,22 +341,25 @@ def compute_metrics_k(
         for label in label_count:
             # tp: (number of true positive for label, )
             tp = matches_k[np.where(labels == label)[0]]
-            #print(f"tp for label {label}: {tp}")
+            print(f"tp for label {label}: {tp}")
             positive_all = tp.shape[0]
-            #print(f"positive_all for label {label}: {positive_all}")
+            print(f"positive_all for label {label}: {positive_all}")
             tp_fp = k * positive_all
-            #print(f"tp_fp for label {label}: {tp_fp}")
+            print(f"tp_fp for label {label}: {tp_fp}")
             tp_fn = max_label_count * positive_all
             results["precision"][k][label] = tp.sum() / tp_fp
             results["recall"][k][label] = tp.sum() / tp_fn
+            results["F1"][k][label] = 2 * tp.sum() / (tp_fn + tp_fp)
             tp_sum += tp.sum()
             tp_fp_sum += tp_fp
             tp_fn_sum += tp_fn
 
         results["micro_precision"][k] = tp_sum / tp_fp_sum
         results["micro_recall"][k] = tp_sum / tp_fn_sum
+        results["micro_F1"][k] = 2 * tp_sum / (tp_fn_sum + tp_fp_sum)
         results["macro_precision"][k] = float(results["precision"][k].mean())
         results["macro_recall"][k] = float(results["recall"][k].mean())
+        results["macro_F1"][k] = float(results["F1"][k].mean())
     return results
 
 
@@ -276,12 +381,21 @@ def save_metrics(metrics, dataset, model_name: str):
             for value, label_name in zip(values, dataset.label_names):
                 print(f"    {label_name}: {value}", file=f)
 
+    with (OUTPUT_DIR / "F1.txt").open("w") as f:
+        for k, values in metrics["F1"].items():
+            print(f"  k = {k}", file=f)
+            assert len(values) == len(dataset.label_names)
+            for value, label_name in zip(values, dataset.label_names):
+                print(f"    {label_name}: {value}", file=f)
+
     with (OUTPUT_DIR / "all_metrics.txt").open("w") as f:
         for metric in (
             "micro_recall",
             "macro_recall",
             "micro_precision",
             "macro_precision",
+            "micro_F1",
+            "macro_F1",
         ):
             print(f"--- {metric} ---", file=f)
             for k, value in metrics[metric].items():
@@ -313,9 +427,7 @@ def evaluate(distance_func):
             # print(f"Embedding shape: {embeddings.shape}")
             # print(f"Labels shape: {labels.shape}")
             with torch.inference_mode():
-                distance_matrix = (
-                    distance_func(embeddings).cpu().numpy()
-                )
+                distance_matrix = distance_func(embeddings).cpu().numpy()
 
         metrics = compute_metrics(
             distance_matrix,
@@ -324,7 +436,8 @@ def evaluate(distance_func):
             max_label_count=max_label_count,
         )
         save_metrics(metrics, dataset, model_name)
-    
+
+
 def run_latency_benchmark(device: torch.device):
     with open("val.txt", "r") as f:
         split_set = set(map(str.strip, f))
@@ -347,7 +460,7 @@ def run_latency_benchmark(device: torch.device):
         )
         results[model_name]["elapsed_total"] = elapsed
         results[model_name]["elapsed_per_sample"] = elapsed / n
-        results[model_name]["embedding_size"] = int(embeddings.shape[0])
+        results[model_name]["embedding_size"] = int(embeddings.shape[1])
         print(
             f"{model_name}, elapsed_total: {elapsed} (s), elapsed_per_sample: {elapsed/n}"
         )
@@ -364,15 +477,19 @@ if __name__ == "__main__":
     benchmark_parser = subparsers.add_parser(
         "benchmark", help="Launch latency benchmark"
     )
-    evaluate_parser.add_argument("--distance", choices=["cosine","euclidian"], help="Choose the distance used to compute the evaluation")
+    evaluate_parser.add_argument(
+        "--distance",
+        choices=["cosine", "euclidian"],
+        help="Choose the distance used to compute the evaluation",
+    )
     benchmark_parser.add_argument("--gpu", action="store_true")
-    args = parser.parse_args()
+    args = parser.parse_args("evaluate")
 
     if args.subparser_name == "evaluate":
-        if args.distance == "cosine":
-            evaluate(cosine_similarity)
-        elif args.distance == "euclidian":
-            evaluate(pairwise_squared_euclidian_distance)
+        evaluate(
+            pairwise_cosine_distance
+            if args.distance == "cosine"
+            else pairwise_squared_euclidian_distance
+        )
     if args.subparser_name == "benchmark":
         run_latency_benchmark(torch.device("cuda:0" if args.gpu else "cpu"))
-
