@@ -14,6 +14,20 @@ import tqdm
 
 from utils import get_offset, get_seen_set
 
+"""
+Returns a hdf5 file containing all the data about the logos of the OpenFoodFacts database.
+
+> > > python 01_generate_image_dump.py image_dir data_path output_path --size S (--compression) --count C
+
+image_dir: the path of the directory containing all the products image to crop
+data_path: the path of 
+output_path: the path where the hdf5 file will be returned
+size: the size of the returned logos. They are returned as squares of shape size * size
+compression:
+count: 
+
+"""
+
 
 def save_hdf5(
     output_file: pathlib.Path,
@@ -44,11 +58,7 @@ def save_hdf5(
                 chunks=(2048,),
             )
             image_id_dset = f.create_dataset(
-                "image_id",
-                (count,),
-                dtype="i",
-                compression=compression,
-                chunks=(2048,),
+                "image_id", (count,), dtype="i", compression=compression, chunks=(2048,)
             )
             resolution_dset = f.create_dataset(
                 "resolution",
@@ -91,7 +101,9 @@ def save_hdf5(
 
         print("Offset: {}".format(offset))
 
-        for batch in chunked(data_iter, batch_size):
+        for batch in chunked(
+            data_iter, batch_size
+        ):  # iter over data_iter through batches of batch_size elements of data_iter
             barcode_batch = np.array([x[0] for x in batch])
             image_id_batch = np.array([x[1] for x in batch], dtype="i")
             image_batch = np.stack([x[2] for x in batch], axis=0)
@@ -113,6 +125,9 @@ def save_hdf5(
 def crop_image(
     image: np.ndarray, bounding_box: Tuple[float, float, float, float]
 ) -> np.ndarray:
+    """
+    Return the cropped logo as an array extracted from the array of the image
+    """
     ymin, xmin, ymax, xmax = bounding_box
     height, width = image.shape[:2]
     (left, right, top, bottom) = (
@@ -169,6 +184,22 @@ def count_results(base_image_dir: pathlib.Path, result_path: pathlib.Path) -> in
 def get_data_gen(
     base_image_dir: pathlib.Path, data_path: pathlib.Path, size: int, seen_set: Set[int]
 ) -> Iterable[Tuple[str, int, np.ndarray, Tuple[int, int], List[float], float, int]]:
+    """
+    Inputs:
+    - base_image_dir: path of the directory containing the images from which to get logos data
+    - data_path: path of the jsonl file containing annotation details about logos
+    - size: size of the squared logos returned in the hdf5 file
+    - seen_set: set of all logos already seen by the func allowing to run the file without starting from scratch if an error occured
+
+    Return the following data:
+    - barcode: barcode of the product corresponding to the logo
+    - image_id: id of the image from which the logo was extracted
+    - cropped_resized_img: 
+            original_resolution,
+            bounding_box,
+            score,
+            logo_id,
+    """
     for logo_annotation in iter_jsonl(data_path):
         logo_id = logo_annotation["id"]
 
@@ -245,6 +276,6 @@ if __name__ == "__main__":
         get_data_gen(args.image_dir, args.data_path, args.size, seen_set)
     )
     save_hdf5(
-        args.output_path, data_gen, args.count, args.size, compression=args.compression,
+        args.output_path, data_gen, args.count, args.size, compression=args.compression
     )
     print("Dump completed")
