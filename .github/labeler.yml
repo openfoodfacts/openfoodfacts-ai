@@ -1,2 +1,30 @@
 github_actions:
 - .github/**/*
+
+nutrition facts:
+- /nutrition-table-extraction/**/*
+- /GSoC2018/**/*
+
+documentation:
+- data-sets.md
+- README.md
+
+datasets:
+- data-sets.md
+
+spellcheck:
+- spellcheck/**/*
+
+ocr cleaning:
+- ocr_cleaning/**/*
+
+object detection:
+- object_detection/**/*
+
+logo-ann:
+- logo-ann/**/*
+- data4good_logo_detection/**/*
+
+student projects:
+- ai-emlyon/**/*
+
