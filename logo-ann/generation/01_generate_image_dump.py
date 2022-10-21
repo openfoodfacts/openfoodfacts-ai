@@ -23,8 +23,9 @@ image_dir: the path of the directory containing all the products image to crop
 data_path: the path of the file containing all the de
 output_path: the path where the hdf5 file will be returned
 size: the size of the returned logos. They are returned as squares of shape size * size. (for CLIP models the expected size is 224)
-compression:
+compression: the format to compress the data in the hdf5 file
 count: the amount of logos you want to save in the hdf5 file. By default, it will save all the logos of the data file.
+
 
 """
 
@@ -210,6 +211,7 @@ def get_data_gen(
     - bounding_box: an array of size 4 containing the angles of the square whre the logo was detected
     - score: score of confidence regarding the validity of the cropped logo
     - logo_id: id of the logo
+
     """
     for logo_annotation in iter_jsonl(data_path):
         logo_id = logo_annotation["id"]
