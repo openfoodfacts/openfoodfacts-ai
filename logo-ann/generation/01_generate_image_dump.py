@@ -17,14 +17,14 @@ from utils import get_offset, get_seen_set
 """
 Returns a hdf5 file containing all the data about the logos of the OpenFoodFacts database.
 
-> > > python 01_generate_image_dump.py image_dir data_path output_path --size S (--compression) --count C
+> > > python3 01_generate_image_dump.py image_dir data_path output_path --size S (--compression) --count C
 
 image_dir: the path of the directory containing all the products image to crop
-data_path: the path of 
+data_path: the path of the file containing all the de
 output_path: the path where the hdf5 file will be returned
-size: the size of the returned logos. They are returned as squares of shape size * size
+size: the size of the returned logos. They are returned as squares of shape size * size. (for CLIP models the expected size is 224)
 compression:
-count: 
+count: the amount of logos you want to save in the hdf5 file. By default, it will save all the logos of the data file.
 
 """
 
@@ -39,6 +39,10 @@ def save_hdf5(
     batch_size: int = 256,
     compression: Optional[str] = None,
 ):
+    '''
+    Write all the outputs yielded by the get_data_gen function in an hdf5 file (create the file if it doesn't already exist).
+    For that, create different h5py datasets for every data and add it in, batch after batch.
+    '''
     file_exists = output_file.is_file()
 
     with h5py.File(str(output_file), "a") as f:
@@ -148,9 +152,11 @@ def iter_jsonl(path: pathlib.Path):
 BARCODE_PATH_REGEX = re.compile(r"^(...)(...)(...)(.*)$")
 
 
-def split_barcode(barcode: str) -> List[str]:
+def split_barcode(barcode: str) -> Optional[List[str]]:
     if not barcode.isdigit():
-        raise ValueError("unknown barcode format: {}".format(barcode))
+        print("unknown barcode format: {}".format(barcode))
+        #raise ValueError("unknown barcode format: {}".format(barcode))
+        return None
 
     match = BARCODE_PATH_REGEX.fullmatch(barcode)
 
@@ -160,8 +166,10 @@ def split_barcode(barcode: str) -> List[str]:
     return [barcode]
 
 
-def generate_image_path(barcode: str, image_id: str) -> str:
+def generate_image_path(barcode: str, image_id: str) -> Optional[str]:
     splitted_barcode = split_barcode(barcode)
+    if splitted_barcode == None:
+        return None
     return "{}/{}.jpg".format("/".join(splitted_barcode), image_id)
 
 
@@ -170,7 +178,10 @@ def count_results(base_image_dir: pathlib.Path, result_path: pathlib.Path) -> in
     for item in iter_jsonl(result_path):
         barcode = int(item["barcode"])
         image_id = int(item["image_id"])
-        file_path = base_image_dir / generate_image_path(str(barcode), str(image_id))
+        generated_image_path = generate_image_path(str(barcode), str(image_id))
+        if generated_image_path == None:
+            continue
+        file_path = base_image_dir / generated_image_path
 
         if not file_path.is_file():
             continue
@@ -191,14 +202,14 @@ def get_data_gen(
     - size: size of the squared logos returned in the hdf5 file
     - seen_set: set of all logos already seen by the func allowing to run the file without starting from scratch if an error occured
 
-    Return the following data:
+    Yield the following outputs:
     - barcode: barcode of the product corresponding to the logo
     - image_id: id of the image from which the logo was extracted
-    - cropped_resized_img: 
-            original_resolution,
-            bounding_box,
-            score,
-            logo_id,
+    - cropped_resized_img: a 
+    - original_resolution: the original size of the image
+    - bounding_box: an array of size 4 containing the angles of the square whre the logo was detected
+    - score: score of confidence regarding the validity of the cropped logo
+    - logo_id: id of the logo
     """
     for logo_annotation in iter_jsonl(data_path):
         logo_id = logo_annotation["id"]
@@ -206,11 +217,12 @@ def get_data_gen(
         if logo_id in seen_set:
             continue
 
-        image_prediction = logo_annotation["image_prediction"]
-        image = image_prediction["image"]
-        barcode = image["barcode"]
-        image_id = int(image["image_id"])
-        file_path = base_image_dir / generate_image_path(barcode, str(image_id))
+        barcode = logo_annotation["barcode"]
+        image_id = int(logo_annotation["image_id"])
+        generated_image_path = generate_image_path(str(barcode), str(image_id))
+        if generated_image_path == None:
+            continue
+        file_path = base_image_dir / generated_image_path
 
         if not file_path.is_file():
             continue
@@ -218,7 +230,7 @@ def get_data_gen(
         base_img = lycon.load(str(file_path))
         assert base_img is not None
 
-        if base_img.shape[-1] != 3:
+        if base_img.shape[-1] != 3 :
             base_img = np.array(Image.fromarray(base_img).convert("RGB"))
 
         assert base_img.shape[-1] == 3
