@@ -39,10 +39,10 @@ def save_hdf5(
     batch_size: int = 256,
     compression: Optional[str] = None,
 ):
-    '''
+    """
     Write all the outputs yielded by the get_data_gen function in an hdf5 file (create the file if it doesn't already exist).
     For that, create different h5py datasets for every data and add it in, batch after batch.
-    '''
+    """
     file_exists = output_file.is_file()
 
     with h5py.File(str(output_file), "a") as f:
@@ -155,7 +155,7 @@ BARCODE_PATH_REGEX = re.compile(r"^(...)(...)(...)(.*)$")
 def split_barcode(barcode: str) -> Optional[List[str]]:
     if not barcode.isdigit():
         print("unknown barcode format: {}".format(barcode))
-        #raise ValueError("unknown barcode format: {}".format(barcode))
+        # raise ValueError("unknown barcode format: {}".format(barcode))
         return None
 
     match = BARCODE_PATH_REGEX.fullmatch(barcode)
@@ -230,7 +230,7 @@ def get_data_gen(
         base_img = lycon.load(str(file_path))
         assert base_img is not None
 
-        if base_img.shape[-1] != 3 :
+        if base_img.shape[-1] != 3:
             base_img = np.array(Image.fromarray(base_img).convert("RGB"))
 
         assert base_img.shape[-1] == 3
