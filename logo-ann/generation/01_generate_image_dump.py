@@ -228,7 +228,9 @@ def get_data_gen(
             continue
 
         base_img = lycon.load(str(file_path))
-        assert base_img is not None
+        if base_img is None:
+            print("base_img is None :", base_img)
+            continue
 
         if base_img.shape[-1] != 3:
             base_img = np.array(Image.fromarray(base_img).convert("RGB"))
