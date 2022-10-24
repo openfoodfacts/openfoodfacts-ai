@@ -1,7 +1,6 @@
 import argparse
-from email.policy import default
 import pathlib
-from typing import Iterable, Set
+from typing import Iterable, Set, Any
 
 from efficientnet_pytorch import EfficientNet
 from transformers import CLIPModel, CLIPProcessor
@@ -14,8 +13,7 @@ import PIL
 
 from utils import get_offset, get_seen_set
 
-"""
-Returns a hdf5 file containing the embeddings of every logo of the input hdf5 file.
+"""Return a hdf5 file containing the embeddings of every logo of the input hdf5 file.
 
 > > >  python3 02_generate_ebeddings.py data_path output_path (--batch-size n) (--min-confidence m) --model-type str
 
@@ -33,9 +31,9 @@ def build_model(model_type: str):
 
 
 def get_output_dim(model_type: str):
-    """
-    Return the embeddings size according to the model used.
-    """
+
+    """Return the embeddings size according to the model used."""
+
     if model_type == "efficientnet-b0":
         return 1280
 
@@ -64,10 +62,10 @@ def generate_embeddings_iter(
     device: torch.device,
     seen_set: Set[int],
     min_confidence: float = 0.5,
-    processor: any = None,
+    processor: Any = None,
 ):
-    """
-    Inputs:
+
+    """Inputs:
     - model: name of the specific model used
     - file_path: path of the hdf5 file containing the data of all the logos
     - batch-size: size of each batche of logos embedded at the same time 
@@ -105,7 +103,7 @@ def generate_embeddings_iter(
                 if int(external_id) in seen_set:
                     mask[i] = 0
 
-            if np.all(~mask):  # if we only have
+            if np.all(~mask):  # if we only have zeros at this step, we have a batch only with empty data or already seen logos
                 continue
 
             images = image_dset[slicing][mask]
@@ -152,13 +150,14 @@ def generate_embeddings_iter(
 def generate_embedding_from_hdf5(
     data_gen: Iterable, output_path: pathlib.Path, output_dim: int, count: int
 ):
-    """
-    Save the embedding and the external id of each logo (data in data_gen) in an hdf5 file (the output_path).
+
+    """Save the embedding and the external id of each logo (data in data_gen) in an hdf5 file (the output_path).
     - data_gen: yielded embeddings and external ids of each logo from generate_embeddings_iter
     - output_path: path of the output hdf5 file
     - output_dim: dimension of the embeddings (depends on the computer vision model used)
     - count: amount of embeddings you want to save 
     """
+
     file_exists = output_path.is_file()
 
     with h5py.File(str(output_path), "a") as f:
@@ -202,6 +201,7 @@ if __name__ == "__main__":
         args.model_type.startswith("clip-vit-base-patch")
         and args.model_type[-1].isdigit()
     )
+
     model_type = args.model_type
     model = build_model(model_type)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
