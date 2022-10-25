@@ -1,4 +1,5 @@
 import argparse
+from email.policy import default
 import pathlib
 from typing import Iterable, Set, Any
 
@@ -148,7 +149,7 @@ def generate_embeddings_iter(
 def generate_embedding_from_hdf5(
     data_gen: Iterable, output_path: pathlib.Path, output_dim: int, count: int
 ):
-
+  
     """Save the embedding and the external id of each logo (data in data_gen) in an hdf5 file (the output_path).
     - data_gen: yielded embeddings and external ids of each logo from generate_embeddings_iter
     - output_path: path of the output hdf5 file

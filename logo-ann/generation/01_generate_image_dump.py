@@ -14,6 +14,7 @@ import tqdm
 
 from utils import get_offset, get_seen_set
 
+
 """Return a hdf5 file containing all the data about the logos of the OpenFoodFacts database.
 
 > > > python3 01_generate_image_dump.py image_dir data_path output_path --size S (--compression) --count C
@@ -24,7 +25,6 @@ output_path: path where the hdf5 file will be returned
 size: size used to resize the logos. They are returned as squares of shape size * size. (for CLIP models the expected size is 224)
 compression: format of the compression for the intern data of the hdf5 file
 count: amount of logos you want to save in the hdf5 file. By default, it will save all the logos of the data file.
-
 """
 
 
@@ -38,6 +38,7 @@ def save_hdf5(
     batch_size: int = 256,
     compression: Optional[str] = None,
 ):
+
 
     """Write all the outputs yielded by the get_data_gen function in an hdf5 file (create the file if it doesn't already exist).
     For that, create different h5py datasets for every data and add it in, batch after batch.
@@ -195,7 +196,7 @@ def count_results(base_image_dir: pathlib.Path, result_path: pathlib.Path) -> in
 def get_data_gen(
     base_image_dir: pathlib.Path, data_path: pathlib.Path, size: int, seen_set: Set[int]
 ) -> Iterable[Tuple[str, int, np.ndarray, Tuple[int, int], List[float], float, int]]:
-
+  
     """Inputs:
     - base_image_dir: path of the directory containing the images from which to get logos data
     - data_path: path of the jsonl file containing annotation details about logos
