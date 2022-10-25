@@ -125,15 +125,13 @@ def generate_embeddings_iter(
 
             ### If using CLIP models :
             with torch.no_grad():
-                array_to_PIL = lambda x: PIL.Image.fromarray(
-                    x, mode="RGB"
-                )  # convert the np.array to PIL in order to use the CLIProcessor
+                # preprocess the images to put them into the model
                 images = processor(
-                    images=[array_to_PIL(images[i]) for i in range(batch_size)],
+                    images=[PIL.Image.fromarray(images[i], mode="RGB") for i in range(batch_size)],  # convert the np.array to PIL in order to use the CLIProcessor
                     return_tensors="pt",
                 )[
                     "pixel_values"
-                ]  # preprocess the images to put them into the model
+                ]
                 embeddings = (
                     model(**{"pixel_values": images.to(device)})
                     .pooler_output.cpu()
