@@ -1,0 +1,2231 @@
+label count: Counter({85: 1323, 79: 857, 110: 853, 102: 533, 75: 280, 73: 277, 78: 131, 116: 113, 94: 94, 109: 66, 51: 61, 47: 58, 97: 54, 14: 48, 42: 45, 53: 44, 84: 43, 80: 43, 107: 41, 87: 39, 111: 39, 93: 39, 100: 35, 98: 33, 15: 32, 44: 32, 12: 31, 68: 31, 89: 31, 16: 31, 72: 27, 50: 27, 13: 27, 103: 27, 17: 25, 8: 24, 115: 23, 88: 22, 55: 22, 90: 22, 18: 21, 96: 21, 4: 21, 19: 20, 65: 19, 76: 19, 99: 19, 56: 18, 70: 18, 9: 18, 1: 17, 113: 17, 57: 17, 22: 17, 108: 15, 91: 15, 48: 15, 5: 15, 21: 14, 95: 14, 66: 13, 33: 13, 52: 12, 11: 12, 74: 11, 3: 11, 49: 11, 59: 10, 39: 10, 106: 10, 26: 10, 24: 10, 40: 10, 38: 10, 6: 10, 35: 9, 62: 9, 77: 9, 67: 9, 83: 9, 43: 9, 104: 9, 31: 8, 34: 8, 10: 8, 114: 8, 92: 7, 25: 7, 27: 7, 61: 6, 36: 6, 45: 6, 82: 6, 86: 6, 20: 6, 69: 6, 29: 6, 0: 6, 101: 6, 112: 6, 23: 6, 54: 6, 7: 6, 81: 6, 41: 5, 2: 5, 60: 5, 46: 5, 64: 5, 71: 5, 32: 5, 37: 5, 30: 5, 28: 5, 58: 5, 105: 5, 63: 5})
+tp for label 65: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 65: 19
+tp_fp for label 65: 19
+tp for label 61: [1 1 1 1 1 1]
+positive_all for label 61: 6
+tp_fp for label 61: 6
+tp for label 36: [0 1 1 1 1 1]
+positive_all for label 36: 6
+tp_fp for label 36: 6
+tp for label 45: [0 1 1 1 1 1]
+positive_all for label 45: 6
+tp_fp for label 45: 6
+tp for label 72: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 72: 27
+tp_fp for label 72: 27
+tp for label 12: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 12: 31
+tp_fp for label 12: 31
+tp for label 47: [1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 1 1
+ 1 1 1 0 0 1 1 1 1 1 0 0 1 1 1 1 1 1 0 1 1]
+positive_all for label 47: 58
+tp_fp for label 47: 58
+tp for label 35: [1 1 1 0 1 1 1 1 1]
+positive_all for label 35: 9
+tp_fp for label 35: 9
+tp for label 59: [1 1 1 1 1 1 1 1 1 1]
+positive_all for label 59: 10
+tp_fp for label 59: 10
+tp for label 116: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1
+ 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1]
+positive_all for label 116: 113
+tp_fp for label 116: 113
+tp for label 82: [1 1 1 1 0 1]
+positive_all for label 82: 6
+tp_fp for label 82: 6
+tp for label 107: [0 0 0 1 0 0 1 1 1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 1 1 1 0 0 1 1 1 1 1 0 0 1 1
+ 0 1 0 1]
+positive_all for label 107: 41
+tp_fp for label 107: 41
+tp for label 41: [1 1 1 0 1]
+positive_all for label 41: 5
+tp_fp for label 41: 5
+tp for label 88: [1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 0 0 0 1 0]
+positive_all for label 88: 22
+tp_fp for label 88: 22
+tp for label 108: [0 0 1 1 1 0 1 1 1 1 0 1 1 0 1]
+positive_all for label 108: 15
+tp_fp for label 108: 15
+tp for label 86: [0 1 1 1 1 0]
+positive_all for label 86: 6
+tp_fp for label 86: 6
+tp for label 20: [0 0 1 0 1 0]
+positive_all for label 20: 6
+tp_fp for label 20: 6
+tp for label 87: [1 1 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1
+ 1 1]
+positive_all for label 87: 39
+tp_fp for label 87: 39
+tp for label 74: [1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 74: 11
+tp_fp for label 74: 11
+tp for label 69: [1 0 1 1 1 1]
+positive_all for label 69: 6
+tp_fp for label 69: 6
+tp for label 78: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1
+ 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 78: 131
+tp_fp for label 78: 131
+tp for label 15: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 15: 32
+tp_fp for label 15: 32
+tp for label 39: [1 1 1 0 1 1 1 1 1 1]
+positive_all for label 39: 10
+tp_fp for label 39: 10
+tp for label 50: [0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1]
+positive_all for label 50: 27
+tp_fp for label 50: 27
+tp for label 100: [0 0 1 0 1 1 1 1 1 0 0 1 1 0 1 1 1 1 1 1 0 1 0 0 1 1 1 1 0 0 1 1 1 1 0]
+positive_all for label 100: 35
+tp_fp for label 100: 35
+tp for label 42: [0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 0]
+positive_all for label 42: 45
+tp_fp for label 42: 45
+tp for label 21: [1 0 1 1 1 1 0 1 0 1 0 1 1 1]
+positive_all for label 21: 14
+tp_fp for label 21: 14
+tp for label 18: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 18: 21
+tp_fp for label 18: 21
+tp for label 29: [1 1 1 1 1 1]
+positive_all for label 29: 6
+tp_fp for label 29: 6
+tp for label 98: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1]
+positive_all for label 98: 33
+tp_fp for label 98: 33
+tp for label 106: [1 1 1 1 1 1 1 1 1 1]
+positive_all for label 106: 10
+tp_fp for label 106: 10
+tp for label 52: [1 0 1 1 0 1 1 1 1 1 1 1]
+positive_all for label 52: 12
+tp_fp for label 52: 12
+tp for label 62: [1 1 1 1 0 1 1 1 1]
+positive_all for label 62: 9
+tp_fp for label 62: 9
+tp for label 77: [1 0 1 1 1 1 0 1 0]
+positive_all for label 77: 9
+tp_fp for label 77: 9
+tp for label 67: [1 1 1 1 1 1 1 1 1]
+positive_all for label 67: 9
+tp_fp for label 67: 9
+tp for label 56: [1 0 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 56: 18
+tp_fp for label 56: 18
+tp for label 83: [1 1 0 1 1 1 0 1 0]
+positive_all for label 83: 9
+tp_fp for label 83: 9
+tp for label 11: [1 1 0 1 1 1 1 1 0 1 1 1]
+positive_all for label 11: 12
+tp_fp for label 11: 12
+tp for label 94: [1 1 0 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 1 1 0 1 0 0 1 1 1 1 1 0 1 1 0 1 1 1
+ 1 0 1 1 1 1 1 1 0 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1
+ 0 1 1 1 0 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 94: 94
+tp_fp for label 94: 94
+tp for label 8: [1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 1 1 1 1 0 1 1 1 1]
+positive_all for label 8: 24
+tp_fp for label 8: 24
+tp for label 43: [1 1 0 1 1 1 0 0 1]
+positive_all for label 43: 9
+tp_fp for label 43: 9
+tp for label 2: [1 0 0 0 0]
+positive_all for label 2: 5
+tp_fp for label 2: 5
+tp for label 53: [1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 0 1 0 1 1 0 1 1 1 1 1 1
+ 1 1 0 1 0 1 1]
+positive_all for label 53: 44
+tp_fp for label 53: 44
+tp for label 85: [1 1 0 ... 1 1 1]
+positive_all for label 85: 1323
+tp_fp for label 85: 1323
+tp for label 111: [1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 1 1 1 1
+ 1 0]
+positive_all for label 111: 39
+tp_fp for label 111: 39
+tp for label 60: [1 1 0 1 1]
+positive_all for label 60: 5
+tp_fp for label 60: 5
+tp for label 46: [1 1 1 1 1]
+positive_all for label 46: 5
+tp_fp for label 46: 5
+tp for label 92: [0 1 0 0 0 1 0]
+positive_all for label 92: 7
+tp_fp for label 92: 7
+tp for label 13: [1 1 1 0 1 1 0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1]
+positive_all for label 13: 27
+tp_fp for label 13: 27
+tp for label 95: [1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 95: 14
+tp_fp for label 95: 14
+tp for label 79: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 0 1 1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1
+ 0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 0 1 1 0 0 1
+ 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 0 1 1 1 1 1 0 0 0 1 0 0 1 1 1 1 1 1 0 1 1 1 0 1 1 1 1 1 1 1 0 1 1 1
+ 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 0 1 0 0 1 1 0 1 1 0 0 1
+ 1 1 1 1 1 0 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 0 1 0 1 1 1 1 1 1
+ 1 0 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1 0 0 1 1 0 1 1 1 1 1 0 1 0 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 0 1 1 0 1 1 0 1 1 1 1 0 1 0 1 0 0 1 1 1 1 1 0 1 1 0 0 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 1 1 0 0 0 1 1 1 1 1 1 1 0 1 1 0
+ 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1
+ 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 0 1 1 0 1 1 1 1 1 0 1
+ 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+ 1 1 1 1 1 1 0 1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 1 1 1 1 0
+ 1 1 1 1 1 1 1 0 0 1 1 1 0 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1
+ 0 1 1 1 1 1 1 1 0 1 1 1 1 1 0 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+ 1 1 1 1 1 1 1 1 0 1 1 0 1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 0 1 1 0 1
+ 1 1 1 0 1 1]
+positive_all for label 79: 857
+tp_fp for label 79: 857
+tp for label 3: [1 1 1 0 1 1 1 1 1 1 1]
+positive_all for label 3: 11
+tp_fp for label 3: 11
+tp for label 110: [1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 0 1 0 0 1 1 1 0 1 1 0 1 1 1 1 0 1
+ 1 0 1 1 1 1 0 0 1 1 0 1 1 1 1 1 1 0 1 1 0 1 1 1 1 1 0 0 1 1 1 1 0 1 1 1 1
+ 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 1 0 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 0 1 1 0 1 0 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 0 1 1 1 0 1 1 0 1 1 1 1 0 1 0 1 1 1 1
+ 1 0 1 0 1 1 1 0 1 0 0 1 1 1 1 1 0 1 1 1 1 0 1 0 1 1 1 1 1 0 0 1 1 1 1 1 1
+ 1 1 1 0 1 1 0 1 1 1 0 1 0 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0
+ 1 1 0 0 0 1 1 1 1 1 1 1 1 0 1 0 1 1 1 1 0 1 1 1 1 1 1 1 1 0 0 1 1 1 0 1 1
+ 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 0 0 1 1 1 1 1 0 1 1
+ 1 1 1 1 1 1 0 1 1 1 1 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 0 1 1 0 1 0 1 1 1 1 0 1 1 1 1 0 1 1 1 1 0 1 1 1 1 1 1 0 1 1 0 1 0 1 1 1 1
+ 1 1 0 1 1 1 1 1 0 1 0 1 1 0 1 0 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1
+ 1 1 1 1 1 0 0 1 0 1 1 1 1 1 1 1 0 0 1 1 0 1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1
+ 1 1 1 1 1 1 1 0 1 1 1 0 0 1 1 1 1 1 1 1 0 0 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1
+ 1 0 1 1 0 1 1 1 1 1 0 1 1 1 1 1 0 1 0 0 1 1 1 1 0 1 1 1 1 1 1 1 1 0 1 1 0
+ 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 0
+ 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 0 0 1 1 1 0 1 1 1 1 1 1 1 1 0
+ 1 1 1 0 1 0 1 1 0 0 1 1 1 1 1 0 1 1 1 1 0 0 0 1 1 1 1 0 1 1 1 1 0 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1
+ 0 1 0 1 1 1 1 0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1
+ 1 1 0 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 1 0 1 1 1 1 1 1 0 1 0 0 1 1 1 1
+ 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 0 0 0 1 1 1 0 1 1 1 1 1 1 0 0 1 0 0 1 1 1 1
+ 1 1]
+positive_all for label 110: 853
+tp_fp for label 110: 853
+tp for label 14: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 14: 48
+tp_fp for label 14: 48
+tp for label 26: [1 1 0 1 1 0 0 1 1 1]
+positive_all for label 26: 10
+tp_fp for label 26: 10
+tp for label 70: [1 1 0 1 0 1 1 1 1 1 1 0 1 1 1 1 0 0]
+positive_all for label 70: 18
+tp_fp for label 70: 18
+tp for label 91: [1 0 0 1 1 1 1 0 0 0 1 0 0 1 1]
+positive_all for label 91: 15
+tp_fp for label 91: 15
+tp for label 0: [0 1 0 0 1 1]
+positive_all for label 0: 6
+tp_fp for label 0: 6
+tp for label 101: [0 0 0 0 0 0]
+positive_all for label 101: 6
+tp_fp for label 101: 6
+tp for label 31: [1 1 1 1 0 1 1 1]
+positive_all for label 31: 8
+tp_fp for label 31: 8
+tp for label 112: [1 1 1 1 1 1]
+positive_all for label 112: 6
+tp_fp for label 112: 6
+tp for label 34: [1 1 1 1 1 1 1 1]
+positive_all for label 34: 8
+tp_fp for label 34: 8
+tp for label 48: [0 1 1 1 1 1 1 0 1 1 1 1 1 0 1]
+positive_all for label 48: 15
+tp_fp for label 48: 15
+tp for label 55: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 55: 22
+tp_fp for label 55: 22
+tp for label 9: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 9: 18
+tp_fp for label 9: 18
+tp for label 115: [1 1 1 1 0 1 1 0 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1]
+positive_all for label 115: 23
+tp_fp for label 115: 23
+tp for label 64: [1 0 1 0 0]
+positive_all for label 64: 5
+tp_fp for label 64: 5
+tp for label 84: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1]
+positive_all for label 84: 43
+tp_fp for label 84: 43
+tp for label 73: [1 1 1 1 0 1 0 1 1 1 1 1 1 0 0 0 0 1 1 1 1 1 1 0 1 0 1 1 1 1 0 1 1 1 1 1 1
+ 1 1 1 0 1 0 0 0 1 1 0 0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 0 1 1 1 0 1 1 1 0 1
+ 1 0 0 1 0 1 1 1 1 1 1 1 1 0 1 1 1 0 0 1 1 1 0 1 0 1 1 0 0 1 0 1 1 0 1 1 1
+ 1 1 0 0 1 0 0 1 0 1 0 1 0 0 0 0 1 0 1 1 1 1 0 1 0 1 1 1 1 1 0 1 1 0 1 1 1
+ 1 0 1 1 0 0 1 0 1 1 1 1 1 1 1 1 1 0 1 1 1 0 0 0 1 1 1 1 1 0 0 1 1 1 0 0 1
+ 1 1 1 1 1 1 0 1 0 1 1 1 0 0 1 1 1 0 1 0 1 0 0 1 1 0 1 1 1 1 1 1 1 0 1 1 1
+ 0 1 1 0 1 1 0 1 1 1 1 1 0 0 1 1 0 1 1 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 0 0
+ 1 1 1 1 1 1 0 0 0 1 0 1 1 1 1 1 1 1]
+positive_all for label 73: 277
+tp_fp for label 73: 277
+tp for label 1: [1 1 0 1 0 0 1 1 1 1 1 1 1 0 1 1 0]
+positive_all for label 1: 17
+tp_fp for label 1: 17
+tp for label 68: [1 1 0 1 0 0 0 0 0 1 0 1 1 1 0 0 1 0 1 1 0 1 0 1 1 0 1 1 1 0 0]
+positive_all for label 68: 31
+tp_fp for label 68: 31
+tp for label 71: [1 1 1 1 1]
+positive_all for label 71: 5
+tp_fp for label 71: 5
+tp for label 90: [1 0 1 1 1 1 0 0 1 1 0 0 0 0 0 0 0 0 0 1 0 0]
+positive_all for label 90: 22
+tp_fp for label 90: 22
+tp for label 10: [1 1 1 1 1 1 1 1]
+positive_all for label 10: 8
+tp_fp for label 10: 8
+tp for label 19: [1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 0 1 1 1 1]
+positive_all for label 19: 20
+tp_fp for label 19: 20
+tp for label 93: [0 0 0 1 1 1 0 0 0 1 0 0 1 1 0 0 0 1 1 0 0 0 0 0 1 1 1 0 0 0 1 0 1 0 1 0 0
+ 1 0]
+positive_all for label 93: 39
+tp_fp for label 93: 39
+tp for label 32: [0 1 1 1 1]
+positive_all for label 32: 5
+tp_fp for label 32: 5
+tp for label 103: [1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 103: 27
+tp_fp for label 103: 27
+tp for label 114: [1 1 1 1 0 1 1 1]
+positive_all for label 114: 8
+tp_fp for label 114: 8
+tp for label 23: [1 1 1 1 1 1]
+positive_all for label 23: 6
+tp_fp for label 23: 6
+tp for label 54: [1 1 1 1 1 1]
+positive_all for label 54: 6
+tp_fp for label 54: 6
+tp for label 96: [0 1 0 1 1 1 1 1 1 1 0 1 1 0 0 0 0 0 1 0 1]
+positive_all for label 96: 21
+tp_fp for label 96: 21
+tp for label 75: [0 1 1 0 1 0 0 1 1 0 1 1 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 1 1 0 1 1 1 0 1 1
+ 0 0 0 0 1 1 0 1 0 1 0 1 1 1 1 1 0 1 1 0 0 0 1 0 0 1 0 1 1 1 0 0 0 1 0 0 0
+ 0 1 0 0 0 1 1 1 0 1 1 0 1 1 1 0 1 0 0 1 1 1 0 1 1 1 0 0 0 1 1 1 1 1 0 0 1
+ 0 1 1 1 1 0 1 1 1 1 0 0 1 1 1 0 1 0 0 1 0 0 1 0 0 0 0 0 0 0 1 1 1 0 1 1 1
+ 1 1 0 1 1 0 1 1 1 1 0 0 0 1 1 0 0 1 1 0 0 0 0 0 1 1 0 0 0 0 0 1 0 0 0 1 1
+ 0 1 1 0 1 0 1 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1 0 1 0 1 1 1 0 0
+ 1 1 1 0 1 0 1 0 1 1 0 0 0 1 1 0 0 0 1 1 1 0 0 1 1 0 0 0 0 0 0 1 1 0 0 0 0
+ 1 0 0 0 1 1 0 0 0 0 1 1 1 0 0 1 0 0 1 1 1]
+positive_all for label 75: 280
+tp_fp for label 75: 280
+tp for label 24: [1 1 1 0 1 1 1 0 1 1]
+positive_all for label 24: 10
+tp_fp for label 24: 10
+tp for label 51: [1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1]
+positive_all for label 51: 61
+tp_fp for label 51: 61
+tp for label 5: [1 0 1 1 1 1 1 1 1 1 1 0 1 1 1]
+positive_all for label 5: 15
+tp_fp for label 5: 15
+tp for label 44: [1 1 1 1 1 0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 44: 32
+tp_fp for label 44: 32
+tp for label 37: [1 1 0 1 1]
+positive_all for label 37: 5
+tp_fp for label 37: 5
+tp for label 17: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1]
+positive_all for label 17: 25
+tp_fp for label 17: 25
+tp for label 97: [1 1 1 1 1 1 0 0 1 1 1 1 1 0 1 1 1 1 1 1 0 0 1 1 1 0 0 1 1 1 1 1 1 0 0 1 1
+ 1 1 0 1 1 0 0 1 1 1 1 1 1 1 1 0 0]
+positive_all for label 97: 54
+tp_fp for label 97: 54
+tp for label 25: [1 1 1 1 1 1 0]
+positive_all for label 25: 7
+tp_fp for label 25: 7
+tp for label 4: [1 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 4: 21
+tp_fp for label 4: 21
+tp for label 30: [1 0 1 1 1]
+positive_all for label 30: 5
+tp_fp for label 30: 5
+tp for label 28: [1 1 1 0 0]
+positive_all for label 28: 5
+tp_fp for label 28: 5
+tp for label 89: [1 0 0 1 1 0 0 1 0 0 1 0 1 0 0 0 1 0 1 1 0 1 1 1 0 0 0 0 0 1 1]
+positive_all for label 89: 31
+tp_fp for label 89: 31
+tp for label 16: [0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 0 1 1]
+positive_all for label 16: 31
+tp_fp for label 16: 31
+tp for label 113: [1 1 1 0 1 1 0 0 0 1 1 0 1 0 0 0 0]
+positive_all for label 113: 17
+tp_fp for label 113: 17
+tp for label 66: [1 1 1 1 1 1 1 1 1 1 1 1 1]
+positive_all for label 66: 13
+tp_fp for label 66: 13
+tp for label 33: [1 0 1 1 0 1 0 1 1 0 1 0 0]
+positive_all for label 33: 13
+tp_fp for label 33: 13
+tp for label 57: [1 1 1 1 1 1 1 1 0 1 0 1 1 0 1 0 0]
+positive_all for label 57: 17
+tp_fp for label 57: 17
+tp for label 80: [1 1 1 1 1 1 1 1 0 0 1 1 1 0 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 0 1 0
+ 1 1 1 1 0 1]
+positive_all for label 80: 43
+tp_fp for label 80: 43
+tp for label 102: [1 1 1 0 1 0 0 0 1 0 1 1 0 1 0 1 1 0 0 0 0 1 0 1 0 1 1 1 0 1 1 1 0 0 1 0 0
+ 0 1 1 0 0 0 1 1 0 1 1 0 1 0 1 1 1 1 1 1 1 1 1 0 1 0 1 1 0 0 1 0 0 0 1 1 0
+ 0 0 0 1 1 0 1 1 0 1 0 1 1 1 0 1 0 0 0 1 1 1 0 1 0 0 0 1 1 0 0 0 1 1 0 1 1
+ 0 0 1 0 1 1 0 1 1 1 0 1 1 1 0 1 0 0 0 1 0 0 1 1 1 0 1 1 1 0 0 1 0 0 0 1 0
+ 1 1 1 1 0 0 0 0 1 0 0 1 0 0 1 0 0 0 0 1 1 1 1 1 0 1 0 0 1 1 1 0 1 1 1 0 1
+ 0 0 0 0 1 0 0 0 1 0 1 0 1 0 0 0 0 1 1 0 1 0 0 0 1 1 0 0 1 0 0 0 0 1 0 1 0
+ 0 0 1 0 1 0 0 1 0 0 0 0 0 0 1 1 1 0 1 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 1
+ 1 1 1 0 0 0 0 1 0 1 0 0 0 0 1 1 0 0 0 1 1 1 0 0 1 0 0 0 1 1 0 1 0 0 0 1 0
+ 1 0 1 1 0 1 1 0 0 1 0 1 1 0 1 1 1 1 0 0 1 1 0 0 1 0 1 1 0 0 0 0 0 0 1 0 1
+ 1 0 1 0 0 0 0 0 0 0 1 1 1 1 0 1 0 0 0 0 0 1 1 0 1 0 1 0 0 1 0 1 0 0 1 0 1
+ 0 0 0 1 0 1 0 0 1 0 0 1 1 1 1 0 1 1 0 0 0 1 0 1 1 0 1 1 0 1 1 0 1 0 0 0 1
+ 1 1 1 0 0 1 0 1 0 0 1 1 0 0 1 1 1 1 0 1 1 1 0 0 0 1 0 0 0 1 0 0 1 1 1 0 0
+ 1 1 1 0 0 0 0 0 1 1 1 0 1 0 0 1 0 0 1 0 0 0 0 0 0 1 0 1 0 1 1 0 1 1 0 1 1
+ 0 0 0 1 0 0 1 0 0 1 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 1 1 1 0 0 0 0 0 0 0 1
+ 1 1 0 0 1 0 1 0 1 0 0 1 0 1 1]
+positive_all for label 102: 533
+tp_fp for label 102: 533
+tp for label 22: [1 1 0 1 1 0 0 0 1 1 1 1 0 1 1 1 1]
+positive_all for label 22: 17
+tp_fp for label 22: 17
+tp for label 104: [1 1 0 0 1 1 0 1 0]
+positive_all for label 104: 9
+tp_fp for label 104: 9
+tp for label 49: [1 1 0 1 1 1 1 1 0 1 0]
+positive_all for label 49: 11
+tp_fp for label 49: 11
+tp for label 58: [1 1 1 1 1]
+positive_all for label 58: 5
+tp_fp for label 58: 5
+tp for label 76: [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1]
+positive_all for label 76: 19
+tp_fp for label 76: 19
+tp for label 27: [1 1 1 1 1 1 1]
+positive_all for label 27: 7
+tp_fp for label 27: 7
+tp for label 109: [1 1 0 0 0 1 1 0 0 1 1 1 1 0 0 1 0 1 1 0 1 0 0 1 1 1 1 1 1 1 1 1 1 0 0 1 0
+ 1 1 1 0 1 1 1 1 1 1 0 0 0 1 1 0 1 1 0 1 0 1 1 0 1 1 1 1 1]
+positive_all for label 109: 66
+tp_fp for label 109: 66
+tp for label 99: [0 1 1 0 0 1 1 1 0 1 0 1 0 1 1 1 0 0 1]
+positive_all for label 99: 19
+tp_fp for label 99: 19
+tp for label 105: [1 1 1 1 1]
+positive_all for label 105: 5
+tp_fp for label 105: 5
+tp for label 40: [1 1 0 1 1 1 1 1 1 1]
+positive_all for label 40: 10
+tp_fp for label 40: 10
+tp for label 63: [1 1 1 1 1]
+positive_all for label 63: 5
+tp_fp for label 63: 5
+tp for label 38: [1 1 0 0 1 0 1 1 1 1]
+positive_all for label 38: 10
+tp_fp for label 38: 10
+tp for label 7: [1 0 1 1 0 1]
+positive_all for label 7: 6
+tp_fp for label 7: 6
+tp for label 6: [1 1 1 1 1 0 1 1 1 1]
+positive_all for label 6: 10
+tp_fp for label 6: 10
+tp for label 81: [1 0 1 1 0 0]
+positive_all for label 81: 6
+tp_fp for label 81: 6
+tp for label 65: [2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 1 2 2 2]
+positive_all for label 65: 19
+tp_fp for label 65: 38
+tp for label 61: [1 1 2 2 1 2]
+positive_all for label 61: 6
+tp_fp for label 61: 12
+tp for label 36: [0 2 1 1 1 2]
+positive_all for label 36: 6
+tp_fp for label 36: 12
+tp for label 45: [1 2 2 2 2 2]
+positive_all for label 45: 6
+tp_fp for label 45: 12
+tp for label 72: [2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2]
+positive_all for label 72: 27
+tp_fp for label 72: 54
+tp for label 12: [2 2 2 2 2 2 2 2 1 2 2 2 2 2 2 0 2 2 2 1 1 2 2 2 2 2 2 2 1 2 1]
+positive_all for label 12: 31
+tp_fp for label 12: 62
+tp for label 47: [2 2 2 2 2 2 2 2 1 0 2 2 2 2 2 1 2 2 2 2 1 1 2 1 2 2 2 2 2 2 0 2 1 1 0 2 1
+ 2 1 1 0 0 2 2 2 2 2 0 0 2 2 2 2 2 2 0 2 2]
+positive_all for label 47: 58
+tp_fp for label 47: 116
+tp for label 35: [2 1 2 0 2 2 2 2 2]
+positive_all for label 35: 9
+tp_fp for label 35: 18
+tp for label 59: [2 2 2 2 2 2 2 2 2 2]
+positive_all for label 59: 10
+tp_fp for label 59: 20
+tp for label 116: [2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 2 2 0 2 2 2 2 2 2 0 2 2 2 2 2
+ 2 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 0 2 2 2 2 2 2 2 2 2 2 2 1 2 2
+ 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 1 2 0 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2
+ 2 2]
+positive_all for label 116: 113
+tp_fp for label 116: 226
+tp for label 82: [2 2 2 2 0 2]
+positive_all for label 82: 6
+tp_fp for label 82: 12
+tp for label 107: [0 0 0 1 1 1 1 1 2 0 1 0 0 1 1 0 1 0 0 0 1 1 1 1 1 1 0 1 1 2 2 1 1 1 0 1 1
+ 1 1 0 2]
+positive_all for label 107: 41
+tp_fp for label 107: 82
+tp for label 41: [1 2 2 1 2]
+positive_all for label 41: 5
+tp_fp for label 41: 10
+tp for label 88: [2 2 1 2 2 1 1 1 2 2 2 1 1 1 2 2 2 1 1 1 1 1]
+positive_all for label 88: 22
+tp_fp for label 88: 44
+tp for label 108: [1 0 1 1 1 1 1 1 2 1 1 2 2 0 1]
+positive_all for label 108: 15
+tp_fp for label 108: 30
+tp for label 86: [0 1 1 2 1 1]
+positive_all for label 86: 6
+tp_fp for label 86: 12
+tp for label 20: [0 0 1 0 1 0]
+positive_all for label 20: 6
+tp_fp for label 20: 12
+tp for label 87: [2 2 1 1 2 1 1 0 2 2 2 2 2 0 2 2 2 1 2 1 2 2 1 2 1 1 2 2 2 2 2 1 2 2 2 1 2
+ 2 2]
+positive_all for label 87: 39
+tp_fp for label 87: 78
+tp for label 74: [2 2 2 2 2 2 2 2 2 2 2]
+positive_all for label 74: 11
+tp_fp for label 74: 22
+tp for label 69: [2 0 2 2 2 2]
+positive_all for label 69: 6
+tp_fp for label 69: 12
+tp for label 78: [2 2 2 2 2 2 2 2 2 2 2 2 1 2 1 2 1 1 2 2 1 2 2 2 1 2 2 2 2 2 2 2 2 2 1 1 2
+ 2 2 0 2 2 2 2 2 2 2 2 2 2 2 1 2 1 1 2 2 2 2 2 2 2 1 2 2 2 2 2 2 2 1 2 2 2
+ 1 2 2 2 2 2 2 2 1 2 2 2 1 0 2 2 2 2 0 2 2 2 1 2 2 2 2 2 2 2 2 1 2 2 2 1 2
+ 2 2 2 2 2 2 2 2 2 0 2 2 2 2 2 2 2 2 2 2]
+positive_all for label 78: 131
+tp_fp for label 78: 262
+tp for label 15: [2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 1 2 2 2 2]
+positive_all for label 15: 32
+tp_fp for label 15: 64
+tp for label 39: [1 1 2 0 1 2 2 1 1 2]
+positive_all for label 39: 10
+tp_fp for label 39: 20
+tp for label 50: [0 0 1 2 2 1 2 2 2 2 2 2 2 1 2 2 1 1 2 2 1 2 2 1 2 2 2]
+positive_all for label 50: 27
+tp_fp for label 50: 54
+tp for label 100: [1 0 2 0 2 2 2 2 1 1 1 2 2 0 1 2 2 2 2 2 1 2 1 1 1 2 2 1 1 1 2 1 2 2 0]
+positive_all for label 100: 35
+tp_fp for label 100: 70
+tp for label 42: [1 2 2 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2
+ 2 2 2 2 2 2 2 0]
+positive_all for label 42: 45
+tp_fp for label 42: 90
+tp for label 21: [1 0 2 2 2 2 0 2 1 2 1 1 1 1]
+positive_all for label 21: 14
+tp_fp for label 21: 28
+tp for label 18: [2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2]
+positive_all for label 18: 21
+tp_fp for label 18: 42
+tp for label 29: [2 2 2 2 1 2]
+positive_all for label 29: 6
+tp_fp for label 29: 12
+tp for label 98: [2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 0 2 2 2 2 2 2 1 1 2 2 2 2 2 2 1 0 1]
+positive_all for label 98: 33
+tp_fp for label 98: 66
+tp for label 106: [2 2 2 2 2 2 2 2 2 2]
+positive_all for label 106: 10
+tp_fp for label 106: 20
+tp for label 52: [2 1 2 2 1 2 2 2 2 2 1 2]
+positive_all for label 52: 12
+tp_fp for label 52: 24
+tp for label 62: [1 1 2 1 0 2 1 2 1]
+positive_all for label 62: 9
+tp_fp for label 62: 18
+tp for label 77: [2 0 1 1 2 2 0 1 1]
+positive_all for label 77: 9
+tp_fp for label 77: 18
+tp for label 67: [2 2 2 2 2 2 2 2 2]
+positive_all for label 67: 9
+tp_fp for label 67: 18
+tp for label 56: [1 0 2 1 1 2 2 1 2 1 1 2 1 1 2 2 2 1]
+positive_all for label 56: 18
+tp_fp for label 56: 36
+tp for label 83: [2 2 0 2 1 1 1 2 0]
+positive_all for label 83: 9
+tp_fp for label 83: 18
+tp for label 11: [1 2 0 2 2 2 2 2 0 2 2 2]
+positive_all for label 11: 12
+tp_fp for label 11: 24
+tp for label 94: [1 2 1 2 2 2 2 1 2 2 2 2 2 1 1 0 2 2 2 2 2 0 2 0 1 2 2 1 1 2 0 2 2 0 1 2 2
+ 2 0 2 2 1 2 2 2 0 2 2 2 1 2 2 2 2 2 1 2 1 2 2 1 1 2 2 2 2 2 2 1 1 1 2 2 2
+ 1 2 2 2 0 0 1 2 2 0 2 2 2 1 1 2 2 2 2 2]
+positive_all for label 94: 94
+tp_fp for label 94: 188
+tp for label 8: [2 1 1 2 2 2 1 2 2 2 2 1 2 2 1 2 2 2 2 1 2 1 2 2]
+positive_all for label 8: 24
+tp_fp for label 8: 48
+tp for label 43: [2 1 0 2 2 2 0 1 1]
+positive_all for label 43: 9
+tp_fp for label 43: 18
+tp for label 2: [2 0 1 0 1]
+positive_all for label 2: 5
+tp_fp for label 2: 10
+tp for label 53: [2 2 2 1 1 2 2 2 1 2 1 2 2 2 2 2 2 2 2 0 2 2 2 2 1 0 2 0 1 1 0 1 2 1 1 1 2
+ 2 2 1 2 1 1 2]
+positive_all for label 53: 44
+tp_fp for label 53: 88
+tp for label 85: [2 1 0 ... 1 1 2]
+positive_all for label 85: 1323
+tp_fp for label 85: 2646
+tp for label 111: [2 2 2 2 1 1 2 1 1 2 2 2 2 0 1 2 2 1 2 2 2 2 2 0 2 2 1 2 2 1 2 1 0 1 2 2 2
+ 2 0]
+positive_all for label 111: 39
+tp_fp for label 111: 78
+tp for label 60: [1 1 0 1 1]
+positive_all for label 60: 5
+tp_fp for label 60: 10
+tp for label 46: [2 2 2 2 2]
+positive_all for label 46: 5
+tp_fp for label 46: 10
+tp for label 92: [1 1 1 0 0 1 0]
+positive_all for label 92: 7
+tp_fp for label 92: 14
+tp for label 13: [1 2 2 0 2 2 0 2 2 0 2 2 2 2 2 2 2 2 2 1 2 1 1 2 2 0 1]
+positive_all for label 13: 27
+tp_fp for label 13: 54
+tp for label 95: [2 2 1 2 2 2 2 1 2 1 1 1 2 2]
+positive_all for label 95: 14
+tp_fp for label 95: 28
+tp for label 79: [2 2 1 1 2 2 2 1 2 2 1 2 1 2 1 2 1 2 2 1 2 2 2 2 2 2 2 1 2 2 1 1 2 1 2 2 1
+ 2 2 2 2 2 0 2 1 2 2 2 1 2 2 2 2 1 0 2 2 0 2 2 2 2 2 2 2 2 0 1 2 2 2 2 2 2
+ 0 2 1 2 2 1 1 2 2 2 1 2 2 0 1 2 2 1 2 2 0 2 2 2 2 2 2 2 1 1 2 1 2 2 0 1 2
+ 1 2 1 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 1 0 2 2 1 0 1 2 1 2 2 2 2 2 2 2 1 2 2
+ 2 2 1 1 2 2 2 2 2 0 0 0 2 1 0 2 2 2 2 2 2 1 2 2 2 0 2 2 2 2 2 2 2 0 1 2 2
+ 2 2 2 2 2 1 2 0 2 2 2 2 2 1 2 2 2 2 2 1 2 2 1 2 2 1 1 2 2 0 2 1 1 2 1 2 2
+ 2 2 2 2 2 2 2 2 2 1 2 2 2 2 1 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 1 2 2 2 2 2
+ 2 2 2 2 2 2 2 1 2 2 2 2 2 2 2 1 0 2 1 2 1 1 0 1 0 1 2 1 2 2 2 2 1 2 2 2 2
+ 2 2 0 1 2 2 2 1 2 2 1 2 1 2 1 2 2 2 2 1 2 2 1 2 2 0 1 1 1 2 2 1 1 2 0 0 2
+ 2 2 2 2 2 1 1 2 0 1 2 1 2 2 2 2 2 1 2 2 1 2 2 2 0 2 0 2 2 2 2 1 2 2 1 2 2
+ 2 2 1 2 2 2 1 2 2 2 2 1 2 1 2 2 2 2 2 2 2 0 1 2 1 2 2 1 1 2 2 2 2 2 2 2 2
+ 2 2 1 2 2 2 1 2 2 1 2 1 2 2 2 2 1 2 1 1 2 2 1 2 2 2 2 1 1 2 1 1 1 2 2 2 2
+ 2 1 1 2 0 2 2 1 2 2 2 0 2 2 1 1 2 0 0 2 2 0 2 2 2 2 2 1 2 1 2 2 2 2 1 2 2
+ 2 1 2 2 2 2 2 2 0 2 2 0 1 2 1 2 2 2 2 0 2 0 2 0 1 2 2 2 2 2 1 1 2 1 0 2 1
+ 2 1 2 1 2 2 2 2 2 1 2 2 2 2 2 1 0 2 2 1 1 1 2 1 0 0 2 2 2 1 2 2 2 0 2 2 1
+ 2 0 2 2 2 2 2 2 2 1 1 2 2 2 1 1 2 0 2 2 2 2 2 2 2 1 2 1 2 2 2 1 2 2 1 2 1
+ 0 2 2 2 2 2 2 2 1 1 2 1 2 2 1 1 2 2 2 1 1 2 2 1 2 2 0 2 2 1 2 2 1 2 2 1 2
+ 2 2 2 1 2 2 2 2 2 0 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 2 2 0
+ 2 1 2 2 2 2 0 2 0 2 2 2 2 2 2 0 2 1 2 2 2 2 2 1 2 2 2 0 2 2 2 1 2 2 1 2 1
+ 1 2 1 2 2 2 2 1 0 1 2 2 1 2 2 2 1 2 0 1 2 1 2 2 2 2 1 2 2 2 2 1 2 2 2 2 2
+ 0 2 2 2 2 2 1 1 2 2 1 2 2 1 2 2 2 2 0 0 1 2 2 2 2 1 2 2 2 2 2 2 0 2 1 2 2
+ 0 2 1 2 2 2 2 2 1 2 2 2 2 2 0 2 0 2 0 2 1 2 2 2 1 2 2 2 2 2 2 1 2 2 2 2 1
+ 2 1 1 2 2 2 2 1 0 1 2 1 2 0 2 2 2 1 2 2 2 2 0 2 2 2 2 2 2 0 2 2 0 2 2 0 2
+ 2 2 2 0 2 2]
+positive_all for label 79: 857
+tp_fp for label 79: 1714
+tp for label 3: [2 1 2 0 2 2 1 1 2 2 2]
+positive_all for label 3: 11
+tp_fp for label 3: 22
+tp for label 110: [2 1 2 1 0 1 2 2 2 2 1 1 2 1 2 2 2 2 0 0 0 2 0 0 2 2 2 1 2 2 0 2 2 2 2 1 2
+ 1 0 1 1 2 2 0 0 2 2 0 1 2 2 1 1 2 1 2 2 0 2 2 2 2 2 1 0 2 2 2 2 0 2 2 2 2
+ 2 2 2 1 0 2 2 2 2 1 2 1 1 2 2 1 1 1 2 2 2 2 1 2 2 2 1 2 2 2 0 2 1 2 2 1 2
+ 1 2 2 1 2 2 2 2 1 1 2 2 2 1 2 2 2 2 2 2 2 1 2 0 1 2 2 1 2 1 1 2 2 1 2 1 1
+ 1 1 2 2 2 2 2 0 1 1 0 1 0 2 1 2 1 0 2 2 1 2 1 2 1 2 2 2 2 2 2 0 1 2 1 2 1
+ 1 2 1 2 1 2 1 1 2 1 2 2 1 2 1 0 1 2 1 2 2 2 0 2 1 1 2 2 2 2 0 1 0 2 2 2 1
+ 2 0 2 1 2 2 2 0 1 0 0 2 2 2 2 2 0 2 2 2 1 0 2 0 2 2 2 2 2 0 0 2 2 2 2 2 2
+ 2 2 2 1 2 2 0 2 2 2 0 1 0 2 2 1 2 2 0 1 2 2 2 2 1 2 2 2 2 2 2 2 1 1 1 2 0
+ 2 2 0 0 1 2 1 1 1 1 1 2 2 0 2 0 2 2 2 1 0 2 2 2 2 2 2 2 2 0 1 2 2 2 1 1 2
+ 1 1 2 1 2 0 0 1 1 2 2 2 2 2 2 2 2 2 0 0 1 2 2 2 2 2 2 1 1 2 1 2 2 1 0 1 2
+ 2 1 2 2 2 2 0 2 2 1 2 2 0 1 2 1 1 2 2 1 1 2 2 2 2 1 2 1 2 2 2 1 1 2 2 2 1
+ 1 2 2 1 2 0 1 2 2 2 1 2 2 2 2 0 1 1 2 2 0 1 2 2 1 1 1 0 1 2 0 2 0 2 1 2 2
+ 2 2 0 2 1 2 2 1 1 1 1 2 2 1 1 0 2 0 1 2 2 1 1 2 2 1 2 2 2 2 2 2 0 2 2 2 1
+ 2 2 2 2 2 0 0 2 0 2 2 1 1 2 2 1 0 0 1 2 0 1 0 2 1 2 2 2 2 2 1 0 2 1 1 2 1
+ 2 2 2 1 2 1 2 0 2 1 2 0 1 2 1 2 2 2 2 2 1 0 1 1 2 2 2 1 2 1 2 1 2 2 2 1 2
+ 2 0 2 2 1 1 1 1 2 1 0 2 2 2 1 2 0 1 1 1 2 2 2 2 1 2 2 2 1 2 1 1 2 0 2 2 1
+ 2 2 2 1 2 1 1 2 2 2 2 1 2 2 2 0 2 2 2 0 2 2 2 1 2 1 2 0 2 1 2 1 2 2 0 1 1
+ 1 2 2 2 0 2 1 1 1 1 2 2 2 2 1 2 0 0 2 2 1 2 0 1 2 2 2 0 2 1 2 2 2 2 2 2 0
+ 1 2 1 0 1 1 2 2 1 0 2 1 2 2 1 1 2 1 2 2 1 0 0 2 2 1 2 0 2 2 1 2 1 2 2 1 2
+ 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 0 1 2 2 2 2 1 2 2 2 1 1 2 0 2 1 1 2 2
+ 0 2 0 2 2 2 2 0 2 1 0 1 2 2 2 2 2 1 1 2 1 2 0 2 2 1 2 2 1 1 2 0 2 1 1 1 2
+ 2 2 0 2 1 2 1 2 2 1 2 2 1 2 2 1 2 2 2 0 2 2 0 1 1 2 2 2 2 0 1 1 0 1 2 2 2
+ 0 2 2 2 2 2 1 1 2 0 2 1 1 2 2 1 0 0 2 1 1 0 2 1 2 2 1 1 0 0 1 0 1 1 2 1 2
+ 2 2]
+positive_all for label 110: 853
+tp_fp for label 110: 1706
+tp for label 14: [2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ 2 2 2 2 2 2 2 2 2 2 2]
+positive_all for label 14: 48
+tp_fp for label 14: 96
+tp for label 26: [1 1 1 1 1 0 0 2 2 2]
+positive_all for label 26: 10
+tp_fp for label 26: 20
+tp for label 70: [1 2 0 1 0 1 1 2 2 1 1 0 2 2 2 2 0 0]
+positive_all for label 70: 18
+tp_fp for label 70: 36
+tp for label 91: [1 0 0 1 1 2 2 0 1 0 2 0 0 2 1]
+positive_all for label 91: 15
+tp_fp for label 91: 30
+tp for label 0: [0 2 1 0 2 1]
+positive_all for label 0: 6
+tp_fp for label 0: 12
+tp for label 101: [0 0 0 0 0 0]
+positive_all for label 101: 6
+tp_fp for label 101: 12
+tp for label 31: [2 2 2 2 1 2 1 1]
+positive_all for label 31: 8
+tp_fp for label 31: 16
+tp for label 112: [2 2 2 2 2 2]
+positive_all for label 112: 6
+tp_fp for label 112: 12
+tp for label 34: [2 2 2 2 2 2 2 2]
+positive_all for label 34: 8
+tp_fp for label 34: 16
+tp for label 48: [0 2 2 1 1 2 1 0 2 1 1 1 1 0 1]
+positive_all for label 48: 15
+tp_fp for label 48: 30
+tp for label 55: [2 2 2 2 2 2 2 2 1 2 2 2 2 2 1 2 2 2 2 2 2 2]
+positive_all for label 55: 22
+tp_fp for label 55: 44
+tp for label 9: [2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2]
+positive_all for label 9: 18
+tp_fp for label 9: 36
+tp for label 115: [2 2 2 2 0 2 2 1 2 1 1 2 0 2 2 2 2 2 0 1 2 1 2]
+positive_all for label 115: 23
+tp_fp for label 115: 46
+tp for label 64: [1 0 2 1 1]
+positive_all for label 64: 5
+tp_fp for label 64: 10
+tp for label 84: [2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ 2 2 2 2 2 2]
+positive_all for label 84: 43
+tp_fp for label 84: 86
+tp for label 73: [2 2 1 2 0 1 0 1 2 2 2 2 1 0 0 0 0 1 1 1 2 1 1 0 1 0 2 2 1 2 0 2 1 1 2 2 2
+ 2 2 2 1 1 1 0 1 2 1 0 0 2 2 2 1 1 2 0 1 2 1 2 2 2 1 2 0 2 2 1 0 1 1 2 0 2
+ 1 1 0 2 0 1 1 2 2 1 2 2 2 0 1 1 1 0 0 2 1 1 1 2 1 2 2 1 0 2 0 1 1 0 2 1 2
+ 2 2 0 0 1 0 0 1 0 2 0 2 0 0 1 0 1 0 2 1 2 2 1 2 1 2 1 2 2 2 0 2 1 0 2 2 1
+ 1 0 1 2 0 0 2 0 2 1 2 2 1 1 2 2 2 1 1 2 2 1 0 0 1 1 1 1 1 0 1 2 1 2 0 0 1
+ 2 2 1 1 2 2 0 2 0 1 2 2 0 0 1 2 1 0 1 0 1 0 0 2 1 0 2 2 2 1 1 1 1 0 2 2 2
+ 1 1 2 1 1 2 0 2 1 1 1 2 0 0 2 1 0 2 1 1 2 0 2 2 1 2 2 0 2 1 0 1 1 0 2 0 0
+ 1 1 2 1 2 2 0 1 1 2 1 1 1 1 1 2 2 2]
+positive_all for label 73: 277
+tp_fp for label 73: 554
+tp for label 1: [1 1 0 2 0 1 2 2 1 2 2 2 2 0 2 1 0]
+positive_all for label 1: 17
+tp_fp for label 1: 34
+tp for label 68: [1 2 0 2 1 0 0 0 0 1 0 1 1 1 1 0 2 0 2 1 0 1 1 1 1 0 2 1 2 0 1]
+positive_all for label 68: 31
+tp_fp for label 68: 62
+tp for label 71: [2 2 2 1 2]
+positive_all for label 71: 5
+tp_fp for label 71: 10
+tp for label 90: [1 0 1 2 1 1 0 1 1 1 0 0 1 1 0 0 0 0 0 1 0 1]
+positive_all for label 90: 22
+tp_fp for label 90: 44
+tp for label 10: [2 2 1 2 2 2 2 2]
+positive_all for label 10: 8
+tp_fp for label 10: 16
+tp for label 19: [2 2 1 2 2 1 1 0 1 2 1 2 2 2 2 0 2 1 2 2]
+positive_all for label 19: 20
+tp_fp for label 19: 40
+tp for label 93: [0 0 0 1 2 1 0 0 0 1 0 0 1 1 0 0 0 1 1 0 0 0 1 0 1 1 2 0 1 1 1 1 1 0 2 0 0
+ 2 0]
+positive_all for label 93: 39
+tp_fp for label 93: 78
+tp for label 32: [0 2 2 2 2]
+positive_all for label 32: 5
+tp_fp for label 32: 10
+tp for label 103: [2 2 2 2 0 2 2 1 2 2 1 2 2 2 2 2 2 2 2 2 1 2 2 2 2 1 2]
+positive_all for label 103: 27
+tp_fp for label 103: 54
+tp for label 114: [2 2 1 2 1 2 2 2]
+positive_all for label 114: 8
+tp_fp for label 114: 16
+tp for label 23: [1 1 2 2 2 2]
+positive_all for label 23: 6
+tp_fp for label 23: 12
+tp for label 54: [1 2 2 2 2 2]
+positive_all for label 54: 6
+tp_fp for label 54: 12
+tp for label 96: [0 1 0 1 1 1 1 1 1 2 1 1 1 1 0 0 0 1 1 0 2]
+positive_all for label 96: 21
+tp_fp for label 96: 42
+tp for label 75: [1 2 2 1 2 1 1 1 2 1 1 2 0 1 0 0 0 0 2 1 1 0 0 1 1 1 1 1 1 1 1 1 1 2 0 1 1
+ 0 0 0 0 2 2 0 2 0 2 1 2 2 1 2 2 0 1 1 0 0 1 1 0 1 2 0 1 1 1 0 1 0 1 0 1 0
+ 0 1 1 1 0 2 2 2 0 2 1 0 1 2 2 1 1 1 1 1 1 1 1 2 1 2 1 0 0 1 2 1 2 2 1 0 1
+ 1 1 1 1 2 1 1 2 2 2 1 0 2 1 2 1 2 1 0 2 1 0 2 0 1 1 0 1 1 0 2 1 1 0 2 2 2
+ 1 1 1 1 1 0 2 2 2 1 0 0 0 1 2 1 0 1 1 1 0 0 0 0 2 1 0 1 1 0 1 2 1 0 0 1 2
+ 1 1 1 0 2 0 1 0 0 0 2 1 2 1 2 1 1 0 1 0 0 0 2 1 1 1 1 1 1 1 1 1 1 2 2 1 0
+ 1 1 1 0 1 1 1 0 1 1 1 0 1 2 1 1 1 1 1 1 1 0 0 1 2 0 1 0 1 1 1 1 2 1 1 1 0
+ 2 1 0 0 2 1 0 1 1 0 1 2 1 1 0 2 1 1 2 2 1]
+positive_all for label 75: 280
+tp_fp for label 75: 560
+tp for label 24: [2 2 2 0 1 2 2 0 2 1]
+positive_all for label 24: 10
+tp_fp for label 24: 20
+tp for label 51: [1 0 2 2 2 2 2 2 1 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 1 2
+ 1 2 2 2 2 2 2 2 1 2 2 2 2 2 2 0 2 2 2 2 2 2 1 2]
+positive_all for label 51: 61
+tp_fp for label 51: 122
+tp for label 5: [2 1 2 2 2 2 2 2 2 2 2 0 2 1 2]
+positive_all for label 5: 15
+tp_fp for label 5: 30
+tp for label 44: [2 2 2 2 2 0 2 2 2 1 2 2 2 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 2 1]
+positive_all for label 44: 32
+tp_fp for label 44: 64
+tp for label 37: [2 2 0 1 2]
+positive_all for label 37: 5
+tp_fp for label 37: 10
+tp for label 17: [2 2 2 1 2 2 2 2 1 2 2 2 2 1 2 2 2 2 2 2 1 0 1 2 2]
+positive_all for label 17: 25
+tp_fp for label 17: 50
+tp for label 97: [2 2 1 1 1 2 0 1 2 2 2 2 2 0 2 2 2 2 2 2 0 0 2 2 2 0 0 1 2 2 1 2 1 0 0 2 2
+ 2 2 1 2 1 0 1 1 1 1 1 1 1 2 1 1 1]
+positive_all for label 97: 54
+tp_fp for label 97: 108
+tp for label 25: [2 2 2 1 2 2 1]
+positive_all for label 25: 7
+tp_fp for label 25: 14
+tp for label 4: [2 1 1 1 1 2 2 2 1 2 0 2 2 1 2 2 2 1 2 1 1]
+positive_all for label 4: 21
+tp_fp for label 4: 42
+tp for label 30: [1 0 1 2 1]
+positive_all for label 30: 5
+tp_fp for label 30: 10
+tp for label 28: [2 2 2 0 1]
+positive_all for label 28: 5
+tp_fp for label 28: 10
+tp for label 89: [1 0 1 1 1 0 0 2 1 0 2 0 2 0 0 0 2 0 2 1 1 1 1 1 0 0 0 0 1 1 1]
+positive_all for label 89: 31
+tp_fp for label 89: 62
+tp for label 16: [1 2 2 2 2 2 2 0 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 1 2 2 0 2 2]
+positive_all for label 16: 31
+tp_fp for label 16: 62
+tp for label 113: [1 1 1 1 1 2 1 0 0 2 1 0 2 1 1 1 0]
+positive_all for label 113: 17
+tp_fp for label 113: 34
+tp for label 66: [2 2 1 2 2 2 2 2 2 2 2 2 2]
+positive_all for label 66: 13
+tp_fp for label 66: 26
+tp for label 33: [1 0 1 1 0 1 0 1 1 0 2 0 0]
+positive_all for label 33: 13
+tp_fp for label 33: 26
+tp for label 57: [1 2 2 1 2 1 1 1 0 1 0 2 2 0 1 1 0]
+positive_all for label 57: 17
+tp_fp for label 57: 34
+tp for label 80: [2 2 2 2 2 1 2 2 0 0 2 2 2 1 2 2 1 1 2 2 2 1 2 2 2 1 2 2 2 0 1 2 2 2 0 2 1
+ 2 2 2 2 1 2]
+positive_all for label 80: 43
+tp_fp for label 80: 86
+tp for label 102: [1 1 1 1 1 1 0 0 2 0 2 1 0 2 1 1 1 1 0 0 0 2 0 2 0 1 1 1 1 1 1 1 0 1 1 0 0
+ 0 2 1 0 1 0 1 2 1 2 2 0 1 1 1 1 1 2 2 2 2 2 1 1 2 1 1 1 0 1 1 1 1 1 1 1 1
+ 1 0 0 1 1 0 1 2 0 1 0 1 2 1 1 1 1 0 1 2 2 1 1 2 1 0 0 1 1 0 0 1 2 2 1 2 1
+ 1 0 1 1 1 1 0 1 2 1 0 1 2 2 0 1 0 0 0 1 0 0 2 2 1 0 2 1 1 1 1 1 0 0 1 1 0
+ 1 2 1 1 1 1 0 0 1 0 0 1 0 0 2 1 0 0 0 1 1 2 2 1 1 1 0 0 1 2 1 0 1 1 1 0 1
+ 0 1 0 0 2 0 0 1 2 0 2 1 1 1 0 0 1 1 2 0 2 0 0 0 2 1 0 0 1 0 0 0 1 2 0 1 0
+ 1 0 1 0 1 0 0 1 0 0 0 1 1 1 1 1 1 0 2 1 2 0 1 2 0 0 1 0 2 1 0 2 1 0 1 1 1
+ 2 1 2 0 1 0 0 2 0 2 0 1 0 0 1 2 0 0 0 2 1 2 1 0 2 0 1 0 1 2 1 2 1 0 0 1 1
+ 1 1 1 2 0 2 1 0 0 1 0 1 2 0 1 1 2 1 0 0 2 1 0 1 2 1 1 2 0 0 0 1 1 0 1 1 2
+ 1 0 2 1 0 0 0 1 1 1 2 1 2 1 1 1 1 1 0 1 0 1 2 1 2 0 1 1 0 2 1 2 1 0 2 0 1
+ 1 1 1 2 1 2 0 0 2 1 0 2 2 1 2 0 1 2 0 0 0 1 0 2 1 1 2 1 1 2 2 1 2 0 1 0 1
+ 1 2 1 0 1 2 0 2 1 1 1 1 1 0 2 1 1 1 0 1 1 2 0 1 1 1 0 1 1 1 0 0 2 1 1 1 1
+ 2 1 2 0 0 0 0 1 2 1 1 1 1 1 1 2 0 1 1 1 0 1 0 0 0 2 0 2 1 2 2 0 2 1 0 1 2
+ 1 1 0 2 0 0 1 0 1 1 0 1 1 1 0 1 0 1 2 1 1 1 1 1 1 0 1 1 2 0 0 1 0 1 1 1 1
+ 2 1 1 1 1 0 1 0 1 1 0 1 0 2 1]
+positive_all for label 102: 533
+tp_fp for label 102: 1066
+tp for label 22: [2 2 1 2 1 0 0 0 1 1 1 1 0 2 2 1 2]
+positive_all for label 22: 17
+tp_fp for label 22: 34
+tp for label 104: [2 2 0 0 2 1 0 2 1]
+positive_all for label 104: 9
+tp_fp for label 104: 18
+tp for label 49: [2 1 0 2 1 2 1 2 0 1 0]
+positive_all for label 49: 11
+tp_fp for label 49: 22
+tp for label 58: [2 2 2 2 2]
+positive_all for label 58: 5
+tp_fp for label 58: 10
+tp for label 76: [1 2 2 2 1 2 2 2 2 2 2 1 2 2 1 1 1 2 1]
+positive_all for label 76: 19
+tp_fp for label 76: 38
+tp for label 27: [2 1 2 2 1 1 2]
+positive_all for label 27: 7
+tp_fp for label 27: 14
+tp for label 109: [1 1 0 0 0 1 2 0 1 1 1 1 1 0 1 2 1 1 1 0 2 1 1 2 1 1 2 2 2 2 1 2 2 0 0 1 1
+ 2 1 1 0 2 1 2 1 1 1 0 0 1 2 2 0 2 2 0 2 0 1 1 0 1 1 1 1 1]
+positive_all for label 109: 66
+tp_fp for label 109: 132
+tp for label 99: [1 2 2 0 1 2 1 2 0 2 0 2 1 2 1 2 1 1 1]
+positive_all for label 99: 19
+tp_fp for label 99: 38
+tp for label 105: [2 2 2 2 2]
+positive_all for label 105: 5
+tp_fp for label 105: 10
+tp for label 40: [2 2 0 1 2 2 1 2 2 2]
+positive_all for label 40: 10
+tp_fp for label 40: 20
+tp for label 63: [2 2 2 2 2]
+positive_all for label 63: 5
+tp_fp for label 63: 10
+tp for label 38: [2 1 0 1 2 0 2 1 2 1]
+positive_all for label 38: 10
+tp_fp for label 38: 20
+tp for label 7: [1 0 1 1 0 2]
+positive_all for label 7: 6
+tp_fp for label 7: 12
+tp for label 6: [2 1 1 2 2 0 1 2 1 2]
+positive_all for label 6: 10
+tp_fp for label 6: 20
+tp for label 81: [1 1 1 1 0 1]
+positive_all for label 81: 6
+tp_fp for label 81: 12
+tp for label 65: [4 3 2 2 3 2 3 3 3 3 2 4 4 4 4 2 4 3 3]
+positive_all for label 65: 19
+tp_fp for label 65: 76
+tp for label 61: [1 1 3 3 1 3]
+positive_all for label 61: 6
+tp_fp for label 61: 24
+tp for label 36: [1 3 2 1 1 2]
+positive_all for label 36: 6
+tp_fp for label 36: 24
+tp for label 45: [2 4 3 3 3 2]
+positive_all for label 45: 6
+tp_fp for label 45: 24
+tp for label 72: [4 4 4 2 3 3 3 4 2 4 3 4 4 3 4 4 3 3 3 3 3 3 3 4 3 4 3]
+positive_all for label 72: 27
+tp_fp for label 72: 108
+tp for label 12: [2 2 3 3 4 2 4 3 2 3 3 3 4 4 4 0 3 3 2 1 2 3 4 3 3 4 3 2 2 2 1]
+positive_all for label 12: 31
+tp_fp for label 12: 124
+tp for label 47: [3 2 4 3 4 4 2 4 2 0 2 4 3 4 2 1 3 3 3 3 2 2 4 2 4 3 4 4 4 3 1 2 2 1 0 4 1
+ 3 2 1 0 0 4 2 3 2 3 0 0 3 3 3 3 3 4 2 4 3]
+positive_all for label 47: 58
+tp_fp for label 47: 232
+tp for label 35: [3 2 3 0 3 2 2 4 3]
+positive_all for label 35: 9
+tp_fp for label 35: 36
+tp for label 59: [2 4 4 4 4 3 3 4 3 4]
+positive_all for label 59: 10
+tp_fp for label 59: 40
+tp for label 116: [3 3 4 2 3 2 4 4 4 2 4 4 3 4 3 3 3 4 3 3 3 0 2 3 1 3 4 3 3 3 2 2 4 4 3 4 4
+ 3 1 2 3 3 3 4 3 3 4 4 4 3 3 3 3 4 4 4 3 1 4 1 2 3 2 4 4 2 2 3 4 3 2 2 4 4
+ 4 4 4 3 3 3 4 2 3 2 4 4 4 3 3 1 3 0 4 2 3 3 4 3 3 1 4 4 4 3 3 4 4 3 4 4 3
+ 3 4]
+positive_all for label 116: 113
+tp_fp for label 116: 452
+tp for label 82: [4 4 4 4 0 3]
+positive_all for label 82: 6
+tp_fp for label 82: 24
+tp for label 107: [0 0 1 2 2 1 2 1 2 0 3 0 1 2 2 0 1 2 0 1 1 1 2 1 3 1 1 2 3 2 2 1 2 1 0 1 2
+ 2 2 1 2]
+positive_all for label 107: 41
+tp_fp for label 107: 164
+tp for label 41: [1 3 2 2 4]
+positive_all for label 41: 5
+tp_fp for label 41: 20
+tp for label 88: [3 2 3 3 2 3 2 3 3 3 3 3 3 3 4 3 3 2 3 2 3 3]
+positive_all for label 88: 22
+tp_fp for label 88: 88
+tp for label 108: [2 0 2 2 2 1 2 1 3 1 2 2 3 1 1]
+positive_all for label 108: 15
+tp_fp for label 108: 60
+tp for label 86: [0 2 2 3 1 1]
+positive_all for label 86: 6
+tp_fp for label 86: 24
+tp for label 20: [0 0 1 1 1 0]
+positive_all for label 20: 6
+tp_fp for label 20: 24
+tp for label 87: [3 2 1 2 3 1 2 0 2 3 2 3 3 0 2 3 4 2 3 1 3 3 3 3 1 1 4 3 3 2 2 2 2 3 3 2 2
+ 3 2]
+positive_all for label 87: 39
+tp_fp for label 87: 156
+tp for label 74: [4 4 4 4 3 4 4 4 4 4 4]
+positive_all for label 74: 11
+tp_fp for label 74: 44
+tp for label 69: [4 1 4 3 2 3]
+positive_all for label 69: 6
+tp_fp for label 69: 24
+tp for label 78: [2 3 4 4 3 2 2 3 2 2 4 3 2 3 2 4 2 3 3 4 2 4 3 3 1 4 4 3 3 3 2 3 4 2 1 1 4
+ 3 4 0 2 4 2 3 4 4 2 3 4 3 2 2 3 1 2 2 4 4 4 3 3 3 1 4 4 3 3 4 3 2 2 4 4 3
+ 2 2 3 2 2 4 2 4 1 3 4 4 2 0 3 3 4 4 0 4 2 3 1 2 2 3 2 4 4 3 3 1 3 4 3 2 3
+ 3 4 4 4 4 4 4 2 2 1 3 3 3 3 3 3 4 2 2 2]
+positive_all for label 78: 131
+tp_fp for label 78: 524
+tp for label 15: [3 3 3 3 4 3 3 4 4 4 3 4 4 3 4 3 1 1 3 2 4 4 2 3 2 3 4 1 2 3 2 3]
+positive_all for label 15: 32
+tp_fp for label 15: 128
+tp for label 39: [2 2 3 0 2 2 3 2 1 2]
+positive_all for label 39: 10
+tp_fp for label 39: 40
+tp for label 50: [0 1 1 4 2 2 3 3 3 4 2 2 3 1 3 3 1 2 4 2 1 4 3 1 4 2 3]
+positive_all for label 50: 27
+tp_fp for label 50: 108
+tp for label 100: [2 2 3 1 3 3 3 4 2 3 3 4 3 1 2 3 2 3 4 2 2 3 3 2 2 4 3 3 3 2 3 2 2 2 2]
+positive_all for label 100: 35
+tp_fp for label 100: 140
+tp for label 42: [1 4 4 4 4 3 1 3 2 2 3 2 3 2 3 3 3 3 3 2 3 4 4 3 2 3 3 3 3 3 3 4 3 3 4 3 4
+ 4 3 3 3 3 3 3 1]
+positive_all for label 42: 45
+tp_fp for label 42: 180
+tp for label 21: [1 0 3 2 3 2 1 3 2 3 2 1 1 2]
+positive_all for label 21: 14
+tp_fp for label 21: 56
+tp for label 18: [3 3 1 3 4 4 4 2 3 3 2 3 4 4 4 1 3 4 3 4 3]
+positive_all for label 18: 21
+tp_fp for label 18: 84
+tp for label 29: [3 3 3 3 1 4]
+positive_all for label 29: 6
+tp_fp for label 29: 24
+tp for label 98: [3 3 1 2 3 2 2 2 3 3 3 3 3 3 3 0 4 3 2 3 2 3 1 2 3 3 3 4 4 4 2 0 1]
+positive_all for label 98: 33
+tp_fp for label 98: 132
+tp for label 106: [3 2 4 4 4 3 3 3 3 4]
+positive_all for label 106: 10
+tp_fp for label 106: 40
+tp for label 52: [2 2 2 3 3 2 3 3 4 3 2 4]
+positive_all for label 52: 12
+tp_fp for label 52: 48
+tp for label 62: [1 2 3 3 1 2 2 3 1]
+positive_all for label 62: 9
+tp_fp for label 62: 36
+tp for label 77: [3 1 2 3 2 3 1 2 2]
+positive_all for label 77: 9
+tp_fp for label 77: 36
+tp for label 67: [4 4 4 4 4 4 4 4 4]
+positive_all for label 67: 9
+tp_fp for label 67: 36
+tp for label 56: [1 0 3 1 1 2 2 1 3 1 1 3 1 1 2 2 2 1]
+positive_all for label 56: 18
+tp_fp for label 56: 72
+tp for label 83: [4 3 0 2 1 2 2 3 0]
+positive_all for label 83: 9
+tp_fp for label 83: 36
+tp for label 11: [1 3 0 3 4 2 3 2 0 2 3 2]
+positive_all for label 11: 12
+tp_fp for label 11: 48
+tp for label 94: [2 3 1 4 3 2 2 2 2 3 3 2 3 2 3 2 2 3 2 3 3 1 3 0 2 3 3 2 1 3 0 3 3 0 2 4 3
+ 3 0 4 3 1 2 3 2 0 3 2 3 1 2 3 2 4 4 2 3 2 2 2 2 2 4 4 2 2 3 2 3 1 3 3 3 3
+ 1 3 3 3 2 1 3 4 2 0 3 4 3 1 1 3 3 3 4 3]
+positive_all for label 94: 94
+tp_fp for label 94: 376
+tp for label 8: [2 2 1 2 2 4 1 3 4 4 2 2 4 3 2 2 3 3 4 1 4 1 3 4]
+positive_all for label 8: 24
+tp_fp for label 8: 96
+tp for label 43: [2 1 0 3 3 2 0 1 1]
+positive_all for label 43: 9
+tp_fp for label 43: 36
+tp for label 2: [2 0 1 1 1]
+positive_all for label 2: 5
+tp_fp for label 2: 20
+tp for label 53: [2 3 2 2 1 2 4 4 3 3 2 3 4 3 3 2 2 3 2 1 2 2 2 3 2 0 3 2 2 1 1 2 3 3 2 1 2
+ 3 3 2 3 2 2 3]
+positive_all for label 53: 44
+tp_fp for label 53: 176
+tp for label 85: [2 1 0 ... 2 3 4]
+positive_all for label 85: 1323
+tp_fp for label 85: 5292
+tp for label 111: [3 3 3 3 2 2 2 1 1 3 3 2 3 0 2 4 2 1 2 2 2 3 3 1 2 3 1 2 3 2 3 1 0 2 3 3 3
+ 2 0]
+positive_all for label 111: 39
+tp_fp for label 111: 156
+tp for label 60: [1 1 0 1 1]
+positive_all for label 60: 5
+tp_fp for label 60: 20
+tp for label 46: [4 3 4 2 4]
+positive_all for label 46: 5
+tp_fp for label 46: 20
+tp for label 92: [3 1 2 1 1 1 1]
+positive_all for label 92: 7
+tp_fp for label 92: 28
+tp for label 13: [2 3 2 0 3 4 0 3 3 0 3 2 2 3 3 2 2 2 3 2 3 1 2 3 2 0 1]
+positive_all for label 13: 27
+tp_fp for label 13: 108
+tp for label 95: [3 3 2 3 2 4 3 3 3 2 3 1 3 3]
+positive_all for label 95: 14
+tp_fp for label 95: 56
+tp for label 79: [2 3 1 1 4 3 3 2 4 4 1 3 2 2 1 4 2 3 2 2 3 3 3 3 3 4 2 1 3 3 1 2 2 1 3 4 2
+ 3 3 4 4 2 0 4 3 3 4 3 2 3 3 3 3 2 0 2 3 0 4 3 3 2 3 3 3 3 0 2 3 2 3 2 3 3
+ 0 3 2 4 2 1 1 3 4 3 2 4 3 1 1 3 3 1 4 3 0 3 3 2 4 4 3 2 1 1 4 3 4 3 0 2 4
+ 3 4 1 3 4 3 2 3 4 3 4 4 1 3 3 4 3 4 3 0 3 2 3 0 1 3 1 3 3 3 3 3 2 4 3 3 4
+ 3 3 1 2 4 4 3 4 3 0 0 0 4 2 0 3 2 2 3 3 3 2 2 3 2 0 4 3 3 3 3 2 3 2 3 3 4
+ 4 4 3 4 3 2 4 0 3 2 3 3 2 1 4 3 3 2 2 1 4 3 2 3 3 2 2 4 4 0 4 2 1 2 1 2 2
+ 3 3 3 4 3 4 4 3 3 2 3 2 4 4 1 2 4 4 2 4 4 3 3 4 2 2 4 4 3 4 4 2 3 3 4 3 3
+ 2 2 3 4 3 3 3 2 4 3 4 4 4 3 3 3 0 3 1 3 3 1 0 2 1 3 4 3 3 3 3 3 2 3 3 3 3
+ 3 4 0 2 2 4 3 1 2 3 1 2 1 3 1 4 2 3 3 1 3 2 3 4 3 0 1 3 2 3 3 3 2 4 0 1 3
+ 3 2 3 2 3 1 1 4 0 2 4 1 3 4 4 3 3 2 4 3 1 4 3 3 0 4 0 3 2 3 3 1 4 3 1 3 3
+ 3 4 1 3 4 3 1 4 3 3 2 2 3 1 3 3 2 3 4 2 2 0 3 3 3 2 4 2 1 2 3 4 3 2 4 3 3
+ 4 3 2 4 3 2 2 3 3 1 2 2 3 4 3 2 2 3 3 2 3 4 3 3 4 3 4 3 1 4 1 1 3 3 3 3 2
+ 3 1 1 2 1 4 2 1 3 2 2 2 2 4 1 1 3 1 0 3 2 1 3 3 3 3 3 1 3 2 4 3 2 2 1 2 2
+ 3 3 3 3 3 3 4 2 1 3 3 1 1 4 1 4 2 2 2 0 3 0 3 0 2 4 4 4 4 4 1 2 4 2 1 3 2
+ 2 3 3 1 3 4 3 2 4 1 4 2 4 3 4 3 0 3 2 1 2 1 2 1 0 0 3 4 4 1 4 4 3 1 4 3 1
+ 3 0 3 4 3 4 4 3 3 2 3 2 3 4 1 2 3 0 3 4 4 2 2 4 4 2 4 1 4 3 2 2 3 2 3 4 2
+ 1 3 4 3 3 3 4 3 2 1 3 2 3 4 3 2 4 4 3 3 2 3 4 1 2 3 2 3 3 1 4 4 2 4 4 1 3
+ 3 2 3 3 3 3 2 3 2 0 4 2 2 3 3 3 3 3 3 3 3 2 4 3 2 2 3 3 2 3 2 3 3 3 4 3 0
+ 2 1 2 2 4 2 0 2 1 3 2 4 3 2 4 2 3 2 3 2 3 4 3 1 3 3 2 1 2 4 3 1 2 4 1 2 1
+ 1 2 1 3 3 3 2 2 0 3 3 4 2 2 3 2 2 2 2 1 3 1 3 4 4 3 2 2 3 4 3 1 2 3 4 3 3
+ 1 3 3 3 2 3 3 1 3 3 2 2 3 1 3 3 2 3 1 0 2 3 3 4 3 2 2 3 3 3 2 2 0 3 3 2 3
+ 0 4 1 4 3 3 3 4 1 2 3 4 3 4 0 2 0 3 0 3 2 4 3 4 1 3 3 3 2 4 4 2 3 2 3 3 3
+ 2 2 1 2 3 3 3 2 0 2 3 3 3 0 3 3 2 1 3 3 3 4 1 3 2 4 3 2 3 0 4 2 0 3 3 0 3
+ 4 3 2 1 2 3]
+positive_all for label 79: 857
+tp_fp for label 79: 3428
+tp for label 3: [2 3 2 0 2 2 2 2 2 2 4]
+positive_all for label 3: 11
+tp_fp for label 3: 44
+tp for label 110: [2 1 3 2 1 2 4 2 3 2 1 2 3 1 2 4 3 4 1 0 1 3 0 0 3 3 2 3 4 3 2 2 2 3 4 2 4
+ 2 0 1 3 3 3 0 0 3 2 1 3 2 2 2 2 2 2 4 2 1 3 3 4 2 4 2 0 2 3 2 2 2 2 4 4 3
+ 3 3 2 2 0 3 3 3 4 2 3 2 1 4 3 2 2 2 3 4 3 3 2 3 3 2 1 3 4 2 0 3 1 3 3 3 3
+ 2 4 3 2 2 2 3 2 3 1 2 4 2 3 3 3 4 3 3 4 3 2 2 1 1 2 3 1 3 1 1 3 3 2 3 2 1
+ 3 2 2 3 3 2 3 1 2 1 0 3 0 4 1 2 1 0 3 3 1 3 3 2 2 3 4 4 4 3 3 0 1 3 1 4 2
+ 1 2 2 3 1 3 2 3 3 3 3 3 1 4 3 0 2 3 1 2 3 2 0 4 1 1 3 2 3 2 1 2 1 3 4 2 2
+ 3 0 2 1 2 3 2 0 2 0 1 3 2 3 2 3 0 3 3 2 2 1 2 1 2 2 3 4 2 0 2 2 3 2 3 3 3
+ 3 3 2 1 4 4 0 3 2 3 0 2 1 4 4 3 4 3 0 1 2 2 3 3 2 3 3 2 2 3 2 2 1 2 2 3 0
+ 2 3 0 0 2 2 2 3 1 1 2 4 3 0 2 0 3 3 4 2 0 3 3 3 4 3 4 3 3 0 2 3 4 3 2 2 3
+ 1 2 2 3 2 1 0 2 1 3 2 3 3 4 3 4 3 3 0 0 2 4 2 3 4 2 3 1 2 3 2 2 4 3 0 2 3
+ 3 2 3 3 3 3 0 2 3 3 2 3 0 3 3 3 1 3 4 3 2 2 2 2 3 3 3 2 2 3 3 2 1 3 2 4 1
+ 3 3 2 1 3 0 2 3 2 3 1 3 2 3 3 1 1 2 4 4 1 2 4 2 1 2 1 0 1 2 1 2 1 4 2 2 3
+ 3 3 0 3 1 3 4 2 2 1 2 3 3 2 2 1 4 1 2 2 2 1 3 3 4 1 3 3 3 4 3 3 0 2 2 4 3
+ 2 3 3 4 3 0 0 4 1 2 2 3 2 3 3 1 0 0 2 4 0 3 0 4 2 4 2 2 3 3 2 0 3 1 1 3 1
+ 4 3 2 2 2 2 3 1 3 1 3 0 1 3 2 4 3 2 2 3 3 1 2 1 4 2 3 1 2 2 2 2 4 3 2 2 2
+ 3 1 3 3 2 2 1 1 2 1 1 3 3 3 2 4 1 2 2 2 2 3 2 3 1 3 3 3 2 4 2 3 3 1 3 2 1
+ 2 3 3 1 2 1 1 3 2 2 4 2 2 3 2 0 2 3 3 1 2 4 4 3 3 1 3 1 4 2 2 2 2 4 0 1 1
+ 2 3 3 3 0 2 1 2 3 2 2 3 3 3 2 2 1 1 3 3 1 2 0 1 2 3 4 0 3 1 2 4 3 2 4 3 0
+ 3 4 2 1 3 2 4 3 2 0 3 3 3 3 3 1 3 1 3 4 2 0 0 3 4 1 4 0 2 4 2 3 3 3 4 2 3
+ 3 4 4 3 3 3 4 2 2 4 2 2 3 2 2 2 2 1 1 2 3 3 3 3 2 2 2 3 2 2 2 0 3 2 3 4 2
+ 1 3 0 3 3 2 2 0 4 1 0 2 4 2 4 2 2 2 1 3 1 3 1 3 3 3 2 2 3 1 3 0 3 3 1 1 4
+ 4 2 0 2 1 2 1 4 3 2 2 3 2 2 3 2 3 3 4 1 3 3 0 2 1 4 3 3 4 0 1 3 0 1 3 2 3
+ 0 2 3 3 3 2 2 2 3 0 3 2 1 4 4 1 0 1 3 1 1 0 3 2 3 4 1 1 0 0 1 0 1 1 2 1 2
+ 3 3]
+positive_all for label 110: 853
+tp_fp for label 110: 3412
+tp for label 14: [4 4 4 4 4 4 4 4 4 3 4 2 3 4 4 4 3 4 4 4 3 4 4 4 4 4 3 4 3 3 3 4 3 4 4 4 4
+ 4 4 4 3 4 4 3 4 4 3 4]
+positive_all for label 14: 48
+tp_fp for label 14: 192
+tp for label 26: [2 1 1 2 2 1 0 2 2 3]
+positive_all for label 26: 10
+tp_fp for label 26: 40
+tp for label 70: [1 3 0 1 0 1 2 3 3 1 1 2 3 3 2 2 0 0]
+positive_all for label 70: 18
+tp_fp for label 70: 72
+tp for label 91: [2 1 0 1 2 2 2 1 2 2 2 1 1 3 2]
+positive_all for label 91: 15
+tp_fp for label 91: 60
+tp for label 0: [1 3 1 0 2 2]
+positive_all for label 0: 6
+tp_fp for label 0: 24
+tp for label 101: [0 0 0 0 1 0]
+positive_all for label 101: 6
+tp_fp for label 101: 24
+tp for label 31: [3 2 2 3 1 3 2 1]
+positive_all for label 31: 8
+tp_fp for label 31: 32
+tp for label 112: [3 3 4 3 3 3]
+positive_all for label 112: 6
+tp_fp for label 112: 24
+tp for label 34: [4 4 4 4 4 4 4 4]
+positive_all for label 34: 8
+tp_fp for label 34: 32
+tp for label 48: [0 3 2 2 1 3 1 0 2 2 1 2 1 0 2]
+positive_all for label 48: 15
+tp_fp for label 48: 60
+tp for label 55: [3 4 3 2 2 2 3 3 2 4 2 3 3 3 2 4 4 3 4 4 3 3]
+positive_all for label 55: 22
+tp_fp for label 55: 88
+tp for label 9: [4 4 3 4 4 4 2 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 9: 18
+tp_fp for label 9: 72
+tp for label 115: [2 2 3 2 1 2 3 3 3 2 3 4 0 4 3 3 3 3 1 2 3 2 3]
+positive_all for label 115: 23
+tp_fp for label 115: 92
+tp for label 64: [1 1 3 3 2]
+positive_all for label 64: 5
+tp_fp for label 64: 20
+tp for label 84: [3 4 4 4 4 4 3 4 4 4 3 4 3 4 3 4 2 2 4 4 4 4 4 4 4 3 2 4 4 4 4 4 3 3 3 4 3
+ 4 4 3 3 4 3]
+positive_all for label 84: 43
+tp_fp for label 84: 172
+tp for label 73: [2 2 2 3 0 1 0 1 3 2 3 3 1 0 1 1 1 1 1 1 2 1 1 1 2 1 2 3 1 2 0 2 1 2 3 2 2
+ 2 2 3 1 1 1 0 1 4 2 0 0 2 3 4 1 1 2 0 1 3 1 2 2 2 1 3 0 3 2 1 0 1 1 3 1 3
+ 1 1 0 4 0 1 1 3 2 1 3 2 2 0 1 1 2 0 0 2 2 1 1 3 2 3 2 2 0 3 1 1 1 0 2 1 3
+ 3 2 1 1 1 0 0 1 0 2 0 3 0 0 1 0 2 1 3 1 3 3 1 2 2 2 2 3 3 3 0 3 1 0 2 2 1
+ 1 0 1 3 1 0 3 0 3 1 2 2 1 1 3 3 4 1 1 2 2 1 0 0 2 1 1 2 1 1 2 3 2 3 1 0 1
+ 2 4 2 3 3 3 0 3 0 1 4 3 2 0 3 2 2 0 2 0 1 0 0 4 1 0 3 2 2 1 1 2 1 0 3 3 3
+ 1 1 2 2 2 2 0 3 1 2 2 3 0 1 2 2 1 2 2 2 2 1 3 3 1 2 3 1 2 1 1 2 1 1 3 1 0
+ 1 1 3 2 2 2 0 1 2 3 2 3 2 1 2 2 3 2]
+positive_all for label 73: 277
+tp_fp for label 73: 1108
+tp for label 1: [1 1 0 2 0 2 2 4 1 2 2 2 3 0 2 1 0]
+positive_all for label 1: 17
+tp_fp for label 1: 68
+tp for label 68: [2 2 0 2 1 0 1 1 0 2 0 1 1 2 1 1 2 0 2 1 0 1 1 1 1 1 2 1 3 0 1]
+positive_all for label 68: 31
+tp_fp for label 68: 124
+tp for label 71: [3 3 3 3 3]
+positive_all for label 71: 5
+tp_fp for label 71: 20
+tp for label 90: [2 2 3 3 2 1 0 1 1 1 1 1 2 1 0 1 0 1 0 2 1 1]
+positive_all for label 90: 22
+tp_fp for label 90: 88
+tp for label 10: [3 3 3 3 2 3 2 2]
+positive_all for label 10: 8
+tp_fp for label 10: 32
+tp for label 19: [2 2 1 3 3 2 1 0 1 3 2 3 3 3 2 1 2 2 2 3]
+positive_all for label 19: 20
+tp_fp for label 19: 80
+tp for label 93: [0 0 0 2 2 1 0 0 0 1 1 0 1 2 0 0 1 1 1 0 0 0 2 0 2 1 3 1 1 2 2 1 2 0 2 0 0
+ 3 2]
+positive_all for label 93: 39
+tp_fp for label 93: 156
+tp for label 32: [0 2 3 2 2]
+positive_all for label 32: 5
+tp_fp for label 32: 20
+tp for label 103: [2 4 4 4 0 2 3 2 4 3 2 3 2 2 3 4 2 2 2 2 2 3 4 3 3 3 2]
+positive_all for label 103: 27
+tp_fp for label 103: 108
+tp for label 114: [3 3 1 3 2 2 3 2]
+positive_all for label 114: 8
+tp_fp for label 114: 32
+tp for label 23: [2 1 3 3 3 3]
+positive_all for label 23: 6
+tp_fp for label 23: 24
+tp for label 54: [3 3 3 4 3 4]
+positive_all for label 54: 6
+tp_fp for label 54: 24
+tp for label 96: [1 2 0 2 1 3 2 1 1 2 3 3 2 2 1 0 2 2 2 2 3]
+positive_all for label 96: 21
+tp_fp for label 96: 84
+tp for label 75: [2 4 2 3 3 1 2 1 3 3 2 2 1 1 0 0 1 1 2 2 2 1 1 2 2 1 1 1 1 1 2 1 1 2 2 2 1
+ 1 0 1 0 2 3 2 2 1 2 2 3 3 2 2 4 1 3 2 1 0 3 2 2 1 3 0 2 3 2 0 1 1 2 1 3 2
+ 1 2 1 1 0 3 2 2 1 2 1 2 2 4 3 3 2 2 1 3 2 1 2 3 2 2 2 0 0 2 3 1 2 3 3 2 1
+ 1 2 2 2 3 1 1 2 2 3 2 2 3 2 3 3 3 2 1 3 1 1 3 1 2 1 0 1 1 0 2 1 2 0 2 3 3
+ 1 2 3 2 1 1 3 2 2 2 1 0 0 2 2 2 2 2 2 2 0 1 1 1 3 2 1 2 3 2 3 2 2 0 1 3 3
+ 2 1 3 2 2 1 2 1 0 1 2 2 3 1 3 3 2 0 2 1 0 0 3 3 2 2 2 3 2 2 1 2 1 3 2 3 0
+ 2 2 1 1 1 1 1 0 3 2 2 1 2 3 2 2 3 2 1 1 1 2 1 1 3 2 3 2 2 2 1 2 2 2 1 2 0
+ 3 2 1 2 3 1 1 2 1 1 2 3 2 2 1 2 2 2 3 2 1]
+positive_all for label 75: 280
+tp_fp for label 75: 1120
+tp for label 24: [2 2 3 0 3 3 3 0 3 1]
+positive_all for label 24: 10
+tp_fp for label 24: 40
+tp for label 51: [1 1 4 3 4 3 4 2 1 4 3 3 3 3 4 4 2 3 3 3 4 4 2 2 3 1 1 4 3 2 4 3 3 3 3 2 2
+ 3 3 2 3 4 2 4 2 3 4 2 3 3 3 2 1 3 3 3 3 3 3 2 3]
+positive_all for label 51: 61
+tp_fp for label 51: 244
+tp for label 5: [2 1 4 4 3 4 2 3 3 2 4 0 4 2 3]
+positive_all for label 5: 15
+tp_fp for label 5: 60
+tp for label 44: [3 3 4 3 3 1 4 2 3 1 3 3 3 0 3 4 2 3 3 4 3 4 3 3 2 3 3 3 1 1 3 2]
+positive_all for label 44: 32
+tp_fp for label 44: 128
+tp for label 37: [3 2 0 1 3]
+positive_all for label 37: 5
+tp_fp for label 37: 20
+tp for label 17: [3 3 4 2 2 4 3 3 2 3 2 2 2 2 4 4 3 3 2 4 2 0 2 4 4]
+positive_all for label 17: 25
+tp_fp for label 17: 100
+tp for label 97: [3 3 1 2 1 3 1 1 4 2 3 2 3 1 3 2 3 2 2 3 0 0 2 2 4 0 0 3 2 3 1 3 1 0 2 4 2
+ 4 3 2 2 1 2 2 2 2 1 1 1 1 2 2 2 1]
+positive_all for label 97: 54
+tp_fp for label 97: 216
+tp for label 25: [4 4 3 1 4 3 2]
+positive_all for label 25: 7
+tp_fp for label 25: 28
+tp for label 4: [4 2 2 3 1 3 4 3 2 4 0 2 3 2 3 3 3 2 3 2 2]
+positive_all for label 4: 21
+tp_fp for label 4: 84
+tp for label 30: [1 0 1 2 1]
+positive_all for label 30: 5
+tp_fp for label 30: 20
+tp for label 28: [2 2 2 0 1]
+positive_all for label 28: 5
+tp_fp for label 28: 20
+tp for label 89: [1 1 1 1 1 0 0 2 2 0 2 0 3 1 0 1 3 0 3 1 1 1 1 2 0 0 2 1 1 1 1]
+positive_all for label 89: 31
+tp_fp for label 89: 124
+tp for label 16: [2 2 4 2 3 4 3 1 4 4 4 2 3 3 3 3 3 4 2 2 4 3 3 3 3 1 3 3 1 3 4]
+positive_all for label 16: 31
+tp_fp for label 16: 124
+tp for label 113: [2 2 2 2 3 3 2 2 0 2 2 0 2 2 2 1 2]
+positive_all for label 113: 17
+tp_fp for label 113: 68
+tp for label 66: [3 3 2 4 3 2 3 3 3 2 4 3 3]
+positive_all for label 66: 13
+tp_fp for label 66: 52
+tp for label 33: [1 1 1 1 0 1 1 2 2 0 2 0 0]
+positive_all for label 33: 13
+tp_fp for label 33: 52
+tp for label 57: [1 2 3 1 2 2 1 2 0 2 0 2 2 0 1 1 0]
+positive_all for label 57: 17
+tp_fp for label 57: 68
+tp for label 80: [3 3 4 3 2 2 3 3 1 2 3 4 3 3 3 3 2 3 3 3 4 3 2 4 3 1 3 3 3 0 3 4 3 3 0 4 2
+ 3 2 3 3 2 3]
+positive_all for label 80: 43
+tp_fp for label 80: 172
+tp for label 102: [1 1 2 1 1 2 1 2 2 0 2 2 1 3 2 2 1 2 2 1 1 4 0 3 1 2 2 1 2 2 2 2 1 1 2 0 2
+ 2 3 2 0 2 1 1 3 2 3 3 2 2 2 1 1 1 2 3 3 2 2 1 1 2 1 2 1 1 1 1 3 1 1 2 3 1
+ 1 2 1 3 2 1 2 3 0 2 2 1 2 1 2 1 1 2 2 3 2 2 1 3 2 1 1 1 1 0 1 1 3 3 2 2 2
+ 1 2 2 1 1 3 1 2 4 2 0 2 3 4 0 1 1 0 2 2 1 0 2 4 2 1 2 2 2 2 2 2 1 0 2 2 2
+ 3 2 2 2 3 2 0 0 1 2 1 2 2 1 2 1 0 1 0 2 2 2 2 1 3 2 2 0 1 3 1 0 1 2 3 1 2
+ 0 1 0 0 2 1 2 3 3 1 4 2 1 3 0 1 2 1 2 0 2 1 1 1 2 2 2 0 3 0 1 1 1 3 0 2 0
+ 1 0 1 0 1 0 1 2 0 2 1 2 2 1 1 2 1 0 3 1 3 1 2 2 1 1 2 0 2 2 1 2 3 0 2 2 2
+ 4 3 2 0 3 0 1 4 1 2 0 2 2 1 2 3 0 1 1 2 2 3 2 0 3 2 2 0 2 3 1 2 1 1 1 2 2
+ 2 1 1 2 0 2 2 0 0 2 2 2 2 0 3 2 2 3 1 0 2 1 1 3 2 1 2 3 2 2 1 2 1 2 3 2 3
+ 3 0 3 2 2 1 0 1 1 2 2 1 3 2 2 1 2 1 1 2 0 3 3 2 3 0 2 1 1 3 1 3 3 0 2 1 1
+ 1 1 2 3 1 2 2 0 3 2 1 2 3 1 3 0 2 4 2 0 1 3 1 3 2 1 3 2 2 2 3 2 2 0 2 1 2
+ 2 3 2 0 3 2 2 2 1 2 3 1 2 0 3 2 1 1 0 1 2 2 2 1 2 1 0 2 1 2 2 0 3 1 1 1 2
+ 3 1 3 1 1 0 0 2 3 2 2 2 1 2 1 3 2 1 2 2 2 2 1 1 1 2 1 2 2 2 3 1 3 2 1 2 2
+ 2 1 1 3 0 1 2 1 1 2 1 2 2 1 0 2 1 2 3 2 2 1 2 1 1 0 2 1 4 2 0 3 1 2 2 1 2
+ 2 3 2 2 2 0 3 0 2 1 2 1 0 2 3]
+positive_all for label 102: 533
+tp_fp for label 102: 2132
+tp for label 22: [2 2 1 3 1 0 2 0 1 2 1 1 1 3 2 2 2]
+positive_all for label 22: 17
+tp_fp for label 22: 68
+tp for label 104: [2 2 1 0 3 2 1 3 1]
+positive_all for label 104: 9
+tp_fp for label 104: 36
+tp for label 49: [3 2 2 4 1 2 2 2 2 2 2]
+positive_all for label 49: 11
+tp_fp for label 49: 44
+tp for label 58: [3 2 2 3 2]
+positive_all for label 58: 5
+tp_fp for label 58: 20
+tp for label 76: [2 4 4 4 3 3 3 2 2 2 3 1 3 2 2 3 1 3 2]
+positive_all for label 76: 19
+tp_fp for label 76: 76
+tp for label 27: [4 2 3 3 1 2 3]
+positive_all for label 27: 7
+tp_fp for label 27: 28
+tp for label 109: [1 1 0 1 0 2 3 0 1 2 2 2 2 1 2 3 2 2 2 1 4 2 2 3 2 1 3 3 2 4 3 2 2 2 0 1 1
+ 3 2 2 0 3 2 3 2 1 1 1 0 2 3 4 0 3 3 0 3 1 2 1 0 2 1 3 2 2]
+positive_all for label 109: 66
+tp_fp for label 109: 264
+tp for label 99: [2 3 3 1 1 2 3 2 2 2 1 2 3 2 2 2 2 2 1]
+positive_all for label 99: 19
+tp_fp for label 99: 76
+tp for label 105: [3 4 3 3 4]
+positive_all for label 105: 5
+tp_fp for label 105: 20
+tp for label 40: [2 3 0 1 3 4 1 2 4 3]
+positive_all for label 40: 10
+tp_fp for label 40: 40
+tp for label 63: [4 4 3 3 4]
+positive_all for label 63: 5
+tp_fp for label 63: 20
+tp for label 38: [3 3 0 2 3 1 3 2 2 1]
+positive_all for label 38: 10
+tp_fp for label 38: 40
+tp for label 7: [1 0 2 1 1 2]
+positive_all for label 7: 6
+tp_fp for label 7: 24
+tp for label 6: [2 2 2 2 2 2 2 3 2 3]
+positive_all for label 6: 10
+tp_fp for label 6: 40
+tp for label 81: [1 1 1 2 2 2]
+positive_all for label 81: 6
+tp_fp for label 81: 24
+tp for label 65: [4 3 3 2 3 2 4 4 3 4 2 4 4 4 4 3 4 4 4]
+positive_all for label 65: 19
+tp_fp for label 65: 190
+tp for label 61: [2 1 3 4 1 4]
+positive_all for label 61: 6
+tp_fp for label 61: 60
+tp for label 36: [1 4 3 2 2 3]
+positive_all for label 36: 6
+tp_fp for label 36: 60
+tp for label 45: [2 4 4 4 3 3]
+positive_all for label 45: 6
+tp_fp for label 45: 60
+tp for label 72: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 3 4 4 4 3]
+positive_all for label 72: 27
+tp_fp for label 72: 270
+tp for label 12: [2 3 4 3 4 3 4 4 3 4 3 3 4 4 4 0 3 3 3 1 3 4 4 3 4 4 3 4 4 2 3]
+positive_all for label 12: 31
+tp_fp for label 12: 310
+tp for label 47: [3 2 4 3 4 4 2 4 3 0 3 4 3 4 2 2 3 3 4 4 2 3 4 2 4 3 4 4 4 3 2 2 3 3 0 4 1
+ 3 2 2 0 0 4 3 3 2 3 0 0 3 3 3 3 3 4 3 4 3]
+positive_all for label 47: 58
+tp_fp for label 47: 580
+tp for label 35: [3 3 3 1 3 2 2 4 3]
+positive_all for label 35: 9
+tp_fp for label 35: 90
+tp for label 59: [2 4 4 4 4 3 4 4 4 4]
+positive_all for label 59: 10
+tp_fp for label 59: 100
+tp for label 116: [4 4 4 3 4 3 4 4 4 2 4 4 3 4 4 4 3 4 4 3 3 1 3 4 3 4 4 3 3 4 4 3 4 4 3 4 4
+ 3 1 2 4 3 4 4 3 3 4 4 4 3 4 3 4 4 4 4 3 1 4 3 4 3 2 4 4 2 3 3 4 4 4 2 4 4
+ 4 4 4 4 4 3 4 3 3 3 4 4 4 4 4 1 3 0 4 3 4 3 4 3 4 2 4 4 4 4 4 4 4 4 4 4 3
+ 3 4]
+positive_all for label 116: 113
+tp_fp for label 116: 1130
+tp for label 82: [4 4 4 4 0 4]
+positive_all for label 82: 6
+tp_fp for label 82: 60
+tp for label 107: [1 1 3 2 3 3 3 3 3 0 3 2 2 3 4 1 3 3 4 3 3 1 2 3 3 3 3 2 4 3 2 3 4 3 1 2 2
+ 3 3 2 3]
+positive_all for label 107: 41
+tp_fp for label 107: 410
+tp for label 41: [3 4 3 4 4]
+positive_all for label 41: 5
+tp_fp for label 41: 50
+tp for label 88: [4 3 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4]
+positive_all for label 88: 22
+tp_fp for label 88: 220
+tp for label 108: [4 2 3 2 4 1 4 1 3 2 2 4 4 4 2]
+positive_all for label 108: 15
+tp_fp for label 108: 150
+tp for label 86: [0 2 3 3 2 2]
+positive_all for label 86: 6
+tp_fp for label 86: 60
+tp for label 20: [0 1 1 2 1 0]
+positive_all for label 20: 6
+tp_fp for label 20: 60
+tp for label 87: [3 3 2 3 4 3 2 1 2 3 3 3 3 0 4 4 4 4 3 1 4 3 3 4 1 2 4 3 3 2 3 3 2 3 3 2 3
+ 3 3]
+positive_all for label 87: 39
+tp_fp for label 87: 390
+tp for label 74: [4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 74: 11
+tp_fp for label 74: 110
+tp for label 69: [4 2 4 4 3 3]
+positive_all for label 69: 6
+tp_fp for label 69: 60
+tp for label 78: [3 3 4 4 3 2 2 3 2 3 4 4 3 3 3 4 3 3 3 4 3 4 4 4 1 4 4 3 3 3 3 4 4 3 1 1 4
+ 4 4 0 2 4 2 4 4 4 2 3 4 4 2 2 3 1 2 2 4 4 4 4 3 3 1 4 4 3 3 4 3 4 2 4 4 3
+ 2 3 3 2 2 4 2 4 2 4 4 4 3 0 3 4 4 4 0 4 3 3 3 2 2 3 2 4 4 3 3 1 3 4 4 4 3
+ 4 4 4 4 4 4 4 2 3 1 3 4 4 4 4 3 4 2 2 3]
+positive_all for label 78: 131
+tp_fp for label 78: 1310
+tp for label 15: [4 4 3 4 4 4 3 4 4 4 3 4 4 4 4 3 2 1 3 2 4 4 3 4 3 3 4 1 2 3 3 3]
+positive_all for label 15: 32
+tp_fp for label 15: 320
+tp for label 39: [2 3 4 1 2 2 3 2 2 3]
+positive_all for label 39: 10
+tp_fp for label 39: 100
+tp for label 50: [0 2 1 4 4 3 4 4 3 4 2 3 4 3 4 4 1 3 4 3 2 4 4 2 4 3 4]
+positive_all for label 50: 27
+tp_fp for label 50: 270
+tp for label 100: [4 4 4 4 3 4 4 4 3 4 4 4 4 2 3 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4]
+positive_all for label 100: 35
+tp_fp for label 100: 350
+tp for label 42: [2 4 4 4 4 4 2 4 4 3 3 3 4 3 4 4 4 4 4 4 4 4 4 3 4 4 3 3 4 3 4 4 4 4 4 3 4
+ 4 3 3 3 3 4 3 1]
+positive_all for label 42: 45
+tp_fp for label 42: 450
+tp for label 21: [3 2 3 3 4 3 3 3 3 4 3 1 2 2]
+positive_all for label 21: 14
+tp_fp for label 21: 140
+tp for label 18: [4 4 2 3 4 4 4 2 4 3 3 4 4 4 4 1 4 4 4 4 4]
+positive_all for label 18: 21
+tp_fp for label 18: 210
+tp for label 29: [4 3 4 4 1 4]
+positive_all for label 29: 6
+tp_fp for label 29: 60
+tp for label 98: [3 3 2 3 3 3 2 4 4 4 3 4 3 3 4 1 4 4 4 3 3 4 1 3 3 3 4 4 4 4 3 2 2]
+positive_all for label 98: 33
+tp_fp for label 98: 330
+tp for label 106: [4 4 4 4 4 3 4 4 4 4]
+positive_all for label 106: 10
+tp_fp for label 106: 100
+tp for label 52: [4 3 3 3 4 3 3 3 4 3 3 4]
+positive_all for label 52: 12
+tp_fp for label 52: 120
+tp for label 62: [2 2 3 4 2 3 4 4 3]
+positive_all for label 62: 9
+tp_fp for label 62: 90
+tp for label 77: [4 1 4 4 2 3 2 2 3]
+positive_all for label 77: 9
+tp_fp for label 77: 90
+tp for label 67: [4 4 4 4 4 4 4 4 4]
+positive_all for label 67: 9
+tp_fp for label 67: 90
+tp for label 56: [1 0 3 1 1 2 2 1 3 2 1 3 2 1 2 2 2 1]
+positive_all for label 56: 18
+tp_fp for label 56: 180
+tp for label 83: [4 3 0 2 3 3 3 3 0]
+positive_all for label 83: 9
+tp_fp for label 83: 90
+tp for label 11: [1 3 0 4 4 4 3 3 0 2 4 3]
+positive_all for label 11: 12
+tp_fp for label 11: 120
+tp for label 94: [3 3 2 4 3 3 4 3 4 4 4 3 4 3 4 3 4 4 4 4 3 3 3 2 3 3 4 3 1 4 2 4 3 1 2 4 4
+ 4 1 4 3 1 3 4 3 2 3 3 4 2 2 4 3 4 4 3 4 3 4 3 4 4 4 4 2 4 4 3 4 1 4 3 4 3
+ 1 4 4 3 4 1 3 4 4 2 4 4 3 2 2 4 4 3 4 4]
+positive_all for label 94: 94
+tp_fp for label 94: 940
+tp for label 8: [3 4 2 2 2 4 2 3 4 4 2 3 4 4 2 4 4 4 4 2 4 1 4 4]
+positive_all for label 8: 24
+tp_fp for label 8: 240
+tp for label 43: [2 1 0 3 3 2 0 2 1]
+positive_all for label 43: 9
+tp_fp for label 43: 90
+tp for label 2: [4 2 3 3 2]
+positive_all for label 2: 5
+tp_fp for label 2: 50
+tp for label 53: [2 3 3 2 3 4 4 4 4 4 4 3 4 4 3 3 4 4 3 3 3 3 4 3 2 3 4 4 4 3 4 3 4 3 4 3 3
+ 4 4 3 4 2 3 4]
+positive_all for label 53: 44
+tp_fp for label 53: 440
+tp for label 85: [3 3 2 ... 4 4 4]
+positive_all for label 85: 1323
+tp_fp for label 85: 13230
+tp for label 111: [4 3 3 4 2 2 3 1 3 4 4 4 3 1 2 4 3 1 2 4 4 4 3 2 2 4 1 3 3 3 4 2 1 4 4 4 4
+ 3 2]
+positive_all for label 111: 39
+tp_fp for label 111: 390
+tp for label 60: [1 1 0 1 1]
+positive_all for label 60: 5
+tp_fp for label 60: 50
+tp for label 46: [4 4 4 4 4]
+positive_all for label 46: 5
+tp_fp for label 46: 50
+tp for label 92: [4 3 3 3 3 2 1]
+positive_all for label 92: 7
+tp_fp for label 92: 70
+tp for label 13: [2 3 2 0 4 4 0 4 3 0 3 2 3 3 4 3 3 3 4 2 3 3 2 4 2 0 2]
+positive_all for label 13: 27
+tp_fp for label 13: 270
+tp for label 95: [3 3 3 4 2 4 3 4 4 4 3 3 4 4]
+positive_all for label 95: 14
+tp_fp for label 95: 140
+tp for label 79: [3 3 3 1 4 4 4 4 4 4 1 4 2 2 1 4 2 4 2 2 3 4 4 3 4 4 3 1 4 3 3 3 2 1 4 4 3
+ 4 4 4 4 2 0 4 4 3 4 3 4 3 4 4 3 2 1 4 4 0 4 3 4 3 4 3 3 3 0 2 3 3 4 3 3 3
+ 1 3 4 4 2 2 1 3 4 4 3 4 4 1 2 3 4 1 4 4 2 3 3 3 4 4 3 3 2 1 4 3 4 3 1 2 4
+ 4 4 1 3 4 3 4 4 4 4 4 4 2 3 3 4 4 4 4 0 3 3 3 1 1 4 2 3 3 4 4 4 3 4 3 4 4
+ 3 3 2 3 4 4 3 4 4 0 0 1 4 3 0 4 4 3 4 4 3 2 3 4 3 0 4 3 3 4 3 3 4 2 3 4 4
+ 4 4 4 4 3 3 4 0 3 2 3 3 3 2 4 4 4 2 4 3 4 3 2 3 3 2 2 4 4 2 4 2 1 4 1 3 2
+ 4 3 3 4 3 4 4 4 3 2 4 4 4 4 1 4 4 4 3 4 4 4 4 4 3 3 4 4 3 4 4 2 3 3 4 4 4
+ 2 2 4 4 4 4 4 3 4 3 4 4 4 3 3 4 0 4 3 3 3 1 0 2 1 3 4 4 3 3 4 3 3 4 3 4 4
+ 3 4 0 4 3 4 4 1 2 3 2 2 1 4 3 4 3 4 4 1 4 3 4 4 3 1 1 4 2 4 3 4 3 4 0 3 4
+ 3 2 4 2 3 3 2 4 1 4 4 2 3 4 4 3 4 2 4 3 2 4 3 4 0 4 1 3 2 4 3 1 4 3 3 3 4
+ 4 4 1 3 4 4 2 4 4 3 2 3 3 1 4 3 2 4 4 2 4 0 3 3 4 2 4 3 1 3 3 4 4 2 4 4 4
+ 4 3 3 4 4 2 2 4 3 2 3 3 3 4 3 3 4 4 3 4 4 4 4 3 4 3 4 4 1 4 2 1 4 3 4 3 2
+ 3 1 3 3 1 4 2 1 4 2 2 3 2 4 1 2 4 3 0 3 4 1 3 4 3 4 4 1 3 3 4 4 4 3 2 4 3
+ 3 3 3 4 4 3 4 2 1 3 3 1 1 4 1 4 2 3 3 1 3 0 4 0 2 4 4 4 4 4 1 2 4 2 2 3 3
+ 2 3 4 1 4 4 4 4 4 2 4 3 4 3 4 4 0 4 2 1 4 1 2 2 0 0 3 4 4 2 4 4 3 1 4 3 1
+ 3 0 3 4 4 4 4 3 3 3 4 2 4 4 2 3 4 0 4 4 4 2 2 4 4 2 4 1 4 4 3 3 4 3 3 4 3
+ 1 3 4 3 4 4 4 3 2 1 3 2 3 4 4 2 4 4 4 3 4 3 4 1 2 3 2 3 4 3 4 4 3 4 4 2 3
+ 4 2 3 4 4 3 2 3 2 0 4 3 3 4 3 3 4 4 3 3 3 3 4 3 3 3 3 4 2 4 3 4 3 4 4 3 1
+ 2 1 3 2 4 3 0 3 2 4 2 4 3 3 4 2 4 3 4 3 4 4 3 1 3 3 4 3 2 4 4 1 3 4 1 3 2
+ 1 2 2 3 3 4 3 4 0 4 3 4 3 3 3 3 3 2 3 1 4 1 4 4 4 3 3 4 3 4 4 1 2 4 4 3 4
+ 1 4 4 3 2 3 4 2 3 4 2 2 4 2 4 3 4 3 2 0 2 4 3 4 3 4 3 4 3 3 2 2 1 3 4 3 4
+ 0 4 1 4 3 4 4 4 2 2 4 4 3 4 1 3 0 4 0 3 2 4 4 4 3 4 3 3 3 4 4 3 3 3 4 3 4
+ 2 2 1 3 4 3 4 3 2 2 3 4 3 0 3 3 2 2 4 3 4 4 2 3 4 4 4 3 3 0 4 2 0 3 3 0 3
+ 4 3 3 1 3 3]
+positive_all for label 79: 857
+tp_fp for label 79: 8570
+tp for label 3: [3 4 2 1 3 4 3 4 3 2 4]
+positive_all for label 3: 11
+tp_fp for label 3: 110
+tp for label 110: [2 1 4 4 2 2 4 3 3 3 2 3 4 1 4 4 3 4 2 0 2 4 0 0 4 4 2 4 4 4 2 2 3 4 4 2 4
+ 3 2 4 4 3 3 3 0 4 2 2 3 3 3 4 3 4 3 4 3 2 3 3 4 4 4 2 0 2 3 2 3 2 3 4 4 3
+ 4 3 3 3 1 4 3 3 4 4 3 2 2 4 3 4 2 3 3 4 3 4 2 3 4 4 3 3 4 3 1 4 2 3 3 4 4
+ 4 4 4 4 3 3 4 2 3 2 3 4 3 3 4 4 4 4 4 4 4 3 2 3 2 4 3 1 4 2 1 4 4 3 4 2 3
+ 3 2 2 4 4 3 4 2 2 1 1 4 0 4 2 2 3 0 3 3 2 3 3 3 3 4 4 4 4 4 3 1 2 3 2 4 2
+ 1 3 2 3 2 3 3 4 4 3 4 4 3 4 3 0 3 3 1 3 4 2 0 4 1 1 3 4 4 3 1 4 1 4 4 4 3
+ 4 0 2 3 3 3 3 1 3 0 1 3 3 3 3 4 0 4 3 3 4 2 4 1 2 2 3 4 2 0 2 2 4 2 3 3 4
+ 3 3 3 1 4 4 0 3 2 3 1 4 2 4 4 4 4 3 1 1 2 2 3 4 2 3 4 3 2 3 3 2 2 3 3 3 1
+ 2 4 2 3 4 2 3 3 3 1 3 4 3 0 4 1 3 3 4 3 0 4 3 3 4 3 4 4 4 0 4 3 4 3 3 3 4
+ 3 2 3 4 2 2 1 2 1 3 2 3 3 4 4 4 4 3 1 0 2 4 2 4 4 4 3 1 3 4 2 2 4 3 0 2 3
+ 3 3 3 3 4 3 0 2 3 4 2 4 0 3 3 3 1 3 4 3 3 4 2 3 4 4 4 2 3 3 3 2 1 3 2 4 3
+ 3 4 3 3 4 1 3 4 2 4 1 4 2 4 4 3 1 3 4 4 1 2 4 3 2 3 1 0 2 3 2 2 2 4 3 3 3
+ 3 4 1 4 2 3 4 3 2 1 2 3 3 2 2 2 4 1 3 2 2 2 3 4 4 2 3 4 4 4 4 3 1 3 3 4 3
+ 2 4 3 4 3 0 0 4 2 3 2 4 3 3 3 1 0 2 3 4 0 4 0 4 2 4 3 2 3 3 2 1 4 1 3 3 2
+ 4 3 3 3 3 4 4 1 3 2 4 1 3 3 2 4 4 3 4 3 3 2 3 2 4 2 3 1 3 2 3 2 4 4 3 2 3
+ 4 2 3 3 3 3 3 1 3 2 1 4 4 4 2 4 3 2 2 3 2 3 3 3 1 3 3 3 3 4 4 4 4 1 4 3 1
+ 4 3 3 2 3 3 1 3 3 3 4 2 2 4 3 0 2 4 3 2 3 4 4 4 3 1 3 1 4 2 2 3 2 4 0 2 2
+ 2 4 3 3 0 2 2 2 4 4 3 4 3 4 2 4 1 2 4 4 2 2 1 3 3 3 4 0 4 2 2 4 4 3 4 3 0
+ 4 4 3 3 3 3 4 3 2 0 3 3 4 4 3 1 3 1 4 4 4 0 0 4 4 3 4 1 4 4 3 3 3 3 4 3 4
+ 4 4 4 4 3 3 4 2 2 4 4 2 4 3 3 2 4 2 2 3 3 3 3 4 2 3 2 4 2 2 3 0 3 3 3 4 2
+ 2 3 0 4 4 2 3 0 4 3 0 3 4 3 4 2 2 3 2 4 1 3 2 4 4 4 3 3 3 3 3 1 4 3 2 3 4
+ 4 2 0 3 1 3 2 4 3 2 3 3 4 2 3 3 4 3 4 2 4 3 3 3 1 4 3 4 4 1 3 4 2 2 3 4 4
+ 2 2 3 4 3 3 3 3 3 0 4 2 4 4 4 1 2 2 4 2 1 2 3 2 3 4 2 2 0 2 2 1 3 2 2 3 3
+ 3 3]
+positive_all for label 110: 853
+tp_fp for label 110: 8530
+tp for label 14: [4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 3 4 4 4 4 4 3 4 4 3 4 4 4 4 4 4 4
+ 4 4 4 3 4 4 4 4 4 4 4]
+positive_all for label 14: 48
+tp_fp for label 14: 480
+tp for label 26: [2 1 1 2 3 2 2 3 2 3]
+positive_all for label 26: 10
+tp_fp for label 26: 100
+tp for label 70: [2 3 0 1 0 3 3 3 4 2 1 3 3 4 3 2 0 0]
+positive_all for label 70: 18
+tp_fp for label 70: 180
+tp for label 91: [2 4 0 1 2 3 3 2 3 2 2 3 2 3 3]
+positive_all for label 91: 15
+tp_fp for label 91: 150
+tp for label 0: [2 3 3 1 4 2]
+positive_all for label 0: 6
+tp_fp for label 0: 60
+tp for label 101: [1 0 0 0 2 0]
+positive_all for label 101: 6
+tp_fp for label 101: 60
+tp for label 31: [3 3 2 3 1 3 3 2]
+positive_all for label 31: 8
+tp_fp for label 31: 80
+tp for label 112: [3 4 4 4 3 3]
+positive_all for label 112: 6
+tp_fp for label 112: 60
+tp for label 34: [4 4 4 4 4 4 4 4]
+positive_all for label 34: 8
+tp_fp for label 34: 80
+tp for label 48: [0 3 3 3 2 3 2 1 2 3 2 3 1 0 3]
+positive_all for label 48: 15
+tp_fp for label 48: 150
+tp for label 55: [4 4 3 3 2 3 3 3 3 4 3 4 3 4 2 4 4 3 4 4 3 3]
+positive_all for label 55: 22
+tp_fp for label 55: 220
+tp for label 9: [4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 9: 18
+tp_fp for label 9: 180
+tp for label 115: [4 4 3 3 3 3 4 3 4 3 4 4 2 4 3 4 4 3 2 3 4 3 4]
+positive_all for label 115: 23
+tp_fp for label 115: 230
+tp for label 64: [4 2 3 4 3]
+positive_all for label 64: 5
+tp_fp for label 64: 50
+tp for label 84: [4 4 4 4 4 4 4 4 4 4 4 4 3 4 3 4 2 3 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 3
+ 4 4 4 4 4 4]
+positive_all for label 84: 43
+tp_fp for label 84: 430
+tp for label 73: [2 3 3 4 0 1 1 2 3 2 4 3 1 1 1 1 2 1 1 1 3 2 1 1 2 1 3 3 2 2 0 2 2 2 3 2 4
+ 2 2 3 1 2 2 0 1 4 2 1 1 2 3 4 2 2 2 0 1 3 1 4 3 2 1 3 0 4 3 2 0 2 1 4 1 3
+ 2 2 1 4 0 1 2 3 2 1 3 3 2 0 1 1 3 1 0 2 3 1 1 4 2 3 2 2 0 3 1 2 2 0 3 2 4
+ 3 3 1 1 2 3 3 1 0 2 0 3 1 0 2 0 3 2 3 3 3 3 2 3 3 2 4 3 3 3 1 4 1 0 2 3 1
+ 3 1 2 3 1 0 3 2 3 1 4 3 4 2 3 4 4 2 2 2 2 2 1 2 2 1 2 3 2 2 2 3 3 3 2 0 3
+ 3 4 3 3 3 3 1 3 2 2 4 3 2 0 4 2 2 1 2 1 1 1 1 4 1 1 4 2 3 2 2 2 1 0 3 3 3
+ 1 2 4 3 2 2 0 3 3 4 3 4 2 1 2 2 3 2 4 2 3 3 3 3 1 3 3 2 4 1 1 2 2 1 4 2 1
+ 1 1 3 2 2 3 1 1 4 4 2 3 2 2 3 3 4 2]
+positive_all for label 73: 277
+tp_fp for label 73: 2770
+tp for label 1: [1 1 0 2 0 2 2 4 1 2 2 2 3 0 3 1 0]
+positive_all for label 1: 17
+tp_fp for label 1: 170
+tp for label 68: [2 4 1 2 1 1 2 1 2 2 0 2 2 3 2 3 3 0 2 1 0 2 2 3 1 2 3 2 4 0 1]
+positive_all for label 68: 31
+tp_fp for label 68: 310
+tp for label 71: [3 4 4 4 3]
+positive_all for label 71: 5
+tp_fp for label 71: 50
+tp for label 90: [3 3 3 3 2 2 2 3 2 3 2 3 3 2 0 3 1 1 2 2 4 3]
+positive_all for label 90: 22
+tp_fp for label 90: 220
+tp for label 10: [3 4 4 3 3 4 2 2]
+positive_all for label 10: 8
+tp_fp for label 10: 80
+tp for label 19: [3 3 2 3 3 2 2 2 2 3 2 3 4 4 2 1 3 2 3 4]
+positive_all for label 19: 20
+tp_fp for label 19: 200
+tp for label 93: [0 1 2 3 3 1 0 1 2 1 2 2 3 3 0 0 2 1 1 0 0 0 2 1 3 1 4 2 2 2 3 1 2 1 3 1 0
+ 3 3]
+positive_all for label 93: 39
+tp_fp for label 93: 390
+tp for label 32: [0 3 3 3 3]
+positive_all for label 32: 5
+tp_fp for label 32: 50
+tp for label 103: [2 4 4 4 0 3 3 4 4 3 2 4 2 4 3 4 3 3 2 2 2 4 4 3 3 3 2]
+positive_all for label 103: 27
+tp_fp for label 103: 270
+tp for label 114: [3 3 2 3 2 2 3 2]
+positive_all for label 114: 8
+tp_fp for label 114: 80
+tp for label 23: [2 2 4 3 3 4]
+positive_all for label 23: 6
+tp_fp for label 23: 60
+tp for label 54: [4 4 4 4 4 4]
+positive_all for label 54: 6
+tp_fp for label 54: 60
+tp for label 96: [1 3 1 3 3 3 2 3 1 4 4 4 3 4 2 0 2 3 3 3 3]
+positive_all for label 96: 21
+tp_fp for label 96: 210
+tp for label 75: [4 4 2 4 4 2 3 1 4 3 3 3 2 2 0 3 3 2 3 4 3 4 1 2 2 2 1 2 1 2 3 2 2 2 3 2 2
+ 2 3 1 1 4 4 3 4 2 3 4 3 3 3 3 4 1 4 3 1 2 4 4 3 2 3 1 3 4 3 2 1 2 4 2 4 4
+ 1 4 4 2 2 3 4 3 2 2 2 2 2 4 4 3 3 4 3 4 3 2 4 3 4 3 3 1 0 2 4 1 3 3 4 3 2
+ 2 2 4 3 3 2 2 3 3 4 3 3 4 3 3 4 4 2 4 3 3 3 4 3 2 2 1 2 3 1 3 2 4 1 3 3 4
+ 3 3 4 3 2 1 4 2 3 2 1 0 2 3 3 3 4 2 3 2 0 4 2 1 3 3 4 2 4 4 3 4 2 0 2 4 3
+ 3 1 3 4 3 2 4 2 2 3 2 2 3 3 4 4 4 1 4 3 2 2 3 4 2 3 3 4 3 4 3 2 1 4 3 3 2
+ 2 4 3 1 2 2 1 4 4 2 3 3 2 3 2 3 3 3 2 2 2 2 2 3 4 4 4 4 3 2 2 4 3 3 1 3 2
+ 4 2 3 3 4 3 2 4 3 4 3 3 3 2 2 2 2 4 3 4 3]
+positive_all for label 75: 280
+tp_fp for label 75: 2800
+tp for label 24: [3 2 3 0 3 3 4 0 3 2]
+positive_all for label 24: 10
+tp_fp for label 24: 100
+tp for label 51: [3 3 4 4 4 3 4 2 2 4 4 4 4 4 4 4 3 3 4 3 4 4 2 3 4 3 2 4 4 3 4 3 4 4 3 2 2
+ 3 4 3 3 4 2 4 3 3 4 3 4 4 4 3 1 3 3 4 4 4 4 4 4]
+positive_all for label 51: 61
+tp_fp for label 51: 610
+tp for label 5: [3 2 4 4 3 4 2 4 3 4 4 1 4 2 3]
+positive_all for label 5: 15
+tp_fp for label 5: 150
+tp for label 44: [4 3 4 3 3 3 4 3 4 4 4 4 4 0 4 4 4 3 4 4 3 4 3 3 3 4 3 3 3 3 3 2]
+positive_all for label 44: 32
+tp_fp for label 44: 320
+tp for label 37: [3 2 0 2 3]
+positive_all for label 37: 5
+tp_fp for label 37: 50
+tp for label 17: [3 3 4 2 2 4 4 4 2 3 3 3 4 3 4 4 3 3 4 4 3 0 2 4 4]
+positive_all for label 17: 25
+tp_fp for label 17: 250
+tp for label 97: [4 3 1 2 2 3 3 2 4 3 4 3 3 3 3 3 3 4 3 3 1 1 3 3 4 0 2 3 3 3 1 3 2 0 2 4 2
+ 4 4 2 3 3 2 3 2 3 1 3 3 3 2 2 4 3]
+positive_all for label 97: 54
+tp_fp for label 97: 540
+tp for label 25: [4 4 3 3 4 4 2]
+positive_all for label 25: 7
+tp_fp for label 25: 70
+tp for label 4: [4 2 3 3 4 3 4 4 2 4 0 3 3 3 3 3 3 4 4 2 3]
+positive_all for label 4: 21
+tp_fp for label 4: 210
+tp for label 30: [2 0 1 2 2]
+positive_all for label 30: 5
+tp_fp for label 30: 50
+tp for label 28: [2 2 2 0 2]
+positive_all for label 28: 5
+tp_fp for label 28: 50
+tp for label 89: [1 2 2 2 3 0 0 3 2 1 3 3 4 2 3 1 4 0 3 1 2 1 1 3 2 1 2 3 2 2 2]
+positive_all for label 89: 31
+tp_fp for label 89: 310
+tp for label 16: [3 4 4 3 3 4 4 3 4 4 4 3 3 3 3 4 4 4 4 4 4 4 4 3 3 1 3 4 1 3 4]
+positive_all for label 16: 31
+tp_fp for label 16: 310
+tp for label 113: [4 3 4 4 4 3 3 4 0 4 3 1 4 4 3 2 4]
+positive_all for label 113: 17
+tp_fp for label 113: 170
+tp for label 66: [4 4 4 4 4 3 3 3 4 3 4 4 4]
+positive_all for label 66: 13
+tp_fp for label 66: 130
+tp for label 33: [2 1 1 1 0 1 3 2 2 1 2 0 1]
+positive_all for label 33: 13
+tp_fp for label 33: 130
+tp for label 57: [1 2 3 1 2 2 2 2 0 2 0 2 2 1 1 1 0]
+positive_all for label 57: 17
+tp_fp for label 57: 170
+tp for label 80: [3 4 4 3 4 2 4 4 2 2 4 4 3 3 3 3 4 3 4 3 4 3 4 4 3 2 3 4 3 0 3 4 3 4 1 4 4
+ 4 3 4 3 2 4]
+positive_all for label 80: 43
+tp_fp for label 80: 430
+tp for label 102: [2 2 4 1 2 3 3 2 2 1 3 3 1 3 3 3 2 3 2 1 2 4 1 4 3 4 4 1 2 4 3 4 2 3 2 0 3
+ 2 3 2 1 3 3 2 3 3 4 3 3 2 2 3 2 2 4 3 4 3 4 2 1 3 1 3 4 3 2 4 3 1 1 4 4 3
+ 1 2 3 3 2 3 4 3 0 3 4 2 3 3 2 2 3 3 4 4 2 4 2 3 4 2 2 3 1 3 1 1 4 4 4 3 4
+ 1 4 3 3 1 4 2 2 4 3 1 3 3 4 3 2 3 2 3 2 2 1 4 4 3 2 4 3 3 2 3 3 1 0 2 4 3
+ 4 2 2 4 4 3 4 1 4 3 2 3 3 2 3 3 2 3 1 3 2 3 2 2 4 2 4 1 1 3 2 0 2 4 3 2 3
+ 2 1 1 3 3 3 3 3 3 3 4 3 4 4 2 1 4 1 2 1 2 2 3 2 2 4 3 1 3 1 1 3 2 4 0 3 4
+ 2 2 1 1 3 0 1 4 1 3 2 3 2 3 1 2 3 2 3 1 3 4 4 3 1 2 4 1 3 4 2 4 4 0 3 4 2
+ 4 3 3 0 4 3 3 4 3 3 0 3 4 1 3 3 1 1 2 3 3 3 4 0 3 3 2 0 3 4 2 3 3 1 3 4 3
+ 3 3 1 2 2 4 3 2 0 3 3 3 2 0 3 3 3 4 3 0 2 2 2 3 4 2 3 3 2 2 3 3 2 3 4 4 3
+ 4 1 3 3 4 2 0 4 2 4 4 3 4 2 3 1 3 3 2 3 1 3 4 2 3 2 3 3 1 3 3 4 3 1 2 1 2
+ 3 2 3 4 2 2 3 1 4 3 1 3 4 4 4 1 3 4 2 0 1 3 1 3 3 2 4 2 4 2 3 3 3 2 2 2 2
+ 4 3 2 1 3 4 2 3 1 3 4 2 3 2 4 2 4 2 1 1 2 3 4 2 3 1 2 4 1 3 2 3 4 4 2 3 3
+ 4 1 4 1 3 1 2 2 3 2 3 3 1 3 2 3 3 2 2 4 3 3 2 1 3 2 3 3 2 3 4 2 4 4 2 2 2
+ 3 3 1 4 1 2 2 1 3 2 2 3 2 3 1 4 1 3 4 2 4 3 3 1 1 0 4 3 4 3 1 3 3 3 3 2 2
+ 3 4 3 3 2 0 4 0 2 4 3 3 0 4 4]
+positive_all for label 102: 533
+tp_fp for label 102: 5330
+tp for label 22: [2 2 1 4 1 1 3 0 1 2 1 1 1 3 2 2 2]
+positive_all for label 22: 17
+tp_fp for label 22: 170
+tp for label 104: [3 4 3 0 3 2 1 3 2]
+positive_all for label 104: 9
+tp_fp for label 104: 90
+tp for label 49: [4 4 3 4 3 3 3 3 4 4 4]
+positive_all for label 49: 11
+tp_fp for label 49: 110
+tp for label 58: [4 2 4 4 3]
+positive_all for label 58: 5
+tp_fp for label 58: 50
+tp for label 76: [3 4 4 4 3 3 4 3 4 3 3 1 4 2 3 3 3 4 3]
+positive_all for label 76: 19
+tp_fp for label 76: 190
+tp for label 27: [4 3 4 3 2 3 3]
+positive_all for label 27: 7
+tp_fp for label 27: 70
+tp for label 109: [2 1 1 2 0 2 3 0 3 2 3 3 2 1 4 3 3 3 3 1 4 3 3 4 2 1 4 4 4 4 3 2 3 4 2 1 2
+ 3 3 2 0 3 3 4 2 2 1 3 1 3 3 4 1 3 4 0 3 2 3 1 2 4 1 4 3 2]
+positive_all for label 109: 66
+tp_fp for label 109: 660
+tp for label 99: [4 4 4 4 1 3 4 4 4 3 2 3 4 2 3 3 3 3 2]
+positive_all for label 99: 19
+tp_fp for label 99: 190
+tp for label 105: [4 4 4 4 4]
+positive_all for label 105: 5
+tp_fp for label 105: 50
+tp for label 40: [2 3 0 1 3 4 3 2 4 4]
+positive_all for label 40: 10
+tp_fp for label 40: 100
+tp for label 63: [4 4 3 4 4]
+positive_all for label 63: 5
+tp_fp for label 63: 50
+tp for label 38: [4 4 2 3 3 2 4 2 3 2]
+positive_all for label 38: 10
+tp_fp for label 38: 100
+tp for label 7: [1 2 2 1 2 2]
+positive_all for label 7: 6
+tp_fp for label 7: 60
+tp for label 6: [2 2 2 2 2 2 2 3 4 3]
+positive_all for label 6: 10
+tp_fp for label 6: 100
+tp for label 81: [4 3 2 3 2 4]
+positive_all for label 81: 6
+tp_fp for label 81: 60
+tp for label 65: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 65: 19
+tp_fp for label 65: 1900
+tp for label 61: [3 4 4 4 1 4]
+positive_all for label 61: 6
+tp_fp for label 61: 600
+tp for label 36: [3 4 4 3 3 4]
+positive_all for label 36: 6
+tp_fp for label 36: 600
+tp for label 45: [3 4 4 4 4 4]
+positive_all for label 45: 6
+tp_fp for label 45: 600
+tp for label 72: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 72: 27
+tp_fp for label 72: 2700
+tp for label 12: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 2 4 4 3 4 3 4 4 3 4 4 4 4 4 3 4]
+positive_all for label 12: 31
+tp_fp for label 12: 3100
+tp for label 47: [3 2 4 3 4 4 2 4 3 1 3 4 4 4 3 3 4 3 4 4 2 4 4 3 4 3 4 4 4 3 3 4 3 4 4 4 2
+ 3 4 4 3 4 4 3 3 2 3 2 4 4 4 4 3 3 4 4 4 3]
+positive_all for label 47: 58
+tp_fp for label 47: 5800
+tp for label 35: [4 3 3 3 3 3 4 4 3]
+positive_all for label 35: 9
+tp_fp for label 35: 900
+tp for label 59: [4 4 4 4 4 4 4 4 4 4]
+positive_all for label 59: 10
+tp_fp for label 59: 1000
+tp for label 116: [4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 3 4 4 4 4 3 3 4 3 4 4 4 3 4 4 4 4 4 4 4 4
+ 4 4 4 4 4 4 4 4 3 4 4 4 3 4 3 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+ 4 4 4 4 4 4 4 3 3 4 4 4 4 4 4 3 4 2 4 4 4 3 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4
+ 3 4]
+positive_all for label 116: 113
+tp_fp for label 116: 11300
+tp for label 82: [4 4 4 4 3 4]
+positive_all for label 82: 6
+tp_fp for label 82: 600
+tp for label 107: [2 4 3 4 4 4 4 3 4 2 4 4 3 4 4 3 3 3 4 4 4 2 4 4 4 4 4 3 4 4 4 4 4 4 4 3 4
+ 4 4 4 4]
+positive_all for label 107: 41
+tp_fp for label 107: 4100
+tp for label 41: [4 4 4 4 4]
+positive_all for label 41: 5
+tp_fp for label 41: 500
+tp for label 88: [4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 88: 22
+tp_fp for label 88: 2200
+tp for label 108: [4 4 4 4 4 4 4 2 4 4 3 4 4 4 4]
+positive_all for label 108: 15
+tp_fp for label 108: 1500
+tp for label 86: [4 4 4 4 3 2]
+positive_all for label 86: 6
+tp_fp for label 86: 600
+tp for label 20: [2 2 2 2 2 2]
+positive_all for label 20: 6
+tp_fp for label 20: 600
+tp for label 87: [4 4 4 4 4 4 3 3 4 4 3 4 3 3 4 4 4 4 4 3 4 4 4 4 3 4 4 4 4 4 4 3 4 4 4 4 4
+ 4 4]
+positive_all for label 87: 39
+tp_fp for label 87: 3900
+tp for label 74: [4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 74: 11
+tp_fp for label 74: 1100
+tp for label 69: [4 4 4 4 4 4]
+positive_all for label 69: 6
+tp_fp for label 69: 600
+tp for label 78: [4 4 4 4 4 4 4 4 3 4 4 4 4 4 3 4 4 4 4 4 3 4 4 4 3 4 4 4 4 4 3 4 4 4 3 3 4
+ 4 4 1 3 4 4 4 4 4 4 3 4 4 4 4 3 3 4 4 4 4 4 4 4 4 2 4 4 4 4 4 3 4 3 4 4 3
+ 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 2 4 4 4 4 4
+ 4 4 4 4 4 4 4 4 3 3 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 78: 131
+tp_fp for label 78: 13100
+tp for label 15: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 15: 32
+tp_fp for label 15: 3200
+tp for label 39: [4 4 4 4 4 3 4 4 3 3]
+positive_all for label 39: 10
+tp_fp for label 39: 1000
+tp for label 50: [3 3 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4]
+positive_all for label 50: 27
+tp_fp for label 50: 2700
+tp for label 100: [4 4 4 4 3 4 4 4 3 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 100: 35
+tp_fp for label 100: 3500
+tp for label 42: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+ 4 4 4 4 4 4 4 3]
+positive_all for label 42: 45
+tp_fp for label 42: 4500
+tp for label 21: [4 3 4 4 4 4 4 3 4 4 4 3 4 4]
+positive_all for label 21: 14
+tp_fp for label 21: 1400
+tp for label 18: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4]
+positive_all for label 18: 21
+tp_fp for label 18: 2100
+tp for label 29: [4 4 4 4 4 4]
+positive_all for label 29: 6
+tp_fp for label 29: 600
+tp for label 98: [4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 3 4 4 4 3 4 4 3 4 3 4 4 4 4 4 4 4 4]
+positive_all for label 98: 33
+tp_fp for label 98: 3300
+tp for label 106: [4 4 4 4 4 4 4 4 4 4]
+positive_all for label 106: 10
+tp_fp for label 106: 1000
+tp for label 52: [4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 52: 12
+tp_fp for label 52: 1200
+tp for label 62: [3 4 3 4 4 4 4 4 4]
+positive_all for label 62: 9
+tp_fp for label 62: 900
+tp for label 77: [4 4 4 4 4 4 4 4 4]
+positive_all for label 77: 9
+tp_fp for label 77: 900
+tp for label 67: [4 4 4 4 4 4 4 4 4]
+positive_all for label 67: 9
+tp_fp for label 67: 900
+tp for label 56: [3 0 4 1 1 2 3 1 4 2 1 3 4 3 3 2 2 2]
+positive_all for label 56: 18
+tp_fp for label 56: 1800
+tp for label 83: [4 4 4 4 4 4 4 4 0]
+positive_all for label 83: 9
+tp_fp for label 83: 900
+tp for label 11: [2 4 4 4 4 4 4 4 2 4 4 4]
+positive_all for label 11: 12
+tp_fp for label 11: 1200
+tp for label 94: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 2 4 4 3 4 4 4
+ 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+ 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 94: 94
+tp_fp for label 94: 9400
+tp for label 8: [4 4 3 4 3 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 8: 24
+tp_fp for label 8: 2400
+tp for label 43: [2 1 0 3 3 2 0 3 1]
+positive_all for label 43: 9
+tp_fp for label 43: 900
+tp for label 2: [4 4 4 4 4]
+positive_all for label 2: 5
+tp_fp for label 2: 500
+tp for label 53: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+ 4 4 3 4 4 4 4]
+positive_all for label 53: 44
+tp_fp for label 53: 4400
+tp for label 85: [3 4 4 ... 4 4 4]
+positive_all for label 85: 1323
+tp_fp for label 85: 132300
+tp for label 111: [4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4
+ 3 4]
+positive_all for label 111: 39
+tp_fp for label 111: 3900
+tp for label 60: [2 2 0 2 1]
+positive_all for label 60: 5
+tp_fp for label 60: 500
+tp for label 46: [4 4 4 4 4]
+positive_all for label 46: 5
+tp_fp for label 46: 500
+tp for label 92: [4 4 4 4 4 4 4]
+positive_all for label 92: 7
+tp_fp for label 92: 700
+tp for label 13: [4 4 3 1 4 4 2 4 4 1 3 4 3 3 4 3 4 3 4 3 3 4 3 4 2 2 3]
+positive_all for label 13: 27
+tp_fp for label 13: 2700
+tp for label 95: [4 4 4 4 4 4 4 4 4 4 3 3 4 4]
+positive_all for label 95: 14
+tp_fp for label 95: 1400
+tp for label 79: [4 4 3 3 4 4 4 4 4 4 3 4 4 3 3 4 3 4 3 4 4 4 4 3 4 4 4 2 4 4 3 4 4 4 4 4 4
+ 4 4 4 4 3 2 4 4 4 4 4 4 4 4 4 4 4 3 4 4 2 4 3 4 3 4 4 3 4 2 3 4 4 4 4 4 4
+ 3 3 4 4 3 4 3 4 4 4 4 4 4 3 3 4 4 4 4 4 3 3 4 4 4 4 3 3 3 2 4 4 4 3 3 3 4
+ 4 4 2 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 2 4 4 4 3 3 4 3 4 4 4 4 4 4 4 3 4 4
+ 3 4 3 4 4 4 4 4 4 1 0 3 4 3 1 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4
+ 4 4 4 4 4 4 4 0 3 3 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 3 4 4 4 4 3 3 4 3 4 4
+ 4 3 3 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 3 4 4 4
+ 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 2 4 3 4 4 1 2 3 4 3 4 4 4 4 4 4 3 4 4 4 4
+ 4 4 0 4 4 4 4 3 3 4 3 4 4 4 4 4 3 4 4 2 4 3 4 4 4 3 3 4 4 4 4 4 4 4 2 4 4
+ 4 4 4 3 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 3 4 4 4 1 4 4 3 4 4 3 3 4 3 3 4 4
+ 4 4 3 3 4 4 3 4 4 4 4 3 4 3 4 3 4 4 4 4 4 1 4 3 4 3 4 4 3 3 4 4 4 3 4 4 4
+ 4 4 4 4 4 4 4 4 4 3 3 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 3 4 4 4 4 4 4
+ 4 3 3 4 1 4 4 1 4 4 4 4 3 4 2 4 4 3 2 3 4 2 4 4 4 4 4 3 4 4 4 4 4 3 4 4 4
+ 4 3 4 4 4 4 4 4 2 4 4 4 3 4 3 4 4 4 3 3 3 2 4 2 3 4 4 4 4 4 3 3 4 4 3 4 4
+ 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 3 4 4 3 4 4 3 4 1 4 4 4 4 2 4 4 4 3 4 4 2
+ 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 3 4 2 4 4 4 4 4 4 4 3 4 4 4 4 4 3 4 4 4 4 4
+ 4 4 4 4 4 4 4 4 2 3 4 3 3 4 4 4 4 4 4 4 4 3 4 1 4 4 4 4 4 3 4 4 4 4 4 3 4
+ 4 3 3 4 4 4 3 3 3 1 4 4 4 4 4 4 4 4 4 3 4 4 4 3 4 4 4 4 3 4 3 4 4 4 4 4 4
+ 3 3 3 4 4 4 1 4 3 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 2 4 4 4 3 4
+ 3 4 4 4 4 4 4 4 3 4 4 4 3 3 3 3 4 3 4 4 4 3 4 4 4 4 4 4 4 4 4 3 3 4 4 3 4
+ 3 4 4 3 2 3 4 4 4 4 4 3 4 4 4 4 4 4 3 2 3 4 4 4 4 4 4 4 4 4 2 2 3 4 4 3 4
+ 1 4 4 4 4 4 4 4 3 4 4 4 4 4 3 4 1 4 2 3 3 4 4 4 4 4 4 3 4 4 4 3 4 4 4 3 4
+ 3 2 4 4 4 4 4 4 4 3 4 4 4 1 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 1 4 4 3 4 4 3 4
+ 4 3 4 2 4 4]
+positive_all for label 79: 857
+tp_fp for label 79: 85700
+tp for label 3: [4 4 4 4 4 4 4 4 4 3 4]
+positive_all for label 3: 11
+tp_fp for label 3: 1100
+tp for label 110: [4 2 4 4 3 3 4 3 4 4 4 4 4 4 4 4 3 4 3 3 3 4 3 3 4 4 3 4 4 4 3 4 4 4 4 4 4
+ 4 3 4 4 4 4 4 1 4 4 4 4 4 4 4 4 4 4 4 3 2 4 4 4 4 4 4 0 4 4 4 4 4 3 4 4 3
+ 4 4 4 3 4 4 4 4 4 4 3 3 3 4 3 4 4 4 4 4 3 4 3 4 4 4 4 4 4 4 4 4 3 4 3 4 4
+ 4 4 4 4 4 4 4 3 3 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 3 4 4 3 4 3 4
+ 4 4 4 4 4 4 4 4 4 4 4 4 0 4 2 4 3 4 4 4 3 4 3 4 4 4 4 4 4 4 4 3 4 3 3 4 4
+ 3 4 2 3 4 4 4 4 4 4 4 4 3 4 4 1 4 3 3 4 4 4 2 4 4 3 4 4 4 4 4 4 3 4 4 4 4
+ 4 4 3 4 4 3 4 4 4 2 4 3 3 3 3 4 1 4 3 4 4 4 4 3 4 4 3 4 3 2 3 2 4 3 3 4 4
+ 4 4 4 3 4 4 3 4 4 4 4 4 4 4 4 4 4 3 4 4 3 4 4 4 2 4 4 4 4 4 4 2 3 4 3 4 4
+ 4 4 3 4 4 3 4 4 4 4 4 4 3 1 4 4 3 4 4 4 2 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4
+ 3 4 4 4 3 2 2 3 3 4 4 4 4 4 4 4 4 4 4 3 4 4 3 4 4 4 3 3 3 4 3 4 4 3 3 3 3
+ 3 4 4 3 4 3 3 3 4 4 3 4 2 3 4 3 3 4 4 4 4 4 3 4 4 4 4 4 3 3 4 4 2 4 4 4 4
+ 3 4 4 4 4 2 3 4 4 4 2 4 3 4 4 4 4 4 4 4 3 3 4 3 4 3 3 2 3 3 4 2 2 4 4 3 4
+ 4 4 3 4 4 3 4 3 3 4 4 3 4 3 4 4 4 4 4 3 4 3 3 4 4 4 4 4 4 4 4 4 2 4 3 4 3
+ 3 4 3 4 4 2 4 4 4 4 4 4 3 4 3 2 3 4 4 4 0 4 4 4 3 4 4 4 4 4 4 3 4 3 4 3 4
+ 4 4 4 4 4 4 4 3 3 4 4 4 4 4 4 4 4 4 4 3 4 4 3 3 4 4 4 4 4 4 4 3 4 4 4 4 4
+ 4 4 3 4 3 3 4 3 4 3 3 4 4 4 4 4 4 2 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 3 4
+ 4 3 3 4 4 4 2 4 4 4 4 3 3 4 3 2 4 4 3 4 4 4 4 4 3 3 3 3 4 4 4 4 4 4 2 4 3
+ 3 4 3 4 4 2 4 4 4 4 3 4 3 4 3 4 3 4 4 4 4 3 3 4 4 3 4 1 4 3 4 4 4 4 4 3 3
+ 4 4 4 3 4 4 4 4 4 2 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 2 4 4 4 3 3 4 4 4 4
+ 4 4 4 4 3 3 4 3 3 4 4 4 4 4 3 3 4 4 4 4 3 3 4 4 4 4 4 4 4 2 4 3 4 4 3 4 3
+ 3 4 4 4 4 3 4 0 4 3 0 4 4 3 4 3 3 4 2 4 4 4 3 4 4 4 3 4 4 4 3 3 4 3 2 4 4
+ 4 4 1 3 3 3 4 4 4 4 4 3 4 3 3 4 4 4 4 3 4 4 4 4 3 4 4 4 4 2 3 4 4 2 3 4 4
+ 4 3 3 4 3 4 4 4 4 3 4 3 4 4 4 3 4 4 4 4 2 4 4 3 4 4 4 3 3 4 4 4 3 2 3 4 3
+ 4 4]
+positive_all for label 110: 853
+tp_fp for label 110: 85300
+tp for label 14: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+ 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 14: 48
+tp_fp for label 14: 4800
+tp for label 26: [3 2 4 2 4 3 3 4 4 4]
+positive_all for label 26: 10
+tp_fp for label 26: 1000
+tp for label 70: [3 3 0 2 0 3 3 3 4 2 3 4 4 4 3 2 0 0]
+positive_all for label 70: 18
+tp_fp for label 70: 1800
+tp for label 91: [4 4 4 2 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 91: 15
+tp_fp for label 91: 1500
+tp for label 0: [4 4 4 4 4 3]
+positive_all for label 0: 6
+tp_fp for label 0: 600
+tp for label 101: [2 2 2 1 3 1]
+positive_all for label 101: 6
+tp_fp for label 101: 600
+tp for label 31: [4 4 2 4 3 4 4 3]
+positive_all for label 31: 8
+tp_fp for label 31: 800
+tp for label 112: [4 4 4 4 4 4]
+positive_all for label 112: 6
+tp_fp for label 112: 600
+tp for label 34: [4 4 4 4 4 4 4 4]
+positive_all for label 34: 8
+tp_fp for label 34: 800
+tp for label 48: [4 3 4 4 4 4 4 4 3 4 4 4 4 3 4]
+positive_all for label 48: 15
+tp_fp for label 48: 1500
+tp for label 55: [4 4 4 4 3 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4]
+positive_all for label 55: 22
+tp_fp for label 55: 2200
+tp for label 9: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 9: 18
+tp_fp for label 9: 1800
+tp for label 115: [4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 115: 23
+tp_fp for label 115: 2300
+tp for label 64: [4 4 4 4 4]
+positive_all for label 64: 5
+tp_fp for label 64: 500
+tp for label 84: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+ 4 4 4 4 4 4]
+positive_all for label 84: 43
+tp_fp for label 84: 4300
+tp for label 73: [4 3 3 4 4 4 4 4 4 3 4 3 4 4 4 3 4 1 3 4 3 3 4 4 4 2 4 3 3 4 2 3 3 4 3 3 4
+ 4 4 4 4 3 4 3 2 4 2 3 1 3 4 4 3 3 4 2 4 3 4 4 4 4 3 4 3 4 4 3 1 3 3 4 2 3
+ 4 3 2 4 3 4 2 4 4 3 4 3 3 3 2 4 4 2 1 4 3 3 3 4 2 4 4 4 0 4 4 4 3 2 3 4 4
+ 3 4 4 2 4 3 3 3 3 3 1 4 4 2 4 2 3 3 4 3 4 4 3 4 3 2 4 4 4 3 2 4 4 4 3 4 4
+ 4 3 3 4 4 3 4 4 4 3 4 4 4 4 4 4 4 3 3 3 2 3 3 3 2 3 4 3 3 4 3 4 4 3 3 4 4
+ 4 4 4 4 3 4 3 4 3 2 4 3 4 3 4 4 3 4 4 2 3 4 3 4 2 2 4 3 4 4 3 4 3 2 4 3 3
+ 1 4 4 4 4 4 3 4 4 4 4 4 3 4 3 3 4 3 4 2 4 4 3 3 4 3 4 3 4 2 3 3 4 2 4 3 3
+ 4 4 4 3 2 4 3 2 4 4 4 4 3 2 4 4 4 2]
+positive_all for label 73: 277
+tp_fp for label 73: 27700
+tp for label 1: [1 2 0 2 0 2 3 4 1 2 3 2 3 1 3 1 1]
+positive_all for label 1: 17
+tp_fp for label 1: 1700
+tp for label 68: [3 4 4 4 3 4 4 2 4 2 2 3 4 3 4 4 4 3 4 3 3 2 3 4 2 3 4 4 4 4 3]
+positive_all for label 68: 31
+tp_fp for label 68: 3100
+tp for label 71: [4 4 4 4 4]
+positive_all for label 71: 5
+tp_fp for label 71: 500
+tp for label 90: [4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 90: 22
+tp_fp for label 90: 2200
+tp for label 10: [4 4 4 4 4 4 3 4]
+positive_all for label 10: 8
+tp_fp for label 10: 800
+tp for label 19: [3 4 4 4 4 3 4 3 3 4 4 4 4 4 3 4 4 4 4 4]
+positive_all for label 19: 20
+tp_fp for label 19: 2000
+tp for label 93: [4 2 4 4 3 1 0 3 2 2 2 3 3 3 3 2 3 3 2 0 0 0 2 2 4 2 4 3 4 2 4 2 3 3 3 1 1
+ 4 4]
+positive_all for label 93: 39
+tp_fp for label 93: 3900
+tp for label 32: [3 4 3 4 4]
+positive_all for label 32: 5
+tp_fp for label 32: 500
+tp for label 103: [4 4 4 4 2 4 3 4 4 4 3 4 4 4 4 4 4 3 4 4 3 4 4 4 4 4 3]
+positive_all for label 103: 27
+tp_fp for label 103: 2700
+tp for label 114: [4 4 4 4 4 4 3 2]
+positive_all for label 114: 8
+tp_fp for label 114: 800
+tp for label 23: [3 4 4 4 4 4]
+positive_all for label 23: 6
+tp_fp for label 23: 600
+tp for label 54: [4 4 4 4 4 4]
+positive_all for label 54: 6
+tp_fp for label 54: 600
+tp for label 96: [3 4 2 4 4 3 2 4 2 4 4 4 3 4 2 3 3 4 4 3 4]
+positive_all for label 96: 21
+tp_fp for label 96: 2100
+tp for label 75: [4 4 4 4 4 4 4 4 4 4 3 4 4 4 3 4 4 3 4 4 4 4 3 3 3 3 2 3 3 4 3 4 4 4 4 4 4
+ 4 4 3 3 4 4 4 4 4 4 4 4 3 4 4 4 4 4 3 4 4 4 4 4 4 4 3 3 4 4 4 3 4 4 4 4 4
+ 4 4 4 4 4 4 4 4 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 3 3 4 4 4 4
+ 4 4 4 4 4 2 4 4 4 4 4 4 4 3 4 4 4 4 4 3 4 4 4 3 4 4 4 3 3 4 4 4 4 4 4 4 4
+ 4 4 4 4 4 4 4 3 4 3 3 2 4 4 3 4 4 4 3 3 3 4 4 4 4 4 4 4 4 4 4 4 3 4 3 4 4
+ 4 3 4 4 4 4 4 3 4 4 3 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4
+ 3 4 4 4 4 3 4 4 4 4 4 4 3 4 4 3 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4
+ 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 75: 280
+tp_fp for label 75: 28000
+tp for label 24: [3 3 3 1 3 3 4 2 4 3]
+positive_all for label 24: 10
+tp_fp for label 24: 1000
+tp for label 51: [4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3
+ 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 3 4 4 4 4 4 4]
+positive_all for label 51: 61
+tp_fp for label 51: 6100
+tp for label 5: [4 4 4 4 4 4 4 4 4 4 4 3 4 3 4]
+positive_all for label 5: 15
+tp_fp for label 5: 1500
+tp for label 44: [4 3 4 4 3 4 4 3 4 4 4 4 4 1 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4]
+positive_all for label 44: 32
+tp_fp for label 44: 3200
+tp for label 37: [4 4 2 3 4]
+positive_all for label 37: 5
+tp_fp for label 37: 500
+tp for label 17: [4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4]
+positive_all for label 17: 25
+tp_fp for label 17: 2500
+tp for label 97: [4 4 3 4 4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 2 4 4 4 4 3 4 3 3 4 4 3 2 4 4 3
+ 4 4 4 4 4 4 4 4 4 2 4 4 4 4 4 4 4]
+positive_all for label 97: 54
+tp_fp for label 97: 5400
+tp for label 25: [4 4 4 4 4 4 3]
+positive_all for label 25: 7
+tp_fp for label 25: 700
+tp for label 4: [4 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 4: 21
+tp_fp for label 4: 2100
+tp for label 30: [3 4 2 4 3]
+positive_all for label 30: 5
+tp_fp for label 30: 500
+tp for label 28: [2 2 2 1 4]
+positive_all for label 28: 5
+tp_fp for label 28: 500
+tp for label 89: [4 4 3 4 4 4 1 4 4 4 4 4 4 3 4 4 4 2 3 4 4 3 4 3 4 4 4 4 4 4 4]
+positive_all for label 89: 31
+tp_fp for label 89: 3100
+tp for label 16: [3 4 4 3 4 4 4 4 4 4 4 3 4 3 3 4 4 4 4 4 4 4 4 4 3 3 4 4 4 3 4]
+positive_all for label 16: 31
+tp_fp for label 16: 3100
+tp for label 113: [4 4 4 4 4 4 4 4 3 4 4 3 4 4 4 4 4]
+positive_all for label 113: 17
+tp_fp for label 113: 1700
+tp for label 66: [4 4 4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 66: 13
+tp_fp for label 66: 1300
+tp for label 33: [4 3 2 2 1 2 3 3 4 2 4 3 3]
+positive_all for label 33: 13
+tp_fp for label 33: 1300
+tp for label 57: [4 4 4 2 3 4 4 4 1 4 3 4 4 4 4 3 3]
+positive_all for label 57: 17
+tp_fp for label 57: 1700
+tp for label 80: [3 4 4 3 4 3 4 4 3 4 4 4 4 4 3 4 4 3 4 4 4 3 4 4 4 3 3 4 4 4 4 4 4 4 4 4 4
+ 4 4 4 4 3 4]
+positive_all for label 80: 43
+tp_fp for label 80: 4300
+tp for label 102: [4 4 4 2 4 4 4 4 3 3 3 4 4 4 4 4 4 3 3 4 4 4 2 4 4 4 4 4 3 4 4 4 4 4 4 3 4
+ 4 4 4 4 4 4 3 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 4 2 4 4 4 4 4 4 4 4 2 2 4 4 4
+ 4 4 4 4 3 3 4 4 4 4 4 3 4 3 4 4 4 3 4 4 4 4 4 4 4 4 2 4 3 3 4 3 4 4 4 4 4
+ 4 4 4 4 2 4 4 4 4 3 3 3 4 4 4 3 4 4 4 2 4 4 4 4 4 4 4 4 4 2 4 4 3 4 4 4 4
+ 4 4 4 4 4 4 4 4 4 3 3 4 3 4 4 3 4 4 3 4 4 3 4 4 4 4 4 4 3 4 4 3 4 4 4 4 4
+ 3 4 4 4 4 4 4 4 3 4 4 4 4 4 4 3 4 4 4 4 3 4 4 3 3 4 3 4 3 2 4 4 4 4 1 3 4
+ 4 4 2 4 4 4 4 4 4 4 3 3 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 4 4 3 4 4 3 4 4 4
+ 4 3 3 3 4 4 4 4 4 4 3 4 4 2 4 4 4 2 4 4 4 4 4 2 4 4 3 4 4 4 4 3 4 4 3 4 4
+ 4 4 2 4 4 4 4 2 4 4 4 4 4 2 3 4 4 4 4 3 3 4 3 4 4 4 4 3 3 4 4 3 3 4 4 4 4
+ 4 4 4 4 4 3 2 4 4 4 4 4 4 2 4 2 3 4 3 4 3 4 4 3 4 4 4 4 3 4 3 4 4 3 3 1 2
+ 4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 4 4 4 2 4 4 2 3 4 4 4 4 4 4 4 4 4 4 2 4 4
+ 4 4 4 3 4 4 4 3 3 4 4 3 4 4 4 4 4 3 3 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+ 4 4 4 4 3 3 4 4 3 4 4 4 2 3 2 4 4 4 3 4 4 4 2 3 4 4 4 4 4 4 4 3 4 4 4 4 4
+ 3 3 3 4 3 4 3 4 3 3 3 4 4 4 3 4 2 4 4 3 4 4 4 4 3 3 4 4 4 4 3 3 4 4 4 3 4
+ 4 4 4 3 4 2 4 3 4 4 4 4 1 4 4]
+positive_all for label 102: 533
+tp_fp for label 102: 53300
+tp for label 22: [4 4 2 4 3 3 4 2 3 3 2 2 3 3 2 2 3]
+positive_all for label 22: 17
+tp_fp for label 22: 1700
+tp for label 104: [4 4 4 2 4 4 4 4 3]
+positive_all for label 104: 9
+tp_fp for label 104: 900
+tp for label 49: [4 4 4 4 4 4 4 4 4 4 4]
+positive_all for label 49: 11
+tp_fp for label 49: 1100
+tp for label 58: [4 4 4 4 4]
+positive_all for label 58: 5
+tp_fp for label 58: 500
+tp for label 76: [4 4 4 4 3 4 4 3 4 4 4 4 4 4 4 4 3 4 4]
+positive_all for label 76: 19
+tp_fp for label 76: 1900
+tp for label 27: [4 4 4 4 4 4 4]
+positive_all for label 27: 7
+tp_fp for label 27: 700
+tp for label 109: [4 3 4 4 0 2 3 1 4 4 4 3 4 4 4 4 4 4 4 3 4 4 4 4 3 3 4 4 4 4 4 4 3 4 2 3 3
+ 4 4 4 3 3 3 4 4 3 4 4 2 4 4 4 4 3 4 1 4 4 4 1 4 4 3 4 4 4]
+positive_all for label 109: 66
+tp_fp for label 109: 6600
+tp for label 99: [4 4 4 4 4 4 4 4 4 3 4 4 4 4 4 4 3 3 4]
+positive_all for label 99: 19
+tp_fp for label 99: 1900
+tp for label 105: [4 4 4 4 4]
+positive_all for label 105: 5
+tp_fp for label 105: 500
+tp for label 40: [4 4 4 2 4 4 4 3 4 4]
+positive_all for label 40: 10
+tp_fp for label 40: 1000
+tp for label 63: [4 4 4 4 4]
+positive_all for label 63: 5
+tp_fp for label 63: 500
+tp for label 38: [4 4 4 4 4 3 4 4 4 3]
+positive_all for label 38: 10
+tp_fp for label 38: 1000
+tp for label 7: [2 4 4 2 4 4]
+positive_all for label 7: 6
+tp_fp for label 7: 600
+tp for label 6: [3 4 3 4 4 4 4 4 4 4]
+positive_all for label 6: 10
+tp_fp for label 6: 1000
+tp for label 81: [4 4 4 4 4 4]
+positive_all for label 81: 6
+tp_fp for label 81: 600

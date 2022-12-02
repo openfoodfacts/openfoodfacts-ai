@@ -14,19 +14,16 @@ import tqdm
 
 from utils import get_offset, get_seen_set
 
-"""
-Returns a hdf5 file containing all the data about the logos of the OpenFoodFacts database.
+"""Return a hdf5 file containing all the data about the logos of the OpenFoodFacts database.
 
 > > > python3 01_generate_image_dump.py image_dir data_path output_path --size S (--compression) --count C
 
-image_dir: the path of the directory containing all the products image to crop
-data_path: the path of the file containing all the de
-output_path: the path where the hdf5 file will be returned
-size: the size of the returned logos. They are returned as squares of shape size * size. (for CLIP models the expected size is 224)
-compression: the format to compress the data in the hdf5 file
-count: the amount of logos you want to save in the hdf5 file. By default, it will save all the logos of the data file.
-
-
+image_dir: path of the directory containing all the products image to crop
+data_path: path of the jsonl file containing the logo_id, barcode, image_id, bounding_box and confidence score for each logo
+output_path: path where the hdf5 file will be returned
+size: size used to resize the logos. They are returned as squares of shape size * size. (for CLIP models the expected size is 224)
+compression: format of the compression for the intern data of the hdf5 file
+count: amount of logos you want to save in the hdf5 file. By default, it will save all the logos of the data file.
 """
 
 
@@ -40,10 +37,11 @@ def save_hdf5(
     batch_size: int = 256,
     compression: Optional[str] = None,
 ):
-    """
-    Write all the outputs yielded by the get_data_gen function in an hdf5 file (create the file if it doesn't already exist).
+
+    """Write all the outputs yielded by the get_data_gen function in an hdf5 file (create the file if it doesn't already exist).
     For that, create different h5py datasets for every data and add it in, batch after batch.
     """
+    
     file_exists = output_file.is_file()
 
     with h5py.File(str(output_file), "a") as f:
@@ -130,9 +128,9 @@ def save_hdf5(
 def crop_image(
     image: np.ndarray, bounding_box: Tuple[float, float, float, float]
 ) -> np.ndarray:
-    """
-    Return the cropped logo as an array extracted from the array of the image
-    """
+
+    """Return the cropped logo as an array extracted from the array of the image"""
+
     ymin, xmin, ymax, xmax = bounding_box
     height, width = image.shape[:2]
     (left, right, top, bottom) = (
@@ -169,7 +167,8 @@ def split_barcode(barcode: str) -> Optional[List[str]]:
 
 def generate_image_path(barcode: str, image_id: str) -> Optional[str]:
     splitted_barcode = split_barcode(barcode)
-    if splitted_barcode == None:
+
+    if splitted_barcode is None:
         return None
     return "{}/{}.jpg".format("/".join(splitted_barcode), image_id)
 
@@ -196,8 +195,9 @@ def count_results(base_image_dir: pathlib.Path, result_path: pathlib.Path) -> in
 def get_data_gen(
     base_image_dir: pathlib.Path, data_path: pathlib.Path, size: int, seen_set: Set[int]
 ) -> Iterable[Tuple[str, int, np.ndarray, Tuple[int, int], List[float], float, int]]:
-    """
-    Inputs:
+
+    """Inputs:
+
     - base_image_dir: path of the directory containing the images from which to get logos data
     - data_path: path of the jsonl file containing annotation details about logos
     - size: size of the squared logos returned in the hdf5 file
@@ -206,13 +206,13 @@ def get_data_gen(
     Yield the following outputs:
     - barcode: barcode of the product corresponding to the logo
     - image_id: id of the image from which the logo was extracted
-    - cropped_resized_img: a 
+    - cropped_resized_img: the resized logo
     - original_resolution: the original size of the image
-    - bounding_box: an array of size 4 containing the angles of the square whre the logo was detected
+    - bounding_box: an array of size 4 containing the coordinates of the square where the logo was detected
     - score: score of confidence regarding the validity of the cropped logo
     - logo_id: id of the logo
-
     """
+
     for logo_annotation in iter_jsonl(data_path):
         logo_id = logo_annotation["id"]
 
@@ -230,7 +230,9 @@ def get_data_gen(
             continue
 
         base_img = lycon.load(str(file_path))
-        assert base_img is not None
+        if base_img is None:
+            print("base_img is None :", base_img)
+            continue
 
         if base_img.shape[-1] != 3:
             base_img = np.array(Image.fromarray(base_img).convert("RGB"))
