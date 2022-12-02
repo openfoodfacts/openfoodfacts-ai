@@ -24,7 +24,6 @@ output_path: path where the hdf5 file will be returned
 size: size used to resize the logos. They are returned as squares of shape size * size. (for CLIP models the expected size is 224)
 compression: format of the compression for the intern data of the hdf5 file
 count: amount of logos you want to save in the hdf5 file. By default, it will save all the logos of the data file.
-
 """
 
 
@@ -42,7 +41,7 @@ def save_hdf5(
     """Write all the outputs yielded by the get_data_gen function in an hdf5 file (create the file if it doesn't already exist).
     For that, create different h5py datasets for every data and add it in, batch after batch.
     """
-
+    
     file_exists = output_file.is_file()
 
     with h5py.File(str(output_file), "a") as f:
@@ -168,6 +167,7 @@ def split_barcode(barcode: str) -> Optional[List[str]]:
 
 def generate_image_path(barcode: str, image_id: str) -> Optional[str]:
     splitted_barcode = split_barcode(barcode)
+
     if splitted_barcode is None:
         return None
     return "{}/{}.jpg".format("/".join(splitted_barcode), image_id)
@@ -197,6 +197,7 @@ def get_data_gen(
 ) -> Iterable[Tuple[str, int, np.ndarray, Tuple[int, int], List[float], float, int]]:
 
     """Inputs:
+
     - base_image_dir: path of the directory containing the images from which to get logos data
     - data_path: path of the jsonl file containing annotation details about logos
     - size: size of the squared logos returned in the hdf5 file

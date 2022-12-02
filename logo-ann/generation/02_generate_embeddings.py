@@ -1,4 +1,5 @@
 import argparse
+from email.policy import default
 import pathlib
 from typing import Iterable, Set, Any
 
@@ -66,6 +67,7 @@ def generate_embeddings_iter(
 ):
 
     """Inputs:
+
     - model: name of the specific model used
     - file_path: path of the hdf5 file containing the data of all the logos
     - batch-size: size of each batche of logos embedded at the same time 
@@ -104,6 +106,7 @@ def generate_embeddings_iter(
                     mask[i] = 0
 
             if np.all(~mask):  # if we only have zeros at this step, we have a batch only with empty data or already seen logos
+
                 continue
 
             images = image_dset[slicing][mask]
@@ -132,6 +135,7 @@ def generate_embeddings_iter(
                 )[
                     "pixel_values"
                 ]
+
                 embeddings = (
                     model(**{"pixel_values": images.to(device)})
                     .pooler_output.cpu()
@@ -150,6 +154,7 @@ def generate_embedding_from_hdf5(
 ):
 
     """Save the embedding and the external id of each logo (data in data_gen) in an hdf5 file (the output_path).
+
     - data_gen: yielded embeddings and external ids of each logo from generate_embeddings_iter
     - output_path: path of the output hdf5 file
     - output_dim: dimension of the embeddings (depends on the computer vision model used)

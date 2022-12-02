@@ -179,7 +179,7 @@ def compute_metrics(
     )
     return compute_classifier_metrics_k(
         distance_matrix, mask, labels, k_list
-    )  # to compute the efficiency fo the models as classifiers
+    )  # to compute the efficiency of the models as classifiers
     # return compute_model_metrics_k(distance_matrix, mask, labels, k_list, max_label_count)  # to compute the brut efficiency of the models
 
 
@@ -414,7 +414,7 @@ def evaluate(distance_func):
         print(f"Let's run {model_name} :\n")
 
         if model_name == "random":
-            distance_matrix = np.random.rand(6367, 6367)
+            distance_matrix = np.random.rand(6356, 6356)
         else:
             run_func = run_clip_model if model_name.startswith("clip") else run_model
             embeddings, labels, dataset, _ = run_func(
