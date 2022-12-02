@@ -34,12 +34,6 @@ def get_output_dim(model_type: str):
 
     """Return the embeddings size according to the model used."""
 
-    if model_type == "efficientnet-b0":
-        return 1280
-
-    if model_type == "efficientnet-b5":
-        return 2048
-
     if model_type == "clip-vit-base-patch16" or model_type == "clip-vit-base-patch32":
         return 768
 
@@ -83,6 +77,8 @@ def generate_embeddings_iter(
         confidence_dset = f["confidence"]
         external_id_dset = f["external_id"]
 
+        embeddings_test=[]
+
         for slicing in chunked(range(len(image_dset)), batch_size):
             slicing = np.array(
                 slicing
@@ -107,27 +103,12 @@ def generate_embeddings_iter(
                 continue
 
             images = image_dset[slicing][mask]
-            images = np.moveaxis(images, -1, 1)  # move channel dim to 1st dim
 
-            """### If using efficientnet models :
-            with torch.no_grad():
-                torch_images = torch.tensor(images, dtype=torch.float32, device=device)
-                embeddings = model.extract_features(torch_images).cpu().numpy()
-            
 
-            max_embeddings = np.max(embeddings, (-1, -2))
-            yield (
-                max_embeddings,
-                external_ids[mask],
-            )
-            ###
-            """
-
-            ### If using CLIP models :
             with torch.no_grad():
                 # preprocess the images to put them into the model
                 images = processor(
-                    images=[PIL.Image.fromarray(images[i], mode="RGB") for i in range(batch_size)],  # convert the np.array to PIL in order to use the CLIProcessor
+                    images=[PIL.Image.fromarray(images[i], mode="RGB") for i in range(min(batch_size,len(images)))],  # convert the np.array to PIL in order to use the CLIProcessor
                     return_tensors="pt",
                 )[
                     "pixel_values"
@@ -140,6 +121,22 @@ def generate_embeddings_iter(
                 if np.any(np.isnan(embeddings)):  # checking that the values are not NaN
                     print("A NaN value was detected, avoiding the loop")
                     continue
+            
+            print(external_ids)
+            if 1889 in external_ids :
+                for i in range(len(external_ids)):
+                    if external_ids[i] == 1889 : break
+                embeddings_test.append(embeddings[i])
+            
+            if 59484 in external_ids :
+                for i in range(len(external_ids)):
+                    if external_ids[i] == 59484 : break
+                embeddings_test.append(embeddings[i])
+
+            if len(embeddings_test) == 2:
+                breakpoint()
+
+
 
             yield (embeddings, external_ids[mask])
             ###
@@ -187,7 +184,7 @@ def parse_args():
     parser.add_argument("output_path", type=pathlib.Path)
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--min-confidence", type=float, default=0.5)
-    parser.add_argument("--model-type", required=True)
+    parser.add_argument("--model-type", type=str, default="clip-vit-base-patch32")
     return parser.parse_args()
 
 
