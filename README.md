@@ -101,6 +101,6 @@ We will be happy to help you get data, insights and other useful tips.
 
 ## Contributors
 
-<a href="https://github.com/openfoodfacts/robotoff/graphs/contributors">
-  <img alt="List of contributors to this repository" src="https://contrib.rocks/image?repo=openfoodfacts/robotoff" />
+<a href="https://github.com/openfoodfacts/openfoodfacts-ai/graphs/contributors">
+  <img alt="List of contributors to this repository" src="https://contrib.rocks/image?repo=openfoodfacts/openfoodfacts-ai" />
 </a>
