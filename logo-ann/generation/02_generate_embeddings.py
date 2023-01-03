@@ -35,10 +35,10 @@ def get_output_dim(model_type: str):
     """Return the embeddings size according to the model used."""
 
     if model_type == "clip-vit-base-patch16" or model_type == "clip-vit-base-patch32":
-        return 768
+        return 512
 
     if model_type == "clip-vit-large-patch14":
-        return 1024
+        return 768
 
     raise ValueError("unknown model type: {}".format(model_type))
 
@@ -115,31 +115,16 @@ def generate_embeddings_iter(
                 ]
                 embeddings = (
                     model(**{"pixel_values": images.to(device)})
-                    .pooler_output.cpu()
+                    .image_embeds.cpu()
                     .numpy()
                 )  # generate the embeddings
+
                 if np.any(np.isnan(embeddings)):  # checking that the values are not NaN
                     print("A NaN value was detected, avoiding the loop")
                     continue
-            
-            print(external_ids)
-            if 1889 in external_ids :
-                for i in range(len(external_ids)):
-                    if external_ids[i] == 1889 : break
-                embeddings_test.append(embeddings[i])
-            
-            if 59484 in external_ids :
-                for i in range(len(external_ids)):
-                    if external_ids[i] == 59484 : break
-                embeddings_test.append(embeddings[i])
-
-            if len(embeddings_test) == 2:
-                breakpoint()
-
-
 
             yield (embeddings, external_ids[mask])
-            ###
+
 
 
 def generate_embedding_from_hdf5(
