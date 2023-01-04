@@ -14,7 +14,6 @@ import tqdm
 
 from utils import get_offset, get_seen_set
 
-
 """Return a hdf5 file containing all the data about the logos of the OpenFoodFacts database.
 
 > > > python3 01_generate_image_dump.py image_dir data_path output_path --size S (--compression) --count C
@@ -38,7 +37,6 @@ def save_hdf5(
     batch_size: int = 256,
     compression: Optional[str] = None,
 ):
-
 
     """Write all the outputs yielded by the get_data_gen function in an hdf5 file (create the file if it doesn't already exist).
     For that, create different h5py datasets for every data and add it in, batch after batch.
@@ -169,6 +167,7 @@ def split_barcode(barcode: str) -> Optional[List[str]]:
 
 def generate_image_path(barcode: str, image_id: str) -> Optional[str]:
     splitted_barcode = split_barcode(barcode)
+
     if splitted_barcode is None:
         return None
     return "{}/{}.jpg".format("/".join(splitted_barcode), image_id)
@@ -196,8 +195,7 @@ def count_results(base_image_dir: pathlib.Path, result_path: pathlib.Path) -> in
 def get_data_gen(
     base_image_dir: pathlib.Path, data_path: pathlib.Path, size: int, seen_set: Set[int]
 ) -> Iterable[Tuple[str, int, np.ndarray, Tuple[int, int], List[float], float, int]]:
-  
-    """Inputs:
+
     - base_image_dir: path of the directory containing the images from which to get logos data
     - data_path: path of the jsonl file containing annotation details about logos
     - size: size of the squared logos returned in the hdf5 file

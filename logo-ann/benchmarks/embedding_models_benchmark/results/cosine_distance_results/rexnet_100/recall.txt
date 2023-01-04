@@ -1,0 +1,590 @@
+  k = 1
+    brand_Allos: 0.16666666666666666
+    brand_Auchan: 0.14705882352941177
+    brand_Babybio: 0.15
+    brand_Backfee: 0.22727272727272727
+    brand_Barilla: 0.19047619047619047
+    brand_Bauli: 0.23333333333333334
+    brand_Belle France: 0.25
+    brand_Buitoni: 0.16666666666666666
+    brand_Carrefour: 0.25
+    brand_Carrefour Bio: 0.2361111111111111
+    brand_Carrefour_text: 0.21875
+    brand_Connétable: 0.22916666666666666
+    brand_Coop: 0.21774193548387097
+    brand_Cora: 0.17592592592592593
+    brand_Céréal Bio: 0.25
+    brand_Côté Table: 0.2265625
+    brand_Danone: 0.25
+    brand_Delhaize: 0.25
+    brand_Deluxe: 0.17857142857142858
+    brand_Dr. Oetker: 0.175
+    brand_Ducros: 0.125
+    brand_E.Leclerc: 0.14285714285714285
+    brand_Edeka: 0.19117647058823528
+    brand_Ehrmann: 0.20833333333333334
+    brand_Elpozo: 0.2
+    brand_FRoSTA: 0.25
+    brand_Fanta: 0.225
+    brand_Fazer: 0.21428571428571427
+    brand_Findus: 0.15
+    brand_Fleury Michon: 0.25
+    brand_Freshona: 0.2
+    brand_Gallina Blanca: 0.21875
+    brand_Gallo: 0.2
+    brand_Gelatelli: 0.17307692307692307
+    brand_Grand Jury: 0.25
+    brand_GutBio: 0.2222222222222222
+    brand_Hacendado: 0.25
+    brand_Haribo: 0.2
+    brand_Herta: 0.15
+    brand_Iglo: 0.2
+    brand_K-Classic: 0.225
+    brand_Kellogg's: 0.2
+    brand_Knorr: 0.24444444444444444
+    brand_La Nouvelle Agriculture: 0.16666666666666666
+    brand_Le Gaulois: 0.1953125
+    brand_Leader Price: 0.25
+    brand_Les Brasérades: 0.25
+    brand_Lidl: 0.21982758620689655
+    brand_Lipton: 0.21666666666666667
+    brand_MSC: 0.1590909090909091
+    brand_Maggi: 0.2037037037037037
+    brand_Marque Repère: 0.2336065573770492
+    brand_Maître Coq: 0.22916666666666666
+    brand_Milbona: 0.23295454545454544
+    brand_Monoprix: 0.20833333333333334
+    brand_Monoprix Bio: 0.25
+    brand_Nestlé: 0.16666666666666666
+    brand_Netto: 0.22058823529411764
+    brand_Noixfine: 0.25
+    brand_Original Wagner: 0.25
+    brand_Pasta Mare: 0.2
+    brand_Quaker: 0.25
+    brand_REWE Beste Wahl: 0.16666666666666666
+    brand_Rapunzel: 0.25
+    brand_Reflets de France: 0.2
+    brand_Ritter Sport: 0.25
+    brand_Sacla: 0.25
+    brand_Sainte Lucie: 0.25
+    brand_Saupiquet: 0.11290322580645161
+    brand_Sodebo: 0.20833333333333334
+    brand_Spar: 0.19444444444444445
+    brand_St Michel: 0.2
+    brand_Sélection Intermarché: 0.25
+    brand_U: 0.19494584837545126
+    brand_U Bio: 0.25
+    label_en_ab-agriculture-biologique: 0.11517857142857142
+    label_en_canada-organic: 0.19736842105263158
+    label_en_demeter: 0.1388888888888889
+    label_en_eg-oko-verordnung: 0.23282442748091603
+    label_en_eu-organic: 0.21995332555425903
+    label_en_european-vegetarian-union: 0.21511627906976744
+    label_en_fairtrade-international: 0.08333333333333333
+    label_en_fsc: 0.20833333333333334
+    label_en_gluten-free: 0.19444444444444445
+    label_en_gold-medal-of-the-german-agricultural-society: 0.2441860465116279
+    label_en_green-dot: 0.18083900226757368
+    label_en_health-star-rating-4-5: 0.125
+    label_en_label-rouge: 0.23717948717948717
+    label_en_max-havelaar: 0.17045454545454544
+    label_en_nutriscore-grade-a: 0.10483870967741936
+    label_en_nutriscore-grade-b: 0.11363636363636363
+    label_en_nutriscore-grade-c: 0.1
+    label_en_nutriscore-grade-d: 0.10714285714285714
+    label_en_nutriscore-grade-e: 0.12179487179487179
+    label_en_pdo: 0.19414893617021275
+    label_en_pgi: 0.23214285714285715
+    label_en_sustainable-seafood-msc: 0.13095238095238096
+    label_en_the-vegan-society: 0.16203703703703703
+    label_en_usda-organic: 0.20454545454545456
+    label_en_utz-certified-cacao: 0.13157894736842105
+    label_en_utz-certified-coffee: 0.18571428571428572
+    label_en_vegetarian-society-approved: 0.20833333333333334
+    label_fr_ab-agriculture-biologique: 0.10178236397748593
+    label_fr_bleu-blanc-coeur: 0.2037037037037037
+    label_fr_deconseille-aux-femmes-enceintes: 0.1388888888888889
+    label_fr_legumes-de-france: 0.25
+    label_fr_produit-certifie: 0.25
+    label_fr_triman: 0.10365853658536585
+    label_fr_viande-bovine-francaise: 0.18333333333333332
+    label_fr_volaille-francaise: 0.17424242424242425
+    packager_code: 0.19988276670574442
+    packaging_05-pp: 0.1858974358974359
+    packaging_cardboard: 0.25
+    packaging_fr_triman: 0.1323529411764706
+    packaging_pt_ecoponto-amarelo: 0.15625
+    packaging_tetra-pak: 0.22826086956521738
+    qr_code: 0.22123893805309736
+  k = 2
+    brand_Allos: 0.20833333333333334
+    brand_Auchan: 0.27941176470588236
+    brand_Babybio: 0.2
+    brand_Backfee: 0.45454545454545453
+    brand_Barilla: 0.34523809523809523
+    brand_Bauli: 0.45
+    brand_Belle France: 0.425
+    brand_Buitoni: 0.2916666666666667
+    brand_Carrefour: 0.4791666666666667
+    brand_Carrefour Bio: 0.4722222222222222
+    brand_Carrefour_text: 0.40625
+    brand_Connétable: 0.4583333333333333
+    brand_Coop: 0.3951612903225806
+    brand_Cora: 0.3333333333333333
+    brand_Céréal Bio: 0.4947916666666667
+    brand_Côté Table: 0.375
+    brand_Danone: 0.4596774193548387
+    brand_Delhaize: 0.48
+    brand_Deluxe: 0.32142857142857145
+    brand_Dr. Oetker: 0.2875
+    brand_Ducros: 0.16666666666666666
+    brand_E.Leclerc: 0.23214285714285715
+    brand_Edeka: 0.29411764705882354
+    brand_Ehrmann: 0.25
+    brand_Elpozo: 0.4
+    brand_FRoSTA: 0.5
+    brand_Fanta: 0.425
+    brand_Fazer: 0.42857142857142855
+    brand_Findus: 0.3
+    brand_Fleury Michon: 0.4166666666666667
+    brand_Freshona: 0.25
+    brand_Gallina Blanca: 0.46875
+    brand_Gallo: 0.4
+    brand_Gelatelli: 0.2692307692307692
+    brand_Grand Jury: 0.5
+    brand_GutBio: 0.4444444444444444
+    brand_Hacendado: 0.5
+    brand_Haribo: 0.25
+    brand_Herta: 0.3
+    brand_Iglo: 0.4
+    brand_K-Classic: 0.4
+    brand_Kellogg's: 0.4
+    brand_Knorr: 0.4777777777777778
+    brand_La Nouvelle Agriculture: 0.2777777777777778
+    brand_Le Gaulois: 0.359375
+    brand_Leader Price: 0.3333333333333333
+    brand_Les Brasérades: 0.45
+    brand_Lidl: 0.40948275862068967
+    brand_Lipton: 0.35
+    brand_MSC: 0.3181818181818182
+    brand_Maggi: 0.3611111111111111
+    brand_Marque Repère: 0.3975409836065574
+    brand_Maître Coq: 0.4791666666666667
+    brand_Milbona: 0.4375
+    brand_Monoprix: 0.375
+    brand_Monoprix Bio: 0.4772727272727273
+    brand_Nestlé: 0.2916666666666667
+    brand_Netto: 0.38235294117647056
+    brand_Noixfine: 0.45
+    brand_Original Wagner: 0.5
+    brand_Pasta Mare: 0.2
+    brand_Quaker: 0.4583333333333333
+    brand_REWE Beste Wahl: 0.25
+    brand_Rapunzel: 0.5
+    brand_Reflets de France: 0.4
+    brand_Ritter Sport: 0.4473684210526316
+    brand_Sacla: 0.5
+    brand_Sainte Lucie: 0.5
+    brand_Saupiquet: 0.1935483870967742
+    brand_Sodebo: 0.4583333333333333
+    brand_Spar: 0.3333333333333333
+    brand_St Michel: 0.35
+    brand_Sélection Intermarché: 0.49074074074074076
+    brand_U: 0.35018050541516244
+    brand_U Bio: 0.5
+    label_en_ab-agriculture-biologique: 0.23035714285714284
+    label_en_canada-organic: 0.40789473684210525
+    label_en_demeter: 0.25
+    label_en_eg-oko-verordnung: 0.45038167938931295
+    label_en_eu-organic: 0.41015169194865814
+    label_en_european-vegetarian-union: 0.4127906976744186
+    label_en_fairtrade-international: 0.16666666666666666
+    label_en_fsc: 0.375
+    label_en_gluten-free: 0.3611111111111111
+    label_en_gold-medal-of-the-german-agricultural-society: 0.436046511627907
+    label_en_green-dot: 0.31991685563114136
+    label_en_health-star-rating-4-5: 0.16666666666666666
+    label_en_label-rouge: 0.42948717948717946
+    label_en_max-havelaar: 0.36363636363636365
+    label_en_nutriscore-grade-a: 0.18548387096774194
+    label_en_nutriscore-grade-b: 0.1590909090909091
+    label_en_nutriscore-grade-c: 0.13333333333333333
+    label_en_nutriscore-grade-d: 0.21428571428571427
+    label_en_nutriscore-grade-e: 0.1987179487179487
+    label_en_pdo: 0.3829787234042553
+    label_en_pgi: 0.44642857142857145
+    label_en_sustainable-seafood-msc: 0.21428571428571427
+    label_en_the-vegan-society: 0.2638888888888889
+    label_en_usda-organic: 0.38636363636363635
+    label_en_utz-certified-cacao: 0.34210526315789475
+    label_en_utz-certified-coffee: 0.38571428571428573
+    label_en_vegetarian-society-approved: 0.25
+    label_fr_ab-agriculture-biologique: 0.20356472795497185
+    label_fr_bleu-blanc-coeur: 0.4074074074074074
+    label_fr_deconseille-aux-femmes-enceintes: 0.19444444444444445
+    label_fr_legumes-de-france: 0.5
+    label_fr_produit-certifie: 0.475
+    label_fr_triman: 0.18292682926829268
+    label_fr_viande-bovine-francaise: 0.23333333333333334
+    label_fr_volaille-francaise: 0.3560606060606061
+    packager_code: 0.35844079718640093
+    packaging_05-pp: 0.32051282051282054
+    packaging_cardboard: 0.5
+    packaging_fr_triman: 0.20588235294117646
+    packaging_pt_ecoponto-amarelo: 0.34375
+    packaging_tetra-pak: 0.40217391304347827
+    qr_code: 0.4269911504424779
+  k = 4
+    brand_Allos: 0.375
+    brand_Auchan: 0.3235294117647059
+    brand_Babybio: 0.45
+    brand_Backfee: 0.6590909090909091
+    brand_Barilla: 0.5952380952380952
+    brand_Bauli: 0.7666666666666667
+    brand_Belle France: 0.6
+    brand_Buitoni: 0.3333333333333333
+    brand_Carrefour: 0.8125
+    brand_Carrefour Bio: 0.7777777777777778
+    brand_Carrefour_text: 0.6875
+    brand_Connétable: 0.7083333333333334
+    brand_Coop: 0.6048387096774194
+    brand_Cora: 0.5
+    brand_Céréal Bio: 0.8854166666666666
+    brand_Côté Table: 0.6171875
+    brand_Danone: 0.7016129032258065
+    brand_Delhaize: 0.9
+    brand_Deluxe: 0.4642857142857143
+    brand_Dr. Oetker: 0.4125
+    brand_Ducros: 0.16666666666666666
+    brand_E.Leclerc: 0.32142857142857145
+    brand_Edeka: 0.4117647058823529
+    brand_Ehrmann: 0.5
+    brand_Elpozo: 0.575
+    brand_FRoSTA: 0.8928571428571429
+    brand_Fanta: 0.7
+    brand_Fazer: 0.5714285714285714
+    brand_Findus: 0.3
+    brand_Fleury Michon: 0.6666666666666666
+    brand_Freshona: 0.3
+    brand_Gallina Blanca: 0.5625
+    brand_Gallo: 0.55
+    brand_Gelatelli: 0.4230769230769231
+    brand_Grand Jury: 0.84375
+    brand_GutBio: 0.75
+    brand_Hacendado: 0.7916666666666666
+    brand_Haribo: 0.4
+    brand_Herta: 0.425
+    brand_Iglo: 0.55
+    brand_K-Classic: 0.65
+    brand_Kellogg's: 0.65
+    brand_Knorr: 0.85
+    brand_La Nouvelle Agriculture: 0.3055555555555556
+    brand_Le Gaulois: 0.5625
+    brand_Leader Price: 0.375
+    brand_Les Brasérades: 0.6
+    brand_Lidl: 0.5818965517241379
+    brand_Lipton: 0.5
+    brand_MSC: 0.6136363636363636
+    brand_Maggi: 0.5648148148148148
+    brand_Marque Repère: 0.5901639344262295
+    brand_Maître Coq: 0.75
+    brand_Milbona: 0.6647727272727273
+    brand_Monoprix: 0.625
+    brand_Monoprix Bio: 0.7727272727272727
+    brand_Nestlé: 0.3888888888888889
+    brand_Netto: 0.47058823529411764
+    brand_Noixfine: 0.6
+    brand_Original Wagner: 0.95
+    brand_Pasta Mare: 0.2
+    brand_Quaker: 0.75
+    brand_REWE Beste Wahl: 0.3888888888888889
+    brand_Rapunzel: 0.8
+    brand_Reflets de France: 0.6
+    brand_Ritter Sport: 0.8157894736842105
+    brand_Sacla: 0.8653846153846154
+    brand_Sainte Lucie: 1.0
+    brand_Saupiquet: 0.24193548387096775
+    brand_Sodebo: 0.6666666666666666
+    brand_Spar: 0.4861111111111111
+    brand_St Michel: 0.7
+    brand_Sélection Intermarché: 0.7962962962962963
+    brand_U: 0.5315884476534296
+    brand_U Bio: 0.9772727272727273
+    label_en_ab-agriculture-biologique: 0.4303571428571429
+    label_en_canada-organic: 0.6447368421052632
+    label_en_demeter: 0.3055555555555556
+    label_en_eg-oko-verordnung: 0.7633587786259542
+    label_en_eu-organic: 0.6496499416569428
+    label_en_european-vegetarian-union: 0.686046511627907
+    label_en_fairtrade-international: 0.3333333333333333
+    label_en_fsc: 0.5833333333333334
+    label_en_gluten-free: 0.5833333333333334
+    label_en_gold-medal-of-the-german-agricultural-society: 0.6744186046511628
+    label_en_green-dot: 0.48412698412698413
+    label_en_health-star-rating-4-5: 0.25
+    label_en_label-rouge: 0.6474358974358975
+    label_en_max-havelaar: 0.6136363636363636
+    label_en_nutriscore-grade-a: 0.3387096774193548
+    label_en_nutriscore-grade-b: 0.2840909090909091
+    label_en_nutriscore-grade-c: 0.21666666666666667
+    label_en_nutriscore-grade-d: 0.4642857142857143
+    label_en_nutriscore-grade-e: 0.27564102564102566
+    label_en_pdo: 0.6595744680851063
+    label_en_pgi: 0.7321428571428571
+    label_en_sustainable-seafood-msc: 0.39285714285714285
+    label_en_the-vegan-society: 0.4027777777777778
+    label_en_usda-organic: 0.6136363636363636
+    label_en_utz-certified-cacao: 0.5394736842105263
+    label_en_utz-certified-coffee: 0.6285714285714286
+    label_en_vegetarian-society-approved: 0.2916666666666667
+    label_fr_ab-agriculture-biologique: 0.3799249530956848
+    label_fr_bleu-blanc-coeur: 0.6666666666666666
+    label_fr_deconseille-aux-femmes-enceintes: 0.3333333333333333
+    label_fr_legumes-de-france: 1.0
+    label_fr_produit-certifie: 0.85
+    label_fr_triman: 0.3231707317073171
+    label_fr_viande-bovine-francaise: 0.4666666666666667
+    label_fr_volaille-francaise: 0.5833333333333334
+    packager_code: 0.5507033997655334
+    packaging_05-pp: 0.4423076923076923
+    packaging_cardboard: 0.8333333333333334
+    packaging_fr_triman: 0.3235294117647059
+    packaging_pt_ecoponto-amarelo: 0.59375
+    packaging_tetra-pak: 0.6086956521739131
+    qr_code: 0.672566371681416
+  k = 10
+    brand_Allos: 0.4583333333333333
+    brand_Auchan: 0.39705882352941174
+    brand_Babybio: 0.7
+    brand_Backfee: 0.7727272727272727
+    brand_Barilla: 0.8214285714285714
+    brand_Bauli: 0.8333333333333334
+    brand_Belle France: 0.675
+    brand_Buitoni: 0.3333333333333333
+    brand_Carrefour: 0.9375
+    brand_Carrefour Bio: 0.9722222222222222
+    brand_Carrefour_text: 0.875
+    brand_Connétable: 0.8333333333333334
+    brand_Coop: 0.6935483870967742
+    brand_Cora: 0.5833333333333334
+    brand_Céréal Bio: 0.9583333333333334
+    brand_Côté Table: 0.765625
+    brand_Danone: 0.7983870967741935
+    brand_Delhaize: 0.98
+    brand_Deluxe: 0.6071428571428571
+    brand_Dr. Oetker: 0.525
+    brand_Ducros: 0.25
+    brand_E.Leclerc: 0.4642857142857143
+    brand_Edeka: 0.5294117647058824
+    brand_Ehrmann: 0.5833333333333334
+    brand_Elpozo: 0.65
+    brand_FRoSTA: 0.9642857142857143
+    brand_Fanta: 0.75
+    brand_Fazer: 0.75
+    brand_Findus: 0.4
+    brand_Fleury Michon: 1.0
+    brand_Freshona: 0.35
+    brand_Gallina Blanca: 0.75
+    brand_Gallo: 0.65
+    brand_Gelatelli: 0.5384615384615384
+    brand_Grand Jury: 0.90625
+    brand_GutBio: 0.7777777777777778
+    brand_Hacendado: 1.0
+    brand_Haribo: 0.5
+    brand_Herta: 0.55
+    brand_Iglo: 0.65
+    brand_K-Classic: 0.7
+    brand_Kellogg's: 0.95
+    brand_Knorr: 0.95
+    brand_La Nouvelle Agriculture: 0.3055555555555556
+    brand_Le Gaulois: 0.796875
+    brand_Leader Price: 0.5
+    brand_Les Brasérades: 0.7
+    brand_Lidl: 0.7025862068965517
+    brand_Lipton: 0.5833333333333334
+    brand_MSC: 0.9090909090909091
+    brand_Maggi: 0.6851851851851852
+    brand_Marque Repère: 0.7786885245901639
+    brand_Maître Coq: 0.875
+    brand_Milbona: 0.8863636363636364
+    brand_Monoprix: 0.7916666666666666
+    brand_Monoprix Bio: 0.8863636363636364
+    brand_Nestlé: 0.4444444444444444
+    brand_Netto: 0.5
+    brand_Noixfine: 0.8
+    brand_Original Wagner: 1.0
+    brand_Pasta Mare: 0.2
+    brand_Quaker: 0.8333333333333334
+    brand_REWE Beste Wahl: 0.5833333333333334
+    brand_Rapunzel: 1.0
+    brand_Reflets de France: 0.7
+    brand_Ritter Sport: 0.9605263157894737
+    brand_Sacla: 1.0
+    brand_Sainte Lucie: 1.0
+    brand_Saupiquet: 0.3870967741935484
+    brand_Sodebo: 0.9166666666666666
+    brand_Spar: 0.6111111111111112
+    brand_St Michel: 0.75
+    brand_Sélection Intermarché: 0.9814814814814815
+    brand_U: 0.7193140794223827
+    brand_U Bio: 1.0
+    label_en_ab-agriculture-biologique: 0.6598214285714286
+    label_en_canada-organic: 0.7631578947368421
+    label_en_demeter: 0.3888888888888889
+    label_en_eg-oko-verordnung: 0.8358778625954199
+    label_en_eu-organic: 0.7701283547257877
+    label_en_european-vegetarian-union: 0.8430232558139535
+    label_en_fairtrade-international: 0.5416666666666666
+    label_en_fsc: 0.8333333333333334
+    label_en_gluten-free: 0.7222222222222222
+    label_en_gold-medal-of-the-german-agricultural-society: 0.8197674418604651
+    label_en_green-dot: 0.6604308390022676
+    label_en_health-star-rating-4-5: 0.375
+    label_en_label-rouge: 0.7884615384615384
+    label_en_max-havelaar: 0.9090909090909091
+    label_en_nutriscore-grade-a: 0.5483870967741935
+    label_en_nutriscore-grade-b: 0.5909090909090909
+    label_en_nutriscore-grade-c: 0.5166666666666667
+    label_en_nutriscore-grade-d: 0.8571428571428571
+    label_en_nutriscore-grade-e: 0.3782051282051282
+    label_en_pdo: 0.8776595744680851
+    label_en_pgi: 0.9464285714285714
+    label_en_sustainable-seafood-msc: 0.5595238095238095
+    label_en_the-vegan-society: 0.5324074074074074
+    label_en_usda-organic: 0.7575757575757576
+    label_en_utz-certified-cacao: 0.8157894736842105
+    label_en_utz-certified-coffee: 0.9428571428571428
+    label_en_vegetarian-society-approved: 0.3333333333333333
+    label_fr_ab-agriculture-biologique: 0.5848968105065666
+    label_fr_bleu-blanc-coeur: 0.8240740740740741
+    label_fr_deconseille-aux-femmes-enceintes: 0.5
+    label_fr_legumes-de-france: 1.0
+    label_fr_produit-certifie: 0.95
+    label_fr_triman: 0.5304878048780488
+    label_fr_viande-bovine-francaise: 0.85
+    label_fr_volaille-francaise: 0.7765151515151515
+    packager_code: 0.6943141852286049
+    packaging_05-pp: 0.6474358974358975
+    packaging_cardboard: 0.9166666666666666
+    packaging_fr_triman: 0.5147058823529411
+    packaging_pt_ecoponto-amarelo: 0.6875
+    packaging_tetra-pak: 0.8152173913043478
+    qr_code: 0.7942477876106194
+  k = 100
+    brand_Allos: 1.0
+    brand_Auchan: 0.5
+    brand_Babybio: 1.0
+    brand_Backfee: 1.0
+    brand_Barilla: 1.0
+    brand_Bauli: 0.9833333333333333
+    brand_Belle France: 0.975
+    brand_Buitoni: 0.7083333333333334
+    brand_Carrefour: 1.0
+    brand_Carrefour Bio: 1.0
+    brand_Carrefour_text: 1.0
+    brand_Connétable: 1.0
+    brand_Coop: 0.8951612903225806
+    brand_Cora: 0.8518518518518519
+    brand_Céréal Bio: 1.0
+    brand_Côté Table: 0.9921875
+    brand_Danone: 0.9435483870967742
+    brand_Delhaize: 1.0
+    brand_Deluxe: 0.8928571428571429
+    brand_Dr. Oetker: 0.875
+    brand_Ducros: 0.625
+    brand_E.Leclerc: 0.875
+    brand_Edeka: 0.8529411764705882
+    brand_Ehrmann: 1.0
+    brand_Elpozo: 0.775
+    brand_FRoSTA: 1.0
+    brand_Fanta: 0.975
+    brand_Fazer: 0.9642857142857143
+    brand_Findus: 0.7
+    brand_Fleury Michon: 1.0
+    brand_Freshona: 0.85
+    brand_Gallina Blanca: 0.96875
+    brand_Gallo: 0.9
+    brand_Gelatelli: 0.8076923076923077
+    brand_Grand Jury: 1.0
+    brand_GutBio: 0.9444444444444444
+    brand_Hacendado: 1.0
+    brand_Haribo: 0.75
+    brand_Herta: 0.95
+    brand_Iglo: 0.95
+    brand_K-Classic: 0.9
+    brand_Kellogg's: 1.0
+    brand_Knorr: 1.0
+    brand_La Nouvelle Agriculture: 0.3611111111111111
+    brand_Le Gaulois: 0.9453125
+    brand_Leader Price: 1.0
+    brand_Les Brasérades: 1.0
+    brand_Lidl: 0.8836206896551724
+    brand_Lipton: 0.9333333333333333
+    brand_MSC: 0.9545454545454546
+    brand_Maggi: 0.8888888888888888
+    brand_Marque Repère: 0.9754098360655737
+    brand_Maître Coq: 1.0
+    brand_Milbona: 1.0
+    brand_Monoprix: 1.0
+    brand_Monoprix Bio: 0.9886363636363636
+    brand_Nestlé: 0.6666666666666666
+    brand_Netto: 0.9264705882352942
+    brand_Noixfine: 1.0
+    brand_Original Wagner: 1.0
+    brand_Pasta Mare: 0.7
+    brand_Quaker: 1.0
+    brand_REWE Beste Wahl: 0.9444444444444444
+    brand_Rapunzel: 1.0
+    brand_Reflets de France: 1.0
+    brand_Ritter Sport: 1.0
+    brand_Sacla: 1.0
+    brand_Sainte Lucie: 1.0
+    brand_Saupiquet: 0.8629032258064516
+    brand_Sodebo: 1.0
+    brand_Spar: 0.7361111111111112
+    brand_St Michel: 1.0
+    brand_Sélection Intermarché: 1.0
+    brand_U: 0.9566787003610109
+    brand_U Bio: 1.0
+    label_en_ab-agriculture-biologique: 0.9330357142857143
+    label_en_canada-organic: 0.868421052631579
+    label_en_demeter: 0.9444444444444444
+    label_en_eg-oko-verordnung: 0.9599236641221374
+    label_en_eu-organic: 0.9224037339556592
+    label_en_european-vegetarian-union: 0.9709302325581395
+    label_en_fairtrade-international: 0.9166666666666666
+    label_en_fsc: 1.0
+    label_en_gluten-free: 0.9166666666666666
+    label_en_gold-medal-of-the-german-agricultural-society: 0.9941860465116279
+    label_en_green-dot: 0.9363189720332578
+    label_en_health-star-rating-4-5: 0.9166666666666666
+    label_en_label-rouge: 0.9935897435897436
+    label_en_max-havelaar: 0.9886363636363636
+    label_en_nutriscore-grade-a: 0.9596774193548387
+    label_en_nutriscore-grade-b: 0.9772727272727273
+    label_en_nutriscore-grade-c: 1.0
+    label_en_nutriscore-grade-d: 1.0
+    label_en_nutriscore-grade-e: 0.8205128205128205
+    label_en_pdo: 0.9946808510638298
+    label_en_pgi: 1.0
+    label_en_sustainable-seafood-msc: 0.8452380952380952
+    label_en_the-vegan-society: 0.8657407407407407
+    label_en_usda-organic: 0.9318181818181818
+    label_en_utz-certified-cacao: 0.9868421052631579
+    label_en_utz-certified-coffee: 1.0
+    label_en_vegetarian-society-approved: 0.7916666666666666
+    label_fr_ab-agriculture-biologique: 0.8883677298311444
+    label_fr_bleu-blanc-coeur: 0.9907407407407407
+    label_fr_deconseille-aux-femmes-enceintes: 0.8888888888888888
+    label_fr_legumes-de-france: 1.0
+    label_fr_produit-certifie: 1.0
+    label_fr_triman: 0.9207317073170732
+    label_fr_viande-bovine-francaise: 1.0
+    label_fr_volaille-francaise: 0.946969696969697
+    packager_code: 0.9220398593200468
+    packaging_05-pp: 0.9294871794871795
+    packaging_cardboard: 1.0
+    packaging_fr_triman: 0.9852941176470589
+    packaging_pt_ecoponto-amarelo: 0.90625
+    packaging_tetra-pak: 1.0
+    qr_code: 0.9336283185840708
