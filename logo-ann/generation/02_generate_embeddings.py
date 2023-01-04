@@ -36,10 +36,10 @@ def get_output_dim(model_type: str):
     """Return the embeddings size according to the model used."""
 
     if model_type == "clip-vit-base-patch16" or model_type == "clip-vit-base-patch32":
-        return 768
+        return 512
 
     if model_type == "clip-vit-large-patch14":
-        return 1024
+        return 768
 
     raise ValueError("unknown model type: {}".format(model_type))
 
