@@ -1,79 +1,31 @@
 import pathlib
 import time
 import tqdm
-import h5py
 from more_itertools import chunked
 import numpy as np
 import psutil
 import json
-
-import faiss
+import os
 import tqdm
 
-def get_embedding(embeddings_path: pathlib.Path, batch_size: int, nb_embeddings: int):
-    """
-    Get embeddings from an embeddings file.
+import faiss
 
-    Parameters
-    ----------
-    embeddings_path : pathlib.Path
-        Path to the embeddings file.
-    batch_size : int
-        Number of embeddings to return at once.
-    nb_embeddings : int
-        Maximum number of embeddings to return.
-
-    Yields
-    ------
-    embeddings : numpy.ndarray
-        Array of embeddings.
-    external_ids : numpy.ndarray
-        Array of external ids.
-    """
-
-    with h5py.File(str(embeddings_path), "r") as f:
-        embedding_dset = f["embedding"]
-        external_id_dset = f["external_id"]
-
-        for slicing in chunked(range(min(len(embedding_dset), nb_embeddings)), batch_size):
-            slicing = np.array(slicing)
-            mask = external_id_dset[slicing] == 0
-
-            if np.all(mask):
-                break
-
-            mask = ~mask
-            yield (
-                embedding_dset[slicing][mask],
-                external_id_dset[slicing][mask],
-            )
+from recall_computation import compute_recall
+from utils import get_embedding, save_data, load_data
 
 def create_index(d:int, exact : bool, m: int=32, efSearch: int=40, efConstruction: int=40):
     """
-    Create Index
-    -----------
-
-    Create an index using Faiss library based on the input parameters.
-
-    Parameters
-    ----------
-    d : int
-        Number of dimensions of the input vectors.
-    exact : bool
-        Flag to indicate if the index is exact (True) or approximate (False).
-    m : int, optional
-        Number of link between vectors stored in HNSW indexes (default 32).
-    efSearch : int, optional
-        Controls the quality of the search (default 40).
-    efConstruction : int, optional
-        Controls the quality of the index construction (default 40).
-
-    Returns
-    -------
-    index : faiss.Index
-        Index object.
-    create_index_time : int
-        Time taken to create the index.
+    Creates an index object.
+    
+    Args:
+        d: The dimensionality of the embeddings.
+        exact: A boolean indicating whether to create an exact index or an approximate index.
+        m: The number of connections that each node in the index has to its neighbors.
+        efSearch: The maximum number of elements to visit when searching the graph.
+        efConstruction: The maximum number of elements to visit when adding an element to the graph.
+    
+    Returns:
+        A tuple containing the index object and the time it took to create the index.
     """
 
     start_time = time.monotonic()
@@ -89,28 +41,23 @@ def create_index(d:int, exact : bool, m: int=32, efSearch: int=40, efConstructio
     return index, time.monotonic() - start_time 
 
 
-def build_index(index: faiss.swigfaiss.IndexIDMap, batch_size : int, n_vec : int):
+def build_index(index: faiss.swigfaiss.IndexIDMap, embeddings_path: pathlib.Path, batch_size : int, n_vec : int):
     """
-    Build an index from a hdf5 file containing embeddings and external ids.
-
-    Parameters
-    ----------
-    index : faiss.swigfaiss.IndexIDMap
-        The index to build
-    batch_size : int
-        The batch size to use when reading the hdf5 file
-    n_vec : int
-        The number of vectors to read from the hdf5 file
-
-    Returns
-    -------
-    building_time : float
-        The time it took to build the index
+    Builds an index with embeddings.
+    
+    Args:
+        index: The index object.
+        embeddings_path: The path to the file containing the embeddings.
+        batch_size: The number of embeddings to process at a time.
+        n_vec: The total number of embeddings to process.
+    
+    Returns:
+        The time it took to add all the embeddings to the index.
     """
 
     building_time = 0
 
-    data_gen =  get_embedding(pathlib.Path("logos_embeddings.hdf5"), batch_size, n_vec)
+    data_gen =  get_embedding(embeddings_path, batch_size, n_vec)
 
     for batch in tqdm.tqdm(data_gen):
         (embedding_batch, external_id_batch) = batch
@@ -130,28 +77,17 @@ def search_index(
     K: np.array,
     ):
     """
-    Search index with query vectors issued from embedding_path. 
-
-    Parameters
-    ----------
-    index : faiss.swigfaiss.IndexIDMap
-        index to search with
-    embeddings_path : pathlib.Path
-        path to the file containg the embeddings
-    queries : int
-        number of queries to perform
-    batch_size : int
-        number of embedding to search in one batch
-    K : np.array
-        array of parameters k for which to perform the search
-
-
-    Returns
-    -------
-    nearest_neighbours : dict
-        dictionary containing distances and ids of the nearest neighbours for each query
-    mean_search_time : float
-        mean time in seconds for the nearest neighbours search of a single embedding
+    Performs k-nearest neighbor search on a set of queries.
+    
+    Args:
+        index: The index object.
+        embeddings_path: The path to the file containing the embeddings.
+        queries: The number of queries to perform.
+        batch_size: The number of queries to process at a time.
+        K: The number of nearest neighbors to retrieve for each query.
+    
+    Returns:
+        A tuple containing a dictionary of the nearest neighbors for each query and the mean search time for a query.
     """
 
     search_time = []
@@ -162,28 +98,32 @@ def search_index(
 
     for batch in tqdm.tqdm(data_gen):
         (embeddings_batch, external_id_batch) = batch
-
-        for i in range(len(embeddings_batch)):
-            query_vector = embeddings_batch[i]
-            query_id = external_id_batch[i]
             
-            start_time = time.monotonic()
-            res = index.search(np.array([query_vector]).astype('float32'),int(K.max())+1)
-            search_time.append(time.monotonic() - start_time)
+        for i in range(len(embeddings_batch)):
+
+            time_before = time.monotonic()
+
+            res = index.search(np.array([embeddings_batch[i]]).astype('float32'),int(K.max())+1) 
+
+            search_time.append(time.monotonic()-time_before)
 
             res = np.moveaxis(res,1,0)
+
+            query_id = str(external_id_batch[i])
 
             nearest_neighbours[query_id] = {}
 
             nearest_neighbours[query_id]["ids"] = res[0][1]
             nearest_neighbours[query_id]["distances"] = res[0][0]
-            
 
+        
     return nearest_neighbours, np.mean(search_time)
 
 
 def main(
+    exact: bool,
     embeddings_path: pathlib.Path, 
+    save_dir: str,
     batch_size: int,
     d: int,
     queries: int,
@@ -193,89 +133,68 @@ def main(
     EF_CONSTRUCTION_list: np.array,
     EF_SEARCH_list: np.array,
     ):
-    '''
-    Perform the faiss benchmark by creating, building and searching the various faiss indexes.
-    The first one is flat in order to compute the ground truth.
-    The other ones are HNSW indexes created with various parameters.
+    """
+    Entry point of the script. Builds an index with embeddings and performs k-nearest neighbor search on a set of queries.
+    
+    Args:
+        exact: A boolean indicating whether to create an exact index or an approximate index.
+        embeddings_path: The path to the file containing the embeddings.
+        save_dir: The directory to save the performance results and nearest neighbor results.
+        batch_size: The number of embeddings/queries to process at a time.
+        d: The dimensionality of the embeddings.
+        queries: The number of queries to perform.
+        index_size: The number of embeddings to index.
+        K: The number of nearest neighbors to retrieve for each query.
+        M_list: A list of the number of connections that each node in the index has to its neighbors.
+        EF_CONSTRUCTION_list: A list of the maximum number of elements to visit when adding an element to the graph.
+        EF_SEARCH_list: A list of the maximum number of elements to visit when searching the graph.
 
-    Parameters
-    ----------
-
-    embeddings_path: pathlib.Path
-        path to the embeddings file
-    batch_size: int
-        size of the batch in the index building (number of vectors read from the embeddings file)
-    d: int
-        dimension of the embeddings
-    queries: int
-        number of vectors for which we search in the index
-    index_size: int
-        maximum number of embeddings in the index
-    K: np.array
-        list of ks for which the evaluation has to be made
-    M: np.array
-        list of M values for the HNSW index
-    ef_construction_list: np.array
-        list of ef_construction values
-    ef_search_list: np.array
-        list of ef_search values
-
-    Returns
-    -------
-
-    performances: dict
-        performances["index_size"] : int
-            the size of the index
-        performances["queries"] : int
-            the number of queries
-
-        performances[...]["building_time"] : float
-            time used in the construction of the ... index
-        performances[...]["search_time"] : float
-            time used in the search in the ... index
-        performances[...]["ram_used"] : float
-            memory used by the ... index
-        performances["hnsw"][i]["M"] : int
-            value of M used for the i-th HNSW index
-        performances["hnsw"][i]["ef_construction"] : int
-            value of ef_construction used for the i-th HNSW index
-        performances["hnsw"][i]["ef_runtime"] : int
-            value of ef_runtime used for the i-th HNSW index
-        performances["hnsw"][i]["macro_recall"][k] : float
-            macro-averaged recall@k for the i-th HNSW index
-        performances["hnsw"][i]["macro_precision"][k] : float
-            macro-averaged precision@k for the i-th HNSW index
-        performances["hnsw"][i]["micro_recall"][k] : float
-            micro-averaged recall@k for the i-th HNSW index
-        performances["hnsw"][i]["micro_precision"][k] : float
-            micro-averaged precision@k for the i-th HNSW index
-    '''
+    Returns:
+        A dictionnary of the characteristics and performances of all indexes studied.
+    """
 
     performances = {}
 
     performances["index_size"] = index_size
     performances["queries"] = queries
 
-    values = psutil.virtual_memory()
-    ram_available_before = values.available
+    try:
+        os.mkdir(save_dir)
+        print("Save directory created !")
+    except:
+        print("Save directory already existing !")
 
-    performances["ground_truth"] = {}
+    perf_file = save_dir + "/exact_perf.json"
+    KNN_file = save_dir + "/exact_KNN.json"
 
-    print("Creation of FLAT index")
+    if pathlib.Path(KNN_file).is_file() and pathlib.Path(perf_file).is_file():
+        performances["ground_truth"] = load_data(perf_file)
+        ground_truth = load_data(KNN_file)
+    else:
+        values = psutil.virtual_memory()
+        ram_available_before = values.available
 
-    index, performances["ground_truth"]["creation_time"] = create_index(d, True)
-        
-    performances["ground_truth"]["building_time"] = build_index(index, batch_size, index_size)
+        performances["ground_truth"] = {}
 
-    values = psutil.virtual_memory()
-    ram_available_after = values.available
+        print("Creation of FLAT index")
 
-    performances["ground_truth"]["ram_used"] = ram_available_before - ram_available_after
+        index, performances["ground_truth"]["creation_time"] = create_index(d, True)
 
-    print("Search in FLAT index to compute ground truth")
+        performances["ground_truth"]["building_time"] = build_index(index, embeddings_path, batch_size, index_size)
 
-    ground_truth, performances["ground_truth"]["search_time"] = search_index(index, embeddings_path, queries, batch_size, K)
-    
+        values = psutil.virtual_memory()
+        ram_available_after = values.available
+
+        performances["ground_truth"]["ram_used"] = (ram_available_before - ram_available_after)/(1024.0 ** 3)
+
+        print("Search in FLAT index to compute ground truth")
+
+        ground_truth, performances["ground_truth"]["search_time"] = search_index(index, embeddings_path, queries, batch_size, K)
+
+        save_data(KNN_file, ground_truth)
+
+        save_data(perf_file, performances["ground_truth"])
+
     performances["hnsw"] = {}
     index_number = 0
 
@@ -288,103 +207,80 @@ def main(
 
                 print(f"****** {index_number}th HNSW index ******")
 
-                performances["hnsw"][index_number] = {}
+                perf_file = save_dir + "/hnsw_perf_" + str(m) + "_" + str(ef_construction) + "_" + str(ef_search) + ".json"
+                KNN_file = save_dir + "/hnsw_ANN_" + str(m) + "_" + str(ef_construction) + "_" + str(ef_search) + ".json"
 
-                performances["hnsw"][index_number]["M"] = m
-                performances["hnsw"][index_number]["ef_construction"] = ef_construction
-                performances["hnsw"][index_number]["ef_runtime"] = ef_search
+                if pathlib.Path(perf_file).is_file() and pathlib.Path(KNN_file).is_file():
+                    hnsw_perf = load_data(perf_file)
+                    ground_truth = load_data(KNN_file)
 
-                values = psutil.virtual_memory()
-                ram_available_before = values.available
+                else :
+                    hnsw_perf = {}
 
-                print(f"Creation of the {index_number}th jnsw index")
+                    hnsw_perf["M"] = m
+                    hnsw_perf["ef_construction"] = ef_construction
+                    hnsw_perf["ef_search"] = ef_search
 
-                index, performances["hnsw"][index_number]["creation_time"] = create_index(
-                                                                                d,
-                                                                                False,
-                                                                                m,
-                                                                                ef_search,
-                                                                                ef_construction,
-                                                                                )
+                    values = psutil.virtual_memory()
+                    ram_available_before = values.available
 
-                performances["hnsw"][index_number]["building_time"] = build_index(index, batch_size, index_size)
+                    print(f"Creation of the {index_number}th jnsw index")
 
-                values = psutil.virtual_memory()
-                ram_available_after = values.available
+                    index, hnsw_perf["creation_time"] = create_index(
+                                                                                    d,
+                                                                                    False,
+                                                                                    m,
+                                                                                    ef_search,
+                                                                                    ef_construction,
+                                                                                    )
 
-                performances["hnsw"][index_number]["ram_used"] = ram_available_before - ram_available_after
+                    hnsw_perf["building_time"] = build_index(index, embeddings_path, batch_size, index_size)
 
-                print(f"Search in the {index_number}th hsnw index")
+                    values = psutil.virtual_memory()
+                    ram_available_after = values.available
 
-                hnsw_nearest_neighbours, performances["hnsw"][index_number]["search_time"] = search_index(index, embeddings_path, queries, batch_size, K)
+                    hnsw_perf["ram_used"] = (ram_available_before - ram_available_after)/(1024.0 ** 3)
 
-                tp_micro = {}
-                fp_micro = {}
-                fn_micro = {}
+                    print(f"Search in the {index_number}th hsnw index")
 
-                performances["hnsw"][index_number]["macro_recall"] = {}
-                performances["hnsw"][index_number]["macro_precision"] = {}
-                performances["hnsw"][index_number]["micro_recall"] = {}
-                performances["hnsw"][index_number]["micro_precision"] = {}
+                    hnsw_nearest_neighbours, hnsw_perf["search_time"] = search_index(index, embeddings_path, queries, batch_size, K)
 
-                for k in K:
-                    k = int(k)
-                    tp_micro[k] = 0
-                    fp_micro[k] = 0
-                    fn_micro[k] = 0
-                    performances["hnsw"][index_number]["macro_recall"][k] = 0
-                    performances["hnsw"][index_number]["macro_precision"][k] = 0
-                    performances["hnsw"][index_number]["micro_recall"][k] = 0
-                    performances["hnsw"][index_number]["micro_precision"][k] = 0
-                
-                count = 0
-                for id in ground_truth.keys():
-                    for k in K :
-                        k = int(k)
-                        positive_neighbours = np.isin(hnsw_nearest_neighbours[id]["ids"][1:k+1],ground_truth[id]["ids"][1:k+1])
+                    hnsw_perf["metrics"] = compute_recall(
+                        ground_truth,
+                        hnsw_nearest_neighbours,
+                        index_size,
+                        queries,
+                        K,
+                        m,
+                        ef_construction,
+                        ef_search,
+                        )
 
-                        tp = np.sum(positive_neighbours.astype(int))
-                        tp_micro[k] = tp_micro[k] + tp
-
-                        fp = k - tp
-                        fp_micro[k] = fp_micro[k] + fp
-
-                        found_neighbours_among_the_expected_ones = np.isin(ground_truth[id]["ids"][1:k+1],hnsw_nearest_neighbours[id]["ids"][1:k+1])
-                        fn = k - (np.sum(found_neighbours_among_the_expected_ones.astype(int)))
-                        fn_micro[k]  = fn_micro[k] + fn
-
-                        performances["hnsw"][index_number]["macro_recall"][k] = performances["hnsw"][index_number]["macro_recall"][k] + tp/(tp+fn)
-                        performances["hnsw"][index_number]["macro_precision"][k] = performances["hnsw"][index_number]["macro_precision"][k] + tp/(tp+fp)
-                        
-
-                    count = count + 1
-
-                assert queries == count
-                
-                for k in K:
-                    k = int(k)
-                    performances["hnsw"][index_number]["micro_recall"][k] = tp_micro[k]/(tp_micro[k]+fn_micro[k])
-                    performances["hnsw"][index_number]["micro_precision"][k] = tp_micro[k]/(tp_micro[k]+fp_micro[k])
-                    performances["hnsw"][index_number]["macro_recall"][k] = performances["hnsw"][index_number]["macro_recall"][k]/count
-                    performances["hnsw"][index_number]["macro_precision"][k] = performances["hnsw"][index_number]["macro_precision"][k]/count
-
+                    save_data(perf_file, hnsw_perf)
+                    save_data(KNN_file, hnsw_nearest_neighbours)
                 index_number = index_number + 1
+                performances["hnsw"][index_number] = hnsw_perf
 
     return performances
 
 
-embeddings_path=pathlib.Path("logos_embeddings.hdf5")
+embeddings_path=pathlib.Path("logos_embeddings_512.hdf5")
 batch_size = 512
-d = 768  # dimension of the embeddings of the embeddings_path file
-index_size = 100000
-queries = 1000
+d = 512  # dimension of the embeddings of the embeddings_path file
+index_size = 1000
+queries = 10  # number of queries
 K = np.array([1,4,10,50,100])
 
-M_array=np.array([64])
-efSearch_array=np.array([512])
-efConstruction_array=np.array([1024])
+M_array=np.array([5,30])
+efConstruction_array=np.array([16])
+efSearch_array=np.array([40])
 
-complete_perf = main(embeddings_path, 
+
+save_dir = "faiss_saves_index_" + str(index_size) + "_queries_" + str(queries)
+
+complete_perf = main(True,
+                    embeddings_path,
+                    save_dir,
                     batch_size, 
                     d,
                     queries, 
@@ -394,6 +290,5 @@ complete_perf = main(embeddings_path,
                     efConstruction_array, 
                     efSearch_array)
 
-with open("hnsw_perf.json",'w') as f:
+with open(save_dir+"/faiss_complete_perf.json",'w') as f:
     json.dump(complete_perf,f)
-
