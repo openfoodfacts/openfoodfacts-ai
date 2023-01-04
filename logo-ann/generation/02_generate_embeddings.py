@@ -61,7 +61,6 @@ def generate_embeddings_iter(
 ):
 
     """Inputs:
-
     - model: name of the specific model used
     - file_path: path of the hdf5 file containing the data of all the logos
     - batch-size: size of each batche of logos embedded at the same time 
@@ -102,7 +101,6 @@ def generate_embeddings_iter(
                     mask[i] = 0
 
             if np.all(~mask):  # if we only have zeros at this step, we have a batch only with empty data or already seen logos
-
                 continue
 
             images = image_dset[slicing][mask]
@@ -116,7 +114,6 @@ def generate_embeddings_iter(
                 )[
                     "pixel_values"
                 ]
-
                 embeddings = (
                     model(**{"pixel_values": images.to(device)})
                     .pooler_output.cpu()
