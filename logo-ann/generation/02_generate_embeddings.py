@@ -3,8 +3,7 @@ from email.policy import default
 import pathlib
 from typing import Iterable, Set, Any
 
-from efficientnet_pytorch import EfficientNet
-from transformers import CLIPModel, CLIPProcessor
+from transformers import CLIPModel, CLIPImageProcessor
 import h5py
 from more_itertools import chunked
 import numpy as np
@@ -27,8 +26,7 @@ model-type: name of the specific model used
 
 
 def build_model(model_type: str):
-    return CLIPModel.from_pretrained(f"openai/{model_type}").vision_model
-    # return EfficientNet.from_pretrained(model_type)
+    return CLIPModel.from_pretrained(f"openai/{model_type}")
 
 
 def get_output_dim(model_type: str):
@@ -36,10 +34,10 @@ def get_output_dim(model_type: str):
     """Return the embeddings size according to the model used."""
 
     if model_type == "clip-vit-base-patch16" or model_type == "clip-vit-base-patch32":
-        return 768
+        return 512
 
     if model_type == "clip-vit-large-patch14":
-        return 1024
+        return 768
 
     raise ValueError("unknown model type: {}".format(model_type))
 
@@ -107,41 +105,23 @@ def generate_embeddings_iter(
 
 
             with torch.no_grad():
-                # preprocess the images to put them into the model
-                images = processor(
-                    images=[PIL.Image.fromarray(images[i], mode="RGB") for i in range(min(batch_size,len(images)))],  # convert the np.array to PIL in order to use the CLIProcessor
-                    return_tensors="pt",
-                )[
-                    "pixel_values"
-                ]
-                embeddings = (
-                    model(**{"pixel_values": images.to(device)})
-                    .pooler_output.cpu()
-                    .numpy()
-                )  # generate the embeddings
-                if np.any(np.isnan(embeddings)):  # checking that the values are not NaN
+                # Preprocess the images to put them into the model
+                inputs = processor(images=[PIL.Image.fromarray(images[i], mode="RGB").to_device(device) for i in range(min(batch_size,len(images)))],
+                                    return_tensors="pt", 
+                                    padding=True).pixel_values
+                # Passing logos through the model
+                # We don't have text to pass to the model so we use a (1,1) attention mask
+                # and use (BOS, EOS) as input for text. 
+                outputs = model(**{'pixel_values':inputs,
+                                    'attention_mask':torch.from_numpy(np.ones((len(images),2), dtype=int)), 
+                                    'input_ids':torch.from_numpy(np.ones((len(images),2),dtype=int)*[49406,49407])})
+                # Getting logo embeddings out of the outputs
+                embeddings = outputs.image_embeds.detach().numpy()
+                if np.any(np.isnan(embeddings)):  # checking values are not NaN
                     print("A NaN value was detected, avoiding the loop")
                     continue
-            
-            print(external_ids)
-            if 1889 in external_ids :
-                for i in range(len(external_ids)):
-                    if external_ids[i] == 1889 : break
-                embeddings_test.append(embeddings[i])
-            
-            if 59484 in external_ids :
-                for i in range(len(external_ids)):
-                    if external_ids[i] == 59484 : break
-                embeddings_test.append(embeddings[i])
-
-            if len(embeddings_test) == 2:
-                breakpoint()
-
-
-
+ 
             yield (embeddings, external_ids[mask])
-            ###
-
 
 def generate_embedding_from_hdf5(
     data_gen: Iterable, output_path: pathlib.Path, output_dim: int, count: int
@@ -204,7 +184,7 @@ if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("Device: {}".format(device))
     model = model.to(device)
-    processor = CLIPProcessor.from_pretrained(f"openai/{model_type}")
+    processor = CLIPImageProcessor()
 
     seen_set = get_seen_set(args.output_path)
     print("Number of seen items: {}".format(len(seen_set)))
