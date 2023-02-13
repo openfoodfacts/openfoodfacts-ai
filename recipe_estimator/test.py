@@ -29,7 +29,10 @@ precision = 0.01
 #print(nutrient_map['pantothenic-acid'])
 #print(len(nutrient_map))
 
-def setup_ingredients(off_ingredients,nutrients,solver):
+def parse_value(ciqual_nutrient):
+    return float(ciqual_nutrient.replace(',','.').replace('<','').replace('traces','0'))
+
+def setup_ingredients(off_ingredients,nutrients,solver,total_ingredients):
     ingredients = []
     
     for i,off_ingredient in enumerate(off_ingredients):
@@ -37,7 +40,6 @@ def setup_ingredients(off_ingredients,nutrients,solver):
         ingredients.append(ingredient)
         ingredient['text'] = off_ingredient['text']
         ingredient['numvar'] = solver.NumVar(0.0, solver.infinity(), off_ingredient['id'])
-        ingredient['lost_water'] = solver.NumVar(0.0, solver.infinity(), off_ingredient['id'] + ' lost water')
         if (i > 0):
             # Ingredient should be smaller than the one preceding it
             # i.e. (ingredient n-1) - (ingredient n) >= 0
@@ -48,7 +50,7 @@ def setup_ingredients(off_ingredients,nutrients,solver):
         
         if ('ingredients' in off_ingredient):
             # Child ingredients
-            child_ingredients = setup_ingredients(off_ingredient['ingredients'], nutrients, solver)
+            child_ingredients = setup_ingredients(off_ingredient['ingredients'], nutrients, solver, total_ingredients)
             if (child_ingredients is None):
                 return
 
@@ -58,23 +60,8 @@ def setup_ingredients(off_ingredients,nutrients,solver):
             ingredient['parent_constraint'] = parent_constraint
             parent_constraint.SetCoefficient(ingredient['numvar'], 1.0)
 
-            parent_water_constraint = solver.Constraint(-precision, precision, off_ingredient['id'] + ' parent water percent')
-            ingredient['parent_water_constraint'] = parent_water_constraint
-            parent_water_constraint.SetCoefficient(ingredient['lost_water'], 1.0)
-
             for child_ingredient in child_ingredients:
                 parent_constraint.SetCoefficient(child_ingredient['numvar'], -1.0)
-                # Evaporation...
-                # Product starts with 50g milk, 50g flour
-                # In processing 40% of milk evaporates so total weight is now 80g
-                # So for 100g of finished product we need 62.5g milk and 62.5g flour
-                # Hence when looking at total composition sum ingredients - evaporation = 100%
-                # Or Parent + evaporation - sum ingredients = 0
-                parent_constraint.SetCoefficient(child_ingredient['lost_water'], 1.0)
-
-                # Also lost water on parent is a simple sum of the children
-                # i.e. parent lost water - child lost water = 0
-                parent_water_constraint.SetCoefficient(child_ingredient['lost_water'], -1.0)
         else:
             ciqual_code = off_ingredient.get('ciqual_food_code', None)
             if (ciqual_code is None):
@@ -87,11 +74,20 @@ def setup_ingredients(off_ingredients,nutrients,solver):
                 return
             ingredient['ciqual_ingredient'] = ciqual_ingredient
 
-            # Constrain water loss to be no more than 50%
+            # Constrain water loss. If ingredient is 20% water then
+            # raw ingredient - lost water must be greater than 80
+            # ingredient - water_loss >= ingredient * (100 - water_ratio) / 100
+            # ingredient - water_loss >= ingredient - ingredient * water ratio / 100
+            # ingredient * water ratio / 100 - water_loss >= 0
+            ingredient['lost_water'] = solver.NumVar(0.0, solver.infinity(), off_ingredient['id'] + ' lost water')
+            water_ratio = parse_value(ciqual_ingredient['Water (g/100g)'])
+
             water_loss_ratio_constraint = solver.Constraint(0, solver.infinity(), off_ingredient['id'] + ' water looss ratio')
-            water_loss_ratio_constraint.SetCoefficient(ingredient['numvar'], 1.0)
+            water_loss_ratio_constraint.SetCoefficient(ingredient['numvar'], 0.01 * water_ratio)
             water_loss_ratio_constraint.SetCoefficient(ingredient['lost_water'], -1.0)
 
+            total_ingredients.SetCoefficient(ingredient['numvar'], 1)
+            total_ingredients.SetCoefficient(ingredient['lost_water'], -1.0)
 
             ingredient['nutrients'] = {}
 
@@ -111,14 +107,9 @@ def setup_ingredients(off_ingredients,nutrients,solver):
                     nutrients[nutrient_key]['valid'] = False
                     continue
 
-                nutrient_value = float(ciqual_nutrient.replace(',','.').replace('<','').replace('traces','0'))
+                nutrient_value = parse_value(ciqual_nutrient)
                 nutrients[nutrient_key]['parts'] = max(nutrient_value, nutrients[nutrient_key]['parts'])
                 ingredient['nutrients'][nutrient_key] = nutrient_value
-
-        # TODO: Account for evaporation
-        # TODO: Should be a more elegant way of doint this so that we get a variable for the level of evaporation
-        # water_content = float(ciqual_ingredient.get('Water (g/100g)','0').replace(',','.').replace('<','').replace('traces','0'))
-        # Ingredient n - Ingredient (n+1) >= 0
 
     return ingredients
 
@@ -135,7 +126,10 @@ def add_nutrient_distance(ingredients, nutrient_key, positive_constraint, negati
 
 def print_recipe(ingredients, indent = ''):
     for ingredient in ingredients:
-        print(indent, '-', ingredient['text'], ingredient['numvar'].solution_value(), '(', ingredient['lost_water'].solution_value(), ')')
+        lost_water = ingredient.get('lost_water', '')
+        if lost_water:
+            lost_water = '(' + str(lost_water.solution_value()) + ')'
+        print(indent, '-', ingredient['text'], ingredient['numvar'].solution_value(), lost_water)
         if 'ingredients' in ingredient:
             print_recipe(ingredient['ingredients'], indent + ' ')
 
@@ -176,16 +170,11 @@ def EstimateRecipe(query):
             }
     #print(nutrients)
 
-    # TODO: Cope with hierarchies
-    ingredients = setup_ingredients(off_ingredients, nutrients, solver)
-    if ingredients is None:
-        return
-
     # Total of top level ingredients must add up to at least 100 (allow more than 100 to account for loss of water in processing)
     total_ingredients = solver.Constraint(100 - precision, 100 + precision, 'sum')
-    for ingredient in ingredients:
-        total_ingredients.SetCoefficient(ingredient['numvar'], 1)
-        total_ingredients.SetCoefficient(ingredient['lost_water'], -1.0)
+    ingredients = setup_ingredients(off_ingredients, nutrients, solver, total_ingredients)
+    if ingredients is None:
+        return
 
     objective = solver.Objective()
     for nutrient_key in nutrients:
