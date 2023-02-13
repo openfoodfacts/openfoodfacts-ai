@@ -25,18 +25,130 @@ with open(filename, newline='', encoding='utf8') as csvfile:
         if (row['ciqual_id']):
             nutrient_map[row['off_id']] = row
 
+precision = 0.01
 #print(nutrient_map['pantothenic-acid'])
 #print(len(nutrient_map))
+
+def setup_ingredients(off_ingredients,nutrients,solver):
+    ingredients = []
+    
+    for i,off_ingredient in enumerate(off_ingredients):
+        ingredient = {}
+        ingredients.append(ingredient)
+        ingredient['text'] = off_ingredient['text']
+        ingredient['numvar'] = solver.NumVar(0.0, solver.infinity(), off_ingredient['id'])
+        ingredient['lost_water'] = solver.NumVar(0.0, solver.infinity(), off_ingredient['id'] + ' lost water')
+        if (i > 0):
+            # Ingredient should be smaller than the one preceding it
+            # i.e. (ingredient n-1) - (ingredient n) >= 0
+            relative_constraint = solver.Constraint(0, solver.infinity(), off_ingredient['id'] + ' relative percent')
+            relative_constraint.SetCoefficient(ingredients[i - 1]['numvar'], 1.0)
+            relative_constraint.SetCoefficient(ingredient['numvar'], -1.0)
+            ingredient['relative_constraint'] = relative_constraint
+        
+        if ('ingredients' in off_ingredient):
+            # Child ingredients
+            child_ingredients = setup_ingredients(off_ingredient['ingredients'], nutrients, solver)
+            if (child_ingredients is None):
+                return
+
+            ingredient['ingredients'] = child_ingredients
+            # Parent percent - (sum child percent) = 0 (+/- precision)
+            parent_constraint = solver.Constraint(-precision, precision, off_ingredient['id'] + ' parent percent')
+            ingredient['parent_constraint'] = parent_constraint
+            parent_constraint.SetCoefficient(ingredient['numvar'], 1.0)
+
+            parent_water_constraint = solver.Constraint(-precision, precision, off_ingredient['id'] + ' parent water percent')
+            ingredient['parent_water_constraint'] = parent_water_constraint
+            parent_water_constraint.SetCoefficient(ingredient['lost_water'], 1.0)
+
+            for child_ingredient in child_ingredients:
+                parent_constraint.SetCoefficient(child_ingredient['numvar'], -1.0)
+                # Evaporation...
+                # Product starts with 50g milk, 50g flour
+                # In processing 40% of milk evaporates so total weight is now 80g
+                # So for 100g of finished product we need 62.5g milk and 62.5g flour
+                # Hence when looking at total composition sum ingredients - evaporation = 100%
+                # Or Parent + evaporation - sum ingredients = 0
+                parent_constraint.SetCoefficient(child_ingredient['lost_water'], 1.0)
+
+                # Also lost water on parent is a simple sum of the children
+                # i.e. parent lost water - child lost water = 0
+                parent_water_constraint.SetCoefficient(child_ingredient['lost_water'], -1.0)
+        else:
+            ciqual_code = off_ingredient.get('ciqual_food_code', None)
+            if (ciqual_code is None):
+                print('Error: ' + off_ingredient['text'] + ' has no ciqual_food_code')
+                return
+            ingredient['ciqual_code'] = ciqual_code
+            ciqual_ingredient = ciqual_ingredients.get(ciqual_code, None)
+            if (ciqual_ingredient is None):
+                print('Error: ' + off_ingredient['text'] + ' has unknown ciqual_food_code: ' + ciqual_code)
+                return
+            ingredient['ciqual_ingredient'] = ciqual_ingredient
+
+            # Constrain water loss to be no more than 50%
+            water_loss_ratio_constraint = solver.Constraint(0, solver.infinity(), off_ingredient['id'] + ' water looss ratio')
+            water_loss_ratio_constraint.SetCoefficient(ingredient['numvar'], 1.0)
+            water_loss_ratio_constraint.SetCoefficient(ingredient['lost_water'], -1.0)
+
+
+            ingredient['nutrients'] = {}
+
+            # Eliminate any nutrients where the ingredient has an unknown or missing value
+            for nutrient_key in nutrients:
+                if (not nutrients[nutrient_key]['valid']):
+                    continue
+
+                ciqual_nutrient = ciqual_ingredient.get(nutrient_key,None)
+                if ciqual_nutrient is None:
+                    print('Skippping ' + nutrient_key + ' as no value for ' + ingredient['text'] + ' (' + ciqual_code + ')')
+                    nutrients[nutrient_key]['valid'] = False
+                    continue
+
+                if ciqual_nutrient == '-':
+                    print('Skippping ' + nutrient_key + ' as unknown (-) value for ' + ingredient['text'] + ' (' + ciqual_code + ')')
+                    nutrients[nutrient_key]['valid'] = False
+                    continue
+
+                nutrient_value = float(ciqual_nutrient.replace(',','.').replace('<','').replace('traces','0'))
+                nutrients[nutrient_key]['parts'] = max(nutrient_value, nutrients[nutrient_key]['parts'])
+                ingredient['nutrients'][nutrient_key] = nutrient_value
+
+        # TODO: Account for evaporation
+        # TODO: Should be a more elegant way of doint this so that we get a variable for the level of evaporation
+        # water_content = float(ciqual_ingredient.get('Water (g/100g)','0').replace(',','.').replace('<','').replace('traces','0'))
+        # Ingredient n - Ingredient (n+1) >= 0
+
+    return ingredients
+
+def add_nutrient_distance(ingredients, nutrient_key, positive_constraint, negative_constraint, weighting):
+    for ingredient in ingredients:
+        if 'ingredients' in ingredient:
+            add_nutrient_distance(ingredient['ingredients'], nutrient_key, positive_constraint, negative_constraint, weighting)
+        else:
+            # TODO: Figure out whether to do anything special with < ...
+            ingredient_nutrient =  ingredient['nutrients'][nutrient_key]
+            print(' - ' + ingredient['text'] + ' (' + ingredient['ciqual_code'] + ') : ' + str(ingredient_nutrient))
+            negative_constraint.SetCoefficient(ingredient['numvar'], -weighting * ingredient_nutrient / 100)
+            positive_constraint.SetCoefficient(ingredient['numvar'], weighting * ingredient_nutrient / 100)
+
+def print_recipe(ingredients, indent = ''):
+    for ingredient in ingredients:
+        print(indent, '-', ingredient['text'], ingredient['numvar'].solution_value(), '(', ingredient['lost_water'].solution_value(), ')')
+        if 'ingredients' in ingredient:
+            print_recipe(ingredient['ingredients'], indent + ' ')
+
 
 def EstimateRecipe(query):
     product = products.find_one(query)
 
-    product_ingredients = product['ingredients']
-    product_off_nutrients = product['nutriments']
+    off_ingredients = product['ingredients']
+    off_nutrients = product['nutriments']
     print(product['product_name'])
     #print(product_ingredients)
     print(product['ingredients_text'])
-    print(product_off_nutrients)
+    #print(off_nutrients)
 
     """Linear programming sample."""
     # Instantiate a Glop solver, naming it LinearExample.
@@ -44,99 +156,74 @@ def EstimateRecipe(query):
     if not solver:
         return
 
-    product_nutrients = {}
-    for off_nutrient_key in product_off_nutrients:
+    nutrients = {}
+    for off_nutrient_key in off_nutrients:
         if off_nutrient_key in nutrient_map:
             ciqual_nutrient = nutrient_map[off_nutrient_key]
             ciqual_unit = ciqual_nutrient['ciqual_unit']
+            # Normalise units. OFF units are generally g so need to convert to the
+            # Ciqual unit for comparison
             factor = 1.0
             if ciqual_unit == 'mg':
                 factor = 1000.0
             elif ciqual_unit == 'µg':
                 factor = 1000000.0
-            product_nutrients[ciqual_nutrient['ciqual_id']] = {'off': product_off_nutrients[off_nutrient_key] * factor, 'ciqual' : 0.0}
-    print(product_nutrients)
+            nutrients[ciqual_nutrient['ciqual_id']] = {
+                'total': float(off_nutrients[off_nutrient_key]) * factor, 
+                'parts': 0.0, 
+                'weighting' : float(ciqual_nutrient.get('weighting',1) or 1), 
+                'valid' : True
+            }
+    #print(nutrients)
 
     # TODO: Cope with hierarchies
-    ingredient_percentages = [solver.NumVar(0.0, solver.infinity(), ingredient['id']) for ingredient in product_ingredients]
-    
-    # This doesn't work
-    #known = solver.Constraint(95.97,96.03,'known')
-    #known.SetCoefficient(ingredient_percentages[0],1)
-    
-    # Add constraints so each ingredient can never be bigger than the one preceding it
-    for i,ingredient in enumerate(product_ingredients[1:]):
-        # Ingredient n - Ingredient (n+1) >= 0
-        # But if ingredient n+1 contains water then it could be dried
-        # TODO: Should be a more elegant way of doint this so that we get a variable for the level of evaporation
-        ciqual_ingredient = ciqual_ingredients[ingredient['ciqual_food_code']]
-        # TODO: Put quantity parsing in a function
-        water_content = float(ciqual_ingredient.get('Water (g/100g)','0').replace(',','.').replace('<','').replace('traces','0'))
-        limit = solver.Constraint(0,solver.infinity(), ingredient['id'])
-        limit.SetCoefficient(ingredient_percentages[i], 1)
-        limit.SetCoefficient(ingredient_percentages[i+1], -0.01 * (100 - water_content))
-    
-    # And total of ingredients must add up to at least 100 (allow more than 100 to account for loss of water in processing)
-    total_ingredients = solver.Constraint(100,solver.infinity(), 'sum')
-    for ingredient_percentage in ingredient_percentages:
-        total_ingredients.SetCoefficient(ingredient_percentage, 1)
+    ingredients = setup_ingredients(off_ingredients, nutrients, solver)
+    if ingredients is None:
+        return
 
-    """
-    # Min / max approach. Doesn't seem to work for real example    
-    # Create the constraints for the sum of nutrients from each ingredient
-    for i, nutrient in enumerate(product_nutrients):
-        nutrient_sum = solver.Constraint(product_nutrients[nutrient] * (1 - tolerance),product_nutrients[nutrient] * (1 + tolerance), nutrient)
-        for j, ingredient in enumerate(product_ingredients):
-            ciqual_ingredient = ciqual_ingredients[ingredient['id']]
-            nutrient_sum.SetCoefficient(ingredient_percentages[j], ciqual_ingredient[nutrient] / 100)
+    # Total of top level ingredients must add up to at least 100 (allow more than 100 to account for loss of water in processing)
+    total_ingredients = solver.Constraint(100 - precision, 100 + precision, 'sum')
+    for ingredient in ingredients:
+        total_ingredients.SetCoefficient(ingredient['numvar'], 1)
+        total_ingredients.SetCoefficient(ingredient['lost_water'], -1.0)
 
     objective = solver.Objective()
-    objective.SetCoefficient(ingredient_percentages[0], 1)
-    objective.SetMaximization()
-    """
+    for nutrient_key in nutrients:
+        nutrient = nutrients[nutrient_key]
+        if not nutrient['valid']:
+            continue
+        if nutrient['total'] == 0 and nutrient['parts'] == 0:
+            print('Skippping ' + nutrient_key + ' as product and all ingredients have zero value')
+            continue
 
-    objective = solver.Objective()
-    for nutrient in product_nutrients:
-        ingredient_nutrient_sum = 0
-        for j, ingredient in enumerate(product_ingredients):
-            # TODO: Ingredients with no ciqual code
-            # TODO: Ciqual code not found
-            ciqual_ingredient = ciqual_ingredients[ingredient['ciqual_food_code']]
-            ciqual_nutrient = ciqual_ingredient[nutrient]
-            if ciqual_nutrient == '-':
-                print('Skippping ' + nutrient + ' as no known value for ' + ingredient['text'] + ' (' + ingredient['ciqual_food_code'] + ')')
-                break
-            # TODO: Figure out whether to do anything special with < ...
-            ciqual_nutrient_value = float(ciqual_nutrient.replace(',','.').replace('<','').replace('traces','0'))
-            ingredient['ciqual_nutrient_value'] = ciqual_nutrient_value
-            ingredient_nutrient_sum += ciqual_nutrient_value
+        # We want to minimise the absolute difference between the sum of the ingredient nutients and the total nutrients
+        # i.e. minimize(abs(sum(Ni) - Ntot))
+        # However we can't do absolute as it isn't linear
+        # We get around this by also adding constraints
+        # sum(Ni) - Ntot - Ndist >= 0
+        # sum(Ni) - Ntot - Ndist <= 0
+        # or
+        # sum(Ni) - Ndist >= Ntot 
+        # sum(Ni) - Ndist <= Ntot
+
+        nutrient_distance = solver.NumVar(0, solver.infinity(), nutrient_key)
+        nutrient_total = nutrient['total']
+        weighting = nutrient['weighting']
+        if nutrient_total > 0:
+            weighting = 1 / nutrient_total
         else:
-            print(nutrient + ':')
-            # This should only happen if the above loop completed without a break
-            total_nutrient = product_nutrients[nutrient]['off']
-            if total_nutrient == 0:
-                # Use average from ingredients for weighting if nothing declared
-                total_nutrient = ingredient_nutrient_sum / len(product_ingredients)
-            if total_nutrient == 0:
-                 # If still zero then no point proceeding with nutrient
-                print('Skippping ' + nutrient + ' as all ingredints are zero')
-                continue
+            weighting = 1 / nutrient['parts']
 
-            # TODO: Consider using expected accuracy of each nutrient for weighting
-            nutrient_weighting = 1 / total_nutrient
-            nutrient_distance = solver.NumVar(0, solver.infinity(), nutrient)
+        nutrient_distance = solver.NumVar(0, solver.infinity(), nutrient_key)
 
-            negative_constraint = solver.Constraint(-nutrient_weighting * total_nutrient,solver.infinity())
-            negative_constraint.SetCoefficient(nutrient_distance, 1)
-            positive_constraint = solver.Constraint(nutrient_weighting * total_nutrient, solver.infinity())
-            positive_constraint.SetCoefficient(nutrient_distance, 1)
-            for j, ingredient in enumerate(product_ingredients):
-                ciqual_nutrient_value = ingredient['ciqual_nutrient_value']
-                print(' - ' + ingredient['text'] + ' (' + ingredient['ciqual_food_code'] + ') : ' + str(ciqual_nutrient_value))
-                negative_constraint.SetCoefficient(ingredient_percentages[j], -nutrient_weighting * ciqual_nutrient_value / 100)
-                positive_constraint.SetCoefficient(ingredient_percentages[j], nutrient_weighting * ciqual_nutrient_value / 100)
+        negative_constraint = solver.Constraint(-weighting * nutrient_total,solver.infinity())
+        negative_constraint.SetCoefficient(nutrient_distance, 1)
+        positive_constraint = solver.Constraint(weighting * nutrient_total, solver.infinity())
+        positive_constraint.SetCoefficient(nutrient_distance, 1)
+        print(nutrient_key, nutrient_total, weighting)
+        add_nutrient_distance(ingredients, nutrient_key, positive_constraint, negative_constraint, weighting)
 
-            objective.SetCoefficient(nutrient_distance, 1)
+        objective.SetCoefficient(nutrient_distance, 1)
 
     objective.SetMinimization()
 
@@ -153,9 +240,11 @@ def EstimateRecipe(query):
             print('The solver could not solve the problem.')
             exit(1)
 
-    for i, ingredient_percentage in enumerate(ingredient_percentages):
-        print(ingredient_percentage.name(), ingredient_percentage.solution_value())
+    print_recipe(ingredients)
 
     # TODO: Print calculated nutrients
 
-EstimateRecipe({"ingredients_without_ciqual_codes_n": 0,"ingredients_n":{"$gt": 4}})
+#EstimateRecipe({"ingredients_without_ciqual_codes_n": 0,"ingredients_n":{"$gt": 4}})
+# Sample with nested ingredients: 
+EstimateRecipe({"_id": "0019962035357"})
+
