@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from ortools.linear_solver import pywraplp
 import csv
 import os
+import sys
 
 # Connect to local Mongo DB
 products = MongoClient(host="localhost", port=27017,).off.products
@@ -40,6 +41,7 @@ def setup_ingredients(off_ingredients,nutrients,solver,total_ingredients):
         ingredients.append(ingredient)
         ingredient['text'] = off_ingredient['text']
         ingredient['numvar'] = solver.NumVar(0.0, solver.infinity(), off_ingredient['id'])
+        # TODO: Known percentage or stated range
         if (i > 0):
             # Ingredient should be smaller than the one preceding it
             # i.e. (ingredient n-1) - (ingredient n) >= 0
@@ -121,8 +123,8 @@ def add_nutrient_distance(ingredients, nutrient_key, positive_constraint, negati
             # TODO: Figure out whether to do anything special with < ...
             ingredient_nutrient =  ingredient['nutrients'][nutrient_key]
             print(' - ' + ingredient['text'] + ' (' + ingredient['ciqual_code'] + ') : ' + str(ingredient_nutrient))
-            negative_constraint.SetCoefficient(ingredient['numvar'], -weighting * ingredient_nutrient / 100)
-            positive_constraint.SetCoefficient(ingredient['numvar'], weighting * ingredient_nutrient / 100)
+            negative_constraint.SetCoefficient(ingredient['numvar'], -weighting * ingredient_nutrient)
+            positive_constraint.SetCoefficient(ingredient['numvar'], weighting * ingredient_nutrient)
 
 def print_recipe(ingredients, indent = ''):
     for ingredient in ingredients:
@@ -134,9 +136,7 @@ def print_recipe(ingredients, indent = ''):
             print_recipe(ingredient['ingredients'], indent + ' ')
 
 
-def EstimateRecipe(query):
-    product = products.find_one(query)
-
+def estimate_recipe(product):
     off_ingredients = product['ingredients']
     off_nutrients = product['nutriments']
     print(product['product_name'])
@@ -198,17 +198,19 @@ def EstimateRecipe(query):
         nutrient_distance = solver.NumVar(0, solver.infinity(), nutrient_key)
         nutrient_total = nutrient['total']
         weighting = nutrient['weighting']
-        if nutrient_total > 0:
-            weighting = 1 / nutrient_total
-        else:
-            weighting = 1 / nutrient['parts']
+        #if nutrient_total > 0:
+        #    weighting = 1 / nutrient_total
+        #else:
+        #    weighting = 1 / nutrient['parts']
 
         nutrient_distance = solver.NumVar(0, solver.infinity(), nutrient_key)
 
+        # not sure this is right as if one ingredient is way over and another is way under
+        # then will give a good result
         negative_constraint = solver.Constraint(-weighting * nutrient_total,solver.infinity())
-        negative_constraint.SetCoefficient(nutrient_distance, 1)
+        negative_constraint.SetCoefficient(nutrient_distance, weighting)
         positive_constraint = solver.Constraint(weighting * nutrient_total, solver.infinity())
-        positive_constraint.SetCoefficient(nutrient_distance, 1)
+        positive_constraint.SetCoefficient(nutrient_distance, weighting)
         print(nutrient_key, nutrient_total, weighting)
         add_nutrient_distance(ingredients, nutrient_key, positive_constraint, negative_constraint, weighting)
 
@@ -233,7 +235,15 @@ def EstimateRecipe(query):
 
     # TODO: Print calculated nutrients
 
-#EstimateRecipe({"ingredients_without_ciqual_codes_n": 0,"ingredients_n":{"$gt": 4}})
-# Sample with nested ingredients: 
-EstimateRecipe({"_id": "0019962035357"})
+
+#query = {"ingredients_without_ciqual_codes_n": 0,"ingredients_n":{"$gt": 4}}
+#query = {"_id": "0019962035357"}
+# TODO: 0080948630439 looks odd
+# TODO: Can't solve 0041268190638, 0677294998018, 0677294998025
+# TODO: 0776455940115 doesn't show water loss
+# TODO: 24005968 has lots of ingredient percentages but can't solve
+
+query = {"_id": sys.argv[1]}
+product = products.find_one(query)
+estimate_recipe(product)
 
