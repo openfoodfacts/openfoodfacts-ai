@@ -7,5 +7,5 @@ tensorboard==1.12.2
 overrides
 configparser
 Pillow==6.2.0
-selenium==3.141.0
+selenium==4.8.2
 six==1.12.0
