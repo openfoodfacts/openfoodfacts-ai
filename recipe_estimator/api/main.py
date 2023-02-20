@@ -1,7 +1,8 @@
-import csv
-import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from ciqual import ciqual_ingredients
+from product import get_product
+from minimize_nutrient_distance import estimate_recipe
 
 app = FastAPI()
 
@@ -17,13 +18,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-ciqual_ingredients = []
-filename = os.path.join(os.path.dirname(__file__), 'Ciqual.csv.0')
-with open(filename, newline='', encoding='utf8') as csvfile:
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        ciqual_ingredients.append(row)
-
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
@@ -31,3 +25,14 @@ async def root():
 @app.get("/ciqual")
 async def ciqual():
     return ciqual_ingredients
+
+@app.get("/product/{id}")
+async def product(id):
+    product = get_product(id)
+    return product
+
+@app.get("/recipe/{id}")
+async def recipe(id):
+    product = get_product(id)
+    estimate_recipe(product)
+    return product

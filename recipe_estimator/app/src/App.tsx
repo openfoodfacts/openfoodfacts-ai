@@ -1,47 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import { Table, TableHead, TableRow, TextField, TableBody, TableCell } from '@mui/material';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  const [error, setError] = useState<any>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState<any[]>([]);
+  const [product, setProduct] = useState<any>({});
 
-  // Note: the empty deps array [] means
-  // this useEffect will run once
-  // similar to componentDidMount()
-  useEffect(() => {
-    fetch("http://localhost:8000/ciqual")
+  function getProduct(event: React.ChangeEvent<HTMLInputElement>) {
+    const id = event.currentTarget.value;
+    fetch(`http://localhost:8000/product/${id}`)
       .then(res => res.json())
       .then(
         (result) => {
-          setIsLoaded(true);
-          setItems(result);
+          setProduct(result);
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
+        () => {
+          setProduct({});
         }
       )
-  }, [])
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
-  } else {
-    return (
-      <ul>
-        {items.map(item => (
-          <li key={item.alim_nom_eng}>
-            {item.alim_nom_eng}
-          </li>
-        ))}
-      </ul>
-    );
   }
+  return (
+    <div>
+      <TextField onChange={getProduct} />
+      {product.ingredients &&
+        <div>
+          <div>{product.name}</div>
+          <div>{product.ingredients_text}</div>
+            <Table size='small'>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Ingredient</TableCell>
+                  {Object.keys(product.nutrients).map((nutrient: string) => (
+                    <TableCell>{nutrient}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {product.ingredients.map((ingredient: any)=>(
+                  <TableRow>
+                    <TableCell>{ingredient.text}</TableCell>
+                    {Object.keys(product.nutrients).map((nutrient: string) => (
+                      <TableCell>{ingredient.nutrients?.[nutrient]}</TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+        </div>
+      }
+    </div>
+  );
 }
 
 export default App;
