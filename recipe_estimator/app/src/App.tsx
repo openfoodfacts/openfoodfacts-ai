@@ -1,5 +1,5 @@
-import { Table, TableHead, TableRow, TextField, TableBody, TableCell, Typography, Input } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { Table, TableHead, TableRow, TextField, TableBody, TableCell, Typography} from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import './App.css';
@@ -96,9 +96,9 @@ function App() {
                   </TableRow>
                 ))}
                   <TableRow className='total'>
-                    <TableCell colSpan={2}><Typography>Ingredients total</Typography></TableCell>
+                    <TableCell colSpan={2}><Typography>Ingredients totals</Typography></TableCell>
                     <TableCell><Typography>
-                      {round(product.ingredients.reduce((total: number,ingredient: any) => total + (ingredient.ingredients ? 0 : ingredient.proportion), 0))}
+                      {round(product.ingredients.reduce((total: number,ingredient: any) => total + (ingredient.ingredients ? 0 : ingredient.proportion), 0))} %
                     </Typography></TableCell>
                     {Object.keys(product.nutrients).map((nutrient_key: string) => (
                       <TableCell key={nutrient_key}>
@@ -107,7 +107,7 @@ function App() {
                     ))}
                   </TableRow>
                   <TableRow>
-                    <TableCell colSpan={3}><Typography>Product total</Typography></TableCell>
+                    <TableCell colSpan={3}><Typography>Quoted product nutrients</Typography></TableCell>
                     {Object.keys(product.nutrients).map((nutrient_key: string) => (
                       <TableCell key={nutrient_key}>
                         <Typography variant="body1">{round(product.nutrients[nutrient_key].total)}</Typography>
