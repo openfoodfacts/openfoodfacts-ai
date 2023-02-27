@@ -35,6 +35,7 @@ def setup_ingredients(off_ingredients, nutrients, indent):
             if (ciqual_ingredient is None):
                 print('Error: ' + off_ingredient['text'] + ' has unknown ciqual_food_code: ' + ciqual_code)
                 return
+            ingredient['ciqual_name'] = ciqual_ingredient['alim_nom_eng']
             ingredient['water_content'] = parse_value(ciqual_ingredient['Water (g/100g)'])
 
             ingredient['nutrients'] = {}
@@ -113,6 +114,14 @@ def get_product(id):
         if nutrient['total'] == 0 and nutrient['parts'] == 0:
             nutrient['valid'] = False
             nutrient['error'] = 'Product and all ingredients have zero value'
+        else:
+            # Weighting based on size of ingredient, i.e. percentage based
+            # Comment out this code to use weighting specified in nutrient_map.csv
+            if nutrient['total'] > 0:
+                nutrient['weighting'] = 1 / nutrient['total']
+            else:
+                nutrient['weighting'] = 1 / nutrient['parts']
+
 
     # Favor Sodium over salt if both are present
     if nutrients.get('Sodium (mg/100g)',{}).get('valid', False) and nutrients.get('Salt (g/100g)', {}).get('valid', False):

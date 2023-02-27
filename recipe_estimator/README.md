@@ -1,3 +1,7 @@
+# Prepare database
+
+This requires CIQUAL codes to be set on products. To do this you need to checkout issue/7918 of openfoodfacts-server and run he update_all_products script with the assign_ciqual_codes option.
+
 # Install dependencies
 
 This project runs using Python3.

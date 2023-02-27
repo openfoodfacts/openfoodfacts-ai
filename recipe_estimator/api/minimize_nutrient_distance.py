@@ -115,11 +115,7 @@ def estimate_recipe(product):
 
         nutrient_total = nutrient['total']
         weighting = nutrient['weighting']
-        #if nutrient_total > 0:
-        #    weighting = 1 / nutrient_total
-        #else:
-        #    weighting = 1 / nutrient['parts']
-        weighting = 1
+        #weighting = 1
 
         nutrient_distance = solver.NumVar(0, solver.infinity(), nutrient_key)
 
@@ -136,11 +132,16 @@ def estimate_recipe(product):
 
     objective.SetMinimization()
 
+    # Have had to keep increasing this until we get a solution for a good set of products
+    # Not sure what the correct approach is here
+    solver.SetSolverSpecificParametersAsString("solution_feasibility_tolerance:1e5")
+
+    # Following may be an alternative (haven't tried yet)
     #solver_parameters = pywraplp.MPSolverParameters()
     #solver_parameters.SetDoubleParam(pywraplp.MPSolverParameters.PRIMAL_TOLERANCE, 0.001)
     #status = solver.Solve(solver_parameters)
-    solver.SetSolverSpecificParametersAsString("solution_feasibility_tolerance:1e5")
-    solver.EnableOutput()
+    
+    #solver.EnableOutput()
 
     status = solver.Solve()
 

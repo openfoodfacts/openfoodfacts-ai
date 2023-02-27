@@ -76,7 +76,10 @@ function App() {
                 {product.ingredients.map((ingredient: any, index: number)=>(
                   <TableRow key={index}>
                     <TableCell><Typography sx={{paddingLeft: (ingredient.depth)}}>{ingredient.text}</Typography></TableCell>
-                    <TableCell><Typography>{ingredient.ciqual_code}</Typography></TableCell>
+                    <TableCell>
+                      <Typography variant='caption'>{ingredient.ciqual_name}</Typography>
+                      <Typography>{ingredient.ciqual_code}</Typography>
+                    </TableCell>
                     <TableCell>{!ingredient.ingredients &&
                       <TextField type="number" size='small' value={ingredient.proportion} onChange={(e) => {ingredient.proportion = parseFloat(e.target.value);setProduct({...product});}}/>
                     }
@@ -111,7 +114,7 @@ function App() {
                       </TableCell>
                     ))}
                   </TableRow>
-                  <TableRow>
+                  <TableRow className='total'>
                     <TableCell colSpan={2}><Typography>Variance</Typography></TableCell>
                     <TableCell><Typography>{round(Object.keys(product.nutrients).reduce((total: number,nutrient_key: any) => 
                       total + (product.nutrients[nutrient_key].valid 
