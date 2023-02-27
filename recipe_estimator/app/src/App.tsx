@@ -12,6 +12,7 @@ function App() {
     function flattenIngredients(flatIngredients: any[], ingredients: any[], depth: number) {
       for (const ingredient of ingredients) {
         ingredient.depth = depth;
+        ingredient.proportion = round(ingredient.proportion);
         flatIngredients.push(ingredient);
         if (ingredient.ingredients) {
           flattenIngredients(flatIngredients, ingredient.ingredients, depth + 1);
@@ -26,6 +27,7 @@ function App() {
             const flatIngredients: any[] = [];
             flattenIngredients(flatIngredients, result.ingredients, 0);
             result.ingredients = flatIngredients;
+            document.title = id + ' - ' + result.name;
             setProduct(result);
           },
           () => {
@@ -58,22 +60,26 @@ function App() {
           <div>{product.ingredients_text}</div>
             <Table size='small'>
               <TableHead>
-                <TableRow>
-                <TableCell>Ingredient</TableCell>
-                <TableCell>CIQUAL Code</TableCell>
-                <TableCell>Proportion</TableCell>
+                <TableRow className='total'>
+                  <TableCell><Typography>Ingredient</Typography></TableCell>
+                  <TableCell><Typography>CIQUAL Code</Typography></TableCell>
+                  <TableCell><Typography>Proportion</Typography></TableCell>
                   {Object.keys(product.nutrients).map((nutrient: string) => (
-                    <TableCell key={nutrient}>{nutrient}</TableCell>
+                    <TableCell key={nutrient}>
+                      <Typography>{nutrient}</Typography>
+                      <Typography variant="caption">{round(product.nutrients[nutrient].weighting)}</Typography>
+                    </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {product.ingredients.map((ingredient: any, index: number)=>(
                   <TableRow key={index}>
-                    <TableCell>{'\u00A0'.repeat(ingredient.depth) + ingredient.text}</TableCell>
-                    <TableCell>{ingredient.ciqual_code}</TableCell>
-                    <TableCell>
-                      <TextField value={round(ingredient.proportion)} onChange={(e) => ingredient.proportion = e.target.value}/>
+                    <TableCell><Typography sx={{paddingLeft: (ingredient.depth)}}>{ingredient.text}</Typography></TableCell>
+                    <TableCell><Typography>{ingredient.ciqual_code}</Typography></TableCell>
+                    <TableCell>{!ingredient.ingredients &&
+                      <TextField type="number" size='small' value={ingredient.proportion} onChange={(e) => {ingredient.proportion = parseFloat(e.target.value);setProduct({...product});}}/>
+                    }
                     </TableCell>
                     {Object.keys(product.nutrients).map((nutrient: string) => (
                       <TableCell key={nutrient}>{!ingredient.ingredients &&
@@ -86,8 +92,11 @@ function App() {
                     ))}
                   </TableRow>
                 ))}
-                  <TableRow>
-                    <TableCell colSpan={3}>Ingredients total</TableCell>
+                  <TableRow className='total'>
+                    <TableCell colSpan={2}><Typography>Ingredients total</Typography></TableCell>
+                    <TableCell><Typography>
+                      {round(product.ingredients.reduce((total: number,ingredient: any) => total + (ingredient.ingredients ? 0 : ingredient.proportion), 0))}
+                    </Typography></TableCell>
                     {Object.keys(product.nutrients).map((nutrient_key: string) => (
                       <TableCell key={nutrient_key}>
                         <Typography variant="body1">{round(getTotal(nutrient_key))}</Typography>
@@ -95,22 +104,29 @@ function App() {
                     ))}
                   </TableRow>
                   <TableRow>
-                    <TableCell colSpan={3}>Product total</TableCell>
+                    <TableCell colSpan={3}><Typography>Product total</Typography></TableCell>
                     {Object.keys(product.nutrients).map((nutrient_key: string) => (
                       <TableCell key={nutrient_key}>
-                        <Typography variant="caption">{round(product.nutrients[nutrient_key].weighting)}</Typography>
                         <Typography variant="body1">{round(product.nutrients[nutrient_key].total)}</Typography>
                       </TableCell>
                     ))}
                   </TableRow>
                   <TableRow>
-                    <TableCell colSpan={3}>Variance</TableCell>
+                    <TableCell colSpan={2}><Typography>Variance</Typography></TableCell>
+                    <TableCell><Typography>{round(Object.keys(product.nutrients).reduce((total: number,nutrient_key: any) => 
+                      total + (product.nutrients[nutrient_key].valid 
+                        ? product.nutrients[nutrient_key].weighting * Math.abs(getTotal(nutrient_key)- product.nutrients[nutrient_key].total) 
+                        : 0), 0))}
+                    </Typography></TableCell>
                     {Object.keys(product.nutrients).map((nutrient_key: string) => (
-                      <TableCell key={nutrient_key}>{product.nutrients[nutrient_key].valid &&
-                        <>
-                        <Typography variant="caption">{round(product.nutrients[nutrient_key].weighting * (getTotal(nutrient_key)- product.nutrients[nutrient_key].total))}</Typography>
-                        <Typography variant="body1">{round(getTotal(nutrient_key) - product.nutrients[nutrient_key].total)}</Typography>
-                        </>}
+                      <TableCell key={nutrient_key}>
+                        {product.nutrients[nutrient_key].valid 
+                          ? <>
+                            <Typography variant="caption">{round(getTotal(nutrient_key) - product.nutrients[nutrient_key].total)}</Typography>
+                            <Typography>{round(product.nutrients[nutrient_key].weighting * (getTotal(nutrient_key)- product.nutrients[nutrient_key].total))}</Typography>
+                            </>
+                          : <Typography variant="caption">{product.nutrients[nutrient_key].error}</Typography>
+                        }
                       </TableCell>
                     ))}
                   </TableRow>

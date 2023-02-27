@@ -16,7 +16,7 @@ def setup_ingredients(off_ingredients, nutrients, indent):
         ingredients.append(ingredient)
         ingredient['text'] = off_ingredient['text']
         ingredient['indent'] = indent
-        
+    
         if ('ingredients' in off_ingredient):
             # Child ingredients
             child_ingredients = setup_ingredients(off_ingredient['ingredients'], nutrients, indent + ' ')
@@ -24,6 +24,7 @@ def setup_ingredients(off_ingredients, nutrients, indent):
                 return
 
             ingredient['ingredients'] = child_ingredients
+            #ingredients = ingredients + child_ingredients
         else:
             ciqual_code = off_ingredient.get('ciqual_food_code', None)
             if (ciqual_code is None):
@@ -112,6 +113,11 @@ def get_product(id):
         if nutrient['total'] == 0 and nutrient['parts'] == 0:
             nutrient['valid'] = False
             nutrient['error'] = 'Product and all ingredients have zero value'
+
+    # Favor Sodium over salt if both are present
+    if nutrients.get('Sodium (mg/100g)',{}).get('valid', False) and nutrients.get('Salt (g/100g)', {}).get('valid', False):
+        nutrients['Salt (g/100g)']['valid'] = False
+        nutrients['Salt (g/100g)']['error'] = 'Prefer sodium where both present'
 
     return {'name': product['product_name'], 'ingredients_text': product['ingredients_text'], 'ingredients': ingredients, 'nutrients':nutrients}
 
