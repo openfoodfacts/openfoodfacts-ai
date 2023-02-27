@@ -80,9 +80,9 @@ def get_product(id):
 
     off_ingredients = product['ingredients']
     off_nutrients = product['nutriments']
-    print(product['product_name'])
+    #print(product['product_name'])
     #print(product_ingredients)
-    print(product['ingredients_text'])
+    #print(product['ingredients_text'])
     #print(off_nutrients)
 
     nutrients = {}

@@ -34,5 +34,6 @@ async def product(id):
 @app.get("/recipe/{id}")
 async def recipe(id):
     product = get_product(id)
-    estimate_recipe(product)
+    if ('ingredients' in product):
+        estimate_recipe(product)
     return product

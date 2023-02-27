@@ -1,11 +1,11 @@
 off_id,countprep,ciqual_id,ciqual_unit,weighting,comments
 energy,2086602,"Energy, Regulation EU No 1169/2011 (kJ/100g)",kj,0.1,
 proteins,2075645,Protein (g/100g),g,,
-carbohydrates,2073749,Carbohydrate (g/100g),g,0.2,
+carbohydrates,2073749,Carbohydrate (g/100g),g,1,
 fat,2073742,Fat (g/100g),g,,
 sugars,2057784,Sugars (g/100g),g,,
 saturated-fat,2031183,FA saturated (g/100g),g,,
-sodium,1865460,Sodium (mg/100g),mg,,
+sodium,1865460,Sodium (mg/100g),mg,0.1,
 fiber,867716,Fibres (g/100g),g,,
 calcium,275041,Calcium (mg/100g),mg,,
 cholesterol,271288,Cholesterol (mg/100g),mg,,

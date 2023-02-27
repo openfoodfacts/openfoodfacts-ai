@@ -61,12 +61,12 @@ def add_nutrient_distance(ingredient_numvars, nutrient_key, positive_constraint,
     for ingredient_numvar in ingredient_numvars:
         ingredient = ingredient_numvar['ingredient']
         if 'child_numvars' in ingredient_numvar:
-            print(ingredient['indent'] + ' - ' + ingredient['text'] + ':')
+            #print(ingredient['indent'] + ' - ' + ingredient['text'] + ':')
             add_nutrient_distance(ingredient_numvar['child_numvars'], nutrient_key, positive_constraint, negative_constraint, weighting)
         else:
             # TODO: Figure out whether to do anything special with < ...
             ingredient_nutrient =  ingredient['nutrients'][nutrient_key]
-            print(ingredient['indent'] + ' - ' + ingredient['text'] + ' (' + ingredient['ciqual_code'] + ') : ' + str(ingredient_nutrient))
+            #print(ingredient['indent'] + ' - ' + ingredient['text'] + ' (' + ingredient['ciqual_code'] + ') : ' + str(ingredient_nutrient))
             negative_constraint.SetCoefficient(ingredient_numvar['numvar'], -ingredient_nutrient / 100)
             positive_constraint.SetCoefficient(ingredient_numvar['numvar'], ingredient_nutrient / 100)
 
@@ -101,14 +101,13 @@ def estimate_recipe(product):
         # sum(Ni) - Ndist >= Ntot 
         # sum(Ni) - Ndist <= Ntot
 
-        nutrient_distance = solver.NumVar(0, solver.infinity(), nutrient_key)
         nutrient_total = nutrient['total']
         weighting = nutrient['weighting']
         #if nutrient_total > 0:
         #    weighting = 1 / nutrient_total
         #else:
         #    weighting = 1 / nutrient['parts']
-        weighting = 1
+        #weighting = 1
 
         nutrient_distance = solver.NumVar(0, 100, nutrient_key)
 
@@ -118,7 +117,7 @@ def estimate_recipe(product):
         negative_constraint.SetCoefficient(nutrient_distance, 1)
         positive_constraint = solver.Constraint(nutrient_total, solver.infinity())
         positive_constraint.SetCoefficient(nutrient_distance, 1)
-        print(nutrient_key, nutrient_total, weighting)
+        #print(nutrient_key, nutrient_total, weighting)
         add_nutrient_distance(ingredient_numvars, nutrient_key, positive_constraint, negative_constraint, weighting)
 
         objective.SetCoefficient(nutrient_distance, weighting)
