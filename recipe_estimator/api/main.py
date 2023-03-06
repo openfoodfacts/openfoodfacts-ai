@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import Body, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from ciqual import ciqual_ingredients
 from product import get_product
@@ -31,9 +31,8 @@ async def product(id):
     product = get_product(id)
     return product
 
-@app.get("/recipe/{id}")
-async def recipe(id):
-    product = get_product(id)
-    if ('ingredients' in product):
-        estimate_recipe(product)
+@app.post("/recipe")
+async def recipe(request: Request):
+    product = await request.json()
+    estimate_recipe(product)
     return product
