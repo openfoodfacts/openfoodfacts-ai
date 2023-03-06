@@ -1,9 +1,6 @@
 from ciqual import ciqual_ingredients, nutrient_map, ingredients_taxonomy
 import requests
 
-def parse_value(ciqual_nutrient):
-    return float(ciqual_nutrient.replace(',','.').replace('<','').replace('traces','0'))
-
 def get_ciqual_code(ingredient_id):
     ingredient = ingredients_taxonomy.get(ingredient_id, None)
     if ingredient is None:
@@ -24,18 +21,17 @@ def get_ciqual_code(ingredient_id):
 
     return None
 
-def setup_ingredients(off_ingredients, nutrients, indent):
+def setup_ingredients(off_ingredients):
     ingredients = []
     
     for off_ingredient in off_ingredients:
         ingredient = {}
         ingredients.append(ingredient)
         ingredient['text'] = off_ingredient['text']
-        ingredient['indent'] = indent
     
         if ('ingredients' in off_ingredient):
             # Child ingredients
-            child_ingredients = setup_ingredients(off_ingredient['ingredients'], nutrients, indent + ' ')
+            child_ingredients = setup_ingredients(off_ingredient['ingredients'])
             if (child_ingredients is None):
                 return
 
@@ -44,53 +40,63 @@ def setup_ingredients(off_ingredients, nutrients, indent):
         else:
             ciqual_code = get_ciqual_code(off_ingredient['id'])
             if (ciqual_code is None):
-                print('Error: ' + off_ingredient['id'] + ' has no ciqual_food_code')
-                return
+                print(off_ingredient['id'] + ' has no ciqual_food_code')
+                continue
 
-            print(ciqual_code)
-            ingredient['ciqual_code'] = ciqual_code
             ciqual_ingredient = ciqual_ingredients.get(ciqual_code, None)
             if (ciqual_ingredient is None):
-                print('Error: ' + off_ingredient['text'] + ' has unknown ciqual_food_code: ' + ciqual_code)
+                print(off_ingredient['id'] + ' has unknown ciqual_food_code: ' + ciqual_code)
+                continue
+
+            ingredient['ciqual_ingredient'] = ciqual_ingredient
+
+    return ingredients
+
+
+def prepare_ingredients(ingredients, nutrients):
+    count = 0
+    for ingredient in ingredients:
+        if ('ingredients' in ingredient):
+            # Child ingredients
+            count = count + prepare_ingredients(ingredient['ingredients'], nutrients)
+        else:
+            count = count + 1
+            ciqual_ingredient = ingredient.get('ciqual_ingredient', None)
+            if (ciqual_ingredient is None):
+                print('Error: ' + ingredient['text'] + ' has no ciqual ingredient')
                 return
 
-            ingredient['ciqual_name'] = ciqual_ingredient['alim_nom_eng']
-            ingredient['water_content'] = parse_value(ciqual_ingredient['Water (g/100g)'])
+            ingredient['water_content'] = ciqual_ingredient['Water (g/100g)']
 
             ingredient['nutrients'] = {}
 
             # Eliminate any nutrients where the ingredient has an unknown or missing value
             for nutrient_key in nutrients:
                 nutrinet = nutrients[nutrient_key]
-                if (not nutrinet['valid']):
+                if ('error' in nutrinet):
                     continue
 
-                ciqual_nutrient = ciqual_ingredient.get(nutrient_key,None)
-                if ciqual_nutrient is None:
-                    nutrinet['valid'] = False
-                    nutrinet['error'] = 'Some ingredients have no value'
+                nutrient_value = ciqual_ingredient.get(nutrient_key,None)
+                if nutrient_value is None:
+                    nutrinet['error'] = 'Some ingredients have unknown value'
                     continue
 
-                if ciqual_nutrient == '-':
-                    nutrinet['valid'] = False
-                    nutrinet['error'] = 'Some ingredients have unknown (-) value'
-                    continue
-
-                nutrient_value = parse_value(ciqual_nutrient)
-                nutrinet['parts'] = max(nutrient_value, nutrinet['parts'])
                 ingredient['nutrients'][nutrient_key] = nutrient_value
 
-    return ingredients
+                unweighted_total = nutrinet.get('unweighted_total',0)
+                nutrinet['unweighted_total'] = unweighted_total + nutrient_value
+
+    return count
 
 
-def print_recipe(ingredients):
+def print_recipe(ingredients, indent = ''):
     for ingredient in ingredients:
         lost_water = ingredient.get('evaporation', '')
         if type(lost_water) == float:
             lost_water = '(' + str(lost_water) + ')'
-        print(ingredient['indent'], '-', ingredient['text'], ingredient['proportion'], lost_water)
+        print(indent, '-', ingredient['text'], ingredient['proportion'], lost_water)
         if 'ingredients' in ingredient:
-            print_recipe(ingredient['ingredients'])
+            print_recipe(ingredient['ingredients'], indent + ' ')
 
 
 def get_product(id):
@@ -120,18 +126,22 @@ def get_product(id):
                 factor = 1000000.0
             nutrients[ciqual_nutrient['ciqual_id']] = {
                 'total': float(off_nutrients[off_nutrient_key]) * factor, 
-                'parts': 0.0, 
-                'weighting' : float(ciqual_nutrient.get('weighting',1) or 1), 
-                'valid' : True
+                'weighting' : float(ciqual_nutrient.get('weighting',1) or 1)
             }
     #print(nutrients)
+    ingredients = setup_ingredients(off_ingredients)
 
-    ingredients = setup_ingredients(off_ingredients, nutrients, '')
+    return {'name': product['product_name'], 'ingredients_text': product['ingredients_text'], 'ingredients': ingredients, 'nutrients':nutrients}
+
+
+def prepare_product(product):
+    ingredients = product['ingredients']
+    nutrients = product['nutrients']
+    count = prepare_ingredients(ingredients, nutrients)
 
     for nutrient_key in nutrients:
         nutrient = nutrients[nutrient_key]
-        if nutrient['total'] == 0 and nutrient['parts'] == 0:
-            nutrient['valid'] = False
+        if nutrient['total'] == 0 and nutrient['unweighted_total'] == 0:
             nutrient['error'] = 'Product and all ingredients have zero value'
         else:
             # Weighting based on size of ingredient, i.e. percentage based
@@ -139,13 +149,10 @@ def get_product(id):
             if nutrient['total'] > 0:
                 nutrient['weighting'] = 1 / nutrient['total']
             else:
-                nutrient['weighting'] = 1 / nutrient['parts']
-
+                nutrient['weighting'] = min(0.01, count / nutrient['unweighted_total']) # Weighting below 0.01 causes bad performance, although it isn't that simple as just multiplying all weights doesn't help
 
     # Favor Sodium over salt if both are present
-    if nutrients.get('Sodium (mg/100g)',{}).get('valid', False) and nutrients.get('Salt (g/100g)', {}).get('valid', False):
-        nutrients['Salt (g/100g)']['valid'] = False
+    if not 'error' in nutrients.get('Sodium (mg/100g)',{}) and not 'error' in nutrients.get('Salt (g/100g)', {}):
         nutrients['Salt (g/100g)']['error'] = 'Prefer sodium where both present'
 
-    return {'name': product['product_name'], 'ingredients_text': product['ingredients_text'], 'ingredients': ingredients, 'nutrients':nutrients}
 

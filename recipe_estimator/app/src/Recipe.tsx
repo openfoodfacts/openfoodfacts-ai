@@ -108,13 +108,13 @@ export default function Recipe({product}: RecipeProps) {
                   <TableRow className='total'>
                     <TableCell colSpan={2}><Typography>Variance</Typography></TableCell>
                     <TableCell><Typography>{round(Object.keys(product.nutrients).reduce((total: number,nutrient_key: any) => 
-                      total + (product.nutrients[nutrient_key].valid 
+                      total + (!product.nutrients[nutrient_key].error 
                         ? product.nutrients[nutrient_key].weighting * Math.abs(getTotal(nutrient_key)- product.nutrients[nutrient_key].total) 
                         : 0), 0))}
                     </Typography></TableCell>
                     {Object.keys(product.nutrients).map((nutrient_key: string) => (
                       <TableCell key={nutrient_key}>
-                        {product.nutrients[nutrient_key].valid 
+                        {!product.nutrients[nutrient_key].error 
                           ? <>
                             <Typography variant="caption">{round(getTotal(nutrient_key) - product.nutrients[nutrient_key].total)}</Typography>
                             <Typography>{round(product.nutrients[nutrient_key].weighting * (getTotal(nutrient_key)- product.nutrients[nutrient_key].total))}</Typography>

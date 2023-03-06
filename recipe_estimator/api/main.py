@@ -1,7 +1,8 @@
+import itertools
 from fastapi import Body, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from ciqual import ciqual_ingredients
-from product import get_product
+from product import get_product, prepare_product
 from minimize_nutrient_distance import estimate_recipe
 
 app = FastAPI()
@@ -22,9 +23,11 @@ app.add_middleware(
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/ciqual")
-async def ciqual():
-    return ciqual_ingredients
+@app.get("/ciqual/{name}")
+async def ciqual(name):
+    lower_name = name.casefold()
+    #return list(ciqual_ingredients.values())
+    return list(itertools.islice(filter(lambda i: (lower_name in i['alim_nom_eng'].casefold()), ciqual_ingredients.values()),20))
 
 @app.get("/product/{id}")
 async def product(id):
@@ -34,5 +37,6 @@ async def product(id):
 @app.post("/recipe")
 async def recipe(request: Request):
     product = await request.json()
+    prepare_product(product)
     estimate_recipe(product)
     return product

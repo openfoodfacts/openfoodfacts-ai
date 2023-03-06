@@ -99,7 +99,7 @@ def estimate_recipe(product):
     objective = solver.Objective()
     for nutrient_key in nutrients:
         nutrient = nutrients[nutrient_key]
-        if not nutrient['valid']:
+        if 'error' in nutrient:
             continue
 
         # We want to minimise the absolute difference between the sum of the ingredient nutients and the total nutrients
