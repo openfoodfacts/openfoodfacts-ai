@@ -1,12 +1,28 @@
-from pymongo import MongoClient
-from ciqual import ciqual_ingredients, nutrient_map
-
-# Connect to local Mongo DB
-products = MongoClient(host="localhost", port=27017,).off.products
+from ciqual import ciqual_ingredients, nutrient_map, ingredients_taxonomy
+import requests
 
 def parse_value(ciqual_nutrient):
     return float(ciqual_nutrient.replace(',','.').replace('<','').replace('traces','0'))
 
+def get_ciqual_code(ingredient_id):
+    ingredient = ingredients_taxonomy.get(ingredient_id, None)
+    if ingredient is None:
+        print(ingredient_id + ' not found')
+        return None
+
+    ciqual_code = ingredient.get('ciqual_food_code', None)
+    if ciqual_code:
+        return ciqual_code['en']
+
+    parents = ingredient.get('parents', None)
+    if parents:
+        for parent_id in parents:
+            ciqual_code = get_ciqual_code(parent_id)
+            if ciqual_code:
+                print('Obtained ciqual_code from ' + parent_id)
+                return ciqual_code
+
+    return None
 
 def setup_ingredients(off_ingredients, nutrients, indent):
     ingredients = []
@@ -26,15 +42,18 @@ def setup_ingredients(off_ingredients, nutrients, indent):
             ingredient['ingredients'] = child_ingredients
             #ingredients = ingredients + child_ingredients
         else:
-            ciqual_code = off_ingredient.get('ciqual_food_code', None)
+            ciqual_code = get_ciqual_code(off_ingredient['id'])
             if (ciqual_code is None):
-                print('Error: ' + off_ingredient['text'] + ' has no ciqual_food_code')
+                print('Error: ' + off_ingredient['id'] + ' has no ciqual_food_code')
                 return
+
+            print(ciqual_code)
             ingredient['ciqual_code'] = ciqual_code
             ciqual_ingredient = ciqual_ingredients.get(ciqual_code, None)
             if (ciqual_ingredient is None):
                 print('Error: ' + off_ingredient['text'] + ' has unknown ciqual_food_code: ' + ciqual_code)
                 return
+
             ingredient['ciqual_name'] = ciqual_ingredient['alim_nom_eng']
             ingredient['water_content'] = parse_value(ciqual_ingredient['Water (g/100g)'])
 
@@ -75,11 +94,11 @@ def print_recipe(ingredients):
 
 
 def get_product(id):
-    query = {"_id": id}
-    product = products.find_one(query)
-    if not product:
+    response = requests.get("https://world.openfoodfacts.org/api/v3/product/" + id).json()
+    if not 'product' in response:
         return {}
 
+    product = response['product']
     off_ingredients = product['ingredients']
     off_nutrients = product['nutriments']
     #print(product['product_name'])

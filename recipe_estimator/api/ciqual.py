@@ -24,7 +24,7 @@ with open(filename, newline="", encoding="utf8") as csvfile:
 # Load ingredients
 filename = os.path.join(os.path.dirname(__file__), "ingredients.json")
 with open(filename, "r", encoding="utf-8") as ingredients_file:
-    ingredients = json.load(ingredients_file)
+    ingredients_taxonomy = json.load(ingredients_file)
 
 # Dump ingredients
 #with open(filename, "w", encoding="utf-8") as ingredients_file:
