@@ -1,5 +1,5 @@
 import { Table, TableHead, TableRow, TextField, TableBody, TableCell, Typography, Autocomplete, Button} from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface RecipeProps {
   product: any
@@ -8,6 +8,12 @@ interface RecipeProps {
 function ciqualDisplayName(ciqualIngredient: any): string {
   return ciqualIngredient?.alim_nom_eng ? `${ciqualIngredient.alim_nom_eng} (${ciqualIngredient.alim_code})` : ''
 }
+function addFirstOption(ingredient: any) {
+  ingredient.options ??= [];
+  if (ingredient.ciqual_ingredient && !(ingredient.options.find((i:any) => i.alim_code === ingredient.ciqual_ingredient.alim_code)))
+    ingredient.options.push(ingredient.ciqual_ingredient);
+}
+
 function flattenIngredients(ingredients: any[], depth = 0): any[] {
   const flatIngredients = [];
   for (const ingredient of ingredients) {
@@ -17,8 +23,7 @@ function flattenIngredients(ingredients: any[], depth = 0): any[] {
     if (ingredient.ingredients) {
       flatIngredients.push(...flattenIngredients(ingredient.ingredients, depth + 1));
     } else {
-      if (!ingredient.options)
-        ingredient.options =  ingredient.ciqual_ingredient ? [ingredient.ciqual_ingredient] : [];
+      addFirstOption(ingredient);
       if (ingredient.searchTerm == null)
         ingredient.searchTerm =  ciqualDisplayName(ingredient.ciqual_ingredient);
     }
@@ -31,22 +36,24 @@ function round(num: number){
 }
 
 export default function Recipe({product}: RecipeProps) {
-  const [ingredients, setIngredients] = useState<any>([]);
-  const [myProduct, setMyProduct] = useState<any>(product);
+  const [ingredients, setIngredients] = useState<any>();
+  const [nutrients, setNutrients] = useState<any>();
 
-  useEffect(() => {
-    if (!myProduct.ingredients)
+  const getRecipe = useCallback((ingredients: any[], nutrients: any[]) => {
+    if (!ingredients || !nutrients)
       return;
     async function fetchData() {
-      const results = await (await fetch(`http://localhost:8000/recipe`, {method: 'POST', body: JSON.stringify(myProduct)})).json();
+      const newProduct = {ingredients: ingredients, nutrients: nutrients};
+      const results = await (await fetch(`http://localhost:8000/recipe`, {method: 'POST', body: JSON.stringify(newProduct)})).json();
       setIngredients(results.ingredients);
+      setNutrients(results.nutrients);
     }
     fetchData();
-  }, [myProduct]);
+  }, []);
 
   useEffect(()=>{
-    setMyProduct(product);
-  }, [product]);
+    getRecipe(product.ingredients, product.nutrients);
+  }, [product, getRecipe]);
 
   function getTotal(nutrient_key: string) {
     let total = 0;
@@ -69,22 +76,21 @@ export default function Recipe({product}: RecipeProps) {
     fetch("http://localhost:8000/ciqual/" + searchTerm, {signal})
       .then(function (response) {
         return response.json();
-      },console.log)
+      })
       .then(function (myJson) {
-        if (ingredient.ciqual_ingredient && !(myJson.find((i:any) => i.alim_code === ingredient.ciqual_ingredient.alim_code)))
-          myJson.push(ingredient.ciqual_ingredient);
         ingredient.options = myJson;
+        addFirstOption(ingredient)
         setIngredients([...ingredients]);
-      });
+      })
+      .catch(() => {});
   };
   
   function onInputChange(ingredient:any, value: string, reason: string) {
     ingredient.searchTerm = value;
+    addFirstOption(ingredient);
+    setIngredients([...ingredients]);
     if (reason === 'input' && value) {
       getData(value, ingredient);
-    } else {
-      ingredient.options = ingredient.ciqual_ingredient ? [ingredient.ciqual_ingredient] : [];
-      setIngredients([...ingredients]);
     }
   };
   
@@ -100,18 +106,16 @@ export default function Recipe({product}: RecipeProps) {
     <div>
       {product.nutrients && ingredients &&
         <div>
-          <div>{product.name}</div>
-          <div>{product.ingredients_text}</div>
             <Table size='small'>
               <TableHead>
                 <TableRow className='total'>
                   <TableCell><Typography>Ingredient</Typography></TableCell>
                   <TableCell><Typography>CIQUAL Code</Typography></TableCell>
                   <TableCell><Typography>Proportion</Typography></TableCell>
-                  {Object.keys(product.nutrients).map((nutrient: string) => (
+                  {Object.keys(nutrients).map((nutrient: string) => (
                     <TableCell key={nutrient}>
                       <Typography>{nutrient}</Typography>
-                      <Typography variant="caption">{round(product.nutrients[nutrient].weighting)}</Typography>
+                      <Typography variant="caption">{round(nutrients[nutrient].weighting)}</Typography>
                     </TableCell>
                   ))}
                 </TableRow>
@@ -157,7 +161,7 @@ export default function Recipe({product}: RecipeProps) {
                     <TableCell><Typography>
                       {round(ingredients.reduce((total: number,ingredient: any) => total + (ingredient.ingredients ? 0 : ingredient.proportion), 0))} %
                     </Typography></TableCell>
-                    {Object.keys(product.nutrients).map((nutrient_key: string) => (
+                    {Object.keys(nutrients).map((nutrient_key: string) => (
                       <TableCell key={nutrient_key}>
                         <Typography variant="body1">{round(getTotal(nutrient_key))}</Typography>
                       </TableCell>
@@ -165,34 +169,34 @@ export default function Recipe({product}: RecipeProps) {
                   </TableRow>
                   <TableRow>
                     <TableCell colSpan={3}><Typography>Quoted product nutrients</Typography></TableCell>
-                    {Object.keys(product.nutrients).map((nutrient_key: string) => (
+                    {Object.keys(nutrients).map((nutrient_key: string) => (
                       <TableCell key={nutrient_key}>
-                        <Typography variant="body1">{round(product.nutrients[nutrient_key].total)}</Typography>
+                        <Typography variant="body1">{round(nutrients[nutrient_key].total)}</Typography>
                       </TableCell>
                     ))}
                   </TableRow>
                   <TableRow className='total'>
                     <TableCell colSpan={2}><Typography>Variance</Typography></TableCell>
-                    <TableCell><Typography>{round(Object.keys(product.nutrients).reduce((total: number,nutrient_key: any) => 
-                      total + (!product.nutrients[nutrient_key].error 
-                        ? product.nutrients[nutrient_key].weighting * Math.abs(getTotal(nutrient_key)- product.nutrients[nutrient_key].total) 
+                    <TableCell><Typography>{round(Object.keys(nutrients).reduce((total: number,nutrient_key: any) => 
+                      total + (!nutrients[nutrient_key].error 
+                        ? nutrients[nutrient_key].weighting * Math.abs(getTotal(nutrient_key)- nutrients[nutrient_key].total) 
                         : 0), 0))}
                     </Typography></TableCell>
-                    {Object.keys(product.nutrients).map((nutrient_key: string) => (
+                    {Object.keys(nutrients).map((nutrient_key: string) => (
                       <TableCell key={nutrient_key}>
-                        {!product.nutrients[nutrient_key].error 
+                        {!nutrients[nutrient_key].error 
                           ? <>
-                            <Typography variant="caption">{round(getTotal(nutrient_key) - product.nutrients[nutrient_key].total)}</Typography>
-                            <Typography>{round(product.nutrients[nutrient_key].weighting * (getTotal(nutrient_key)- product.nutrients[nutrient_key].total))}</Typography>
+                            <Typography variant="caption">{round(getTotal(nutrient_key) - nutrients[nutrient_key].total)}</Typography>
+                            <Typography>{round(nutrients[nutrient_key].weighting * (getTotal(nutrient_key)- nutrients[nutrient_key].total))}</Typography>
                             </>
-                          : <Typography variant="caption">{product.nutrients[nutrient_key].error}</Typography>
+                          : <Typography variant="caption">{nutrients[nutrient_key].error}</Typography>
                         }
                       </TableCell>
                     ))}
                   </TableRow>
               </TableBody>
             </Table>
-            <Button variant='contained' onClick={()=>setMyProduct({...myProduct, ingredients})}>recalculate</Button>
+            <Button variant='contained' onClick={()=>getRecipe(ingredients,nutrients)}>recalculate</Button>
         </div>
       }
     </div>

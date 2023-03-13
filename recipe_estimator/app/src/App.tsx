@@ -22,11 +22,15 @@ function App() {
           }
         )
     }
-      getProduct(location.pathname.split('/').slice(-1)[0]);
+      getProduct(location.hash.substring(1));
   }, [location]);
 
   return (
-    <Recipe product={product} />
+    <>
+      <div>{product.name}</div>
+      <div>{product.ingredients_text}</div>
+      <Recipe product={product} />
+    </>
   );
 }
 

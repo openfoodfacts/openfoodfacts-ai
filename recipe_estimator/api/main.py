@@ -1,5 +1,6 @@
 import itertools
 from fastapi import Body, FastAPI, Request
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from ciqual import ciqual_ingredients
 from product import get_product, prepare_product
@@ -18,6 +19,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/app", StaticFiles(directory="../app/build",html=True), name="app")
 
 @app.get("/")
 async def root():
