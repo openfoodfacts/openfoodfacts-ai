@@ -1,40 +1,52 @@
-import { Table, TableHead, TableRow, TextField, TableBody, TableCell, Typography, Autocomplete} from '@mui/material';
+import { Table, TableHead, TableRow, TextField, TableBody, TableCell, Typography, Autocomplete, Button} from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 
 interface RecipeProps {
   product: any
 }
 
+function ciqualDisplayName(ciqualIngredient: any): string {
+  return ciqualIngredient?.alim_nom_eng ? `${ciqualIngredient.alim_nom_eng} (${ciqualIngredient.alim_code})` : ''
+}
+function flattenIngredients(ingredients: any[], depth = 0): any[] {
+  const flatIngredients = [];
+  for (const ingredient of ingredients) {
+    ingredient.depth = depth;
+    ingredient.proportion = round(ingredient.proportion);
+    flatIngredients.push(ingredient);
+    if (ingredient.ingredients) {
+      flatIngredients.push(...flattenIngredients(ingredient.ingredients, depth + 1));
+    } else {
+      if (!ingredient.options)
+        ingredient.options =  ingredient.ciqual_ingredient ? [ingredient.ciqual_ingredient] : [];
+      if (ingredient.searchTerm == null)
+        ingredient.searchTerm =  ciqualDisplayName(ingredient.ciqual_ingredient);
+    }
+  }
+  return flatIngredients;
+}
+
+function round(num: number){
+  return isNaN(num) ? '-' : Math.round((num + Number.EPSILON) * 100) / 100;
+}
+
 export default function Recipe({product}: RecipeProps) {
   const [ingredients, setIngredients] = useState<any>([]);
+  const [myProduct, setMyProduct] = useState<any>(product);
+
+  useEffect(() => {
+    if (!myProduct.ingredients)
+      return;
+    async function fetchData() {
+      const results = await (await fetch(`http://localhost:8000/recipe`, {method: 'POST', body: JSON.stringify(myProduct)})).json();
+      setIngredients(results.ingredients);
+    }
+    fetchData();
+  }, [myProduct]);
 
   useEffect(()=>{
-    console.log(product.name);
-    if (!product.ingredients)
-      return;
-
-    function flattenIngredients(flatIngredients: any[], productIngredients: any[], depth: number) {
-      for (const productIngredient of productIngredients) {
-        const ingredient = {...productIngredient};
-        ingredient.depth = depth;
-        ingredient.proportion = round(ingredient.proportion);
-        flatIngredients.push(ingredient);
-        if (ingredient.ingredients) {
-          flattenIngredients(flatIngredients, ingredient.ingredients, depth + 1);
-        } else {
-          ingredient.options = [ingredient.ciqual_ingredient];
-        }
-      }
-    }
-    const flatIngredients: any[] = [];
-    flattenIngredients(flatIngredients, product.ingredients, 0);
-    setIngredients(flatIngredients);
-    console.log(2);
+    setMyProduct(product);
   }, [product]);
-
-  function round(num: number){
-    return isNaN(num) ? '-' : Math.round((num + Number.EPSILON) * 100) / 100;
-  }
 
   function getTotal(nutrient_key: string) {
     let total = 0;
@@ -57,7 +69,7 @@ export default function Recipe({product}: RecipeProps) {
     fetch("http://localhost:8000/ciqual/" + searchTerm, {signal})
       .then(function (response) {
         return response.json();
-      })
+      },console.log)
       .then(function (myJson) {
         if (ingredient.ciqual_ingredient && !(myJson.find((i:any) => i.alim_code === ingredient.ciqual_ingredient.alim_code)))
           myJson.push(ingredient.ciqual_ingredient);
@@ -67,14 +79,19 @@ export default function Recipe({product}: RecipeProps) {
   };
   
   function onInputChange(ingredient:any, value: string, reason: string) {
+    ingredient.searchTerm = value;
     if (reason === 'input' && value) {
       getData(value, ingredient);
+    } else {
+      ingredient.options = ingredient.ciqual_ingredient ? [ingredient.ciqual_ingredient] : [];
+      setIngredients([...ingredients]);
     }
   };
   
   function ingredientChange(ingredient: any, value: any) {
     if (value) {
       ingredient.ciqual_ingredient = value;
+      ingredient.searchTerm = ciqualDisplayName(value);
       setIngredients([...ingredients]);
     }
   }
@@ -100,7 +117,7 @@ export default function Recipe({product}: RecipeProps) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {ingredients.map((ingredient: any, index: number)=>(
+                {flattenIngredients(ingredients).map((ingredient: any, index: number)=>(
                   <TableRow key={index}>
                     <TableCell><Typography sx={{paddingLeft: (ingredient.depth)}}>{ingredient.text}</Typography></TableCell>
                     <TableCell>{!ingredient.ingredients &&
@@ -109,8 +126,9 @@ export default function Recipe({product}: RecipeProps) {
                         options={ingredient.options}
                         onInputChange={(_event,value,reason) => onInputChange(ingredient,value,reason)}
                         onChange={(_event,value) => ingredientChange(ingredient,value)}
-                        value={ingredient.ciqual_ingredient || {}}
-                        getOptionLabel={(option:any) => `${option.alim_nom_eng} (${option.alim_code})`}
+                        value={ingredient.ciqual_ingredient || null}
+                        inputValue={ingredient.searchTerm || ''}
+                        getOptionLabel={(option:any) => ciqualDisplayName(option)}
                         isOptionEqualToValue={(option:any, value:any) => option.alim_code === value.alim_code}
                         style={{ width: 300 }}
                         renderInput={(params) => (
@@ -174,6 +192,7 @@ export default function Recipe({product}: RecipeProps) {
                   </TableRow>
               </TableBody>
             </Table>
+            <Button variant='contained' onClick={()=>setMyProduct({...myProduct, ingredients})}>recalculate</Button>
         </div>
       }
     </div>

@@ -37,6 +37,6 @@ async def product(id):
 @app.post("/recipe")
 async def recipe(request: Request):
     product = await request.json()
-    prepare_product(product)
-    estimate_recipe(product)
+    if prepare_product(product):
+        estimate_recipe(product)
     return product

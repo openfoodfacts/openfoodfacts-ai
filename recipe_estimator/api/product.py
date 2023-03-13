@@ -58,13 +58,16 @@ def prepare_ingredients(ingredients, nutrients):
     for ingredient in ingredients:
         if ('ingredients' in ingredient):
             # Child ingredients
-            count = count + prepare_ingredients(ingredient['ingredients'], nutrients)
+            child_count = prepare_ingredients(ingredient['ingredients'], nutrients)
+            if child_count == 0:
+                return 0
+            count = count + child_count
         else:
             count = count + 1
             ciqual_ingredient = ingredient.get('ciqual_ingredient', None)
             if (ciqual_ingredient is None):
                 print('Error: ' + ingredient['text'] + ' has no ciqual ingredient')
-                return
+                return 0
 
             ingredient['water_content'] = ciqual_ingredient['Water (g/100g)']
 
@@ -155,4 +158,5 @@ def prepare_product(product):
     if not 'error' in nutrients.get('Sodium (mg/100g)',{}) and not 'error' in nutrients.get('Salt (g/100g)', {}):
         nutrients['Salt (g/100g)']['error'] = 'Prefer sodium where both present'
 
+    return count
 
