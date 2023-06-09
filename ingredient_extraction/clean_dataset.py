@@ -1,31 +1,25 @@
-import json
 from pathlib import Path
 import re
 from typing import Optional
-from urllib.parse import urlparse
 
 import typer
 from db import create_annotation
 from utils import (
-    PROMPT_VERSION,
     fetch_annotations,
-    fetch_cached_response,
-    generate_identifier,
-    get_barcode_from_url,
-    get_image_url_from_identifier,
+    generate_highlighted_text,
     get_root_logger,
-    parse_response,
-    response_exists,
+    jsonl_iter,
 )
 from rich.prompt import Prompt, Confirm
-from rich import print
+from rich.console import Console
 
 logger = get_root_logger()
 
+console = Console()
 
 PATTERNS = {
     "ingredient": re.compile(
-        r"ingr[ée]dients?|zutaten|sastojci|съставки|sastav|összetevők|ingredienti|ingredienten|ingrediente|ainesosat|składniki|(?:bahan-)bahannya|配料|لمكونات",
+        r"ingredienten|ingredientes?|ingredienti|ingr[ée]dients?|zutaten|sastojci|съставки|sastav|összetevők|ainesosat|składniki|(?:bahan-)bahannya|配料|لمكونات",
         re.I,
     ),
     "conservation": re.compile(
@@ -41,68 +35,139 @@ PATTERNS = {
     "single-word": re.compile(r"\b\w+\b", re.I),
 }
 
-UPDATED_PAYLOAD_PATH = Path("/tmp/updated_payload.json")
+UPDATED_PAYLOAD_PATH = Path("/tmp/updated_payload.txt")
 
 
-def annotate(id_: str, full_text: str, parsed_json: Optional[list]):
-    print(f"Image URL: {get_image_url_from_identifier(id_)}")
-    print(f"ID: {id_}")
-    print(f"Full text: ```{full_text}```")
-    print(parsed_json)
+def is_corrected_marked_text_valid(original: str, correction: str):
+    return original.replace("<b>", "").replace("</b>", "") == correction.replace(
+        "<b>", ""
+    ).replace("</b>", "")
+
+
+SPAN_TAG_START = "<b>"
+SPAN_TAG_END = "</b>"
+mark_tag_re = re.compile(r"<(?:\/)?b>")
+
+
+def extract_offsets(marked_text: str) -> list[tuple[int, int]]:
+    offsets = []
+    start_idx = None
+    tag_offset_total = 0
+    for match in mark_tag_re.finditer(marked_text):
+        text = match.group(0)
+        is_ending_tag = text == SPAN_TAG_END
+        if is_ending_tag:
+            if start_idx is None:
+                raise ValueError(f"invalid markup: {marked_text}")
+            else:
+                end_idx = match.start() - tag_offset_total
+                tag_offset_total += len(SPAN_TAG_END)
+                offsets.append((start_idx, end_idx))
+                start_idx = None
+        else:
+            if start_idx is not None:
+                raise ValueError(f"invalid markup: {marked_text}")
+            tag_offset_total += len(SPAN_TAG_START)
+            start_idx = match.end() - tag_offset_total
+    return offsets
+
+
+def _annotate(item: dict, action: str, updated_marked_text: Optional[str] = None):
+    meta = item["meta"]
+    identifier = meta["id"]
+    marked_text = item["marked_text"]
+    if action in ("a", "r"):
+        create_annotation(identifier, action=action)
+    elif action == "u":
+        if is_corrected_marked_text_valid(marked_text, updated_marked_text):
+            updated_offsets = extract_offsets(updated_marked_text)
+            create_annotation(identifier, action, updated_offsets)
+        else:
+            raise ValueError("original text has been modified")
+
+
+def annotate(item: dict):
+    meta = item["meta"]
+    console.print(f"Image URL: {meta['url'].replace('.json', '.jpg')}")
+    identifier = meta["id"]
+    console.print(f"ID: {identifier}")
+    marked_text = (generate_highlighted_text(item["text"], [list(x) for x in item["offsets"]]))
+    marked_text_highlighted = marked_text.replace("<b>", "[red]").replace(
+        "</b>", "[/red]"
+    )
+    console.print(f"Marked text: ```{marked_text_highlighted}```", highlight=False)
     action = Prompt.ask("Action (a/r/u/s)", choices=["a", "r", "u", "s"])
     if action == "s":
         return
     if action in ("a", "r"):
-        create_annotation(id_, action=action)
-        print("Created :white_check_mark:")
+        _annotate(item, action)
+        console.print("Created :white_check_mark:")
     else:
         while True:
             UPDATED_PAYLOAD_PATH.unlink(missing_ok=True)
             UPDATED_PAYLOAD_PATH.touch()
-            if isinstance(parsed_json, list) and all(
-                "text" in item for item in parsed_json
-            ):
-                UPDATED_PAYLOAD_PATH.write_text(
-                    json.dumps(
-                        [{"text": item["text"]} for item in parsed_json],
-                        indent=4,
-                        ensure_ascii=False,
-                    )
-                )
+            UPDATED_PAYLOAD_PATH.write_text(marked_text)
 
-            Confirm.ask(f"Is the payload in {UPDATED_PAYLOAD_PATH} ready to be saved")
-            updated_json_str = UPDATED_PAYLOAD_PATH.read_text()
-            updated_json, error = parse_response(updated_json_str, id_, full_text)
-            if error is None:
-                create_annotation(id_, action, updated_json)
-                print("Created :white_check_mark:")
-                break
-            print(f"Error `{error[0]}`:\n{error[2]}")
+            Confirm.ask(f"Is the text in {UPDATED_PAYLOAD_PATH} ready to be saved")
+            updated_marked_text = UPDATED_PAYLOAD_PATH.read_text()
+            try:
+                _annotate(item, action, updated_marked_text)
+            except ValueError as e:
+                console.print(f"{e.message}")
+            break
+
+        console.print("Created :white_check_mark:")
 
 
-def matches_pattern(parsed_json: list[dict], pattern: re.Pattern) -> Optional[re.Match]:
-    for item in parsed_json:
+def matches_pattern(item: dict, pattern: re.Pattern) -> Optional[re.Match]:
+    text = item["text"]
+    offsets = item["offsets"]
+    for start_offset, end_offset in offsets:
+        span = text[start_offset:end_offset]
         if pattern == PATTERNS["single-word"]:
-            match = pattern.fullmatch(item["text"])
+            match = pattern.fullmatch(span)
         else:
-            match = pattern.search(item["text"])
+            match = pattern.search(span)
         if match is not None:
             return match
     return None
 
 
-def has_single_word_ingredient(parsed_json: list[dict]) -> bool:
-    for item in parsed_json:
-        words = item["text"].split(" ")
+def has_single_word_ingredient(item: dict) -> bool:
+    text = item["text"]
+    offsets = item["offsets"]
+    for start_offset, end_offset in offsets:
+        words = text[start_offset:end_offset].split(" ")
         if len(words) == 1:
             return True
     return False
 
 
+def additional_words_after_ingredient_prefix(item: dict) -> bool:
+    text = item["text"]
+    offsets = item["offsets"]
+    for start_offset, _ in offsets:
+        match = PATTERNS["ingredient"].search(text, start_offset - 15, start_offset)
+        if match:
+            before = text[match.end() : start_offset]
+            if before.strip(" :\n;.*?,-•="):
+                print(f"{before=}")
+                return True
+    return False
+
+
+def perform_detection(detection_type: str, item: dict) -> bool:
+    if detection_type == "single-ingredient":
+        return has_single_word_ingredient(item)
+    elif detection_type == "missing-ingredient":
+        return additional_words_after_ingredient_prefix(item)
+    raise ValueError("unknown detection type")
+
+
 def run(
-    url_path: Path = typer.Argument(
-        Path("image_urls.txt"),
-        help="path of text file containing OCR URL to use for ingredient detection (one line per URL)",
+    dataset_path: Path = typer.Argument(
+        Path("dataset_base.jsonl.gz"),
+        help="path of the JSONL dataset",
         exists=True,
         file_okay=True,
         dir_okay=False,
@@ -113,12 +178,9 @@ def run(
     pattern_type: Optional[str] = typer.Option(None),
     target_identifier: Optional[str] = typer.Option(None),
     count_items: bool = typer.Option(False),
-    single_ingredient: bool = False,
-    error_type: Optional[str] = typer.Option(
-        None, help="analyze items with a specific error type"
-    ),
+    detection_type: Optional[str] = typer.Option(None),
+    skip_if_annotated: bool = True,
 ):
-    urls = url_path.read_text().splitlines()
     existing_annotations = fetch_annotations()
     if pattern_type:
         pattern = PATTERNS[pattern_type]
@@ -129,53 +191,36 @@ def run(
     logger.info("target identifier: %s", target_identifier)
     counts = 0
 
-    for url in urls:
-        barcode = get_barcode_from_url(url)
-        image_id = Path(urlparse(url).path).stem
-        id_ = generate_identifier(barcode, image_id, PROMPT_VERSION)
-        if id_ in existing_annotations:
-            logger.debug("Skipping item %s (already manually annotated)", id_)
-            continue
-
-        if not response_exists(id_):
-            logger.debug("Response for id %s does not exist", id_)
-            continue
-
-        response = fetch_cached_response(id_)
-        full_text = response["data"]["text"]
-        openai_response = response["choices"][0]["message"]["content"]
-        parsed_json, error = parse_response(openai_response, id_, full_text)
+    for item in jsonl_iter(dataset_path):
+        id_ = item["meta"]["id"]
+        annotation_exists = id_ in existing_annotations
+        if annotation_exists:
+            if skip_if_annotated:
+                logger.debug("Skipping item %s (already manually annotated)", id_)
+                continue
+            updated_offsets = existing_annotations[id_]["updated_offsets"]
+            if updated_offsets is not None:
+                item["offsets"] = updated_offsets
 
         if target_identifier and id_ == target_identifier:
-            annotate(id_, full_text, parsed_json)
+            annotate(item)
             return
-        elif error_type:
-            if error is not None and error[0] == error_type:
+        else:
+            if pattern and ((match := matches_pattern(item, pattern)) is not None):
                 if count_items:
                     counts += 1
                     continue
-                print(f"Error with type: {error_type}")
-                if parsed_json is None:
-                    print(openai_response)
-                annotate(id_, full_text, parsed_json)
-        else:
-            if error is None:
-                if pattern and (
-                    (match := matches_pattern(parsed_json, pattern)) is not None
-                ):
+                console.print(f"item: {id_}, pattern matched: {match}")
+                annotate(item)
+            elif detection_type is not None:
+                if perform_detection(detection_type, item):
                     if count_items:
                         counts += 1
                         continue
-                    print(f"item: {id_}, pattern matched: {match}")
-                    annotate(id_, full_text, parsed_json)
-                elif single_ingredient and has_single_word_ingredient(parsed_json):
-                    if count_items:
-                        counts += 1
-                        continue
-                    print(f"item: {id_}, has single ingredient")
-                    annotate(id_, full_text, parsed_json)
+                    console.print(f"item: {id_} detected ({detection_type})")
+                    annotate(item)
 
-    print(f"{counts=}")
+    console.print(f"{counts=}")
 
 
 if __name__ == "__main__":

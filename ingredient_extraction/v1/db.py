@@ -15,32 +15,23 @@ class Annotation(Model):
         max_length=1,
         choices=(("a", "accept"), ("r", "reject"), ("u", "update")),
     )
-    updated_offsets = JSONField(null=True)
+    updated_json = JSONField(null=True)
 
     class Meta:
         database = db
 
 
 def create_annotation(
-    identifier: str,
-    action: Literal["a", "r", "u"],
-    updated_offsets: Optional[list] = None,
+    identifier: str, action: Literal["a", "r", "u"], updated_json: Optional[list] = None
 ):
     splits = identifier.split("_")
-    annotation = Annotation.get_or_none(identifier=identifier)
-    if annotation is None:
-        return Annotation.create(
-            identifier=identifier,
-            barcode=splits[0],
-            image_id=splits[1],
-            action=action,
-            updated_offsets=updated_offsets,
-        )
-    else:
-        annotation.action = action
-        annotation.updated_offsets = updated_offsets
-        annotation.save()
-        return annotation
+    return Annotation.create(
+        identifier=identifier,
+        barcode=splits[0],
+        image_id=splits[1],
+        action=action,
+        updated_json=updated_json,
+    )
 
 
 def create_tables():

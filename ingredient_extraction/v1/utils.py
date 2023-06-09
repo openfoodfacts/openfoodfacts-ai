@@ -30,6 +30,7 @@ def sanitize_json(
             ),
         )
 
+    seen_languages = set()
     span_offsets: list[tuple[int, int]] = []
     for i, item in enumerate(parsed_json):
         if not isinstance(item, dict):
@@ -41,7 +42,12 @@ def sanitize_json(
                     f"At least of the JSON element is not a dict: {parsed_json}",
                 ),
             )
-        elif "text" not in item or not isinstance(item["text"], str):
+        elif (
+            "text" not in item
+            or "lang" not in item
+            or not isinstance(item["text"], str)
+            or not isinstance(item["lang"], str)
+        ):
             return (
                 parsed_json,
                 (
@@ -51,7 +57,18 @@ def sanitize_json(
                 ),
             )
 
-        item.pop("lang", None)
+        lang = item["lang"]
+        if lang in seen_languages:
+            return (
+                parsed_json,
+                (
+                    "duplicated_lang",
+                    identifier,
+                    f"duplicated lang detected: {parsed_json}",
+                ),
+            )
+
+        seen_languages.add(lang)
         extracted_ingredient_text = item["text"].strip(" ,.")
         item["text"] = extracted_ingredient_text
         if extracted_ingredient_text not in full_text:
@@ -63,6 +80,23 @@ def sanitize_json(
                     f"Extracted ingredient #{i + 1} is not a substring of original text:\n{full_text}",
                 ),
             )
+        lang = item.pop("lang").lower()
+
+        if "/" in lang:
+            langs = [l.strip() for l in lang.split("/")]
+        else:
+            langs = [lang]
+
+        for lang in langs:
+            if len(lang) != 2:
+                return (
+                    parsed_json,
+                    (
+                        "invalid_lang",
+                        identifier,
+                        f"invalid lang: {lang}",
+                    ),
+                )
 
         start_idx, end_idx = find_span_offsets(full_text, extracted_ingredient_text)
         item["start_idx"] = start_idx

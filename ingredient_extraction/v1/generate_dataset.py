@@ -6,8 +6,6 @@ from pathlib import Path
 from typing import Counter
 from urllib.parse import urlparse
 
-from spacy import blank
-
 from utils import (
     PROMPT_VERSION,
     ErrorType,
@@ -94,7 +92,6 @@ def generate_dataset(urls: list[str], output_dir: Path, test_split_set: set[str]
     split_counts = {"train": 0, "test": 0}
     count = 0
 
-    nlp = blank("en")
     annotations = fetch_annotations()
 
     for url in urls:
@@ -138,33 +135,28 @@ def generate_dataset(urls: list[str], output_dir: Path, test_split_set: set[str]
             errors.append(error)
         else:
             entity_offsets = [(x["start_idx"], x["end_idx"]) for x in parsed_json]
-            tokens, ner_tags = tokenize(nlp, full_text, entity_offsets)
-            tokenization_errors += int(bool(tokens is None))
             split = "test" if id_ in test_split_set else "train"
             split_counts[split] += 1
-            if tokens:
-                dataset.append(
-                    {
-                        "text": full_text,
-                        "marked_text": generate_highlighted_text(
-                            full_text,
-                            entity_offsets,
-                            html_escape=False,
-                            start_token="<b>",
-                            end_token="</b>",
-                        ),
-                        "annotations": parsed_json,
-                        "tokens": tokens,
-                        "ner_tags": ner_tags,
-                        "meta": {
-                            "barcode": barcode,
-                            "image_id": image_id,
-                            "id": id_,
-                            "url": url,
-                            "in_test_split": id_ in test_split_set,
-                        },
-                    }
-                )
+            dataset.append(
+                {
+                    "text": full_text,
+                    "marked_text": generate_highlighted_text(
+                        full_text,
+                        entity_offsets,
+                        html_escape=False,
+                        start_token="<b>",
+                        end_token="</b>",
+                    ),
+                    "offsets": entity_offsets,
+                    "meta": {
+                        "barcode": barcode,
+                        "image_id": image_id,
+                        "id": id_,
+                        "url": url,
+                        "in_test_split": id_ in test_split_set,
+                    },
+                }
+            )
             highlighted_text_by_split[split] += (
                 "<p>"
                 + generate_highlighted_text(
@@ -175,7 +167,6 @@ def generate_dataset(urls: list[str], output_dir: Path, test_split_set: set[str]
                     end_token="</b>",
                 )
                 + f'</br>{id_}, <a href="{image_url}">{image_url}</a>'
-                + ("" if tokens else " tokenization error")
                 + "</p>"
             )
 
