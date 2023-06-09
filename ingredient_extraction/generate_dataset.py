@@ -1,6 +1,8 @@
 import argparse
+import html
 import json
 import gzip
+import logging
 from pathlib import Path
 from typing import Counter
 from urllib.parse import urlparse
@@ -19,7 +21,7 @@ from utils import (
     response_exists,
 )
 
-logger = get_root_logger()
+logger = get_root_logger(logging_level=logging.INFO)
 
 
 def generate_highlighted_text(text: str, offsets: list[tuple[int, int]]):
@@ -27,13 +29,13 @@ def generate_highlighted_text(text: str, offsets: list[tuple[int, int]]):
     previous_idx = 0
     for start_idx, end_idx in offsets:
         highlighted_text += (
-            text[previous_idx:start_idx]
+            html.escape(text[previous_idx:start_idx])
             + "<mark>"
-            + text[start_idx:end_idx]
+            + html.escape(text[start_idx:end_idx])
             + "</mark>"
         )
         previous_idx = end_idx
-    highlighted_text += text[previous_idx:]
+    highlighted_text += html.escape(text[previous_idx:])
     return highlighted_text
 
 
@@ -71,6 +73,14 @@ def tokenize(nlp, text: str, offsets: list[tuple[int, int]]):
                 elif span.end > i:
                     logger.debug("TAG: 'I-ING'")
                     ner_tags.append(2)
+                    if i == len(doc) - 1:
+                        # Last token in document
+                        span_idx += 1
+                        span = spans[span_idx] if span_idx < len(spans) else None
+                        if span:
+                            logger.debug(f"current span: {span.start}:{span.end}")
+                        else:
+                            logger.debug("No span left")
                 elif span.end == i:
                     logger.debug("TAG: 'O'")
                     ner_tags.append(0)
@@ -107,6 +117,7 @@ def generate_dataset(urls: list[str], output: Path, output_html: Path):
         if url.startswith("https://images."):
             url = url.replace("https://images.", "https://static.")
 
+        image_url = url.replace(".json", ".jpg")
         barcode = get_barcode_from_url(url)
         image_id = Path(urlparse(url).path).stem
         id_ = generate_identifier(barcode, image_id, PROMPT_VERSION)
@@ -127,7 +138,7 @@ def generate_dataset(urls: list[str], output: Path, output_html: Path):
             if action == "a":
                 # Set error to False
                 error = None
-            elif action == "r" and error is None:
+            elif action == "r":
                 error = (
                     "manually_rejected",
                     id_,
@@ -164,7 +175,7 @@ def generate_dataset(urls: list[str], output: Path, output_html: Path):
                 + generate_highlighted_text(
                     full_text, [(x["start_idx"], x["end_idx"]) for x in parsed_json]  # type: ignore
                 )
-                + f'</br>{id_}, <a href="{url}">{url}</a>'
+                + f'</br>{id_}, <a href="{image_url}">{image_url}</a>'
                 + ("" if tokens else " tokenization error")
                 + "</p>"
             )
