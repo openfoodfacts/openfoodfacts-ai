@@ -1,8 +1,7 @@
-import argparse
 import json
 from pathlib import Path
 import re
-from typing import Literal, Optional
+from typing import Optional
 from urllib.parse import urlparse
 
 import typer
@@ -25,10 +24,21 @@ logger = get_root_logger()
 
 
 PATTERNS = {
-    "ingredient": re.compile(r"ingr[ée]dients?|zutaten|sastojci|съставки|sastav|összetevők|ingredienti|ingredienten|ingrediente", re.I),
-    "conservation": re.compile(r"conserver avant|consommer de|[àa] conserver|conserver ([àa]|dans)|best before|est conditionn[ée]|frais et sec|storage instructions?|store in a (cool|dry)|keep cool|conservare al", re.I),
-    "allergen": re.compile(r"puede contener|peux contenir|kan sporen|allerg|traces? [ée]ventuelles?", re.I),
-    "other": re.compile(r"prodotto essiccazione|product subject to|produit sujet à", re.I)
+    "ingredient": re.compile(
+        r"ingr[ée]dients?|zutaten|sastojci|съставки|sastav|összetevők|ingredienti|ingredienten|ingrediente|ainesosat|składniki|(?:bahan-)bahannya|配料|لمكونات",
+        re.I,
+    ),
+    "conservation": re.compile(
+        r"conserver avant|consommer de|[àa] conserver|conserver ([àa]|dans)|best before|est conditionn[ée]|frais et sec|storage instructions?|store in a (cool|dry)|keep cool|conservare al",
+        re.I,
+    ),
+    "allergen": re.compile(
+        r"puede contener|peux contenir|kan sporen|allerg|traces? [ée]ventuelles?", re.I
+    ),
+    "other": re.compile(
+        r"prodotto essiccazione|product subject to|produit sujet à", re.I
+    ),
+    "single-word": re.compile(r"\b\w+\b", re.I),
 }
 
 UPDATED_PAYLOAD_PATH = Path("/tmp/updated_payload.json")
@@ -50,14 +60,11 @@ def annotate(id_: str, full_text: str, parsed_json: Optional[list]):
             UPDATED_PAYLOAD_PATH.unlink(missing_ok=True)
             UPDATED_PAYLOAD_PATH.touch()
             if isinstance(parsed_json, list) and all(
-                "text" in item and "langs" in item for item in parsed_json
+                "text" in item for item in parsed_json
             ):
                 UPDATED_PAYLOAD_PATH.write_text(
                     json.dumps(
-                        [
-                            {"text": item["text"], "lang": "/".join(item["langs"])}
-                            for item in parsed_json
-                        ],
+                        [{"text": item["text"]} for item in parsed_json],
                         indent=4,
                         ensure_ascii=False,
                     )
@@ -75,7 +82,10 @@ def annotate(id_: str, full_text: str, parsed_json: Optional[list]):
 
 def matches_pattern(parsed_json: list[dict], pattern: re.Pattern) -> Optional[re.Match]:
     for item in parsed_json:
-        match = pattern.search(item["text"])
+        if pattern == PATTERNS["single-word"]:
+            match = pattern.fullmatch(item["text"])
+        else:
+            match = pattern.search(item["text"])
         if match is not None:
             return match
     return None
@@ -91,7 +101,7 @@ def has_single_word_ingredient(parsed_json: list[dict]) -> bool:
 
 def run(
     url_path: Path = typer.Argument(
-        ...,
+        Path("image_urls.txt"),
         help="path of text file containing OCR URL to use for ingredient detection (one line per URL)",
         exists=True,
         file_okay=True,
@@ -150,7 +160,9 @@ def run(
                 annotate(id_, full_text, parsed_json)
         else:
             if error is None:
-                if pattern and ((match := matches_pattern(parsed_json, pattern)) is not None):
+                if pattern and (
+                    (match := matches_pattern(parsed_json, pattern)) is not None
+                ):
                     if count_items:
                         counts += 1
                         continue

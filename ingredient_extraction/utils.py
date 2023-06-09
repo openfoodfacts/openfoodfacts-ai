@@ -1,3 +1,4 @@
+import html
 import json
 from pathlib import Path
 import re
@@ -29,7 +30,6 @@ def sanitize_json(
             ),
         )
 
-    seen_languages = set()
     span_offsets: list[tuple[int, int]] = []
     for i, item in enumerate(parsed_json):
         if not isinstance(item, dict):
@@ -41,12 +41,7 @@ def sanitize_json(
                     f"At least of the JSON element is not a dict: {parsed_json}",
                 ),
             )
-        elif (
-            "text" not in item
-            or "lang" not in item
-            or not isinstance(item["text"], str)
-            or not isinstance(item["lang"], str)
-        ):
+        elif "text" not in item or not isinstance(item["text"], str):
             return (
                 parsed_json,
                 (
@@ -56,18 +51,7 @@ def sanitize_json(
                 ),
             )
 
-        lang = item["lang"]
-        if lang in seen_languages:
-            return (
-                parsed_json,
-                (
-                    "duplicated_lang",
-                    identifier,
-                    f"duplicated lang detected: {parsed_json}",
-                ),
-            )
-
-        seen_languages.add(lang)
+        item.pop("lang", None)
         extracted_ingredient_text = item["text"].strip(" ,.")
         item["text"] = extracted_ingredient_text
         if extracted_ingredient_text not in full_text:
@@ -79,24 +63,6 @@ def sanitize_json(
                     f"Extracted ingredient #{i + 1} is not a substring of original text:\n{full_text}",
                 ),
             )
-        lang = item.pop("lang").lower()
-
-        if "/" in lang:
-            langs = [l.strip() for l in lang.split("/")]
-        else:
-            langs = [lang]
-
-        for lang in langs:
-            if len(lang) != 2:
-                return (
-                    parsed_json,
-                    (
-                        "invalid_lang",
-                        identifier,
-                        f"invalid lang: {lang}",
-                    ),
-                )
-        item["langs"] = langs
 
         start_idx, end_idx = find_span_offsets(full_text, extracted_ingredient_text)
         item["start_idx"] = start_idx
@@ -212,3 +178,25 @@ def fetch_annotations() -> dict[str, dict]:
         annotation["identifier"]: annotation
         for annotation in Annotation.select().dicts()
     }
+
+
+def generate_highlighted_text(
+    text: str,
+    offsets: list[tuple[int, int]],
+    html_escape: bool,
+    start_token: str,
+    end_token: str,
+) -> str:
+    highlighted_text = []
+    previous_idx = 0
+    escape_func = (lambda x: x) if html_escape is False else html.escape
+    for start_idx, end_idx in offsets:
+        highlighted_text.append(
+            escape_func(text[previous_idx:start_idx])
+            + start_token
+            + escape_func(text[start_idx:end_idx])
+            + end_token
+        )
+        previous_idx = end_idx
+    highlighted_text.append(escape_func(text[previous_idx:]))
+    return "".join(highlighted_text)

@@ -1,5 +1,4 @@
 import argparse
-import html
 import json
 import gzip
 import logging
@@ -14,6 +13,7 @@ from utils import (
     ErrorType,
     fetch_annotations,
     fetch_cached_response,
+    generate_highlighted_text,
     generate_identifier,
     get_barcode_from_url,
     get_root_logger,
@@ -22,21 +22,6 @@ from utils import (
 )
 
 logger = get_root_logger(logging_level=logging.INFO)
-
-
-def generate_highlighted_text(text: str, offsets: list[tuple[int, int]]):
-    highlighted_text = ""
-    previous_idx = 0
-    for start_idx, end_idx in offsets:
-        highlighted_text += (
-            html.escape(text[previous_idx:start_idx])
-            + "<mark>"
-            + html.escape(text[start_idx:end_idx])
-            + "</mark>"
-        )
-        previous_idx = end_idx
-    highlighted_text += html.escape(text[previous_idx:])
-    return highlighted_text
 
 
 def tokenize(nlp, text: str, offsets: list[tuple[int, int]]):
@@ -101,11 +86,12 @@ def tokenize(nlp, text: str, offsets: list[tuple[int, int]]):
     return [t.orth_ for t in doc], ner_tags
 
 
-def generate_dataset(urls: list[str], output: Path, output_html: Path):
+def generate_dataset(urls: list[str], output_dir: Path, test_split_set: set[str]):
     errors: list[ErrorType] = []
     tokenization_errors = 0
     dataset = []
-    highlighted_text = ""
+    highlighted_text_by_split = {"train": "", "test": ""}
+    split_counts = {"train": 0, "test": 0}
     count = 0
 
     nlp = blank("en")
@@ -151,14 +137,22 @@ def generate_dataset(urls: list[str], output: Path, output_html: Path):
         if error is not None:
             errors.append(error)
         else:
-            tokens, ner_tags = tokenize(
-                nlp, full_text, [(x["start_idx"], x["end_idx"]) for x in parsed_json]
-            )
+            entity_offsets = [(x["start_idx"], x["end_idx"]) for x in parsed_json]
+            tokens, ner_tags = tokenize(nlp, full_text, entity_offsets)
             tokenization_errors += int(bool(tokens is None))
+            split = "test" if id_ in test_split_set else "train"
+            split_counts[split] += 1
             if tokens:
                 dataset.append(
                     {
                         "text": full_text,
+                        "marked_text": generate_highlighted_text(
+                            full_text,
+                            entity_offsets,
+                            html_escape=False,
+                            start_token="<b>",
+                            end_token="</b>",
+                        ),
                         "annotations": parsed_json,
                         "tokens": tokens,
                         "ner_tags": ner_tags,
@@ -167,13 +161,18 @@ def generate_dataset(urls: list[str], output: Path, output_html: Path):
                             "image_id": image_id,
                             "id": id_,
                             "url": url,
+                            "in_test_split": id_ in test_split_set,
                         },
                     }
                 )
-            highlighted_text += (
+            highlighted_text_by_split[split] += (
                 "<p>"
                 + generate_highlighted_text(
-                    full_text, [(x["start_idx"], x["end_idx"]) for x in parsed_json]  # type: ignore
+                    full_text,
+                    entity_offsets,
+                    html_escape=True,
+                    start_token="<b>",
+                    end_token="</b>",
                 )
                 + f'</br>{id_}, <a href="{image_url}">{image_url}</a>'
                 + ("" if tokens else " tokenization error")
@@ -188,11 +187,15 @@ def generate_dataset(urls: list[str], output: Path, output_html: Path):
     for error_type, count in error_counts.most_common():
         logger.info("  %s: %d", error_type, count)
 
-    logger.info("valid: items: %s", len(dataset))
-    with gzip.open(output, "wt") as f:
+    with gzip.open(output_dir / f"dataset.jsonl.gz", "wt") as f:
         f.write("\n".join(map(json.dumps, dataset)))
 
-    output_html.write_text(f"<html><body>{highlighted_text}</body></html>")
+    for split_name in ("train", "test"):
+        logger.info(f"[split:{split_name}] valid: items: %s", split_counts[split_name])
+
+        (output_dir / f"dataset_{split_name}.html").write_text(
+            f"<html><body>{highlighted_text_by_split[split_name]}</body></html>"
+        )
 
 
 if __name__ == "__main__":
@@ -202,10 +205,16 @@ if __name__ == "__main__":
         type=Path,
         help="path of text file containing OCR URL to use for ingredient detection "
         "(one line per URL). Takes precedence over --url parameter",
-        required=True,
+        default="image_urls.txt",
     )
+    parser.add_argument("--test-split-path", type=Path)
     args = parser.parse_args()
     urls = args.url_list_path.read_text().splitlines()
-    OUTPUT_PATH = Path(__file__).parent / "dataset.json.gz"
-    OUTPUT_HTML_PATH = Path(__file__).parent / "dataset.html"
-    generate_dataset(urls, OUTPUT_PATH, OUTPUT_HTML_PATH)
+
+    test_split_set = (
+        set()
+        if not args.test_split_path
+        else set(args.test_split_path.read_text().splitlines())
+    )
+    OUTPUT_DIR = Path(__file__).parent
+    generate_dataset(urls, OUTPUT_DIR, test_split_set)
