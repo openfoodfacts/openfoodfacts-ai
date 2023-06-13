@@ -19,19 +19,23 @@ console = Console()
 
 PATTERNS = {
     "ingredient": re.compile(
-        r"ingredienten|ingredientes?|ingredienti|ingr[ée]dients?|zutaten|sastojci|съставки|sastav|összetevők|ainesosat|składniki|(?:bahan-)bahannya|配料|لمكونات",
+        r"ingredienten|ingredientes?|ingredienti|ingr[ée]dients?|inhaltsstoffe|ingredienser|composição|zutaten|sastojci|sastāvs|съставки|sastav|összetevők|состав|склад|ainesosat|συστατικα|składniki|(?:bahan-)bahannya|ส่วนประกอบที่สำคัญ|成分|配料|لمكونات",
         re.I,
     ),
     "conservation": re.compile(
-        r"conserver avant|consommer de|[àa] conserver|conserver ([àa]|dans)|best before|est conditionn[ée]|frais et sec|storage instructions?|store in a (cool|dry)|keep cool|conservare al",
+        r"conserver avant|consommer de|-18 °c|consommer avant|[àa] conserver|conserver ([àa]|dans)|best before|conditionn[ée]|frais et sec|storage instructions?|store in a (cool|dry)|keep cool|conservare (al|in)|au frais|modo de conservación|modo de conservação|conservar el producto|temperatura [óo]ptima|conservar refrigerado",
         re.I,
     ),
     "allergen": re.compile(
-        r"puede contener|peux contenir|kan sporen|allerg|traces? [ée]ventuelles?", re.I
+        r"puede contener|trazas eventuales|kan indeholde spor|contiene ?:|contains ?:|може містити|peux contenir|kan sp[uo]ren|allerg|traces? [ée]ventuelles?|traces? possibles?|may contain traces?|bevat mogelijk|fabriqué dans une usine|gemaakt in een bedrijf|made in a factory", re.I
     ),
     "other": re.compile(
         r"prodotto essiccazione|product subject to|produit sujet à", re.I
     ),
+    "non-food": re.compile(r"cigarette|parfum|stearamidopropyl|disodium edta|benzyl salicylate|copolymer|behentrimonium methosulfate|silica", re.I),
+    "prepared-with": re.compile(r"bereid met|préparé avec|prepared with", re.I),
+    "shake-before": re.compile(r"agiter avant|share before", re.I),
+    "cacao-percent": re.compile(r"(cacau|cacao) \d\d ?% (m[íi]nimo|minimum)|\d\d ?% minimum cocoa|\d\d ?% de cacao m[íi]nimo|mindestens \d\d ?% kakao", re.I),
     "single-word": re.compile(r"\b\w+\b", re.I),
 }
 
@@ -86,12 +90,18 @@ def _annotate(item: dict, action: str, updated_marked_text: Optional[str] = None
             raise ValueError("original text has been modified")
 
 
-def annotate(item: dict):
+def annotate(item: dict, existing_annotation: Optional[dict] = None):
     meta = item["meta"]
     console.print(f"Image URL: {meta['url'].replace('.json', '.jpg')}")
     identifier = meta["id"]
     console.print(f"ID: {identifier}")
-    marked_text = (generate_highlighted_text(item["text"], [list(x) for x in item["offsets"]]))
+    if existing_annotation is not None:
+        console.print(f"Annotation already exists: "
+                      f"action='{existing_annotation['action']}', "
+                      f"updated_offsets={existing_annotation['updated_offsets']}")
+    marked_text = generate_highlighted_text(
+        item["text"], [list(x) for x in item["offsets"]]
+    )
     marked_text_highlighted = marked_text.replace("<b>", "[red]").replace(
         "</b>", "[/red]"
     )
@@ -113,7 +123,7 @@ def annotate(item: dict):
             try:
                 _annotate(item, action, updated_marked_text)
             except ValueError as e:
-                console.print(f"{e.message}")
+                console.print(e)
             break
 
         console.print("Created :white_check_mark:")
@@ -194,16 +204,19 @@ def run(
     for item in jsonl_iter(dataset_path):
         id_ = item["meta"]["id"]
         annotation_exists = id_ in existing_annotations
+        existing_annotation = None
         if annotation_exists:
             if skip_if_annotated:
                 logger.debug("Skipping item %s (already manually annotated)", id_)
                 continue
-            updated_offsets = existing_annotations[id_]["updated_offsets"]
+
+            existing_annotation = existing_annotations[id_]
+            updated_offsets = existing_annotation["updated_offsets"]
             if updated_offsets is not None:
                 item["offsets"] = updated_offsets
 
         if target_identifier and id_ == target_identifier:
-            annotate(item)
+            annotate(item, existing_annotation)
             return
         else:
             if pattern and ((match := matches_pattern(item, pattern)) is not None):
@@ -211,14 +224,14 @@ def run(
                     counts += 1
                     continue
                 console.print(f"item: {id_}, pattern matched: {match}")
-                annotate(item)
+                annotate(item, existing_annotation)
             elif detection_type is not None:
                 if perform_detection(detection_type, item):
                     if count_items:
                         counts += 1
                         continue
                     console.print(f"item: {id_} detected ({detection_type})")
-                    annotate(item)
+                    annotate(item, existing_annotation)
 
     console.print(f"{counts=}")
 

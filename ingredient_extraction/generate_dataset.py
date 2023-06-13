@@ -37,6 +37,7 @@ def generate_dataset(items: list[dict], output_dir: Path):
             action = annotation["action"]
             if action == "r":
                 rejected += 1
+                continue
             elif action == "u":
                 entity_offsets = annotation["updated_offsets"]
                 updated += 1
@@ -64,7 +65,13 @@ def generate_dataset(items: list[dict], output_dir: Path):
         image_url = item["meta"]["url"].replace(".json", ".jpg")
         highlighted_text_by_split[split] += (
             "<p>"
-            + generate_highlighted_text(full_text, entity_offsets, html_escape=True)
+            + generate_highlighted_text(
+                full_text,
+                entity_offsets,
+                html_escape=True,
+                start_token="<mark>",
+                end_token="</mark>",
+            )
             + f'</br>{id_}, <a href="{image_url}">{image_url}</a>'
             + ("" if tokens else " tokenization error")
             + "</p>"

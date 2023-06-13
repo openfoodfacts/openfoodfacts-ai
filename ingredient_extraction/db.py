@@ -26,6 +26,8 @@ def create_annotation(
     action: Literal["a", "r", "u"],
     updated_offsets: Optional[list] = None,
 ):
+    if updated_offsets is not None:
+        action = "u"
     splits = identifier.split("_")
     annotation = Annotation.get_or_none(identifier=identifier)
     if annotation is None:

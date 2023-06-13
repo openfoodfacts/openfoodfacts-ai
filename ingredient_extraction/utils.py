@@ -131,13 +131,16 @@ def tokenize(text: str, offsets: list[tuple[int, int]]):
                 span_start_idx, span_end_idx = span
                 if span_start_idx > i:
                     logger.debug("TAG: 'O'")
-                    ner_tags.append(0)
+                    if not token.isspace():
+                        ner_tags.append(0)
                 elif span_start_idx == i:
                     logger.debug("TAG: 'B-ING'")
-                    ner_tags.append(1)
+                    if not token.isspace():
+                        ner_tags.append(1)
                 elif span_end_idx > i:
                     logger.debug("TAG: 'I-ING'")
-                    ner_tags.append(2)
+                    if not token.isspace():
+                        ner_tags.append(2)
                     if i == len(tokens) - 1:
                         # Last token in document
                         span_idx += 1
@@ -150,7 +153,8 @@ def tokenize(text: str, offsets: list[tuple[int, int]]):
                             logger.debug("No span left")
                 elif span_end_idx == i:
                     logger.debug("TAG: 'O'")
-                    ner_tags.append(0)
+                    if not token.isspace():
+                        ner_tags.append(0)
                     span_idx += 1
                     span = spans[span_idx] if span_idx < len(spans) else None
                     if span:
@@ -160,12 +164,14 @@ def tokenize(text: str, offsets: list[tuple[int, int]]):
                 else:
                     raise ValueError
             else:
-                ner_tags.append(0)
+                if not token.isspace():
+                    ner_tags.append(0)
             char_offset += len(token)
 
         if span is not None:
             raise ValueError
 
+    assert len(non_space_tokens) == len(ner_tags)
     return non_space_tokens, ner_tags
 
 
