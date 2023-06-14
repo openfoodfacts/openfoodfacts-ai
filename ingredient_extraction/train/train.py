@@ -1,4 +1,5 @@
 import functools
+import gzip
 import html
 import os
 from pathlib import Path
@@ -72,7 +73,8 @@ def save_prediction_artifacts(
     artifact = wandb.Artifact(f"predictions", type="prediction")
 
     for split_name in ("test", "train"):
-        texts = dataset[split_name]["text"]
+        split_ds = dataset[split_name]
+        texts = split_ds["text"]
         outputs = classifier(texts, batch_size=per_device_eval_batch_size)
         html_items = ["<html>\n<body>"]
         for text, output in zip(texts, outputs):
@@ -87,15 +89,24 @@ def save_prediction_artifacts(
         no_aggregated_output = no_aggregation_classifier(
             texts, batch_size=per_device_eval_batch_size
         )
-        prediction_file_path = Path(f"{split_name}_predictions.jsonl")
-        prediction_file_path.write_text(
-            "\n".join(
-                orjson.dumps(x, option=orjson.OPT_SERIALIZE_NUMPY).decode("utf-8")
-                for x in no_aggregated_output
-            )
+        full_output = (
+            {
+                "text": split_ds[i]["text"],
+                "meta": split_ds[i]["meta"],
+                "entities": entities,
+            }
+            for i, entities in enumerate(no_aggregated_output)
         )
-        artifact.add_file(prediction_file_path)
 
+        prediction_file_path = Path(f"{split_name}_predictions.jsonl.gz")
+        with gzip.open(prediction_file_path, "wb") as f:
+            f.write(
+                b"\n".join(
+                    orjson.dumps(item, option=orjson.OPT_SERIALIZE_NUMPY)
+                    for item in full_output
+                )
+            )
+        artifact.add_file(prediction_file_path)
     wandb.log_artifact(artifact)
 
 

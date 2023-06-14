@@ -21,6 +21,9 @@ ID2LABEL = {
     2: "I-ING",
 }
 
+LABEL2ID = {v: k for k, v in ID2LABEL.items()}
+LABEL_LIST = list(ID2LABEL.values())
+
 
 def find_span_offsets(text: str, substring: str):
     start_idx = text.find(substring)
