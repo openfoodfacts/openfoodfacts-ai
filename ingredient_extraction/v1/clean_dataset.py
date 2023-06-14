@@ -1,10 +1,13 @@
 import json
-from pathlib import Path
 import re
+from pathlib import Path
 from typing import Optional
 from urllib.parse import urlparse
 
 import typer
+from rich import print
+from rich.prompt import Confirm, Prompt
+
 from db import create_annotation
 from utils import (
     PROMPT_VERSION,
@@ -17,8 +20,6 @@ from utils import (
     parse_response,
     response_exists,
 )
-from rich.prompt import Prompt, Confirm
-from rich import print
 
 logger = get_root_logger()
 

@@ -8,7 +8,6 @@ from typing import Optional
 from urllib.parse import urlparse
 
 import tqdm
-
 from robotoff.off import get_barcode_from_url
 from robotoff.prediction.ocr.core import get_ocr_result
 from robotoff.utils import http_session
@@ -37,11 +36,11 @@ The output format must be a single JSON list containing one element per ingredie
 - a  "lang" field containing the detected language of the ingredient list.
 Don't output anything else than the expected JSON list.""",
     # With prompt 5, we output more frequently empty list, so we didn't keep it
-#     "5": """Extract ingredient lists from the following text. The ingredient list should start with the first ingredient and end with the last ingredient. It should not include allergy, label or origin information.
-# The output format must be a single JSON list containing one element per ingredient list. Output an empty list if there are no ingredient lists. If there are ingredients in several languages, the output JSON list should contain as many elements as detected languages. Each element should have two fields:
-# - a "text" field containing the detected ingredient list. The text should be a substring of the original text, you must not alter the original text.
-# - a  "lang" field containing the detected language of the ingredient list.
-# Don't output anything else than the expected JSON list.""",
+    #     "5": """Extract ingredient lists from the following text. The ingredient list should start with the first ingredient and end with the last ingredient. It should not include allergy, label or origin information.
+    # The output format must be a single JSON list containing one element per ingredient list. Output an empty list if there are no ingredient lists. If there are ingredients in several languages, the output JSON list should contain as many elements as detected languages. Each element should have two fields:
+    # - a "text" field containing the detected ingredient list. The text should be a substring of the original text, you must not alter the original text.
+    # - a  "lang" field containing the detected language of the ingredient list.
+    # Don't output anything else than the expected JSON list.""",
 }
 
 PROMPT = PROMPTS[PROMPT_VERSION]

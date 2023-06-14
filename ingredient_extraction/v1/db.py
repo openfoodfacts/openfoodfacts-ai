@@ -1,5 +1,6 @@
-from typing import Optional, Literal
-from peewee import SqliteDatabase, CharField, Model
+from typing import Literal, Optional
+
+from peewee import CharField, Model, SqliteDatabase
 from playhouse.sqlite_ext import JSONField
 
 db = SqliteDatabase("annotations.db")

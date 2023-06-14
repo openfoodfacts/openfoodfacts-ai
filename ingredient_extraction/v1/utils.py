@@ -1,9 +1,9 @@
 import html
 import json
-from pathlib import Path
-import re
-from typing import Optional, Union
 import logging
+import re
+from pathlib import Path
+from typing import Optional, Union
 from urllib.parse import urlparse
 
 from db import Annotation

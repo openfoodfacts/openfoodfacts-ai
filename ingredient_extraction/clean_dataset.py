@@ -1,9 +1,12 @@
 import enum
-from pathlib import Path
 import re
+from pathlib import Path
 from typing import Optional
 
 import typer
+from rich.console import Console
+from rich.prompt import Confirm, Prompt
+
 from db import create_annotation
 from utils import (
     fetch_annotations,
@@ -11,8 +14,6 @@ from utils import (
     get_root_logger,
     jsonl_iter,
 )
-from rich.prompt import Prompt, Confirm
-from rich.console import Console
 
 logger = get_root_logger()
 

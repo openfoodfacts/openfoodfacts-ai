@@ -1,8 +1,12 @@
 import functools
+import os
 
 import evaluate
 import numpy as np
+import seqeval
+
 from datasets import load_dataset
+from tokenizers.pre_tokenizers import Metaspace, Punctuation, Sequence, WhitespaceSplit
 from transformers import (
     AutoModelForTokenClassification,
     AutoTokenizer,
@@ -10,6 +14,8 @@ from transformers import (
     Trainer,
     TrainingArguments,
 )
+import typer
+
 
 id2label = {
     0: "O",
@@ -48,17 +54,20 @@ def tokenize_and_align_labels(examples, tokenizer):
     return tokenized_inputs
 
 
-base_ds = load_dataset(
-    "json",
-    data_files="https://static.openfoodfacts.org/data/datasets/ingredient_detection_dataset.jsonl.gz",
-)["train"]
-tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
-tokenized_ds = base_ds.map(
-    functools.partial(tokenize_and_align_labels, tokenizer=tokenizer), batched=True
-)
-ds = tokenized_ds.train_test_split(test_size=0.2, shuffle=True, seed=42)
+def display_labeled_sequence(
+    tokens: list[str], labels: list[int], id2label: dict[int, str]
+):
+    assert len(tokens) == len(labels)
+    output = []
+    for token, label in zip(tokens, labels):
+        label_name = id2label[label]
+        if label_name == "O":
+            output.append(token)
+        else:
+            output.append(f"{token}|{label_name}")
+    return " ".join(output)
 
-data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer)
+
 seqeval = evaluate.load("seqeval")
 
 
@@ -83,32 +92,84 @@ def compute_metrics(p):
     }
 
 
-model = AutoModelForTokenClassification.from_pretrained(
-    "distilbert-base-uncased", num_labels=3, id2label=id2label, label2id=label2id
-)
+def main(
+    run_name: str,
+    model_name: str = "xlm-roberta-large",
+    dataset_version: str = "v3",
+    num_train_epochs: int = 20,
+    learning_rate: float = 5e-5,
+    weight_decay: float = 0.01,
+    per_device_train_batch_size: int = 16,
+    per_device_eval_batch_size: int = 64,
+    gradient_accumulation_steps: int = 4,
+):
+    os.environ["WANDB_TAGS"] = f"{dataset_version}"
+    os.environ["WANDB_PROJECT"] = "ingredient-detection-ner"
+    # save your trained model checkpoint to wandb
+    os.environ["WANDB_LOG_MODEL"] = "true"
+    # turn off watch to log faster
+    os.environ["WANDB_WATCH"] = "false"
 
-training_args = TrainingArguments(
-    output_dir="ingredient-detection",
-    learning_rate=2e-5,
-    per_device_train_batch_size=16,
-    per_device_eval_batch_size=16,
-    num_train_epochs=20,
-    weight_decay=0.01,
-    evaluation_strategy="epoch",
-    save_strategy="epoch",
-    metric_for_best_model="eval_f1",
-    load_best_model_at_end=True,
-    push_to_hub=False,
-)
+    PARAMS = {
+        "num_train_epochs": num_train_epochs,
+        # "auto_find_batch_size": True,
+        "learning_rate": learning_rate,
+        "weight_decay": weight_decay,
+        "run_name": run_name,
+        "per_device_train_batch_size": per_device_train_batch_size,
+        "per_device_eval_batch_size": per_device_eval_batch_size,
+        "gradient_accumulation_steps": gradient_accumulation_steps,
+    }
 
-trainer = Trainer(
-    model=model,
-    args=training_args,
-    train_dataset=ds["train"],
-    eval_dataset=ds["test"],
-    tokenizer=tokenizer,
-    data_collator=data_collator,
-    compute_metrics=compute_metrics,
-)
+    DATASET_URLS = {
+        "train": f"https://static.openfoodfacts.org/data/datasets/ingredient_detection_dataset-{dataset_version}_train.jsonl.gz",
+        "test": f"https://static.openfoodfacts.org/data/datasets/ingredient_detection_dataset-{dataset_version}_test.jsonl.gz",
+    }
+    base_ds = load_dataset("json", data_files=DATASET_URLS)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    # Update tokenizer pre-tokenizer: the dataset has been pre-tokenized with Sequence([WhitespaceSplit(), Punctuation()]
+    # XLM-Roberta uses a SentencePiece tokenizer with Sequence([WhitespaceSplit(), Metaspace()] as pre-tokenizer
+    # Thus we need to add Punctuation() pre-tokenizer to the pipeline to avoid having a train/inference mismatch.
+    tokenizer._tokenizer.pre_tokenizer = Sequence(
+        [WhitespaceSplit(), Punctuation(), Metaspace()]
+    )
+    ds = base_ds.map(
+        functools.partial(tokenize_and_align_labels, tokenizer=tokenizer), batched=True
+    )
 
-trainer.train()
+    data_collator = DataCollatorForTokenClassification(
+        tokenizer=tokenizer, pad_to_multiple_of=8
+    )
+    model = AutoModelForTokenClassification.from_pretrained(
+        model_name, num_labels=3, id2label=id2label, label2id=label2id
+    )
+
+    training_args = TrainingArguments(
+        output_dir=f"ingredient-detection-{model_name}",
+        logging_strategy="epoch",
+        evaluation_strategy="epoch",
+        save_strategy="epoch",
+        metric_for_best_model="eval_f1",
+        load_best_model_at_end=True,
+        push_to_hub=False,
+        report_to="wandb",
+        fp16=True,
+        save_total_limit=10,
+        **PARAMS,
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=ds["train"],
+        eval_dataset=ds["test"],
+        tokenizer=tokenizer,
+        data_collator=data_collator,
+        compute_metrics=compute_metrics,
+    )
+
+    trainer.train()
+
+
+if __name__ == "__main__":
+    typer.run(main)

@@ -1,20 +1,25 @@
+from functools import cache
 import gzip
 import html
-import json
-from pathlib import Path
-import re
-from typing import Callable, Iterable, Optional, Union
 import logging
-from urllib.parse import urlparse
+from pathlib import Path
+from typing import Callable, Iterable, Optional, Union
 
-from uniseg import wordbreak
 import orjson
-from spacy.tokens import Doc
+from tokenizers.pre_tokenizers import Punctuation, Sequence, WhitespaceSplit
+
 from db import Annotation
 
 logger = logging.getLogger(__name__)
 
 ErrorType = tuple[str, str, str]
+
+
+ID2LABEL = {
+    0: "O",
+    1: "B-ING",
+    2: "I-ING",
+}
 
 
 def find_span_offsets(text: str, substring: str):
@@ -68,111 +73,114 @@ def generate_highlighted_text(
     return "".join(highlighted_text)
 
 
+TokenizedOutputType = list[tuple[str, tuple[int, int]]]
+
+
 def find_span_offsets(
-    tokens: list[str], start_idx: int, end_idx: int
+    tokenized_output: TokenizedOutputType, start_idx: int, end_idx: int
 ) -> Optional[tuple[int, int]]:
-    offset = 0
     if not start_idx < end_idx:
-        breakpoint()
         raise ValueError
     span_start_idx = None
-    for token_idx, token in enumerate(tokens):
-        if offset == start_idx:
+    for token_idx, (_, (token_char_start_idx, token_char_end_idx)) in enumerate(
+        tokenized_output
+    ):
+        if token_char_start_idx == start_idx:
             span_start_idx = token_idx
-        offset += len(token)
-        if offset == end_idx:
+        if token_char_end_idx == end_idx:
             if span_start_idx is None:
                 return None
             return span_start_idx, token_idx + 1
     return None
 
 
-def tailor(string: str, breakables: Iterable[int]) -> Iterable[int]:
-    new_breakables = []
-    next_break = False
-    for s, b in zip(string, breakables):
-        if s == ":":
-            b = 1
-            next_break = True
-        else:
-            if next_break:
-                b = 1
-            next_break = False
-        new_breakables.append(b)
-    return new_breakables
+@cache
+def get_pre_tokenizer():
+    # In addition to XLM-Roberta tokenizer, we add punctuation split
+    return Sequence([WhitespaceSplit(), Punctuation()])
 
 
 def tokenize(text: str, offsets: list[tuple[int, int]]):
+    # 27 errors
     logger.debug("offsets: %s", offsets)
-    tokens: list[str] = list(wordbreak.words(text, tailor=tailor))
-    non_space_tokens = [t for t in tokens if not t.isspace()]
+    pre_tokenizer = get_pre_tokenizer()
+    tokenized_output: TokenizedOutputType = pre_tokenizer.pre_tokenize_str(text)
+    tokens = [t for t, _ in tokenized_output]
     spans = [
-        find_span_offsets(tokens, start_idx, end_idx)
+        find_span_offsets(tokenized_output, start_idx, end_idx)
         for start_idx, end_idx in sorted(set(offsets), key=lambda x: x[0])
     ]
     has_error = any(x is None for x in spans)
 
     if has_error:
+        logger.debug("Tokenization error")
         logger.debug("text: '%s', offsets: %s", text, offsets)
+        for span_idx, span in enumerate(spans):
+            if span is None:
+                char_start_idx, char_end_idx = offsets[span_idx]
+                logger.debug(
+                    "%d:%d, '%s'",
+                    char_start_idx,
+                    char_end_idx,
+                    text[char_start_idx:char_end_idx],
+                )
+        logger.debug("----------")
         return None, None
 
     spans = [x for x in spans if x is not None]
     if not spans:
-        ner_tags = [0 for _ in range(len(non_space_tokens))]
+        ner_tags = [0 for _ in range(len(tokenized_output))]
     else:
         span_idx = 0
         span = spans[span_idx]
         ner_tags = []
+        next_span = False
+
         logger.debug(f"current span: {span[0]}:{span[1]}")
-        char_offset = 0
-        for i, token in enumerate(tokens):
-            logger.debug(f"token {i}: '{token}' (char index: {char_offset})")
+        for i, (token, (token_char_start_idx, token_char_end_idx)) in enumerate(
+            tokenized_output
+        ):
+            logger.debug(
+                f"token {i}: '{token}' (char index: {token_char_start_idx}:{token_char_end_idx})"
+            )
             if span is not None:
                 span_start_idx, span_end_idx = span
-                if span_start_idx > i:
-                    logger.debug("TAG: 'O'")
-                    if not token.isspace():
-                        ner_tags.append(0)
-                elif span_start_idx == i:
-                    logger.debug("TAG: 'B-ING'")
-                    if not token.isspace():
-                        ner_tags.append(1)
-                elif span_end_idx > i:
-                    logger.debug("TAG: 'I-ING'")
-                    if not token.isspace():
-                        ner_tags.append(2)
-                    if i == len(tokens) - 1:
-                        # Last token in document
-                        span_idx += 1
-                        span = spans[span_idx] if span_idx < len(spans) else None
-                        if span:
-                            logger.debug(
-                                f"current span: {span_start_idx}:{span_end_idx}"
-                            )
-                        else:
-                            logger.debug("No span left")
-                elif span_end_idx == i:
-                    logger.debug("TAG: 'O'")
-                    if not token.isspace():
-                        ner_tags.append(0)
+                if span_start_idx >= i:
+                    tag_id = 1 if span_start_idx == i else 0
+                    logger.debug(f"TAG: '{ID2LABEL[tag_id]}'")
+                    ner_tags.append(0)
+                    if span_end_idx - 1 == i:
+                        next_span = True
+
+                elif span_end_idx - 1 >= i:
+                    tag_id = 2
+                    logger.debug(f"TAG: '{ID2LABEL[tag_id]}'")
+                    ner_tags.append(tag_id)
+                    if span_end_idx - 1 == i:
+                        next_span = True
+
+                if next_span:
                     span_idx += 1
                     span = spans[span_idx] if span_idx < len(spans) else None
-                    if span:
-                        logger.debug(f"current span: {span_start_idx}:{span_end_idx}")
-                    else:
-                        logger.debug("No span left")
-                else:
-                    raise ValueError
+                    next_span = False
+                    logger.debug(
+                        f"current span: {span_start_idx}:{span_end_idx}"
+                        if span
+                        else None
+                    )
+
             else:
-                if not token.isspace():
-                    ner_tags.append(0)
-            char_offset += len(token)
+                ner_tags.append(0)
 
         if span is not None:
             raise ValueError
 
-    assert len(non_space_tokens) == len(ner_tags)
-    return non_space_tokens, ner_tags
+    if len(tokens) != len(ner_tags):
+        raise ValueError(
+            "tokens (len=%d) and ner tags (length=%d) have different length:\n%s\n%s"
+            % (len(tokens), len(ner_tags), tokens, ner_tags),
+        )
+    return tokens, ner_tags
 
 
 def get_open_fn(filepath: Union[str, Path]) -> Callable:

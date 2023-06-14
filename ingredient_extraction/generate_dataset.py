@@ -1,6 +1,6 @@
 import argparse
-import json
 import gzip
+import json
 import logging
 from pathlib import Path
 
@@ -46,9 +46,9 @@ def generate_dataset(items: list[dict], output_dir: Path):
         entity_offsets = [x for x in entity_offsets if x[0] < x[1]]
         tokens, ner_tags = tokenize(full_text, entity_offsets)
         split = "test" if item["meta"]["in_test_split"] else "train"
-        split_counts[split] += 1
 
         if tokens:
+            split_counts[split] += 1
             dataset.append(
                 {
                     "text": full_text,
