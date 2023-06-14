@@ -1,3 +1,4 @@
+import enum
 from pathlib import Path
 import re
 from typing import Optional
@@ -19,7 +20,7 @@ console = Console()
 
 PATTERNS = {
     "ingredient": re.compile(
-        r"ingredienten|ingredientes?|ingredienti|ingr[ée]dients?|inhaltsstoffe|ingredienser|composição|zutaten|sastojci|sastāvs|съставки|sastav|összetevők|состав|склад|ainesosat|συστατικα|składniki|(?:bahan-)bahannya|ส่วนประกอบที่สำคัญ|成分|配料|لمكونات",
+        r"ingredienten|ingredientes?|ingredienti|ingr[ée]dients?|i̇çi̇ndeki̇ler|inhaltsstoffe|ingredienser|composição|zutaten|sastojci|sastāvs|složení|съставки|sastav|összetevők|состав|склад|ainesosat|συστατικα|sestavine|składniki|Thành phần|(?:bahan-)bahannya|ส่วนประกอบที่สำคัญ|成分|配料|原材料名|لمكونات",
         re.I,
     ),
     "conservation": re.compile(
@@ -27,15 +28,22 @@ PATTERNS = {
         re.I,
     ),
     "allergen": re.compile(
-        r"puede contener|trazas eventuales|kan indeholde spor|contiene ?:|contains ?:|може містити|peux contenir|kan sp[uo]ren|allerg|traces? [ée]ventuelles?|traces? possibles?|may contain traces?|bevat mogelijk|fabriqué dans une usine|gemaakt in een bedrijf|made in a factory", re.I
+        r"puede contener|peut contenir|może zawierać|trazas eventuales|kan indeholde spor|contiene ?:|contains ?:|може містити|peux contenir|kann? sp[uo]ren|kann andere|allerg|traces? [ée]ventuelles?|traces? possibles?|may contain traces?|bevat mogelijk|fabriqué dans une usine|gemaakt in een bedrijf|made in a factory",
+        re.I,
     ),
     "other": re.compile(
         r"prodotto essiccazione|product subject to|produit sujet à", re.I
     ),
-    "non-food": re.compile(r"cigarette|parfum|stearamidopropyl|disodium edta|benzyl salicylate|copolymer|behentrimonium methosulfate|silica", re.I),
+    "non-food": re.compile(
+        r"cigarette|parfum|stearamidopropyl|benzoate sodium|butylphenyl|trideceth-12|alpha-isomethyl|hydroxypropyltrimonium|disodium edta|benzyl salicylate|copolymer|behentrimonium methosulfate|silica",
+        re.I,
+    ),
     "prepared-with": re.compile(r"bereid met|préparé avec|prepared with", re.I),
     "shake-before": re.compile(r"agiter avant|share before", re.I),
-    "cacao-percent": re.compile(r"(cacau|cacao) \d\d ?% (m[íi]nimo|minimum)|\d\d ?% minimum cocoa|\d\d ?% de cacao m[íi]nimo|mindestens \d\d ?% kakao", re.I),
+    "cacao-percent": re.compile(
+        r"(:?cacao|cacau|cocoa|kakao) \d\d ?% (m[íi]nimo|minimum)|\d\d ?% minimum (:?cacao|cacau|cocoa|kakao)|\d\d ?% de (:?cacao|cacau|cocoa|kakao) m[íi]nimo|mindestens \d\d ?% kakao|(:?cacao|cacau|cocoa|kakao): \d\d% min",
+        re.I,
+    ),
     "single-word": re.compile(r"\b\w+\b", re.I),
 }
 
@@ -51,6 +59,12 @@ def is_corrected_marked_text_valid(original: str, correction: str):
 SPAN_TAG_START = "<b>"
 SPAN_TAG_END = "</b>"
 mark_tag_re = re.compile(r"<(?:\/)?b>")
+
+
+class SearchInType(str, enum.Enum):
+    ingredient = "ingredient"
+    before_ingredient = "before-ingredient"
+    after_ingredient = "after-ingredient"
 
 
 def extract_offsets(marked_text: str) -> list[tuple[int, int]]:
@@ -96,9 +110,11 @@ def annotate(item: dict, existing_annotation: Optional[dict] = None):
     identifier = meta["id"]
     console.print(f"ID: {identifier}")
     if existing_annotation is not None:
-        console.print(f"Annotation already exists: "
-                      f"action='{existing_annotation['action']}', "
-                      f"updated_offsets={existing_annotation['updated_offsets']}")
+        console.print(
+            f"Annotation already exists: "
+            f"action='{existing_annotation['action']}', "
+            f"updated_offsets={existing_annotation['updated_offsets']}"
+        )
     marked_text = generate_highlighted_text(
         item["text"], [list(x) for x in item["offsets"]]
     )
@@ -129,11 +145,18 @@ def annotate(item: dict, existing_annotation: Optional[dict] = None):
         console.print("Created :white_check_mark:")
 
 
-def matches_pattern(item: dict, pattern: re.Pattern) -> Optional[re.Match]:
+def matches_pattern(
+    item: dict, pattern: re.Pattern, search_in: SearchInType, context_length: int = 10
+) -> Optional[re.Match]:
     text = item["text"]
     offsets = item["offsets"]
     for start_offset, end_offset in offsets:
-        span = text[start_offset:end_offset]
+        if search_in == SearchInType.ingredient:
+            span = text[start_offset:end_offset]
+        elif search_in == SearchInType.after_ingredient:
+            span = text[end_offset : end_offset + context_length]
+        else:
+            span = text[start_offset - context_length : start_offset]
         if pattern == PATTERNS["single-word"]:
             match = pattern.fullmatch(span)
         else:
@@ -153,11 +176,15 @@ def has_single_word_ingredient(item: dict) -> bool:
     return False
 
 
-def additional_words_after_ingredient_prefix(item: dict) -> bool:
+def additional_words_after_ingredient_prefix(
+    item: dict, context_length: int = 25
+) -> bool:
     text = item["text"]
     offsets = item["offsets"]
     for start_offset, _ in offsets:
-        match = PATTERNS["ingredient"].search(text, start_offset - 15, start_offset)
+        match = PATTERNS["ingredient"].search(
+            text, start_offset - context_length, start_offset
+        )
         if match:
             before = text[match.end() : start_offset]
             if before.strip(" :\n;.*?,-•="):
@@ -186,6 +213,8 @@ def run(
     ),
     pattern: Optional[str] = typer.Option(None),
     pattern_type: Optional[str] = typer.Option(None),
+    search_in: SearchInType = typer.Option(SearchInType.ingredient),
+    search_context_length: int = typer.Option(10),
     target_identifier: Optional[str] = typer.Option(None),
     count_items: bool = typer.Option(False),
     detection_type: Optional[str] = typer.Option(None),
@@ -219,7 +248,14 @@ def run(
             annotate(item, existing_annotation)
             return
         else:
-            if pattern and ((match := matches_pattern(item, pattern)) is not None):
+            if pattern and (
+                (
+                    match := matches_pattern(
+                        item, pattern, search_in, search_context_length
+                    )
+                )
+                is not None
+            ):
                 if count_items:
                     counts += 1
                     continue
