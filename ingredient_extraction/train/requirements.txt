@@ -1,0 +1,8 @@
+transformers
+torch
+datasets
+evaluate
+seqeval
+accelerate
+wandb
+typer

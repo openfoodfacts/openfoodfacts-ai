@@ -102,6 +102,7 @@ def main(
     per_device_train_batch_size: int = 16,
     per_device_eval_batch_size: int = 64,
     gradient_accumulation_steps: int = 4,
+    fp16: bool = True,
 ):
     os.environ["WANDB_TAGS"] = f"{dataset_version}"
     os.environ["WANDB_PROJECT"] = "ingredient-detection-ner"
@@ -153,7 +154,7 @@ def main(
         load_best_model_at_end=True,
         push_to_hub=False,
         report_to="wandb",
-        fp16=True,
+        fp16=fp16,
         save_total_limit=10,
         **PARAMS,
     )
