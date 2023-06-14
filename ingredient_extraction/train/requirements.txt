@@ -6,3 +6,4 @@ seqeval
 accelerate
 wandb
 typer
+orjson

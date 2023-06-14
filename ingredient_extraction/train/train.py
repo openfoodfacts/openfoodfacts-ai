@@ -52,7 +52,9 @@ def convert_pipeline_output_to_html(text: str, output: list[dict]):
     return f"<p>{html_str}</p>"
 
 
-def save_prediction_artifacts(model, tokenizer, dataset, per_device_eval_batch_size: int):
+def save_prediction_artifacts(
+    model, tokenizer, dataset, per_device_eval_batch_size: int
+):
     classifier = pipeline(
         "ner",
         model=model,
@@ -239,6 +241,7 @@ def main(
     )
 
     trainer.train()
+    save_prediction_artifacts(model, tokenizer, ds, per_device_eval_batch_size)
 
 
 if __name__ == "__main__":
