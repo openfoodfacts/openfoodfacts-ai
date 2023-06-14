@@ -59,12 +59,14 @@ def save_prediction_artifacts(
         "ner",
         model=model,
         tokenizer=tokenizer,
+        device=model.device,
         aggregation_strategy="simple",
     )
     no_aggregation_classifier = pipeline(
         "ner",
         model=model,
         tokenizer=tokenizer,
+        device=model.device,
         aggregation_strategy=None,
     )
     artifact = wandb.Artifact(f"predictions", type="prediction")
