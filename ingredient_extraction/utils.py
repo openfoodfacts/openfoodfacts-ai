@@ -1,7 +1,7 @@
-from functools import cache
 import gzip
 import html
 import logging
+from functools import cache
 from pathlib import Path
 from typing import Callable, Iterable, Optional, Union
 

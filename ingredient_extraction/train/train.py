@@ -1,10 +1,14 @@
 import functools
+import html
 import os
+from pathlib import Path
 
 import evaluate
 import numpy as np
+import orjson
 import seqeval
-
+import typer
+import wandb
 from datasets import load_dataset
 from tokenizers.pre_tokenizers import Metaspace, Punctuation, Sequence, WhitespaceSplit
 from transformers import (
@@ -13,9 +17,8 @@ from transformers import (
     DataCollatorForTokenClassification,
     Trainer,
     TrainingArguments,
+    pipeline,
 )
-import typer
-
 
 id2label = {
     0: "O",
@@ -24,6 +27,72 @@ id2label = {
 }
 label2id = {v: k for k, v in id2label.items()}
 label_list = list(id2label.values())
+
+
+def convert_pipeline_output_to_html(text: str, output: list[dict]):
+    html_str = ""
+    previous_idx = 0
+    for item in output:
+        entity = item["entity_group"]
+        score = item["score"]
+
+        if entity != "ING":
+            raise ValueError()
+
+        start_idx = item["start"]
+        end_idx = item["end"]
+        html_str += (
+            html.escape(text[previous_idx:start_idx])
+            + "<mark>"
+            + html.escape(text[start_idx:end_idx])
+            + f"</mark>[{score}]"
+        )
+        previous_idx = end_idx
+    html_str += html.escape(text[previous_idx:])
+    return f"<p>{html_str}</p>"
+
+
+def save_prediction_artifacts(model, tokenizer, dataset, per_device_eval_batch_size: int):
+    classifier = pipeline(
+        "ner",
+        model=model,
+        tokenizer=tokenizer,
+        aggregation_strategy="simple",
+    )
+    no_aggregation_classifier = pipeline(
+        "ner",
+        model=model,
+        tokenizer=tokenizer,
+        aggregation_strategy=None,
+    )
+    artifact = wandb.Artifact(f"predictions", type="prediction")
+
+    for split_name in ("test", "train"):
+        texts = dataset[split_name]["text"]
+        outputs = classifier(texts, batch_size=per_device_eval_batch_size)
+        html_items = ["<html>\n<body>"]
+        for text, output in zip(texts, outputs):
+            html_item = convert_pipeline_output_to_html(text, output)
+            html_items.append(html_item)
+
+        html_items.extend(["</body>\n</html>"])
+        html_str = "\n".join(html_items)
+        prediction_html_file_path = Path(f"{split_name}_predictions.html")
+        prediction_html_file_path.write_text(html_str)
+        artifact.add_file(prediction_html_file_path)
+        no_aggregated_output = no_aggregation_classifier(
+            texts, batch_size=per_device_eval_batch_size
+        )
+        prediction_file_path = Path(f"{split_name}_predictions.jsonl")
+        prediction_file_path.write_text(
+            "\n".join(
+                orjson.dumps(x, option=orjson.OPT_SERIALIZE_NUMPY).decode("utf-8")
+                for x in no_aggregated_output
+            )
+        )
+        artifact.add_file(prediction_file_path)
+
+    wandb.log_artifact(artifact)
 
 
 def tokenize_and_align_labels(examples, tokenizer):
@@ -95,7 +164,7 @@ def compute_metrics(p):
 def main(
     run_name: str,
     model_name: str = "xlm-roberta-large",
-    dataset_version: str = "v3",
+    dataset_version: str = "v4",
     num_train_epochs: int = 20,
     learning_rate: float = 5e-5,
     weight_decay: float = 0.01,

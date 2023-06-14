@@ -29,7 +29,7 @@ PATTERNS = {
         re.I,
     ),
     "allergen": re.compile(
-        r"puede contener|peut contenir|może zawierać|trazas eventuales|kan indeholde spor|contiene ?:|contains ?:|може містити|peux contenir|kann? sp[uo]ren|kann andere|allerg|traces? [ée]ventuelles?|traces? possibles?|may contain traces?|bevat mogelijk|fabriqué dans une usine|gemaakt in een bedrijf|made in a factory",
+        r"puede contener|peut contenir|może zawierać|trazas eventuales|kan indeholde spor|contient du|contiene ?:|contains ?:|bevat ?:|може містити|peux contenir|kann? sp[uo]ren|kann andere|allerg|traces? [ée]ventuelles?|traces? possibles?|may contain traces?|bevat mogelijk|fabriqué dans une usine|gemaakt in een bedrijf|made in a factory",
         re.I,
     ),
     "other": re.compile(
