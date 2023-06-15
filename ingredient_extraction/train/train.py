@@ -75,9 +75,9 @@ def save_prediction_artifacts(
     for split_name in ("test", "train"):
         split_ds = dataset[split_name]
         texts = split_ds["text"]
-        outputs = classifier(texts, batch_size=per_device_eval_batch_size)
+        aggregated_outputs = classifier(texts, batch_size=per_device_eval_batch_size)
         html_items = ["<html>\n<body>"]
-        for text, output in zip(texts, outputs):
+        for text, output in zip(texts, aggregated_outputs):
             html_item = convert_pipeline_output_to_html(text, output)
             html_items.append(html_item)
 
@@ -86,7 +86,7 @@ def save_prediction_artifacts(
         prediction_html_file_path = Path(f"{split_name}_predictions.html")
         prediction_html_file_path.write_text(html_str)
         artifact.add_file(prediction_html_file_path)
-        no_aggregated_output = no_aggregation_classifier(
+        no_aggregated_outputs = no_aggregation_classifier(
             texts, batch_size=per_device_eval_batch_size
         )
         full_output = (
@@ -95,10 +95,28 @@ def save_prediction_artifacts(
                 "meta": split_ds[i]["meta"],
                 "entities": entities,
             }
-            for i, entities in enumerate(no_aggregated_output)
+            for i, entities in enumerate(no_aggregated_outputs)
         )
 
         prediction_file_path = Path(f"{split_name}_predictions.jsonl.gz")
+        with gzip.open(prediction_file_path, "wb") as f:
+            f.write(
+                b"\n".join(
+                    orjson.dumps(item, option=orjson.OPT_SERIALIZE_NUMPY)
+                    for item in full_output
+                )
+            )
+        artifact.add_file(prediction_file_path)
+
+        full_output = (
+            {
+                "text": split_ds[i]["text"],
+                "meta": split_ds[i]["meta"],
+                "entities": entities,
+            }
+            for i, entities in enumerate(aggregated_outputs)
+        )
+        prediction_file_path = Path(f"{split_name}_predictions_agg.jsonl.gz")
         with gzip.open(prediction_file_path, "wb") as f:
             f.write(
                 b"\n".join(
@@ -179,7 +197,7 @@ def compute_metrics(p):
 def main(
     run_name: str,
     model_name: str = "xlm-roberta-large",
-    dataset_version: str = "v4",
+    dataset_version: str = "alpha-v4",
     num_train_epochs: int = 20,
     learning_rate: float = 5e-5,
     weight_decay: float = 0.01,
