@@ -151,7 +151,7 @@ def tokenize(text: str, offsets: list[tuple[int, int]]):
                 if span_start_idx >= i:
                     tag_id = 1 if span_start_idx == i else 0
                     logger.debug(f"TAG: '{ID2LABEL[tag_id]}'")
-                    ner_tags.append(0)
+                    ner_tags.append(tag_id)
                     if span_end_idx - 1 == i:
                         next_span = True
 
