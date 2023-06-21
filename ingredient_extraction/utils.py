@@ -60,6 +60,7 @@ def generate_highlighted_text(
     mark_token: str = "b",
     html_escape: bool = False,
 ) -> str:
+    offsets = sorted(offsets, key=lambda x: x[0])
     highlighted_text = []
     previous_idx = 0
     escape_func = (lambda x: x) if html_escape is False else html.escape

@@ -110,6 +110,8 @@ def annotate(item: dict, existing_annotation: Optional[dict] = None):
     console.print(f"Image URL: {meta['url'].replace('.json', '.jpg')}")
     identifier = meta["id"]
     console.print(f"ID: {identifier}")
+    offsets = sorted(item["offsets"], key=lambda x: x[0])
+    console.print(f"offsets: {offsets}")
     if existing_annotation is not None:
         console.print(
             f"Annotation already exists: "
@@ -117,7 +119,7 @@ def annotate(item: dict, existing_annotation: Optional[dict] = None):
             f"updated_offsets={existing_annotation['updated_offsets']}"
         )
     marked_text = generate_highlighted_text(
-        item["text"], [list(x) for x in item["offsets"]]
+        item["text"], [list(x) for x in offsets]
     )
     marked_text_highlighted = marked_text.replace("<b>", "[red]").replace(
         "</b>", "[/red]"
