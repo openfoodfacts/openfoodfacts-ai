@@ -21,7 +21,7 @@ console = Console()
 
 PATTERNS = {
     "ingredient": re.compile(
-        r"ingredienten|ingredientes?|ingredienti|ingr[ée]dients?|i̇çi̇ndeki̇ler|inhaltsstoffe|ingredienser|composição|zutaten|sastojci|sastāvs|složení|съставки|sastav|összetevők|состав|склад|ainesosat|συστατικα|sestavine|składniki|Thành phần|(?:bahan-)bahannya|ส่วนประกอบที่สำคัญ|成分|配料|原材料名|لمكونات",
+        r"ingredienten|ingredientes?|Ingrediënt|רכיבים|ingrediënten|ingredienti|composición|innihald|ingr[ée]dients?|bestanddelen|i̇çi̇ndeki̇ler|inhaltsstoffe|ingredienser|composição|zutaten|sastojci|sastāvs|složení|съставки|sastav|összetevők|состав|склад|ainesosat|συστατικα|sestavine|składniki|Thành phần|(?:bahan-)bahannya|composition|Құрамы|ส่วนประกอบสําคัญ|ainekset|ส่วนประกอบที่สำคัญ|成分|配料|ส่วนประกอบโดยประมาณ|الـمـكـونـات|ส่วนประกอบที่สําคัญ|原料|原材料名|لمكونات",
         re.I,
     ),
     "conservation": re.compile(
@@ -29,7 +29,7 @@ PATTERNS = {
         re.I,
     ),
     "allergen": re.compile(
-        r"puede contener|peut contenir|może zawierać|trazas eventuales|kan indeholde spor|contient du|contiene ?:|contains ?:|bevat ?:|може містити|peux contenir|kann? sp[uo]ren|kann andere|allerg|traces? [ée]ventuelles?|traces? possibles?|may contain traces?|bevat mogelijk|fabriqué dans une usine|gemaakt in een bedrijf|made in a factory",
+        r"puede contener|peut contenir|może zawierać|trazas eventuales|kan indeholde spor|contient du|contiene ?:|contains ?:|bevat ?:|може містити|peux contenir|kann? sp[uo]ren|kann andere|allerg|traces? [ée]ventuelles?|traces? possibles?|may contain traces?|pr[ée]sence [ée]ventuelle|bevat mogelijk|fabriqué dans une usine|gemaakt in een bedrijf|made in a factory",
         re.I,
     ),
     "other": re.compile(
@@ -177,6 +177,21 @@ def has_single_word_ingredient(item: dict) -> bool:
     return False
 
 
+def has_single_ingredient_without_prefix(item: dict) -> bool:
+    text = item["text"]
+    offsets = item["offsets"]
+    for start_offset, end_offset in offsets:
+        substring = text[start_offset:end_offset]
+
+        if "," in substring:
+            continue
+        before = text[max(0, start_offset - 30) : start_offset].rstrip(": \n-;.")
+        match = PATTERNS["ingredient"].search(before)
+        if not match:
+            return True
+    return False
+
+
 def additional_words_after_ingredient_prefix(
     item: dict, context_length: int = 25
 ) -> bool:
@@ -197,6 +212,8 @@ def additional_words_after_ingredient_prefix(
 def perform_detection(detection_type: str, item: dict) -> bool:
     if detection_type == "single-ingredient":
         return has_single_word_ingredient(item)
+    elif detection_type == "single-ingredient-without-prefix":
+        return has_single_ingredient_without_prefix(item)
     elif detection_type == "missing-ingredient":
         return additional_words_after_ingredient_prefix(item)
     raise ValueError("unknown detection type")

@@ -66,11 +66,7 @@ def generate_dataset(items: list[dict], output_dir: Path):
         highlighted_text_by_split[split] += (
             "<p>"
             + generate_highlighted_text(
-                full_text,
-                entity_offsets,
-                html_escape=True,
-                start_token="<mark>",
-                end_token="</mark>",
+                full_text, entity_offsets, html_escape=True, mark_token="mark"
             )
             + f'</br>{id_}, <a href="{image_url}">{image_url}</a>'
             + ("" if tokens else " tokenization error")

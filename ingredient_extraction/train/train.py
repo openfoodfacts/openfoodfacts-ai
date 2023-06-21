@@ -54,7 +54,7 @@ def convert_pipeline_output_to_html(text: str, output: list[dict]):
 
 
 def save_prediction_artifacts(
-    model, tokenizer, dataset, per_device_eval_batch_size: int
+    run_name: str, model, tokenizer, dataset, per_device_eval_batch_size: int
 ):
     classifier = pipeline(
         "ner",
@@ -70,7 +70,7 @@ def save_prediction_artifacts(
         device=model.device,
         aggregation_strategy=None,
     )
-    artifact = wandb.Artifact(f"predictions", type="prediction")
+    artifact = wandb.Artifact(run_name, type="prediction")
 
     for split_name in ("test", "train"):
         split_ds = dataset[split_name]
@@ -272,7 +272,9 @@ def main(
     )
 
     trainer.train()
-    save_prediction_artifacts(model, tokenizer, ds, per_device_eval_batch_size)
+    save_prediction_artifacts(
+        run_name, model, tokenizer, ds, per_device_eval_batch_size
+    )
 
 
 if __name__ == "__main__":

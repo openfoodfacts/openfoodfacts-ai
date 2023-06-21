@@ -57,8 +57,7 @@ def fetch_annotations() -> dict[str, dict]:
 def generate_highlighted_text(
     text: str,
     offsets: list[tuple[int, int]],
-    start_token: str = "<b>",
-    end_token: str = "</b>",
+    mark_token: str = "b",
     html_escape: bool = False,
 ) -> str:
     highlighted_text = []
@@ -67,9 +66,9 @@ def generate_highlighted_text(
     for start_idx, end_idx in offsets:
         highlighted_text.append(
             escape_func(text[previous_idx:start_idx])
-            + start_token
+            + f"<{mark_token}>"
             + escape_func(text[start_idx:end_idx])
-            + end_token
+            + f"</{mark_token}>"
         )
         previous_idx = end_idx
     highlighted_text.append(escape_func(text[previous_idx:]))
