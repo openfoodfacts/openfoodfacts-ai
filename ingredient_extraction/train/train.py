@@ -3,6 +3,7 @@ import gzip
 import html
 import os
 from pathlib import Path
+from typing import Dict, List
 
 import evaluate
 import numpy as np
@@ -30,7 +31,7 @@ label2id = {v: k for k, v in id2label.items()}
 label_list = list(id2label.values())
 
 
-def convert_pipeline_output_to_html(text: str, output: list[dict]):
+def convert_pipeline_output_to_html(text: str, output: List[dict]):
     html_str = ""
     previous_idx = 0
     for item in output:
@@ -157,7 +158,7 @@ def tokenize_and_align_labels(examples, tokenizer):
 
 
 def display_labeled_sequence(
-    tokens: list[str], labels: list[int], id2label: dict[int, str]
+    tokens: List[str], labels: List[int], id2label: Dict[int, str]
 ):
     assert len(tokens) == len(labels)
     output = []
