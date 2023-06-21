@@ -61,7 +61,7 @@ def save_prediction_artifacts(
         model=model,
         tokenizer=tokenizer,
         device=model.device,
-        aggregation_strategy="simple",
+        aggregation_strategy="first",
     )
     no_aggregation_classifier = pipeline(
         "ner",
