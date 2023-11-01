@@ -1,0 +1,5 @@
+accelerate
+seqeval
+transformers[torch]
+datasets
+openfoodfacts==0.1.11
