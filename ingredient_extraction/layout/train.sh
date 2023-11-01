@@ -1,15 +1,16 @@
 #!/bin/bash
 
-WANDB_PROJECT=ingredient-extraction-layout WANDB_NAME=laymoutlmv3-base python train.py \
-  --per_device_train_batch_size 8 \
-  --per_device_eval_batch_size 16 \
-  --gradient_accumulation_steps 8 \
-  --model_name_or_path microsoft/layoutlmv3-base \
+# max_steps=1600 > 20 epochs: 20 epochs * (5065 / 64)
+
+WANDB_PROJECT=ingredient-extraction-layout WANDB_NAME=laymoutlmv3-large python train.py \
+  --per_device_train_batch_size 2 \
+  --per_device_eval_batch_size 4 \
+  --gradient_accumulation_steps 32 \
+  --model_name_or_path microsoft/layoutlmv3-large \
   --dataset_name ingredient-extraction \
-  --output_dir layoutlmv3-ingredient-extraction \
+  --output_dir layoutlmv3-large-ingredient-extraction \
   --do_train \
   --do_eval \
-  # 20 epochs: 20 epochs * (5065 / 64)
   --max_steps 1600 \
   --fp16 \
   --evaluation_strategy steps \
