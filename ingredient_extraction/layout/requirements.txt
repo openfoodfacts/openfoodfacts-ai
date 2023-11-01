@@ -1,5 +1,5 @@
-accelerate
-seqeval
-transformers[torch]
-datasets
+accelerate==0.24.1
+seqeval==1.2.2
+transformers[torch]==4.34.1
+datasets==2.14.6
 openfoodfacts==0.1.11
