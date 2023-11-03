@@ -1,0 +1,5 @@
+responses/*
+annotations.db
+*.jsonl.gz
+*.html
+artifacts

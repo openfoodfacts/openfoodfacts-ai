@@ -14,7 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Fine-tuning LayoutLMv3 for token classification on FUNSD or CORD, or Open Food Facts ingredients extraction.
+Fine-tuning LayoutLMv3 for token classification on FUNSD or CORD, or Open Food
+Facts ingredients extraction.
 
 Adapted from
 https://github.com/huggingface/transformers/blob/main/examples/research_projects/layoutlmv3/run_funsd_cord.py
@@ -34,6 +35,9 @@ from transformers import (
     AutoModelForTokenClassification,
     AutoProcessor,
     HfArgumentParser,
+    LayoutLMv2ImageProcessor,
+    LayoutXLMProcessor,
+    LayoutXLMTokenizerFast,
     Trainer,
     TrainingArguments,
     set_seed,
@@ -46,7 +50,8 @@ from transformers.utils.versions import require_version
 import datasets
 from datasets import ClassLabel, load_dataset, load_metric
 
-# Will error if the minimal version of Transformers is not installed. Remove at your own risks.
+# Will error if the minimal version of Transformers is not installed. Remove
+# at your own risks.
 check_min_version("4.19.0.dev0")
 
 require_version(
@@ -60,7 +65,8 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ModelArguments:
     """
-    Arguments pertaining to which model/config/tokenizer we are going to fine-tune from.
+    Arguments pertaining to which model/config/tokenizer we are going to
+    fine-tune from.
     """
 
     model_name_or_path: str = field(
@@ -93,21 +99,13 @@ class ModelArguments:
             "help": "The specific model version to use (can be a branch name, tag name or commit id)."
         },
     )
-    use_auth_token: bool = field(
-        default=False,
-        metadata={
-            "help": (
-                "Will use the token generated when running `huggingface-cli login` (necessary to use this script "
-                "with private models)."
-            )
-        },
-    )
 
 
 @dataclass
 class DataTrainingArguments:
     """
-    Arguments pertaining to what data we are going to input our model for training and eval.
+    Arguments pertaining to what data we are going to input our model for
+    training and eval.
     """
 
     task_name: Optional[str] = field(
@@ -245,8 +243,8 @@ def main():
         (ModelArguments, DataTrainingArguments, TrainingArguments)
     )
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
-        # If we pass only one argument to the script and it's the path to a json file,
-        # let's parse it to get our arguments.
+        # If we pass only one argument to the script and it's the path to a
+        # json file, let's parse it to get our arguments.
         model_args, data_args, training_args = parser.parse_json_file(
             json_file=os.path.abspath(sys.argv[1])
         )
@@ -299,15 +297,14 @@ def main():
     set_seed(training_args.seed)
 
     # Get the datasets
-    # In distributed training, the load_dataset function guarantee that only one local process can concurrently
-    # download the dataset.
+    # In distributed training, the load_dataset function guarantee that only
+    # one local process can concurrently download the dataset.
     if data_args.dataset_name == "funsd":
         # Downloading and loading a dataset from the hub.
         dataset = load_dataset(
             "nielsr/funsd-layoutlmv3",
             data_args.dataset_config_name,
             cache_dir=model_args.cache_dir,
-            use_auth_token=True if model_args.use_auth_token else None,
         )
     elif data_args.dataset_name == "cord":
         # Downloading and loading a dataset from the hub.
@@ -315,7 +312,6 @@ def main():
             "nielsr/cord-layoutlmv3",
             data_args.dataset_config_name,
             cache_dir=model_args.cache_dir,
-            use_auth_token=True if model_args.use_auth_token else None,
         )
     elif data_args.dataset_name == "ingredient-extraction":
         # Downloading and loading a dataset from the hub.
@@ -323,7 +319,6 @@ def main():
             "raphael0202/ingredient-detection-layout-dataset",
             data_args.dataset_config_name,
             cache_dir=model_args.cache_dir,
-            use_auth_token=True if model_args.use_auth_token else None,
         )
     else:
         raise ValueError(
@@ -348,8 +343,8 @@ def main():
 
     remove_columns = column_names
 
-    # In the event the labels are not a `Sequence[ClassLabel]`, we will need to go through the dataset to get the
-    # unique labels.
+    # In the event the labels are not a `Sequence[ClassLabel]`, we will need
+    # to go through the dataset to get the unique labels.
     def get_label_list(labels):
         unique_labels = set()
         for label in labels:
@@ -358,7 +353,8 @@ def main():
         label_list.sort()
         return label_list
 
-    # If the labels are of type ClassLabel, they are already integers and we have the map stored somewhere.
+    # If the labels are of type ClassLabel, they are already integers and we
+    # have the map stored somewhere.
     # Otherwise, we have to get the list of labels manually.
     if isinstance(features[label_column_name].feature, ClassLabel):
         label_list = features[label_column_name].feature.names
@@ -374,8 +370,8 @@ def main():
     # Load pretrained model and processor
     #
     # Distributed training:
-    # The .from_pretrained methods guarantee that only one local process can concurrently
-    # download model & vocab.
+    # The .from_pretrained methods guarantee that only one local process can
+    # concurrently download model & vocab.
     config = AutoConfig.from_pretrained(
         model_args.config_name
         if model_args.config_name
@@ -384,20 +380,33 @@ def main():
         finetuning_task=data_args.task_name,
         cache_dir=model_args.cache_dir,
         revision=model_args.model_revision,
-        use_auth_token=True if model_args.use_auth_token else None,
     )
 
-    processor = AutoProcessor.from_pretrained(
-        model_args.processor_name
-        if model_args.processor_name
-        else model_args.model_name_or_path,
-        cache_dir=model_args.cache_dir,
-        use_fast=True,
-        revision=model_args.model_revision,
-        use_auth_token=True if model_args.use_auth_token else None,
-        add_prefix_space=True,
-        apply_ocr=False,
-    )
+    if model_args.model_name_or_path and model_args.model_name_or_path.startswith(
+        "microsoft/layoutxlm-"
+    ):
+        # The wrong tokenizer is loaded by default when using LayoutXLM, so we
+        # have to load it manually
+        tokenizer = LayoutXLMTokenizerFast.from_pretrained(
+            model_args.model_name_or_path
+        )
+        image_processor = LayoutLMv2ImageProcessor.from_pretrained(
+            model_args.model_name_or_path, apply_ocr=False
+        )
+        processor = LayoutXLMProcessor(
+            image_processor=image_processor, tokenizer=tokenizer
+        )
+    else:
+        processor = AutoProcessor.from_pretrained(
+            model_args.processor_name
+            if model_args.processor_name
+            else model_args.model_name_or_path,
+            cache_dir=model_args.cache_dir,
+            use_fast=True,
+            revision=model_args.model_revision,
+            add_prefix_space=True,
+            apply_ocr=False,
+        )
 
     model = AutoModelForTokenClassification.from_pretrained(
         model_args.model_name_or_path,
@@ -405,16 +414,15 @@ def main():
         config=config,
         cache_dir=model_args.cache_dir,
         revision=model_args.model_revision,
-        use_auth_token=True if model_args.use_auth_token else None,
     )
 
     # Set the correspondences label/ID inside the model config
     model.config.label2id = label2id
     model.config.id2label = id2label
 
-    # Preprocessing the dataset
-    # The processor does everything for us (prepare the image using LayoutLMv3ImageProcessor
-    # and prepare the words, boxes and word-level labels using LayoutLMv3TokenizerFast)
+    # Preprocessing the dataset The processor does everything for us (prepare
+    # the image using LayoutLMv3ImageProcessor and prepare the words, boxes and
+    # word-level labels using LayoutLMv3TokenizerFast)
     def prepare_examples(examples, label2id):
         images = examples[image_column_name]
         words = examples[text_column_name]
