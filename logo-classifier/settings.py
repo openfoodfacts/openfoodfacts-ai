@@ -1,0 +1,1 @@
+labels_path = "datasets/class_infos.jsonl"
