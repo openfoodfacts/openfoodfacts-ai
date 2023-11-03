@@ -30,6 +30,7 @@ from typing import Optional
 
 import numpy as np
 import transformers
+from codecarbon import EmissionsTracker
 from transformers import (
     AutoConfig,
     AutoModelForTokenClassification,
@@ -632,4 +633,5 @@ def _mp_fn(index):
 
 
 if __name__ == "__main__":
-    main()
+    with EmissionsTracker(save_to_file=False) as tracker:
+        main()
