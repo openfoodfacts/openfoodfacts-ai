@@ -5,15 +5,15 @@
 
 To improve the quality of the Spellcheck module, we decided to exploit the recent advancements with LLMs to train a task-specific Machine Learning model on OFF data. 
 
-Creating this kind of solution requires to rigoursly build a benchmark/validation dataset to estimate the future models performances. 
+Creating this kind of solution requires rigorously building a benchmark/validation dataset to estimate the future models' performances. 
 
-Our idea is to use the existing dataset developed a few years ago, enhancing it with new data, then perform data-augmentation using LLMs.
+Our idea is to use the existing dataset developed a few years ago, enhance it with new data, and then perform data augmentation using LLMs.
 
-Not only do we build a benchmark to evaluate future solutions, we'll use data augmentation to create the dataset required to train a task-specific machine learning model.
+Not only do we build a benchmark to evaluate future solutions, but we'll also use data augmentation to create the dataset required to train a task-specific machine learning model.
 
 ### Data lineage
 
-Old dataset, located at `spellcheck/old/test_sets/fr` is leveraged to constitute our new dataset. It is composed of `List of Ingredients` before and after spellcheck, mainly in French.
+The old dataset, located at `spellcheck/old/test_sets/fr` is leveraged to constitute our new dataset. It is composed of `List of Ingredients` before and after spellcheck, mainly in French.
 
 We take this dataset and process it. 
 The processing scripts are located at: `spellcheck/scripts/old_to_new` - and the processed data: `spellcheck/data`.
