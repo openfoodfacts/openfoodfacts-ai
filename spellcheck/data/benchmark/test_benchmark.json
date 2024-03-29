@@ -1,0 +1,59 @@
+{
+  "data": [
+    {
+      "original": "Ananas, Ananassaft, Säuerungs - mittel: Citronensäure",
+      "reference": "Ananas, Ananassaft, Säuerungsmittel: Citronensäure",
+      "prediction": "Ananas, Ananassaft, Säuerungsmittel: Citronensäure"
+    },
+    {
+      "original": "_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.",
+      "reference": "_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.",
+      "prediction": "Cacahuetes con cáscara tostado. Trazas de frutos de cáscara."
+    },
+    {
+      "original": "Vollmilchschokolade (Zucker, Vollmilchpulver, Kakaobutter, Kakaomasse, Buttermilchpulver, Milchzucker, Emulgator Lecithine (Soja), Vanilleextrakt), Palmfett, Zucker, Buttermilchpulver, Weizen - mehl, gemahlene Haselnüsse (7,8%), getrockneter Glukosesirup, Butterreinfett (2,5%), Weizenstârke, Kakaomasse, Emulgator Leci - thine (Soja), Sahnepulver, Kakaobutter, Backtriebmittel Natrium - hydrogencarbonati Salz, Vanilleextrakt. Kann auch Anteile von Mandel, Erdnuss, anderen Nüssen und Ei enthalten.",
+      "reference": "Vollmilchschokolade (Zucker, Vollmilchpulver, Kakaobutter, Kakaomasse, Buttermilchpulver, Milchzucker, Emulgator Lecithine (Soja), Vanilleextrakt), Palmfett, Zucker, Buttermilchpulver, Weizenmehl, gemahlene Haselnüsse (7,8%), getrockneter Glukosesirup, Butterreinfett (2,5%), Weizenstârke, Kakaomasse, Emulgator Lecithine (Soja), Sahnepulver, Kakaobutter, Backtriebmittel Natriumhydrogencarbonati Salz, Vanilleextrakt. Kann auch Anteile von Mandel, Erdnuss, anderen Nüssen und Ei enthalten.",
+      "prediction": "Vollmilchschokolade (Zucker, Vollmilchpulver, Kakaobutter, Kakaomasse, Buttermilchpulver, Milchzucker, Emulgator Lecithine (Soja), Vanilleextrakt), Palmfett, Zucker, Buttermilchpulver, Weizenmehl, gemahlene Haselnüsse (7,8%), getrockneter Glukosesirup, Butterreinfett (2,5%), Weizenstärke, Kakaomasse, Emulgator Lecithine (Soja), Sahnepulver, Kakaobutter, Backtriebmittel Natriumhydrogencarbonat, Salz, Vanilleextrakt. Kann auch Anteile von Mandel, Erdnuss, anderen Nüssen und Ei enthalten."
+    },
+    {
+      "original": "24.36% chocolat noir 63% origine non UE (cacao, sucre, beurre de cacao, émulsifiant léci - thine de colza, vanille bourbon gousse), œuf, farine de blé, beurre, sucre, miel, sucre perlé, levure chimique, zeste de citron.",
+      "reference": "24.36% chocolat noir 63% origine non UE (cacao, sucre, beurre de cacao, émulsifiant lécithine de colza, vanille bourbon gousse), œuf, farine de blé, beurre, sucre, miel, sucre perlé, levure chimique, zeste de citron.",
+      "prediction": "24.36% chocolat noir 63% origine non UE (cacao, sucre, beurre de cacao, émulsifiant lécithine de colza, vanille bourbon gousse), œuf, farine de blé, beurre, sucre, miel, sucre perlé, levure chimique, zeste de citron."
+    },
+    {
+      "original": "cacao maigre en Sucre poudre 20% - émulsifiant : léci - thines de tournesol - carbo - nate de magnésium - carbo - nate de calcium - arôme - vita - mines : C, E, niacine (83), B6, acide pantothénique (B5), thiamine (BI), acide folique (B9). Traces de lait et de soja. Les informations en gras sont desti - nées aux personnes Intolérantes ou allergiques.",
+      "reference": "cacao maigre en Sucre poudre 20% - émulsifiant : lécithines de tournesol - carbonate de magnésium - carbonate de calcium - arôme - vitamines : C, E, niacine (83), B6, acide pantothénique (B5), thiamine (BI), acide folique (B9). Traces de lait et de soja. Les informations en gras sont destinées aux personnes Intolérantes ou allergiques.",
+      "prediction": "cacao maigre en Sucre poudre 20% - émulsifiant : lécithines de tournesol - carbonate de magnésium - carbonate de calcium - arôme - vitamines : C, E, niacine (83), B6, acide pantothénique (B5), thiamine (B1), acide folique (B9). Traces de lait et de soja. Les informations en gras sont destinées aux personnes Intolérantes ou allergiques."
+    },
+    {
+      "original": "33% pinda's, 13% rozijnen, boter (melk), 8,7% chocoladestukjes (suiker, cacao - massa, cacaoboter, dextrose, emulgator: leci - thinen (zonnebloem)), 8,6% gedroogde vijgen, volkoren speltmeel (tarwe), honing, rijstcrispies (rijstemeel, tarwebloem, suiker, roggemout, zout), havervlokken, rijstmeel, eipoeder*. *van scharreleieren. Droge cacaobestanddelen in choco - lade:",
+      "reference": "33% pinda's, 13% rozijnen, boter (melk), 8,7% chocoladestukjes (suiker, cacaomassa, cacaoboter, dextrose, emulgator: lecithinen (zonnebloem)), 8,6% gedroogde vijgen, volkoren speltmeel (tarwe), honing, rijstcrispies (rijstemeel, tarwebloem, suiker, roggemout, zout), havervlokken, rijstmeel, eipoeder*. *van scharreleieren. Droge cacaobestanddelen in chocolade:",
+      "prediction": "List of ingredients:\n\n33% pinda's, 13% rozijnen, boter (melk), 8.7% chocoladestukjes (suiker, cacao - massa, cacaoboter, dextrose, emulgator: lecithinen (zonnebloem)), 8.6% gedroogde vijgen, volkoren speltmeel (tarwe), honing, rijstcrispies (rijstemeel, tarwebloem, suiker, roggemout, zout), havervlokken, rijstmeel, eipoeder*. *van scharreleieren. Droge cacaobestanddelen in chocolade:"
+    },
+    {
+      "original": "Sucre, pâte de cacao, beurre de cacao, émulsifiant: léci - thines (soja). Peut contenir des traces de lait. Chocolat noir: cacao: 50% minimum. À conserver à l'abri de la chaleur et de l'humidité. Élaboré en France.",
+      "reference": "Sucre, pâte de cacao, beurre de cacao, émulsifiant: lécithines (soja). Peut contenir des traces de lait. Chocolat noir: cacao: 50% minimum. À conserver à l'abri de la chaleur et de l'humidité. Élaboré en France.",
+      "prediction": "Sucre, pâte de cacao, beurre de cacao, émulsifiant: lécithines (soja). Peut contenir des traces de lait. Chocolat noir: cacao: 50% minimum. À conserver à l'abri de la chaleur et de l'humidité. Élaboré en France."
+    },
+    {
+      "original": "Zucker, Vollmilchpulver (16%), Kakaobutter, Rosinen (12,5%), Haselnüsse, Kakaomasse, Buttermilchpulver, Milchzucker, Jamaica Rum (2,5%), Emulgator Leci - thine (Soja), Aromen. Kann auch Anteile von Mandel, Erdnuss und anderen Nüssen enthalten.",
+      "reference": "Zucker, Vollmilchpulver (16%), Kakaobutter, Rosinen (12,5%), Haselnüsse, Kakaomasse, Buttermilchpulver, Milchzucker, Jamaica Rum (2,5%), Emulgator Lecithine (Soja), Aromen. Kann auch Anteile von Mandel, Erdnuss und anderen Nüssen enthalten.",
+      "prediction": "Zucker, Vollmilchpulver (16%), Kakaobutter, Rosinen (12.5%), Haselnüsse, Kakaomasse, Buttermilchpulver, Milchzucker, Jamaica Rum (2.5%), Emulgator Lecithine (Soja), Aromen. Kann auch Anteile von Mandel, Erdnuss und anderen Nüssen enthalten."
+    },
+    {
+      "original": "Zucker, Vollmilchpulver, pflanzliche Fette (Palmkern, Palm), Kakaobutter, Kakaomasse, Glukosesirup, stark entöltes Kakaopulver 1,9%, Weizenmehl, Wasser, Feuchthaltemittel (Glycerin), Emulgator (Leci - thine (Soja)), Kokosöl, Speisesalz, Buttermilchpulver, Milchzucker, Verdickungsmittel (Carrageen), Säureregulator (Natriumcitrate), natür - liches Aroma, Säuerungsmittel (Milchsäure, Citronensäure), natürliches Vanillearoma, Bourbon-Vanilleextrakt, Backtriebmittel (Ammonium - hydrogencarbonat, Natriumhydrogencarbonat, Kaliumcarbonate). Kann Spuren von Schalenfrüchten enthalten.",
+      "reference": "Zucker, Vollmilchpulver, pflanzliche Fette (Palmkern, Palm), Kakaobutter, Kakaomasse, Glukosesirup, stark entöltes Kakaopulver 1,9%, Weizenmehl, Wasser, Feuchthaltemittel (Glycerin), Emulgator (Lecithine (Soja)), Kokosöl, Speisesalz, Buttermilchpulver, Milchzucker, Verdickungsmittel (Carrageen), Säureregulator (Natriumcitrate), natürliches Aroma, Säuerungsmittel (Milchsäure, Citronensäure), natürliches Vanillearoma, Bourbon-Vanilleextrakt, Backtriebmittel (Ammoniumhydrogencarbonat, Natriumhydrogencarbonat, Kaliumcarbonate). Kann Spuren von Schalenfrüchten enthalten.",
+      "prediction": "Zucker, Vollmilchpulver, pflanzliche Fette (Palmkern, Palm), Kakaobutter, Kakaomasse, Glukosesirup, stark entöltes Kakaopulver 1.9%, Weizenmehl, Wasser, Feuchthaltemittel (Glycerin), Emulgator (Lecithine (Soja)), Kokosöl, Speisesalz, Buttermilchpulver, Milchzucker, Verdickungsmittel (Carrageen), Säureregulator (Natriumcitrate), natürliches Aroma, Säuerungsmittel (Milchsäure, Citronensäure), natürliches Vanillearoma, Bourbon-Vanilleextrakt, Backtriebmittel (Ammoniumhydrogencarbonat, Natriumhydrogencarbonat, Kaliumcarbonate). Kann Spuren von Schalenfrüchten enthalten."
+    },
+    {
+      "original": "Weizenmehl 23 %, Glukose-Fruktose-Sirup, Vollei 12 %, Zucker, Rapsöl, Schokolade 6 % [Kakaomasse, Zucker, fettarmes Kakaopulver, Emulgator (Sojaleci - thine)], Stabilisator (Glycerin), Weizenstärke, Süssmolkenpulver (aus Milch), Magermilchpulver 1,2 %, Vollmilchpulver 0,8 %, Backtriebmit - tel (Diphosphate, Kaliumcarbonate), Glukosesirup, Emulgatoren (E472b, E475, Sojalecithine), fettarmes Kakaopulver, Speisesalz, natürliches Aroma. Kann Nüsse enthalten.",
+      "reference": "Weizenmehl 23 %, Glukose-Fruktose-Sirup, Vollei 12 %, Zucker, Rapsöl, Schokolade 6 % [Kakaomasse, Zucker, fettarmes Kakaopulver, Emulgator (Sojalecithine)], Stabilisator (Glycerin), Weizenstärke, Süssmolkenpulver (aus Milch), Magermilchpulver 1,2 %, Vollmilchpulver 0,8 %, Backtriebmittel (Diphosphate, Kaliumcarbonate), Glukosesirup, Emulgatoren (E472b, E475, Sojalecithine), fettarmes Kakaopulver, Speisesalz, natürliches Aroma. Kann Nüsse enthalten.",
+      "prediction": "Weizenmehl 23%, Glukose-Fruktose-Sirup, Vollei 12%, Zucker, Rapsöl, Schokolade 6% [Kakaomasse, Zucker, fettarmes Kakaopulver, Emulgator (Sojalecithine)], Stabilisator (Glycerin), Weizenstärke, Süssmolkenpulver (aus Milch), Magermilchpulver 1.2%, Vollmilchpulver 0.8%, Backtriebmittel (Diphosphate, Kaliumcarbonate), Glukosesirup, Emulgatoren (E472b, E475, Sojalecithine), fettarmes Kakaopulver, Speisesalz, natürliches Aroma. Kann Nüsse enthalten."
+    },
+    {
+      "original": "BASIL (50%), EXTRA VIRGIN OLIVE OIL (32%), PARMIGIANO REGGIANO PDO CHEESE (5%) (Milk), PINE NUTS (4%), Bamboo Fibre, Sugar, Garlic, PECORINO ROMANO PDO CHEESE (196) (Milk), Salt, Acidity Regulator: Lactic Acid, Garlic Powder, Antioxidant: Ascorbic Acid. Amounts energy 714k",
+      "reference": "BASIL (50%), EXTRA VIRGIN OLIVE OIL (32%), PARMIGIANO REGGIANO PDO CHEESE (5%) (Milk), PINE NUTS (4%), Bamboo Fibre, Sugar, Garlic, PECORINO ROMANO PDO CHEESE (1%) (Milk), Salt, Acidity Regulator: Lactic Acid, Garlic Powder, Antioxidant: Ascorbic Acid. Amounts energy 714k",
+      "prediction": "BASIL (50%), EXTRA VIRGIN OLIVE OIL (32%), PARMIGIANO REGGIANO PDO CHEESE (5%) (Milk), PINE NUTS (4%), Bamboo Fibre, Sugar, Garlic, PECORINO ROMANO PDO CHEESE (1.96%) (Milk), Salt, Acidity Regulator: Lactic Acid, Garlic Powder, Antioxidant: Ascorbic Acid. Amounts energy 714k"
+    }
+  ]
+}
