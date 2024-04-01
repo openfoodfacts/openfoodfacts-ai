@@ -1,6 +1,6 @@
 """Using the data we manually labeled, let's test our benchmark building algorithm on it."""
 
-from typing import Iterator, Mapping
+from typing import Iterable, Mapping, List
 from pathlib import Path
 import os
 import logging
@@ -20,7 +20,36 @@ LOGGER = logging.getLogger(__name__)
 logging.basicConfig(format="%(asctime)s %(message)s", level=logging.INFO)
 
 
-def load_labeled_data(path: Path) -> Iterator[Iterator[str]]:
+def prepare_test_benchmark(
+    labeled_data_path: Path, 
+    spellchecker: SpellChecker, 
+    save_path: Path
+) -> None:
+    """Preparation of the test benchmark using labeled data. 
+    This step helps us prompt engineering GPT-3.5/GPT-4 to later augmentte our data.
+
+    Args:
+        labeled_data_path (Path): Manually labeled list of ingredients
+        spellchecker (SpellChecker): Spellcheck module
+        save_path (Path): Test benchmark save path
+    """
+    data = load_labeled_data(labeled_data_path)
+    output_data = {"data": [
+            {
+                "original": original,
+                "reference": reference,
+                "openai_prediction": spellchecker.predict(original)
+            } for original, reference, _ in data
+        ]
+    }
+    save_data(
+        data=output_data,
+        save_path=save_path
+    )
+    LOGGER.info("Test benchmark created and saved.")
+
+
+def load_labeled_data(path: Path) -> Iterable[List[str]]:
     """"""
     with open(path, "r") as f:
         data = f.read()
@@ -38,29 +67,16 @@ def save_data(data: Mapping, save_path: Path) -> None:
 
 
 if __name__ == "__main__":
-
-    data = load_labeled_data(path=LABELED_DATA_PATH)
-
     spellchecker = SpellChecker(
         model=OpenAIModel(
             llm=OpenAIChatCompletion(
                 prompt_template=Prompt.spellcheck_prompt_template,
-                system_prompt=SystemPrompt.spellcheck_system_prompt,
+                system_prompt=SystemPrompt.spellcheck_system_prompt
             )
         )
     )
-
-    output_data = [
-        {
-            "original": original,
-            "reference": reference,
-            "prediction": spellchecker.predict(original)
-        } for original, reference, _ in data
-    ]
-
-    save_data(
-        data={"data": output_data},
+    prepare_test_benchmark(
+        labeled_data_path=LABELED_DATA_PATH,
+        spellchecker=spellchecker,
         save_path=BENCHMARK_PATH
     )
-
-    LOGGER.info("Over.")
