@@ -1,12 +1,8 @@
 from utils.model import BaseModel
 
-
 class SpellChecker:
     """"""
-    def __init__(
-        self,
-        model: BaseModel
-    ) -> None:
+    def __init__(self, model: BaseModel) -> None:
         self.model = model
 
     def predict(self, list_of_ingredients: str) -> str:
