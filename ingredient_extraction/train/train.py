@@ -11,7 +11,6 @@ import orjson
 import seqeval
 import typer
 import wandb
-from datasets import load_dataset
 from tokenizers.pre_tokenizers import Metaspace, Punctuation, Sequence, WhitespaceSplit
 from transformers import (
     AutoModelForTokenClassification,
@@ -21,6 +20,8 @@ from transformers import (
     TrainingArguments,
     pipeline,
 )
+
+from datasets import load_dataset
 
 id2label = {
     0: "O",
@@ -198,7 +199,7 @@ def compute_metrics(p):
 def main(
     run_name: str,
     model_name: str = "xlm-roberta-large",
-    dataset_version: str = "alpha-v4",
+    dataset_version: str = "alpha-v6",
     num_train_epochs: int = 20,
     learning_rate: float = 5e-5,
     weight_decay: float = 0.01,
