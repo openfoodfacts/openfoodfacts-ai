@@ -6,12 +6,14 @@ authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.9,<3.10"
 openai = "^1.14.3"
 evaluate = "^0.4.1"
 sacrebleu = "^2.4.1"
 rouge-score = "^0.1.2"
 nltk = "^3.8.1"
+argilla = "^1.26.1"
+python-dotenv = "^1.0.1"
 
 
 [build-system]
