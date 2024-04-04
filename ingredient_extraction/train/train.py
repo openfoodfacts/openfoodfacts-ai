@@ -64,16 +64,14 @@ def convert_pipeline_output_to_html(text: str, output: List[dict]):
 
 
 def save_prediction_artifacts(
-    run_name: str, model, tokenizer, dataset, per_device_eval_batch_size: int
+    run_name: str,
+    model,
+    tokenizer,
+    dataset,
+    per_device_eval_batch_size: int,
+    argilla_ds_name: Optional[str] = None,
 ):
-    classifier = pipeline(
-        "ner",
-        model=model,
-        tokenizer=tokenizer,
-        device=model.device,
-        aggregation_strategy="first",
-    )
-    no_aggregation_classifier = pipeline(
+    token_classifier_pipeline: TokenClassificationPipeline = pipeline(
         "ner",
         model=model,
         tokenizer=tokenizer,
@@ -81,11 +79,19 @@ def save_prediction_artifacts(
         aggregation_strategy=None,
     )
     artifact = wandb.Artifact(run_name, type="prediction")
+    argilla_records = []
 
     for split_name in ("test", "train"):
         split_ds = dataset[split_name]
         texts = split_ds["text"]
-        aggregated_outputs = classifier(texts, batch_size=per_device_eval_batch_size)
+        outputs = token_classifier_pipeline(
+            texts, batch_size=per_device_eval_batch_size
+        )
+        # equivalent to the "simple" aggregation strategy
+        aggregated_outputs = [
+            token_classifier_pipeline.group_entities(single_output)
+            for single_output in outputs
+        ]
         html_items = ["<html>\n<body>"]
         for text, output in zip(texts, aggregated_outputs):
             html_item = convert_pipeline_output_to_html(text, output)
