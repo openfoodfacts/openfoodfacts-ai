@@ -7,3 +7,4 @@ accelerate
 wandb
 typer
 orjson
+argilla
