@@ -72,6 +72,7 @@ def save_prediction_artifacts(
     dataset,
     per_device_eval_batch_size: int,
     argilla_ds_name: Optional[str] = None,
+    log_wandb: bool = True,
 ):
     token_classifier_pipeline = CustomTokenClassificationPipeline(
         model=model,
@@ -130,20 +131,47 @@ def save_prediction_artifacts(
             text = sample["text"]
             meta = sample["meta"]
             full_jsonl_output.append({"text": text, "meta": meta, "entities": entities})
-            argilla_records.append(
-                rg.TokenClassificationRecord(
-                    text=text,
-                    tokens=sample["tokens"],
-                    annotation=[
-                        ("ING", offsets[0], offsets[1]) for offsets in sample["offsets"]
-                    ],
-                    prediction=[
-                        ("ING", entity["start"], entity["end"]) for entity in entities
-                    ],
-                    id=meta["id"],
-                    metadata=meta,
+            try:
+                argilla_records.append(
+                    rg.TokenClassificationRecord(
+                        text=text,
+                        tokens=sample["tokens"],
+                        annotation_agent="ground-truth",
+                        annotation=[
+                            ("ING", offsets[0], offsets[1])
+                            for offsets in sample["offsets"]
+                        ],
+                        prediction=[
+                            ("ING", entity["start"], entity["end"])
+                            for entity in entities
+                        ],
+                        id=meta["id"],
+                        metadata=meta,
+                    )
                 )
-            )
+            except ValueError:
+                # Argilla perfoms a validation of the predictions with respect to the tokens
+                # and may fail if the predictions are not valid.
+                # In this case, we log the error and don't log the prediction to Argilla
+                argilla_records.append(
+                    rg.TokenClassificationRecord(
+                        text=text,
+                        tokens=sample["tokens"],
+                        annotation_agent="ground-truth",
+                        annotation=[
+                            ("ING", offsets[0], offsets[1])
+                            for offsets in sample["offsets"]
+                        ],
+                        id=meta["id"],
+                        metadata={
+                            **meta,
+                            "error": "Invalid entity group",
+                            "offsets": [
+                                (entity["start"], entity["end"]) for entity in entities
+                            ],
+                        },
+                    )
+                )
         prediction_file_path = Path(f"{split_name}_predictions_agg.jsonl.gz")
         with gzip.open(prediction_file_path, "wb") as f:
             f.write(
@@ -153,9 +181,16 @@ def save_prediction_artifacts(
                 )
             )
         artifact.add_file(prediction_file_path)
-    wandb.log_artifact(artifact)
+
+    if log_wandb:
+        wandb.log_artifact(artifact)
+
     if not argilla_ds_name:
-        argilla_ds_name = f"{run_name}_{datetime.now().isoformat()}_predictions"
+        argilla_ds_name = f"{run_name}_predictions"
+
+    argilla_ds_name = argilla_ds_name.replace(
+        ".", "_"
+    )  # Argilla does not allow dots in dataset names
     rg.log(argilla_records, argilla_ds_name)
 
 
@@ -238,6 +273,7 @@ def main(
     gradient_accumulation_steps: int = 4,
     fp16: bool = True,
     argilla_ds_name: Optional[str] = None,
+    log_wandb: bool = True,
 ):
     os.environ["WANDB_TAGS"] = f"{dataset_version}"
     os.environ["WANDB_PROJECT"] = "ingredient-detection-ner"
@@ -288,7 +324,7 @@ def main(
         metric_for_best_model="eval_f1",
         load_best_model_at_end=True,
         push_to_hub=False,
-        report_to="wandb",
+        report_to="wandb" if log_wandb else None,
         fp16=fp16,
         save_total_limit=10,
         **PARAMS,
@@ -304,7 +340,9 @@ def main(
         compute_metrics=compute_metrics,
     )
 
-    trainer.train()
+    if num_train_epochs > 0:
+        trainer.train()
+
     save_prediction_artifacts(
         run_name,
         model,
@@ -312,6 +350,7 @@ def main(
         ds,
         per_device_eval_batch_size,
         argilla_ds_name=argilla_ds_name,
+        log_wandb=log_wandb,
     )
 
 
