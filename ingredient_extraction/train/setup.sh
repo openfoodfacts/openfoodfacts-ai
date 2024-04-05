@@ -2,15 +2,24 @@
 
 set -euo pipefail
 
-apt-get update -y && install python3.8-venv -y
+# Install venv, uncomment if needed
+# apt-get update -y && install python3.8-venv -y
 
-mkdir train && cd train
+# Check if the repository is already cloned
+if [ -d "openfoodfacts-ai" ]; then
+    echo "openfoodfacts-ai already cloned"
+else
+    echo "Cloning openfoodfacts-ai"
+    # Perform a shallow git clone
+    git clone https://github.com/openfoodfacts/openfoodfacts-ai.git --depth 1
+fi
 
-BASE_URL='https://raw.githubusercontent.com/openfoodfacts/openfoodfacts-ai/develop/ingredient_extraction/train'
-wget ${BASE_URL}/train.py
-wget ${BASE_URL}/requirements.txt
+# Change directory to openfoodfacts-ai and 
+cd openfoodfacts-ai/ingredient_extraction/train
 
-python3 -m venv .venv
-source .venv/bin/activate
+# Create a virtual environment, uncomment if needed
+# python3 -m venv .venv
+# source .venv/bin/activate
 
-pip3 install -r requirements.txt
+# Install requirements
+python3 -m pip install -r requirements.txt
