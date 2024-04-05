@@ -1,9 +1,8 @@
 import re
 
-from annotated_text import annotated_text
 import requests
 import streamlit as st
-
+from annotated_text import annotated_text
 
 BARCODE_PATH_REGEX = re.compile(r"^(...)(...)(...)(.*)$")
 
@@ -54,10 +53,10 @@ def generate_image_path(barcode: str, image_id: str) -> str:
 
 
 @st.cache_data
-def send_prediction_request(ocr_url: str):
+def send_prediction_request(ocr_url: str, aggregation_strategy: str):
     return requests.get(
         "https://robotoff.openfoodfacts.net/api/v1/predict/ingredient_list",
-        params={"ocr_url": ocr_url},
+        params={"ocr_url": ocr_url, "aggregation_strategy": aggregation_strategy},
     ).json()
 
 
@@ -84,7 +83,7 @@ def display_ner_tags(text: str, entities: list[dict]):
     annotated_text(spans)
 
 
-def run(barcode: str, min_threshold: float = 0.5):
+def run(barcode: str, aggregation_strategy: str, min_threshold: float = 0.5):
     product = get_product(barcode)
 
     if not product:
@@ -98,7 +97,7 @@ def run(barcode: str, min_threshold: float = 0.5):
 
         ocr_path = generate_ocr_path(barcode, image_id)
         ocr_url = f"https://static.openfoodfacts.org/images/products{ocr_path}"
-        prediction = send_prediction_request(ocr_url)
+        prediction = send_prediction_request(ocr_url, aggregation_strategy)
 
         entities = prediction["entities"]
         text = prediction["text"]
@@ -116,6 +115,9 @@ query_params = st.experimental_get_query_params()
 default_barcode = query_params["barcode"][0] if "barcode" in query_params else ""
 
 barcode = st.text_input("barcode", help="Barcode of the product", value=default_barcode)
+aggregation_strategy = st.selectbox(
+    "aggregation_strategy", ["FIRST", "SIMPLE", "NONE"], index=0
+)
 threshold = st.number_input(
     "threshold",
     help="Minimum threshold for entity predictions",
@@ -125,4 +127,4 @@ threshold = st.number_input(
 )
 
 if barcode:
-    run(barcode, threshold)
+    run(barcode, aggregation_strategy, threshold)
