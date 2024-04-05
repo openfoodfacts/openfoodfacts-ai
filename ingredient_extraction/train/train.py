@@ -14,6 +14,9 @@ import seqeval
 import typer
 import wandb
 from datasets import load_dataset
+from token_classification_pipeline import (
+    TokenClassificationPipeline as CustomTokenClassificationPipeline,
+)
 from tokenizers.pre_tokenizers import Metaspace, Punctuation, Sequence, WhitespaceSplit
 from transformers import (
     AutoModelForTokenClassification,
@@ -21,7 +24,6 @@ from transformers import (
     DataCollatorForTokenClassification,
     Trainer,
     TrainingArguments,
-    pipeline,
 )
 from transformers.pipelines import TokenClassificationPipeline
 
@@ -71,12 +73,17 @@ def save_prediction_artifacts(
     per_device_eval_batch_size: int,
     argilla_ds_name: Optional[str] = None,
 ):
-    token_classifier_pipeline: TokenClassificationPipeline = pipeline(
-        "ner",
+    token_classifier_pipeline = CustomTokenClassificationPipeline(
         model=model,
         tokenizer=tokenizer,
         device=model.device,
         aggregation_strategy=None,
+    )
+    aggregated_token_classifier_pipeline = CustomTokenClassificationPipeline(
+        model=model,
+        tokenizer=tokenizer,
+        device=model.device,
+        aggregation_strategy="FIRST",
     )
     artifact = wandb.Artifact(run_name, type="prediction")
     argilla_records = []
@@ -87,11 +94,9 @@ def save_prediction_artifacts(
         outputs = token_classifier_pipeline(
             texts, batch_size=per_device_eval_batch_size
         )
-        # equivalent to the "simple" aggregation strategy
-        aggregated_outputs = [
-            token_classifier_pipeline.group_entities(single_output)
-            for single_output in outputs
-        ]
+        aggregated_outputs = aggregated_token_classifier_pipeline(
+            texts, batch_size=per_device_eval_batch_size
+        )
         html_items = ["<html>\n<body>"]
         for text, output in zip(texts, aggregated_outputs):
             html_item = convert_pipeline_output_to_html(text, output)
@@ -196,6 +201,7 @@ def display_labeled_sequence(
     return " ".join(output)
 
 
+# flake8: noqa
 seqeval = evaluate.load("seqeval")
 
 
