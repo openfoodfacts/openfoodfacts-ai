@@ -419,7 +419,8 @@ class TokenClassificationPipeline(ChunkPipeline):
         pre_entities = []
         previous_word_id = None
         for idx, token_scores in enumerate(scores):
-            word_id = word_ids[idx]
+            # idx may be out of bounds if the input_ids are padded
+            word_id = word_ids[idx] if idx < len(word_ids) else None
             # Filter special_tokens
             if special_tokens_mask[idx]:
                 previous_word_id = word_id
