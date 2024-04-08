@@ -16,6 +16,8 @@ argilla = "^1.26.1"
 python-dotenv = "^1.0.1"
 datasets = "^2.18.0"
 jiwer = "^3.0.3"
+transformers = {extras = ["torch"], version = "^4.39.3"}
+tiktoken = "^0.6.0"
 
 
 [build-system]
