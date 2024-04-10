@@ -1,6 +1,6 @@
 import logging
 from abc import ABC, abstractmethod
-from typing import Mapping, Tuple, Iterable, List
+from typing import Mapping, Tuple, Iterable, List, Iterator
 
 import tiktoken
 import numpy as np
@@ -84,99 +84,70 @@ class SpellcheckEvaluator(Evaluator):
                 f"Evaluate requires a batch of texts. Got {type(predictions)} instead."
             )
         
-        # # Batch
-        # for original, reference, prediction in zip(self.originals, self.references, predictions)  
-        # Convert into tokens.
-        original_tokens = self.encoder.encode_batch(self.originals)
-        reference_tokens = self.encoder.encode_batch(self.references)
-        prediction_tokens = self.encoder.encode_batch(predictions)
+        # Metrics to output for each line
+        precisions = []
+        recalls = []
+        f1s = []
+        f1_betas = []
+        correction_precisions = []
 
-        # Align tokens to detect transformation, deletion or addition
-        ref_pairs = [
-            self.sequence_alignment(orig, ref)
-            for orig, ref in zip(original_tokens, reference_tokens)
-        ]
-        pred_pairs = [
-            self.sequence_alignment(orig, pred)
-            for orig, pred in zip(original_tokens, prediction_tokens)
-        ]
+        # Batch
+        for original, reference, prediction in zip(self.originals, self.references, predictions):
 
-        # Align ref-pairs and pred-pairs 
-        aligned_ref_pairs, aligned_pred_pairs = self.align_ref_pred_pairs(
-            ref_pairs=ref_pairs,
-            pred_pairs=pred_pairs
-        )
+            # Convert into tokens.
+            original_tokens = self.encoder.encode(original)
+            reference_tokens = self.encoder.encode(reference)
+            prediction_tokens = self.encoder.encode(prediction)
 
-        # Convert pairs into sparse matrices for metrics calculation
-        sparsed_ref_pairs = [self.convert_pairs_into_sparse(ref) for ref in aligned_ref_pairs]
-        sparsed_pred_pairs = [self.convert_pairs_into_sparse(pred) for pred in aligned_pred_pairs]
-        
-        # Check
-        for sparsed_ref, sparsed_pred in zip(sparsed_ref_pairs, sparsed_pred_pairs):
-            assert len(sparsed_ref) == len(sparsed_pred), "Ref and pred pairs don't have the same length!"
+            # Align tokens to detect transformation, deletion or addition
+            ref_pairs = self.sequence_alignment(original_tokens, reference_tokens)
+            pred_pairs = self.sequence_alignment(original_tokens, prediction_tokens)
 
-        inverse_sparsed_ref_pairs = [
-            [1 if i == 0 else 0 for i in sparsed_ref]
-            for sparsed_ref in sparsed_ref_pairs
-        ]
-        inverse_sparsed_pred_pairs = [
-            [1 if i == 0 else 0 for i in sparsed_pred]
-            for sparsed_pred in sparsed_pred_pairs
-        ]
-
-        # Since encodings in batch have different length, we iterate instead of matrix multiplication
-        true_positives = []
-        false_postives = []
-        false_negatives = []
-        for (
-            sparsed_ref_pair,
-            sparsed_pred_pair,
-            inverse_sparsed_ref_pair,
-            inverse_sparsed_pred_pair,
-        ) in zip(
-            sparsed_ref_pairs,
-            sparsed_pred_pairs,
-            inverse_sparsed_ref_pairs,
-            inverse_sparsed_pred_pairs,
-        ):
-            true_positives.append(
-                np.sum(np.multiply(sparsed_ref_pair, sparsed_pred_pair))
+            # Align ref-pairs and pred-pairs 
+            aligned_ref_pairs, aligned_pred_pairs = self.align_ref_pred_pairs(
+                ref_pairs=ref_pairs,
+                pred_pairs=pred_pairs
             )
-            false_postives.append(
-                np.sum(np.multiply(inverse_sparsed_ref_pair, sparsed_pred_pair))
+
+            # Convert pairs into sparse matrices for metrics calculation
+            sparsed_ref_pairs = self.convert_pairs_into_sparse(aligned_ref_pairs)
+            sparsed_pred_pairs = self.convert_pairs_into_sparse(aligned_pred_pairs)
+            assert len(sparsed_ref_pairs) == len(sparsed_pred_pairs), "Ref and pred pairs don't have the same length!"
+
+            inverse_sparsed_ref_pairs = [1 if i == 0 else 0 for i in sparsed_ref_pairs]
+            inverse_sparsed_pred_pairs = [1 if i == 0 else 0 for i in sparsed_pred_pairs]
+
+            # Calculate metrics
+            true_positive = np.sum(np.multiply(sparsed_ref_pairs, sparsed_pred_pairs))
+            false_postive = np.sum(np.multiply(inverse_sparsed_ref_pairs, sparsed_pred_pairs))
+            false_negative = np.sum(np.multiply(sparsed_ref_pairs, inverse_sparsed_pred_pairs))
+
+            precision = true_positive / (true_positive + false_postive)
+            recall = true_positive / (true_positive + false_negative)
+            f1 = 2 * (precision * recall) / (precision + recall)
+            f1_beta = (1 + beta**2) * precision * recall / (beta**2 * precision + recall)
+
+            precisions.append(precision)
+            recalls.append(recall)
+            f1s.append(f1)
+            f1_betas.append(f1_beta)
+
+            # Also calculate if model token prediction are correct
+            correction_precision = self.compute_correction_precision(
+                ref_pairs=aligned_ref_pairs,
+                pred_pairs=aligned_pred_pairs,
+                sparsed_ref_pairs=sparsed_ref_pairs, 
+                sparsed_pred_pairs=sparsed_pred_pairs
             )
-            false_negatives.append(
-                np.sum(np.multiply(sparsed_ref_pair, inverse_sparsed_pred_pair))
-            )
-        
-        # Conversion for matrix multiplication
-        true_positives = np.array(true_positives)
-        false_postives = np.array(false_postives)
-        false_negatives = np.array(false_negatives)
+            correction_precisions.append(correction_precision)
 
-        # Metrics
-        precision = true_positives / (true_positives + false_postives)
-        recall = true_positives / (true_positives + false_negatives)
-        f1 = 2 * (precision * recall) / (precision + recall)
-        f1_beta = (1 + beta**2) * precision * recall / (beta**2 * precision + recall)
-
-        correction_precisions = self.compute_correction_precision(aligned_ref_pairs, aligned_pred_pairs, sparsed_ref_pairs, sparsed_pred_pairs)
-
-        LOGGER.info(
-            "Metrics for each prediction: %s",
-            {
-                "precision": precision.tolist(),
-                "recall": recall.tolist(),
-                "f1": f1.tolist(),
-                "f1_beta": f1_beta.tolist(),
-            },
-        )
+        # Mean results for the entire batch 
         results = {
-            "correction_precision": correction_precisions.mean(),
-            "precision": precision.mean(),
-            "recall": recall.mean(),
-            "f1": f1.mean(),
-            "f1_beta": f1_beta.mean(),
+            "correction_precision": np.mean(correction_precisions),
+            "precision": np.mean(precisions),
+            "recall": np.mean(recalls),
+            "f1": np.mean(f1s),
+            "f1_beta": np.mean(f1_betas),
             "beta": beta,
         }
         LOGGER.info(f"Evaluation metrics: {results}")
@@ -253,62 +224,63 @@ class SpellcheckEvaluator(Evaluator):
         return alignment
 
     @staticmethod
-    def convert_pairs_into_sparse(pairs: Iterable[Tuple]) -> List[int]:
+    def convert_pairs_into_sparse(pairs: List[Tuple]) -> List[int]:
         """Convert Alignement tuples into a sparse vector. 
         If there is a mismatch between tokens from the same pair, it is considered as a modification (=1). 
         
         Args:
-            pairs (Iterable[Tuple]): Iterable of token pairs from the Sequence algnment method.
+            pairs (List[Tuple]): Iterable of token pairs from the Sequence algnment method.
         """
         return [0 if i == j else 1 for i, j in pairs]
     
     @staticmethod
     def align_ref_pred_pairs(
-        ref_pairs: Iterable[List[Tuple]], 
-        pred_pairs: Iterable[List[Tuple]],
+        ref_pairs: List[Tuple], 
+        pred_pairs: List[Tuple],
         insert_pairs: Tuple = (None, None)
-    ) -> Tuple[Iterable[List[Tuple]], Iterable[List[Tuple]]]:
-        ""
-        aligned_ref_pairs= []
-        aligned_pred_pairs = []
+    ) -> Tuple[List[Tuple], List[Tuple]]:
+        """_summary_
 
-        for r, p in zip(ref_pairs, pred_pairs):
-            if len(r) != len(p):
-                longest_pairs = max(r, p, key=len)
-                shortest_pairs = min(r, p, key=len)
-                ids = [idx for idx, pairs in enumerate(longest_pairs) if pairs[0] is None]
-                aligned_shortest_pairs = []
-                for idx, elt in enumerate(shortest_pairs):
-                    if idx in ids:
-                        # Insert
-                        aligned_shortest_pairs.append(insert_pairs)
-                        aligned_shortest_pairs.append(elt)
-                    else:
-                        aligned_shortest_pairs.append(elt)
-                if r is shortest_pairs:
-                    aligned_ref_pairs.append(aligned_shortest_pairs)
-                    aligned_pred_pairs.append(longest_pairs)
-                elif p is shortest_pairs:
-                    aligned_ref_pairs.append(longest_pairs)
-                    aligned_pred_pairs.append(aligned_shortest_pairs)
-            if len(r) == len(p):
-                # Do nothing
-                aligned_ref_pairs.append(r)
-                aligned_pred_pairs.append(p)
-        return aligned_ref_pairs, aligned_pred_pairs
+        Args:
+            ref_pairs (List[Tuple]): _description_
+            pred_pairs (List[Tuple]): _description_
+            insert_pairs (Tuple, optional): _description_. Defaults to (None, None).
+
+        Returns:
+            Tuple[List[Tuple], List[Tuple]]: _description_
+        """
+        if len(ref_pairs) != len(pred_pairs):
+            longest_pairs = max(ref_pairs, pred_pairs, key=len)
+            shortest_pairs = min(ref_pairs, pred_pairs, key=len)
+            ids = [idx for idx, pairs in enumerate(longest_pairs) if pairs[0] is None]
+            aligned_shortest_pairs = []
+            for idx, elt in enumerate(shortest_pairs):
+                if idx in ids:
+                    # Insert
+                    aligned_shortest_pairs.append(insert_pairs)
+                    aligned_shortest_pairs.append(elt)
+                else:
+                    aligned_shortest_pairs.append(elt)
+            if ref_pairs is shortest_pairs:
+                return aligned_shortest_pairs, longest_pairs
+            elif pred_pairs is shortest_pairs:
+                return longest_pairs, aligned_shortest_pairs
+        if len(ref_pairs) == len(pred_pairs):
+            # Do nothing
+            return ref_pairs, pred_pairs
 
     @staticmethod
-    def compute_correction_precision(ref_pairs, pred_pairs, sparsed_ref_pairs, sparsed_pred_pairs):
+    def compute_correction_precision(
+        ref_pairs: List[Tuple],
+        pred_pairs: List[Tuple], 
+        sparsed_ref_pairs: List[int], 
+        sparsed_pred_pairs: List[int]
+    ) -> float:
         """"""
-        precisions = []
-        for ref_pair, pred_pair, sparsed_ref_pair, sparsed_pred_pair in zip(
-            ref_pairs, pred_pairs, sparsed_ref_pairs, sparsed_pred_pairs
-        ):
-            corrected_tokens_ids = np.multiply(sparsed_ref_pair, sparsed_pred_pair)
-            true_positive = np.sum([ref_pair[idx][1] == pred_pair[idx][1] for idx in corrected_tokens_ids if idx == 1])
-            precision = true_positive / np.sum(corrected_tokens_ids)
-            precisions.append(precision)
-        return np.array(precisions)
+        corrected_tokens_ids = np.multiply(sparsed_ref_pairs, sparsed_pred_pairs)
+        true_positive = np.sum([ref_pairs[idx][1] == pred_pairs[idx][1] for idx in corrected_tokens_ids if idx == 1])
+        precision = true_positive / np.sum(corrected_tokens_ids)
+        return precision
 
 
 if __name__ == "__main__":
