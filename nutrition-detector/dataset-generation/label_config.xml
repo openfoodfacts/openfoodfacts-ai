@@ -1,0 +1,68 @@
+<View>
+  <Image name="image" value="$image_url" rotateControl="true" zoomControl="true"/>
+  <Labels name="label" toName="image">
+    <Label value="other" background="#e1e0e2"/>
+    <Label value="other-nutriment" background="#72acbf"/>
+    <Label value="serving-size" background="#eaaa00"/>
+    <Label value="energy-kcal_100g" background="#9a72bf"/>
+    <Label value="energy-kj_100g" background="#9a72bf"/>
+    <Label value="proteins_100g" background="#9a72bf"/>
+    <Label value="fat_100g" background="#9a72bf"/>
+    <Label value="saturated-fat_100g" background="#9a72bf"/>
+    <Label value="trans-fat_100g" background="#9a72bf"/>
+    <Label value="carbohydrates_100g" background="#9a72bf"/>
+    <Label value="sugars_100g" background="#9a72bf"/>
+    <Label value="added-sugars_100g" background="#9a72bf"/>
+    <Label value="fiber_100g" background="#9a72bf"/>
+    <Label value="sodium_100g" background="#9a72bf"/>
+    <Label value="vitamin-d_100g" background="#9a72bf"/>
+    <Label value="salt_100g" background="#9a72bf"/>
+    <Label value="cholesterol_100g" background="#9a72bf"/>
+    <Label value="iron_100g" background="#9a72bf"/>
+    <Label value="calcium_100g" background="#9a72bf"/>
+    <Label value="potassium_100g" background="#9a72bf"/>
+    <Label value="energy-kcal_serving" background="#009b32"/>
+    <Label value="energy-kj_serving" background="#009b32"/>
+    <Label value="proteins_serving" background="#009b32"/>
+    <Label value="fat_serving" background="#009b32"/>
+    <Label value="saturated-fat_serving" background="#009b32"/>
+    <Label value="trans-fat_serving" background="#009b32"/>
+    <Label value="carbohydrates_serving" background="#009b32"/>
+    <Label value="sugars_serving" background="#009b32"/>
+    <Label value="added-sugars_serving" background="#009b32"/>
+    <Label value="fiber_serving" background="#009b32"/>
+    <Label value="sodium_serving" background="#009b32"/>
+    <Label value="vitamin-d_serving" background="#009b32"/>
+    <Label value="salt_serving" background="#009b32"/>
+    <Label value="cholesterol_serving" background="#009b32"/>
+    <Label value="iron_serving" background="#009b32"/>
+    <Label value="calcium_serving" background="#009b32"/>
+    <Label value="potassium_serving" background="#009b32"/>
+  </Labels>
+  <Rectangle name="bbox" toName="image" strokeWidth="2" canRotate="false" />
+  <TextArea name="transcription" toName="image"
+            editable="false"
+            perRegion="true"
+            required="false"
+            placeholder="Recognized Text"
+            displayMode="region-list"
+            />
+  <Choices name="info" toName="image" choice="multiple">
+    <Choice alias="checked" value="The annotation has been checked by second annotator"/>
+    <Choice alias="usda-table" value="The nutrition table is a USDA table"/>
+    <Choice alias="nutrition-text" value="The nutrition information is displayed as text"/>
+  </Choices>
+  <Choices name="issues" toName="image" choice="multiple">
+    <Choice alias="occluded-image" value="Most nutrition values are not visible on the image"/>
+    <Choice alias="invalid-image" value="The image is blurry or has reflections that prevent reading the nutrition values"/>
+    <Choice alias="no-nutrition-table" value="There is no nutrition information in the image"/>
+  </Choices>
+  <Header value="image URL: $image_url" />
+  <TextArea name="comment" toName="image"
+            editable="true"
+            required="false"
+            placeholder="Write here an optional comment about the task"
+            rows="5"
+            maxSubmissions="1"
+            />
+</View>
