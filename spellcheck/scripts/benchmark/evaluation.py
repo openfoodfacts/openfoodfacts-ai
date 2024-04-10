@@ -83,7 +83,9 @@ class SpellcheckEvaluator(Evaluator):
             raise ValueError(
                 f"Evaluate requires a batch of texts. Got {type(predictions)} instead."
             )
-
+        
+        # # Batch
+        # for original, reference, prediction in zip(self.originals, self.references, predictions)  
         # Convert into tokens.
         original_tokens = self.encoder.encode_batch(self.originals)
         reference_tokens = self.encoder.encode_batch(self.references)
@@ -99,12 +101,19 @@ class SpellcheckEvaluator(Evaluator):
             for orig, pred in zip(original_tokens, prediction_tokens)
         ]
 
+        # Align ref-pairs and pred-pairs 
+        aligned_ref_pairs, aligned_pred_pairs = self.align_ref_pred_pairs(
+            ref_pairs=ref_pairs,
+            pred_pairs=pred_pairs
+        )
+
         # Convert pairs into sparse matrices for metrics calculation
-        sparsed_ref_pairs = [self.convert_pairs_into_sparse(ref) for ref in ref_pairs]
-        sparsed_pred_pairs = [
-            self.convert_pairs_into_sparse(pred) for pred in pred_pairs
-        ]
-        assert len(sparsed_ref_pairs) == len(sparsed_pred_pairs)
+        sparsed_ref_pairs = [self.convert_pairs_into_sparse(ref) for ref in aligned_ref_pairs]
+        sparsed_pred_pairs = [self.convert_pairs_into_sparse(pred) for pred in aligned_pred_pairs]
+        
+        # Check
+        for sparsed_ref, sparsed_pred in zip(sparsed_ref_pairs, sparsed_pred_pairs):
+            assert len(sparsed_ref) == len(sparsed_pred), "Ref and pred pairs don't have the same length!"
 
         inverse_sparsed_ref_pairs = [
             [1 if i == 0 else 0 for i in sparsed_ref]
@@ -139,16 +148,19 @@ class SpellcheckEvaluator(Evaluator):
             false_negatives.append(
                 np.sum(np.multiply(sparsed_ref_pair, inverse_sparsed_pred_pair))
             )
-
-        # Calculate metrics
+        
+        # Conversion for matrix multiplication
         true_positives = np.array(true_positives)
         false_postives = np.array(false_postives)
         false_negatives = np.array(false_negatives)
 
+        # Metrics
         precision = true_positives / (true_positives + false_postives)
         recall = true_positives / (true_positives + false_negatives)
         f1 = 2 * (precision * recall) / (precision + recall)
         f1_beta = (1 + beta**2) * precision * recall / (beta**2 * precision + recall)
+
+        correction_precisions = self.compute_correction_precision(aligned_ref_pairs, aligned_pred_pairs, sparsed_ref_pairs, sparsed_pred_pairs)
 
         LOGGER.info(
             "Metrics for each prediction: %s",
@@ -160,6 +172,7 @@ class SpellcheckEvaluator(Evaluator):
             },
         )
         results = {
+            "correction_precision": correction_precisions.mean(),
             "precision": precision.mean(),
             "recall": recall.mean(),
             "f1": f1.mean(),
@@ -173,21 +186,22 @@ class SpellcheckEvaluator(Evaluator):
     def sequence_alignment(
         tokens_1: List[int],
         tokens_2: List[int],
-        match_score: int = 1,
-        mismatch_score: int = -1,
-        gap_penalty: int = -2,
+        match_score: int = 2,
+        mismatch_score: int = -2,
+        gap_penalty: int = -1,
     ) -> List[Tuple]:
-        """Sequence alignment technique used in bioinformatique to align 2 sequences.
+        """Needleman-Wunsch Sequence alignment algorithm used in bioinformatique to align 2 sequences.
         Wiki: https://en.wikipedia.org/wiki/Sequence_alignment
+        Needleman-Wunsch algorithm: https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm
 
         The algorithm pairs tokens that were added, deleted or transformed after modification.
 
         Args:
             tokens_1 (List[int]): Tokenized representation of the first text.
             tokens_2 (List[int]): Tokenized representation of the second text.
-            match_score (int, optional): Used in score calculation. Defaults to 1.
-            mismatch_score (int, optional): Used in score calculation. Defaults to -1.
-            gap_penalty (int, optional): Used in score calculation. Defaults to -2.
+            match_score (int, optional): Penalize or reward depending on a low or high score.
+            mismatch_score (int, optional): Penalize or reward depending on a low or high score.
+            gap_penalty (int, optional): Penalize or reward depending on a low or high score.
 
         Returns:
             List[Tuple]: List of token pairs.
@@ -247,13 +261,61 @@ class SpellcheckEvaluator(Evaluator):
             pairs (Iterable[Tuple]): Iterable of token pairs from the Sequence algnment method.
         """
         return [0 if i == j else 1 for i, j in pairs]
+    
+    @staticmethod
+    def align_ref_pred_pairs(
+        ref_pairs: Iterable[List[Tuple]], 
+        pred_pairs: Iterable[List[Tuple]],
+        insert_pairs: Tuple = (None, None)
+    ) -> Tuple[Iterable[List[Tuple]], Iterable[List[Tuple]]]:
+        ""
+        aligned_ref_pairs= []
+        aligned_pred_pairs = []
+
+        for r, p in zip(ref_pairs, pred_pairs):
+            if len(r) != len(p):
+                longest_pairs = max(r, p, key=len)
+                shortest_pairs = min(r, p, key=len)
+                ids = [idx for idx, pairs in enumerate(longest_pairs) if pairs[0] is None]
+                aligned_shortest_pairs = []
+                for idx, elt in enumerate(shortest_pairs):
+                    if idx in ids:
+                        # Insert
+                        aligned_shortest_pairs.append(insert_pairs)
+                        aligned_shortest_pairs.append(elt)
+                    else:
+                        aligned_shortest_pairs.append(elt)
+                if r is shortest_pairs:
+                    aligned_ref_pairs.append(aligned_shortest_pairs)
+                    aligned_pred_pairs.append(longest_pairs)
+                elif p is shortest_pairs:
+                    aligned_ref_pairs.append(longest_pairs)
+                    aligned_pred_pairs.append(aligned_shortest_pairs)
+            if len(r) == len(p):
+                # Do nothing
+                aligned_ref_pairs.append(r)
+                aligned_pred_pairs.append(p)
+        return aligned_ref_pairs, aligned_pred_pairs
+
+    @staticmethod
+    def compute_correction_precision(ref_pairs, pred_pairs, sparsed_ref_pairs, sparsed_pred_pairs):
+        """"""
+        precisions = []
+        for ref_pair, pred_pair, sparsed_ref_pair, sparsed_pred_pair in zip(
+            ref_pairs, pred_pairs, sparsed_ref_pairs, sparsed_pred_pairs
+        ):
+            corrected_tokens_ids = np.multiply(sparsed_ref_pair, sparsed_pred_pair)
+            true_positive = np.sum([ref_pair[idx][1] == pred_pair[idx][1] for idx in corrected_tokens_ids if idx == 1])
+            precision = true_positive / np.sum(corrected_tokens_ids)
+            precisions.append(precision)
+        return np.array(precisions)
 
 
 if __name__ == "__main__":
     # Test
     orig = ["The cat si on the fride,", "Sumer is commig!"]
     ref = ["The cat is on the fridge.", "Summer is comming!"]
-    pred = ["The cat is in the fridge.", "Summer is hot!"]
+    pred = ["The big cat is in the fridge.", "Summer is hot!"]
 
     # # Example usage
     # list1 = [932, 582, 1494, 14127, 288, 62, 390, 59801, 2445, 5169, 311, 267, 2172, 13, 721, 51, 8875, 300, 409, 1448, 21067, 409, 59801, 2445, 5169, 5056, 1000]
