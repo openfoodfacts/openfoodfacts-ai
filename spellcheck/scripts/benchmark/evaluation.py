@@ -1,6 +1,6 @@
 import logging
 from abc import ABC, abstractmethod
-from typing import Mapping, Tuple, Iterable, List, Iterator
+from typing import Mapping, Tuple, List, Iterable
 
 import tiktoken
 import numpy as np
@@ -28,50 +28,65 @@ class Evaluator(ABC):
 class SpellcheckEvaluator(Evaluator):
     """Evaluator designed for Spellcheck.
 
-    It is designed to evaluate how well Spellcheck models performs on recognizing errors in the
-    list of ingredients and correctly fix it in respect of the benchmark.
+    This module is designed to evaluate how well Spellcheck models performs on recognizing errors in the
+    list of ingredients and correctly fixing them.
 
     Therefore, 3 elements are necessary:
-        * Original lists of ingredients as found in Open Food Facts
-        * The expected corrections used to define which elements were supposed to be corrected and the ones that were not.
-        * The predictions from the model.
+        * The riginal text with typos/errors
+        * The expected correction.
+        * The prediction from the model.
 
-    The particularity of this evaluation algorithm comes from calculating the precision, recall, and f1 relative to the errors to correct only, and
-    directly extracted from texts.
+    The uniqueness of this evaluation algorithm lies in its calculation of precision, recall, and F1 scores specifically for errors to be corrected,
+    which are directly extracted from texts.
 
-    To achieve this, texts are tokenized using a Byte Pair Encoding (BPE) tokenizer from the `tiktoken` library.
+    The process is divided into 4 steps:
+        * Texts (Original-Reference-Prediction) are tokenized using a Byte Pair Encoding (BPE) tokenizer from the `tiktoken` library.
+        * Encoded originals and references are aligned using Sequence Alignment technique to locate which tokens were transformed, added, or deleted. 
+    The same process is applied to encoded originals and predictions. 
+        * Pairs of tokens (Original-Reference; Original-Prediction) are aligned to consider gaps in case Reference and/or Prediction have different length.
+        * Precision, Recall, and F1-score are calculated based on pairs of tokens for either the reference and the prediction.
 
-    The process is then 2-fold:
-        * Firstly, encoded originals and references are aligned using Sequence Alignment technique, particularly used in DNA sequences, to locate which tokens
-        were transformed, added, or deleted.
-        * Secondly, the same process is applied to encoded originals and predictions. Precision, Recall, and F1-score are calculated relatively to the
-        errors to fix by comparison with original-references pairs.
+    This module produces two distinct sets of metrics:
+        * Metrics related to the indices of the tokens to be corrected:
+            * Precision
+            * Recall
+            * F1
+            * F1-beta
+        * Metrics related to the model's precision in predicting the correct tokens:
+            * Correction precision
 
     Args:
         originals (List[str]): Batch of original ingredient lists to correct
         references (List[str]): Batch of expected ingredients lists after correction
         encoding_name (str, optional): BPE tokenizer from the tiktoken library. Defaults to "cl100k_base".
+        beta (float, optional): Coefficient for F1_beta metric. A coefficient of less than 1.0 gives more weight to the Recall, 
+    whereas a coefficient greater than 1.0 gives more weight to the Precision. 
     """
 
     def __init__(
         self,
-        originals: List[str],
-        references: List[str],
+        originals: Iterable[str],
+        references: Iterable[str],
         encoding_name: str = "cl100k_base",
+        beta: float = 1.0
     ) -> None:
         self.originals = originals
         self.references = references
         self.encoder = tiktoken.get_encoding(encoding_name=encoding_name)
+        self.beta = beta
 
-    def evaluate(self, predictions: List[str], beta: float = 1.0) -> Mapping:
-        """Evaluate the Precision, Recall, F1-score, and F1-beta_score relative the errors to correct.
-        For example: "does this error were supposed to be corrected?"
+    def evaluate(self, predictions: List[str]) -> Mapping:
+        """Evaluate the performance of Spellcheck on correcting ingredient lists for ingredients extraction.
 
-        Note: Precision relative to the right correction not implemented yet.  
+        Metrics: 
+            * Precision
+            * Recall
+            * F1
+            * F1-beta
+            * Correction precision (precision on predicting the correct token)
 
         Args:
-            predictions (List[str]): _description_
-            beta (float, optional): _description_. Defaults to 1.0.
+            predictions (List[str]): Correction from the Spellcheck
 
         Raises:
             ValueError: Batch of texts not provided.
@@ -125,14 +140,14 @@ class SpellcheckEvaluator(Evaluator):
             precision = true_positive / (true_positive + false_postive)
             recall = true_positive / (true_positive + false_negative)
             f1 = 2 * (precision * recall) / (precision + recall)
-            f1_beta = (1 + beta**2) * precision * recall / (beta**2 * precision + recall)
+            f1_beta = (1 + self.beta**2) * precision * recall / (self.beta**2 * precision + recall)
 
             precisions.append(precision)
             recalls.append(recall)
             f1s.append(f1)
             f1_betas.append(f1_beta)
 
-            # Also calculate if model token prediction are correct
+            # Also calculate if model token predictions are correct
             correction_precision = self.compute_correction_precision(
                 ref_pairs=aligned_ref_pairs,
                 pred_pairs=aligned_pred_pairs,
@@ -148,7 +163,7 @@ class SpellcheckEvaluator(Evaluator):
             "recall": np.mean(recalls),
             "f1": np.mean(f1s),
             "f1_beta": np.mean(f1_betas),
-            "beta": beta,
+            "beta": self.beta,
         }
         LOGGER.info(f"Evaluation metrics: {results}")
         return results
@@ -177,12 +192,21 @@ class SpellcheckEvaluator(Evaluator):
         Returns:
             List[Tuple]: List of token pairs.
 
-        Example:    
+        Example 1:    
         ```
-        tokens_1 = [791, 8415, 4502, 389, 279, 282, 1425, 11]
+        tokens_1 = [791, 8415, 4502, 389, 279, 282, 1425, 13]
         tokens_2 = [791, 8415, 374, 389, 279, 38681, 13]
 
-        alignment = [(791, 791), (8415, 8415), (4502, 374), (389, 389), (279, 279), (282, None), (1425, 38681), (11, 13)]
+        alignment = [(791, 791), (8415, 8415), (4502, 374), (389, 389), (279, 279), (282, None), (1425, 38681), (13, 13)]
+        ```
+        
+        Example 2:
+        ```
+        tokens_1 = [54, 51, 23, 165, 415, 61, 561]
+        tokens_2 = [54, 51, 906, 23, 165, 415, 61, 4100]
+
+        alignment = [(54, 54), (51, 51), (None, 906), (23, 23), (165, 165), (None, 165), (415, 415), (61, 61), (561, 4100)]
+        ```
         """
         # Initialize matrix
         matrix = [[0] * (len(tokens_2) + 1) for _ in range(len(tokens_1) + 1)]
@@ -225,11 +249,19 @@ class SpellcheckEvaluator(Evaluator):
 
     @staticmethod
     def convert_pairs_into_sparse(pairs: List[Tuple]) -> List[int]:
-        """Convert Alignement tuples into a sparse vector. 
+        """Convert alignement pairs/tuples into a sparse vector. 
         If there is a mismatch between tokens from the same pair, it is considered as a modification (=1). 
         
+        Example:
+        ```
+        pairs = [(791, 791), (8415, 8415), (4502, 374), (389, 389), (279, 279), (282, None), (1425, 38681), (13, 13)]
+        sparsed_pairs = [0, 0, 1, 0, 0, 1, 1, 0] 
+        ```
         Args:
-            pairs (List[Tuple]): Iterable of token pairs from the Sequence algnment method.
+            pairs (List[Tuple]): Iterable of token pairs from the Sequence alignment algorithm.
+
+        Return:
+            (List[int]): Sparse vectors.
         """
         return [0 if i == j else 1 for i, j in pairs]
     
@@ -239,15 +271,33 @@ class SpellcheckEvaluator(Evaluator):
         pred_pairs: List[Tuple],
         insert_pairs: Tuple = (None, None)
     ) -> Tuple[List[Tuple], List[Tuple]]:
-        """_summary_
+        """Reference and Prediction pairs are aligned in case of different lengths to enable metrics calculation.
+        In case of one list of pairs smaller than the other one, the neutral pair (None, None) is inserted into the shortest list to 
+        be considered as 0 in it's respective sparsed vector, which means it doesn't count as a modification.
+
+        Example:
+        ```
+        Before:
+        Orig-Ref pairs: [(400, 400), (350, 350), (20, 18), (21, 40), (23, 23)]
+        Orig-Pred pairs: [(400, 400), (350, 350), (None, 800), (20, 18), (21, 40), (23, 80)]
+        
+        Sparsed Ref: [0, 0, 1, 1, 0]
+        Sparsed Pred: [0, 0, 1, 1, 1, 1]
+
+        After:
+        Orig-Ref pairs: [(400, 400), (350, 350), (None, None), (20, 18), (21, 40), (23, 23)] => len
+        Orig-Pred pairs: [(400, 400), (350, 350), (None, 800), (20, 18), (21, 40), (23, 80)] 
+
+        Sparsed Ref: [0, 0, 0, 1, 1, 0]
+        Sparsed Pred: [0, 0, 1, 1, 1, 1]
 
         Args:
-            ref_pairs (List[Tuple]): _description_
-            pred_pairs (List[Tuple]): _description_
-            insert_pairs (Tuple, optional): _description_. Defaults to (None, None).
+            ref_pairs (List[Tuple]): List of Orig-Ref token pairs
+            pred_pairs (List[Tuple]): List of Orig-Pred token pairs
+            insert_pairs (Tuple, optional): Pair to insert for alignment. Defaults to (None, None).
 
         Returns:
-            Tuple[List[Tuple], List[Tuple]]: _description_
+            Tuple[List[Tuple], List[Tuple]]: Aligned list of pairs.
         """
         if len(ref_pairs) != len(pred_pairs):
             longest_pairs = max(ref_pairs, pred_pairs, key=len)
@@ -276,7 +326,17 @@ class SpellcheckEvaluator(Evaluator):
         sparsed_ref_pairs: List[int], 
         sparsed_pred_pairs: List[int]
     ) -> float:
-        """"""
+        """Correction precision metric correspond to the precision of the model the predict the correct token.
+
+        Args:
+            ref_pairs (List[Tuple]): List of Orig-Ref token pairs
+            pred_pairs (List[Tuple]): List of Orig-Pred token pairs
+            sparsed_ref_pairs (List[int]): Sparsed vector representation of Orig-Ref pairs
+            sparsed_pred_pairs (List[int]): Sparsed vector representation of Orig-Pred pairs
+
+        Returns:
+            float: precision of picking the right token
+        """
         corrected_tokens_ids = np.multiply(sparsed_ref_pairs, sparsed_pred_pairs)
         true_positive = np.sum([ref_pairs[idx][1] == pred_pairs[idx][1] for idx in corrected_tokens_ids if idx == 1])
         precision = true_positive / np.sum(corrected_tokens_ids)
@@ -289,9 +349,6 @@ if __name__ == "__main__":
     ref = ["The cat is on the fridge.", "Summer is comming!"]
     pred = ["The big cat is in the fridge.", "Summer is hot!"]
 
-    # # Example usage
-    # list1 = [932, 582, 1494, 14127, 288, 62, 390, 59801, 2445, 5169, 311, 267, 2172, 13, 721, 51, 8875, 300, 409, 1448, 21067, 409, 59801, 2445, 5169, 5056, 1000]
-    # list2 = [932, 582, 1494, 14127, 288, 62, 390, 59801, 2445, 5169, 311, 267, 2172, 13, 350, 8875, 300, 409, 1448, 21067, 409, 59801, 2445, 5169, 13]
     spellcheck_evaluator = SpellcheckEvaluator(originals=orig, references=ref)
     results = spellcheck_evaluator.evaluate(predictions=pred)
     print(results)
