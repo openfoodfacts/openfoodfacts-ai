@@ -1,5 +1,9 @@
-responses/*
-annotations.db
+dataset-generation/responses/*
+dataset-generation/annotations.db
 *.jsonl.gz
 *.html
 artifacts
+classification-responses
+**/.venv
+models
+train-layoutlm/datasets

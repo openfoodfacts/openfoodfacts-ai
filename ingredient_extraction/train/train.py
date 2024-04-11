@@ -2,9 +2,11 @@ import functools
 import gzip
 import html
 import os
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
+import argilla as rg
 import evaluate
 import numpy as np
 import orjson
@@ -12,6 +14,9 @@ import seqeval
 import typer
 import wandb
 from datasets import load_dataset
+from token_classification_pipeline import (
+    TokenClassificationPipeline as CustomTokenClassificationPipeline,
+)
 from tokenizers.pre_tokenizers import Metaspace, Punctuation, Sequence, WhitespaceSplit
 from transformers import (
     AutoModelForTokenClassification,
@@ -19,8 +24,8 @@ from transformers import (
     DataCollatorForTokenClassification,
     Trainer,
     TrainingArguments,
-    pipeline,
 )
+from transformers.pipelines import TokenClassificationPipeline
 
 id2label = {
     0: "O",
@@ -29,6 +34,12 @@ id2label = {
 }
 label2id = {v: k for k, v in id2label.items()}
 label_list = list(id2label.values())
+
+rg.init(
+    api_url="https://argilla.openfoodfacts.org",
+    api_key=os.environ["ARGILLA_API_KEY"],
+    workspace="ingredient-detection-ner",
+)
 
 
 def convert_pipeline_output_to_html(text: str, output: List[dict]):
@@ -55,28 +66,38 @@ def convert_pipeline_output_to_html(text: str, output: List[dict]):
 
 
 def save_prediction_artifacts(
-    run_name: str, model, tokenizer, dataset, per_device_eval_batch_size: int
+    run_name: str,
+    model,
+    tokenizer,
+    dataset,
+    per_device_eval_batch_size: int,
+    argilla_ds_name: Optional[str] = None,
+    log_wandb: bool = True,
 ):
-    classifier = pipeline(
-        "ner",
-        model=model,
-        tokenizer=tokenizer,
-        device=model.device,
-        aggregation_strategy="first",
-    )
-    no_aggregation_classifier = pipeline(
-        "ner",
+    token_classifier_pipeline = CustomTokenClassificationPipeline(
         model=model,
         tokenizer=tokenizer,
         device=model.device,
         aggregation_strategy=None,
     )
+    aggregated_token_classifier_pipeline = CustomTokenClassificationPipeline(
+        model=model,
+        tokenizer=tokenizer,
+        device=model.device,
+        aggregation_strategy="FIRST",
+    )
     artifact = wandb.Artifact(run_name, type="prediction")
+    argilla_records = []
 
     for split_name in ("test", "train"):
         split_ds = dataset[split_name]
         texts = split_ds["text"]
-        aggregated_outputs = classifier(texts, batch_size=per_device_eval_batch_size)
+        outputs = token_classifier_pipeline(
+            texts, batch_size=per_device_eval_batch_size
+        )
+        aggregated_outputs = aggregated_token_classifier_pipeline(
+            texts, batch_size=per_device_eval_batch_size
+        )
         html_items = ["<html>\n<body>"]
         for text, output in zip(texts, aggregated_outputs):
             html_item = convert_pipeline_output_to_html(text, output)
@@ -87,46 +108,90 @@ def save_prediction_artifacts(
         prediction_html_file_path = Path(f"{split_name}_predictions.html")
         prediction_html_file_path.write_text(html_str)
         artifact.add_file(prediction_html_file_path)
-        no_aggregated_outputs = no_aggregation_classifier(
-            texts, batch_size=per_device_eval_batch_size
-        )
-        full_output = (
-            {
-                "text": split_ds[i]["text"],
-                "meta": split_ds[i]["meta"],
-                "entities": entities,
-            }
-            for i, entities in enumerate(no_aggregated_outputs)
-        )
-
         prediction_file_path = Path(f"{split_name}_predictions.jsonl.gz")
         with gzip.open(prediction_file_path, "wb") as f:
             f.write(
                 b"\n".join(
-                    orjson.dumps(item, option=orjson.OPT_SERIALIZE_NUMPY)
-                    for item in full_output
+                    orjson.dumps(
+                        {
+                            "text": split_ds[i]["text"],
+                            "meta": split_ds[i]["meta"],
+                            "entities": entities,
+                        },
+                        option=orjson.OPT_SERIALIZE_NUMPY,
+                    )
+                    for i, entities in enumerate(outputs)
                 )
             )
         artifact.add_file(prediction_file_path)
 
-        full_output = (
-            {
-                "text": split_ds[i]["text"],
-                "meta": split_ds[i]["meta"],
-                "entities": entities,
-            }
-            for i, entities in enumerate(aggregated_outputs)
-        )
+        full_jsonl_output = []
+        for i, entities in enumerate(aggregated_outputs):
+            sample = split_ds[i]
+            text = sample["text"]
+            meta = sample["meta"]
+            full_jsonl_output.append({"text": text, "meta": meta, "entities": entities})
+            try:
+                argilla_records.append(
+                    rg.TokenClassificationRecord(
+                        text=text,
+                        tokens=sample["tokens"],
+                        annotation_agent="ground-truth",
+                        annotation=[
+                            ("ING", offsets[0], offsets[1])
+                            for offsets in sample["offsets"]
+                        ],
+                        prediction=[
+                            ("ING", entity["start"], entity["end"])
+                            for entity in entities
+                        ],
+                        id=meta["id"],
+                        metadata=meta,
+                    )
+                )
+            except ValueError:
+                # Argilla perfoms a validation of the predictions with respect to the tokens
+                # and may fail if the predictions are not valid.
+                # In this case, we log the error and don't log the prediction to Argilla
+                argilla_records.append(
+                    rg.TokenClassificationRecord(
+                        text=text,
+                        tokens=sample["tokens"],
+                        annotation_agent="ground-truth",
+                        annotation=[
+                            ("ING", offsets[0], offsets[1])
+                            for offsets in sample["offsets"]
+                        ],
+                        id=meta["id"],
+                        metadata={
+                            **meta,
+                            "error": "Invalid entity group",
+                            "offsets": [
+                                (entity["start"], entity["end"]) for entity in entities
+                            ],
+                        },
+                    )
+                )
         prediction_file_path = Path(f"{split_name}_predictions_agg.jsonl.gz")
         with gzip.open(prediction_file_path, "wb") as f:
             f.write(
                 b"\n".join(
                     orjson.dumps(item, option=orjson.OPT_SERIALIZE_NUMPY)
-                    for item in full_output
+                    for item in full_jsonl_output
                 )
             )
         artifact.add_file(prediction_file_path)
-    wandb.log_artifact(artifact)
+
+    if log_wandb:
+        wandb.log_artifact(artifact)
+
+    if not argilla_ds_name:
+        argilla_ds_name = f"{run_name}_predictions"
+
+    argilla_ds_name = argilla_ds_name.replace(
+        ".", "_"
+    )  # Argilla does not allow dots in dataset names
+    rg.log(argilla_records, argilla_ds_name)
 
 
 def tokenize_and_align_labels(examples, tokenizer):
@@ -171,6 +236,7 @@ def display_labeled_sequence(
     return " ".join(output)
 
 
+# flake8: noqa
 seqeval = evaluate.load("seqeval")
 
 
@@ -198,7 +264,7 @@ def compute_metrics(p):
 def main(
     run_name: str,
     model_name: str = "xlm-roberta-large",
-    dataset_version: str = "alpha-v4",
+    dataset_version: str = "alpha-v6",
     num_train_epochs: int = 20,
     learning_rate: float = 5e-5,
     weight_decay: float = 0.01,
@@ -206,6 +272,8 @@ def main(
     per_device_eval_batch_size: int = 64,
     gradient_accumulation_steps: int = 4,
     fp16: bool = True,
+    argilla_ds_name: Optional[str] = None,
+    log_wandb: bool = True,
 ):
     os.environ["WANDB_TAGS"] = f"{dataset_version}"
     os.environ["WANDB_PROJECT"] = "ingredient-detection-ner"
@@ -256,7 +324,7 @@ def main(
         metric_for_best_model="eval_f1",
         load_best_model_at_end=True,
         push_to_hub=False,
-        report_to="wandb",
+        report_to="wandb" if log_wandb else None,
         fp16=fp16,
         save_total_limit=10,
         **PARAMS,
@@ -272,9 +340,17 @@ def main(
         compute_metrics=compute_metrics,
     )
 
-    trainer.train()
+    if num_train_epochs > 0:
+        trainer.train()
+
     save_prediction_artifacts(
-        run_name, model, tokenizer, ds, per_device_eval_batch_size
+        run_name,
+        model,
+        tokenizer,
+        ds,
+        per_device_eval_batch_size,
+        argilla_ds_name=argilla_ds_name,
+        log_wandb=log_wandb,
     )
 
 
