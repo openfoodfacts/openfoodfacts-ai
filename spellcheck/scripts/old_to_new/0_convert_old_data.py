@@ -13,17 +13,17 @@ REFERENCE_DATA_PATH = OLD_DATA_DIR / "correct.txt"
 OUTPUT_DATA_PATH = SPELLCHECK_DIR / "data/0_fr_data.json"
 
 
-def convert_old_data(orginal_path: Path, reference_path: Path, save_path: Path):
+def convert_old_data(original_path: Path, reference_path: Path, save_path: Path):
     """Convert data from previous work from Lucain W into Json format.
 
     Args:
-        orginal_path (Path): Ingredient Lists before Spellcheck
+        original_path (Path): Ingredient Lists before Spellcheck
         reference_path (Path): Ingredient Lists after Spellcheck
         save_path (Path): save path
     """
-    orginal_texts = extract_texts_from_data(orginal_path)
+    original_texts = extract_texts_from_data(original_path)
     reference_texts = extract_texts_from_data(reference_path)
-    new_data = postprocess_texts(orginal_texts, reference_texts)
+    new_data = postprocess_texts(original_texts, reference_texts)
     save_to_json(new_data, save_path)
 
 
@@ -43,25 +43,25 @@ def extract_texts_from_data(path: Path) -> Iterator[str]:
 
 
 def postprocess_texts(
-    orginal_texts: Iterator[str],
+    original_texts: Iterator[str],
     reference_texts: Iterator[str],
     unaccepted_string: str = "NOT_VALID",
     lang: str = "fr"
 ) -> List[Mapping]:
-    """Map orginal and reference texts. Remove 
+    """Map original and reference texts. Remove 
 
     Args:
-        orginal_texts (Iterator[str]): Before Spellchecking
+        original_texts (Iterator[str]): Before Spellchecking
         reference_texts (Iterator[str]): After Spellchecking
         unaccepted_string (str, optional): Some `After spellcheck` data were considered as not valid. 
     We remove them. Defaults to "NOT_VALID".
         lang (str, optional): Langue. Defaults to "fr".
 
     Returns:
-        List[Mapping]: List of orginal and reference list of ingredients
+        List[Mapping]: List of original and reference list of ingredients
     """
     output = []
-    for original_text, reference_text in zip(orginal_texts, reference_texts):
+    for original_text, reference_text in zip(original_texts, reference_texts):
         if reference_text != unaccepted_string:
             output.append(
                 {"original": original_text, "reference": reference_text, "lang": lang}
@@ -72,7 +72,7 @@ def postprocess_texts(
 def save_to_json(data: Iterator[Mapping], path: Path) -> None:
     """Saving.
     Args:
-        data (Iterator[Mapping]): List of orginal and reference list of ingredients
+        data (Iterator[Mapping]): List of original and reference list of ingredients
         path (Path): Saving path
     """
     obj = {"data": data}
@@ -82,7 +82,7 @@ def save_to_json(data: Iterator[Mapping], path: Path) -> None:
 
 def main():
     convert_old_data(
-        orginal_path=ORIGINAL_DATA_PATH,
+        original_path=ORIGINAL_DATA_PATH,
         reference_path=REFERENCE_DATA_PATH,
         save_path=OUTPUT_DATA_PATH
     )

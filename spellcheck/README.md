@@ -6,7 +6,7 @@ The influence of the Spellcheck on the list of ingredients needs to be controlle
 
 From the different types of errors observed across products, we came with these spellcheck guidelines:
 
-* Correct typos in ingredient words if word is recognized;
+* Correct typos;
 * Whitespaces between words and percentages shouldn't be corrected. The text needs to be kept as unchanged as possible.
 (Example: `Ingredient 0,2   %`);
 * Some ingredients are enclosed with `_`, such as `_milk_` or `_cacahuetes_`, to detect allergens. Needs to be unchanged by the spellcheck. However, in the case it is not an ingredient, such as `_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.`, it needs to be modified into `_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.`;
@@ -18,9 +18,7 @@ To improve the quality of the Spellcheck module, we decided to exploit the recen
 
 Creating this kind of solution requires rigorously building a benchmark/validation dataset to estimate the future models' performances. 
 
-Our idea is to use the existing dataset developed a few years ago, enhance it with new data, and then perform data augmentation using LLMs.
-
-Not only do we build a benchmark to evaluate future solutions, but we'll also use data augmentation to create the dataset required to train a task-specific machine learning model.
+Our idea is to use the existing dataset developed a few years ago, enhance it with new data, and then perform synthetic data generation using LLMs.
 
 ### 🧵 Data lineage
 
@@ -114,9 +112,9 @@ Prediction:     "Th big cat is in the fridge."
 
 After tokenization:
 ``` 
-Original:       791   8415   4502   389   79    282    1425   11
-Reference:      416   8415   374    389   279   38681  13
-Prediction:     791   2466   8415   374   304   279    38681  13
+Original:       1016   8415   4502   389   279   282     1425   11
+Reference:      791    8415   374    389   279   38681   13
+Prediction:     1016   2466   8415   374   304   279     38681  13
 ```
 
 We notice which tokens were modified, added, or deleted. But this transformation creates a misalignement. Thus, we need to align those 3 token sequences. 
@@ -127,11 +125,11 @@ We use the [Needleman-Wunsch](https://en.wikipedia.org/wiki/Needleman%E2%80%93Wu
 
 After alignment:
 ``` 
-Original:       791   8415   4502   389   79    282    1425   11
-Reference:      416   8415   374    389   279   38681   --    13
+Original:       1016   8415   4502   389   279   282    1425   11
+Reference:      791    8415   374    389   279   38681   --    13
 
-Original:       791    --    8415   4502  389   79    282    1425   11
-Prediction:     791   2466   8415   374   304   279   --     38681  13
+Original:       1016    --    8415   4502  389   279    282    1425   11
+Prediction:     791    2466   8415   374   304   279    --     38681  13
 ```
 
 Now we can detect which tokens were added, deleted or modified from the *Original* sequence for both the *Reference* and the *Prediction*. 
