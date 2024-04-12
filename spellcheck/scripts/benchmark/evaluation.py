@@ -32,7 +32,7 @@ class SpellcheckEvaluator(Evaluator):
     list of ingredients and correctly fixing them.
 
     Therefore, 3 elements are necessary:
-        * The riginal text with typos/errors
+        * The original text with typos/errors
         * The expected correction.
         * The prediction from the model.
 
@@ -125,17 +125,17 @@ class SpellcheckEvaluator(Evaluator):
             )
 
             # Convert pairs into sparse matrices for metrics calculation
-            sparsed_ref_pairs = self.convert_pairs_into_sparse(aligned_ref_pairs)
-            sparsed_pred_pairs = self.convert_pairs_into_sparse(aligned_pred_pairs)
-            assert len(sparsed_ref_pairs) == len(sparsed_pred_pairs), "Ref and pred pairs don't have the same length!"
+            sparse_ref_pairs = self.convert_pairs_into_sparse(aligned_ref_pairs)
+            sparse_pred_pairs = self.convert_pairs_into_sparse(aligned_pred_pairs)
+            assert len(sparse_ref_pairs) == len(sparse_pred_pairs), "Ref and pred pairs don't have the same length!"
 
-            inverse_sparsed_ref_pairs = [1 if i == 0 else 0 for i in sparsed_ref_pairs]
-            inverse_sparsed_pred_pairs = [1 if i == 0 else 0 for i in sparsed_pred_pairs]
+            inverse_sparse_ref_pairs = [1 if i == 0 else 0 for i in sparse_ref_pairs]
+            inverse_sparse_pred_pairs = [1 if i == 0 else 0 for i in sparse_pred_pairs]
 
             # Calculate metrics
-            true_positive = np.sum(np.multiply(sparsed_ref_pairs, sparsed_pred_pairs))
-            false_postive = np.sum(np.multiply(inverse_sparsed_ref_pairs, sparsed_pred_pairs))
-            false_negative = np.sum(np.multiply(sparsed_ref_pairs, inverse_sparsed_pred_pairs))
+            true_positive = np.sum(np.multiply(sparse_ref_pairs, sparse_pred_pairs))
+            false_postive = np.sum(np.multiply(inverse_sparse_ref_pairs, sparse_pred_pairs))
+            false_negative = np.sum(np.multiply(sparse_ref_pairs, inverse_sparse_pred_pairs))
 
             precision = true_positive / (true_positive + false_postive)
             recall = true_positive / (true_positive + false_negative)
@@ -151,8 +151,8 @@ class SpellcheckEvaluator(Evaluator):
             correction_precision = self.compute_correction_precision(
                 ref_pairs=aligned_ref_pairs,
                 pred_pairs=aligned_pred_pairs,
-                sparsed_ref_pairs=sparsed_ref_pairs, 
-                sparsed_pred_pairs=sparsed_pred_pairs
+                sparse_ref_pairs=sparse_ref_pairs, 
+                sparse_pred_pairs=sparse_pred_pairs
             )
             correction_precisions.append(correction_precision)
 
@@ -255,7 +255,7 @@ class SpellcheckEvaluator(Evaluator):
         Example:
         ```
         pairs = [(791, 791), (8415, 8415), (4502, 374), (389, 389), (279, 279), (282, None), (1425, 38681), (13, 13)]
-        sparsed_pairs = [0, 0, 1, 0, 0, 1, 1, 0] 
+        sparse_pairs = [0, 0, 1, 0, 0, 1, 1, 0] 
         ```
         Args:
             pairs (List[Tuple]): Iterable of token pairs from the Sequence alignment algorithm.
@@ -273,7 +273,7 @@ class SpellcheckEvaluator(Evaluator):
     ) -> Tuple[List[Tuple], List[Tuple]]:
         """Reference and Prediction pairs are aligned in case of different lengths to enable metrics calculation.
         In case of one list of pairs smaller than the other one, the neutral pair (None, None) is inserted into the shortest list to 
-        be considered as 0 in it's respective sparsed vector, which means it doesn't count as a modification.
+        be considered as 0 in it's respective sparse vector, which means it doesn't count as a modification.
 
         Example:
         ```
@@ -281,15 +281,15 @@ class SpellcheckEvaluator(Evaluator):
         Orig-Ref pairs: [(400, 400), (350, 350), (20, 18), (21, 40), (23, 23)]
         Orig-Pred pairs: [(400, 400), (350, 350), (None, 800), (20, 18), (21, 40), (23, 80)]
         
-        Sparsed Ref: [0, 0, 1, 1, 0]
-        Sparsed Pred: [0, 0, 1, 1, 1, 1]
+        sparse Ref: [0, 0, 1, 1, 0]
+        sparse Pred: [0, 0, 1, 1, 1, 1]
 
         After:
         Orig-Ref pairs: [(400, 400), (350, 350), (None, None), (20, 18), (21, 40), (23, 23)] => len
         Orig-Pred pairs: [(400, 400), (350, 350), (None, 800), (20, 18), (21, 40), (23, 80)] 
 
-        Sparsed Ref: [0, 0, 0, 1, 1, 0]
-        Sparsed Pred: [0, 0, 1, 1, 1, 1]
+        sparse Ref: [0, 0, 0, 1, 1, 0]
+        sparse Pred: [0, 0, 1, 1, 1, 1]
 
         Args:
             ref_pairs (List[Tuple]): List of Orig-Ref token pairs
@@ -323,23 +323,23 @@ class SpellcheckEvaluator(Evaluator):
     def compute_correction_precision(
         ref_pairs: List[Tuple],
         pred_pairs: List[Tuple], 
-        sparsed_ref_pairs: List[int], 
-        sparsed_pred_pairs: List[int]
+        sparse_ref_pairs: List[int], 
+        sparse_pred_pairs: List[int]
     ) -> float:
         """Correction precision metric correspond to the precision of the model the predict the correct token.
 
         Args:
             ref_pairs (List[Tuple]): List of Orig-Ref token pairs
             pred_pairs (List[Tuple]): List of Orig-Pred token pairs
-            sparsed_ref_pairs (List[int]): Sparsed vector representation of Orig-Ref pairs
-            sparsed_pred_pairs (List[int]): Sparsed vector representation of Orig-Pred pairs
+            sparse_ref_pairs (List[int]): sparse vector representation of Orig-Ref pairs
+            sparse_pred_pairs (List[int]): sparse vector representation of Orig-Pred pairs
 
         Returns:
             float: precision of picking the right token
         """
-        corrected_tokens_ids = np.multiply(sparsed_ref_pairs, sparsed_pred_pairs)
-        true_positive = np.sum([ref_pairs[idx][1] == pred_pairs[idx][1] for idx in corrected_tokens_ids if idx == 1])
-        precision = true_positive / np.sum(corrected_tokens_ids)
+        true_positive_ids = np.multiply(sparse_ref_pairs, sparse_pred_pairs)
+        true_positive = np.sum([ref_pairs[idx][1] == pred_pairs[idx][1] for idx in true_positive_ids if idx == 1])
+        precision = true_positive / np.sum(true_positive_ids)
         return precision
 
 
