@@ -12,16 +12,6 @@ From the different types of errors observed across products, we came with these 
 * Some ingredients are enclosed with `_`, such as `_milk_` or `_cacahuetes_`, to detect allergens. Needs to be unchanged by the spellcheck. However, in the case it is not an ingredient, such as `_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.`, it needs to be modified into `_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.`;
 * Some percentages were badly parsed by the OCR, such as `cheese (196)` instead of `cheese (1%)` or `καραμέλα (396` instead of `καραμέλα (3%)` . Since there is a recognizable pattern, `%` being transformed into `96`, the spellcheck should be able to recognize and correct it.
 
-
-* If you recognize an ingredient and notice a typo, fix the typo. Otherwise, don't;
-* Line breaks in the package list of ingredients leads to this error: "<subword1>  -  <subword2>". Join them into a single <word>;
-* Some ingredients are enclosed within underscores, such as _milk_ or _cacahuetes_, to denote ingredients that are allergens. But if "_" is used for a sequence of words instead, such as "_Trazas de frutos de cáscara_", which is not an ingredient, remove the underscores
-* If you don't recognize an ingredient, which can happen because of the OCR, and you're not sure about the correct ingredient, keep it as it is;
-* Don't invent new ingredients in the list if they're missing;
-* Ingredients are often associated with a percentage. But it can happen the percentage was badly parsed by the OCR such as 396 instead of 3%, 196 instead of 1%, 296 instead of 2%. Fix those percentages when you notice the same pattern;
-* If the percentage 
-
-
 ## Benchmark - Validation dataset
 
 To improve the quality of the Spellcheck module, we decided to exploit the recent advancements with LLMs to train a task-specific Machine Learning model on OFF data. 
