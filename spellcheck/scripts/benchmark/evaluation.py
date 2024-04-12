@@ -345,9 +345,9 @@ class SpellcheckEvaluator(Evaluator):
 
 if __name__ == "__main__":
     # Test
-    orig = ["The cat si on the fride,", "Sumer is commig!"]
+    orig = ["Th cat si on the fride,", "Sumer is commig!"]
     ref = ["The cat is on the fridge.", "Summer is comming!"]
-    pred = ["The big cat is in the fridge.", "Summer is hot!"]
+    pred = ["Th big cat is in the fridge.", "Summer is hot!"]
 
     spellcheck_evaluator = SpellcheckEvaluator(originals=orig, references=ref)
     results = spellcheck_evaluator.evaluate(predictions=pred)
