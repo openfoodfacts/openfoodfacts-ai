@@ -81,8 +81,8 @@ def process_annotation_created_or_updated(project: Project, annotation: dict) ->
 
 
 def compute_checked_flag(annotation: dict) -> bool:
-    """Add the `checked` flag to the task data if the annotation has the `checked` value added by
-    the annotator."""
+    """Add the `checked` flag to the task data if the annotation has the
+    `checked` value added by the annotator."""
     checked = False
     for annotation_result in annotation["result"]:
         if (
