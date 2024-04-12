@@ -13,7 +13,7 @@ LABEL_STUDIO_URL = "https://annotate.openfoodfacts.org"
 
 def assign_batch_to_samples(
     project_id: int,
-    api_token: Annotated[str, typer.Argument(envvar="LABEL_STUDIO_API_TOKEN")],
+    api_key: Annotated[str, typer.Argument(envvar="LABEL_STUDIO_API_KEY")],
     start_batch_id: int = 1,
     batch_size: int = 100,
 ):
@@ -23,7 +23,7 @@ def assign_batch_to_samples(
     All samples are fetched, sorted randomly and a unique batch number is
     assigned to each sample.
     """
-    ls = Client(url=LABEL_STUDIO_URL, api_key=api_token)
+    ls = Client(url=LABEL_STUDIO_URL, api_key=api_key)
     ls.check_connection()
 
     project = ls.get_project(project_id)

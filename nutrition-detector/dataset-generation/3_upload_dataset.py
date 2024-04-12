@@ -12,9 +12,9 @@ LABEL_STUDIO_URL = "https://annotate.openfoodfacts.org"
 
 def upload_dataset(
     project_id: int,
-    api_token: Annotated[str, typer.Argument(envvar="LABEL_STUDIO_API_TOKEN")],
+    api_key: Annotated[str, typer.Argument(envvar="LABEL_STUDIO_API_KEY")],
 ):
-    ls = Client(url=LABEL_STUDIO_URL, api_key=api_token)
+    ls = Client(url=LABEL_STUDIO_URL, api_key=api_key)
     ls.check_connection()
 
     project = ls.get_project(project_id)

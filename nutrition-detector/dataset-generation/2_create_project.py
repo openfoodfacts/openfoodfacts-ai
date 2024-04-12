@@ -11,9 +11,9 @@ LABEL_STUDIO_URL = "https://annotate.openfoodfacts.org"
 
 
 def create_project(
-    api_token: Annotated[str, typer.Argument(envvar="LABEL_STUDIO_API_TOKEN")]
+    api_key: Annotated[str, typer.Argument(envvar="LABEL_STUDIO_API_KEY")]
 ):
-    ls = Client(url=LABEL_STUDIO_URL, api_key=api_token)
+    ls = Client(url=LABEL_STUDIO_URL, api_key=api_key)
     ls.check_connection()
 
     label_config = Path("./label_config.xml").read_text()
