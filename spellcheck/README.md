@@ -86,9 +86,9 @@ Scripts:
 
 ### 📐 Evaluation metrics and algorithm
 
-Evaluate the Spellcheck is a hard task. 
+Evaluating the Spellcheck is a hard task. 
 
-Most of the existing metrics and evaluation algorithm compute the similarity between the reference and the prediction such as BLEU or ROUGE scores. Others calculate the Precision-Recall on modified tokens for tokens classification tasks.
+Most of the existing metrics and evaluation algorithms compute the similarity between the reference and the prediction such as BLEU or ROUGE scores. Others calculate the Precision-Recall on modified tokens for token classification tasks.
 
 But in our case, we would like to estimate how well the Spellcheck performs on recognizing and fixing the right elements in the list of ingredients. Therefore we need to compute the Precision-Recall of correctly modified tokens. 
 
@@ -134,11 +134,11 @@ Original:       791    --    8415   4502  389   79    282    1425   11
 Prediction:     791   2466   8415   374   304   279   --     38681  13
 ```
 
-Now we are able to detect which tokens were added, deleted or modified from the *Original* sequence for both the *Reference* and the *Prediction*. 
+Now we can detect which tokens were added, deleted or modified from the *Original* sequence for both the *Reference* and the *Prediction*. 
 
 But as you may have noticed, pairs of tokens are now misaligned because a new word `big` (`2466`) was added to the Prediction but not in the Reference.
  
-3. Pairs of tokens (Original-Reference; Original-Prediction) are aligned to consider gaps in case Reference and/or Prediction have different length.
+3. Pairs of tokens (Original-Reference; Original-Prediction) are aligned to consider gaps in case Reference and/or Prediction have different lengths.
 
 To better visualize which tokens were modified in comparison of the *Original*, each list of pairs is modified into a sparse vector. If the original token was modified, or if a token was added or deleted, it is considered as `1`: 
 
@@ -147,7 +147,7 @@ Orig-Ref:      1   0   1   0   1   1   1   1
 Orig-Pred:     0   1   0   1   1   1   1   1   1
 ```
 
-Since the token `2466` was added in *Orig-Pred pairs*, we insert `0` into the *Orig-Ref sparse vector*, the shortest vector in this case, meaning that this "imaginary" token is not count as a change.
+Since the token `2466` was added in *Orig-Pred pairs*, we insert `0` into the *Orig-Ref sparse vector*, the shortest vector in this case, meaning that this "imaginary" token does not count as a change.
 
 ``` 
 Orig-Ref:      1  '0'  0   1   0   1   1   1   1
@@ -156,9 +156,9 @@ Orig-Pred:     0   1   0   1   1   1   1   1   1
 
 The pairs are now aligned. We can now know which tokens were supposed to change, and which were not supposed to.
 
-But multiplying these vectors, we can calculate the Precision-Recall metrics.
+By multiplying these vectors, we can calculate the Precision-Recall metrics.
 
-* Compute Precision, Recall, and Correction Precision
+4. Compute Precision, Recall, and Correction Precision
 
 By taking these 2 sparse vectors and their inverse, we can calculate the number of True Positives (`TP`), False Positives (`FP`) and False Negatives (`FN`) to compute the Precision and Recall.
 
@@ -174,9 +174,9 @@ Also, since these metrics consider if the correct token was modified and not if 
 model, we also calculate the `correction_precision` for each `TP`.
 
 
-With these metric, we're now capable of evaluating our spellcheck accuratly on this task!
+With these metric, we're now capable of evaluating our spellcheck accurately on this task!
 
 **Notes:**
-* This evaluation algorithm depends on how well the sequence alignment was performed. It works only if there's enough information (similar tokens) to align sequences. It means noisy sequences can influence the sequence alignment and therefore bias the metrics calculation. Adding a noise threshold, such as calculated the **BLEU** score beetween Original-Reference & Original-Prediction could be a good solution to prevent this.
+* This evaluation algorithm depends on how well the sequence alignment was performed. It works only if there's enough information (similar tokens) to align sequences. It means noisy sequences can influence the sequence alignment and therefore bias the metrics calculation. Adding a noise threshold, such as calculating the **BLEU** score between Original-Reference & Original-Prediction could be a good solution to prevent this.
 
-* The Needleman-Wunsch is the foundation of this algorithm. It can be worth to perform hyperparameters tuning to get the best sequence alignement for our case.
+* The Needleman-Wunsch is the foundation of this algorithm. It can be worth performing hyperparameter tuning to get the best sequence alignment for our case.
