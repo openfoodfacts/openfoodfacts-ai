@@ -8,7 +8,14 @@ LOGGER = logging.getLogger(__name__)
 
 
 class LLM(ABC):
-    """"""
+    """OpenAI LLMs for text generation.
+
+    Args:
+    prompt_template (str): Prompt template
+    model_name (str): Model name from OpenAI: https://platform.openai.com/docs/models
+    temperature (float): Temperature coefficient
+    max_tokens (int): Max tokens output
+    """
     def __init__(
         self, 
         prompt_template: str, 

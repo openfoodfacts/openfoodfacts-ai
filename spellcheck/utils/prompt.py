@@ -1,3 +1,4 @@
+"""Prompts for LLMs"""
 from dataclasses import dataclass
 
 @dataclass
