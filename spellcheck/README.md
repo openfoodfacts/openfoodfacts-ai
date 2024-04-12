@@ -1,5 +1,26 @@
 # Spellcheck
 
+## Guidelines
+
+The influence of the Spellcheck on the list of ingredients needs to be controlled to avoid alterate contributions and/or add new errors. Therefore, we keep the modification to a minimum to favour Precision over Recall.
+
+From the different types of errors observed across products, we came with these spellcheck guidelines:
+
+* Correct typos in ingredient words if word is recognized;
+* Whitespaces between words and percentages shouldn't be corrected. The text needs to be kept as unchanged as possible.
+(Example: `Ingredient 0,2   %`);
+* Some ingredients are enclosed with `_`, such as `_milk_` or `_cacahuetes_`, to detect allergens. Needs to be unchanged by the spellcheck. However, in the case it is not an ingredient, such as `_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.`, it needs to be modified into `_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.`;
+* Some percentages were badly parsed by the OCR, such as `cheese (196)` instead of `cheese (1%)` or `καραμέλα (396` instead of `καραμέλα (3%)` . Since there is a recognizable pattern, `%` being transformed into `96`, the spellcheck should be able to recognize and correct it.
+
+
+* If you recognize an ingredient and notice a typo, fix the typo. Otherwise, don't;
+* Line breaks in the package list of ingredients leads to this error: "<subword1>  -  <subword2>". Join them into a single <word>;
+* Some ingredients are enclosed within underscores, such as _milk_ or _cacahuetes_, to denote ingredients that are allergens. But if "_" is used for a sequence of words instead, such as "_Trazas de frutos de cáscara_", which is not an ingredient, remove the underscores
+* If you don't recognize an ingredient, which can happen because of the OCR, and you're not sure about the correct ingredient, keep it as it is;
+* Don't invent new ingredients in the list if they're missing;
+* Ingredients are often associated with a percentage. But it can happen the percentage was badly parsed by the OCR such as 396 instead of 3%, 196 instead of 1%, 296 instead of 2%. Fix those percentages when you notice the same pattern;
+* If the percentage 
+
 
 ## Benchmark - Validation dataset
 
@@ -13,11 +34,61 @@ Not only do we build a benchmark to evaluate future solutions, but we'll also us
 
 ### Data lineage
 
-The old dataset, located at `spellcheck/old/test_sets/fr` is leveraged to constitute our new dataset. It is composed of `List of Ingredients` before and after spellcheck, mainly in French.
+*Data*
+```bash
+├── data
+│   ├── benchmark
+│   │   ├── benchmark.json
+│   │   ├── test_benchmark.json
+│   │   └── verified_benchmark.parquet
+│   ├── fr
+│   │   ├── 0_fr_data.json
+│   │   └── 1_old_fr_no_duplicate_data.json
+│   └── labeled
+│       └── corrected_list_of_ingredients.txt
+```
 
-We take this dataset and process it. 
-The processing scripts are located at: `spellcheck/scripts/old_to_new` - and the processed data: `spellcheck/data`.
+*Scripts*
+```bash
+├── scripts
+│   ├── argilla
+│   │   ├── benchmark.py
+│   │   └── extract_benchmark.py
+│   ├── benchmark
+│   │   ├── create_benchmark.py
+│   │   ├── create_test_benchmark.py
+│   │   └── evaluation.py
+│   └── old_to_new
+│       ├── 0_convert_old_data.py
+│       └── 1_old_fr_data_check.ipynb
+```
 
-* `0_fr_data.json`: the old data is extracted and transformed into a json file.  Basic processing are performed, such as removing *NO_VALID* data (data size: **786**) - script: `0_convert_old_data.py`
+The benchmark is composed of **247** lists of ingredients from 3 data sources:
 
-* `1_old_fr_no_duplicate_data.json`: We noticed a lot of duplicates before and after spellcheck, representing almost half of the dataset. We remove them (data size: **441**) - script: `1_old_fr_data_check.ipynb`
+* **30%** of the old dataset composed of manually corrected lists of ingredients in French from the previous work by Lucain W. The old dataset, `spellcheck/old/test_sets/fr` is used  to constitute our new dataset. It is composed of `List of Ingredients` before and after spellcheck, mainly in French. The processing scripts are located at: `spellcheck/scripts/old_to_new` - and the processed data in `spellcheck/data/fr`.
+
+    * `data/fr/0_fr_data.json`: the old data is extracted and transformed into a json file. Basic processing are performed, such as removing *NO_VALID* data (data size: **786**) - script: `scripts/old_to_new/0_convert_old_data.py`
+
+    * `data/1_old_fr_no_duplicate_data.json`: We noticed a lot of duplicates before and after spellcheck, representing almost half of the dataset. We remove them (data size: **441**) - script: `scripts/old_to_new/1_old_fr_data_check.ipynb`
+
+* 15 manually corrected lists of ingredients in different languages. 
+    
+    * This small sample was used to prompt engineer GPT-3.5 on achieving good performances on the spellcheck task.
+    * Those examples mainly comes from the OFF website.
+    * data: `data/labeled/corrected_list_of_ingredients.txt` & `data/benchmark/test_benchmark.json` - script: `scripts/benchmark/create_test_benchmark.py` 
+
+* 100 lists of ingredients with the tag `50-percent-unknown` corrected with the prompted GPT-3.5. It follows the correction guidelines defined with the OFF team and based on observations in production. You'll find the prompt used to augmente the data with GPT-3.5 at `utils/prompt.py`. These 100 lists of ingredients are extracted from the OFF database and processed right away during the benchmark creation.
+
+Benchmark composition script: `scripts/benchmark/create_benchmark.py`
+
+Once composed, the benchmark is then verified  using Argilla to ensure the correction generated by OpenAI respect the Spellcheck guidelines. The corrected benchmark is located at `data/benchmark/verified_benchmark.parquet`.
+
+### Argilla
+
+To annotate and verified the benchmark, we deployed an Argilla instance and manually verified the correction generated by GPT-3.5.
+
+Argilla is an open-source annotation tool specific to Natural Language Processing.
+
+Scripts:
+* `scripts/argilla/benchmark.py`: structure of the annotation tool for the spellcheck task
+* `scripts/argilla/extract_benchmark.py`: script to extract the annotated dataset from Argilla. The extracted dataset is saved at `data/benchmark/verified_benchmark.parquet`.

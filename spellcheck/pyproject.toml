@@ -10,15 +10,15 @@ python = "^3.9,<3.10"
 openai = "^1.14.3"
 evaluate = "^0.4.1"
 sacrebleu = "^2.4.1"
-rouge-score = "^0.1.2"
-nltk = "^3.8.1"
 argilla = "^1.26.1"
 python-dotenv = "^1.0.1"
 datasets = "^2.18.0"
-jiwer = "^3.0.3"
 transformers = {extras = ["torch"], version = "^4.39.3"}
 tiktoken = "^0.6.0"
 
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
 
 [build-system]
 requires = ["poetry-core"]

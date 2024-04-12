@@ -16,7 +16,6 @@ Correction guideline:
 * If you don't recognize an ingredient, which can happen because of the OCR, and you're not sure about the correct ingredient, keep it as it is;
 * Don't invent new ingredients in the list if they're missing;
 * Ingredients are often associated with a percentage. But it can happen the percentage was badly parsed by the OCR such as 396 instead of 3%, 196 instead of 1%, 296 instead of 2%. Fix those percentages when you notice the same pattern;
-* If the percentage 
 * Don't try to over change the provided text. Keep the same structure, words and whitespaces. Focus only on the previous cited rules;
 
 Here's a list of examples:
@@ -45,7 +44,7 @@ _Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.
 _Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.
 
 ###List of ingredients:
-Κάθετη μονάδα παραγωγής και επεξεργασίας Συστατικά: Πολτός ελληνικού φυστικιού (70%), υδρογονωμένο φοινικέλαιο, ζάχαρη, καραμέλα (396 , κομμάτια ψημένου ελληνικού φυστικιού (2%) , αρωματικές ύλες, αλάτι. Διατηρείται σε δροσερό και σκιερό μέρος. Η παρουσία λαδιού στην επιφάνεια είναι φυσικό φαινόμενο. Ανα κατέψτε καλά Πριν από κάθε χρήση. Παράγεται και συσκευάζεται στην Ελλάδα από : Χρήστος Αγριανίδης. φυστικιού . Αμμουδιά Σερρν.
+Κάθετη μονάδα παραγωγής και επεξεργασίας Συστατικά: Πολτός ελληνικού φυστικιού (70%), υδρογονωμένο φοινικέλαιο, ζάχαρη,      , κομμάτια ψημένου ελληνικού φυστικιού (2%) , αρωματικές ύλες, αλάτι. Διατηρείται σε δροσερό και σκιερό μέρος. Η παρουσία λαδιού στην επιφάνεια είναι φυσικό φαινόμενο. Ανα κατέψτε καλά Πριν από κάθε χρήση. Παράγεται και συσκευάζεται στην Ελλάδα από : Χρήστος Αγριανίδης. φυστικιού . Αμμουδιά Σερρν.
 
 ###Corrected list of ingredients:
 Κάθετη μονάδα παραγωγής και επεξεργασίας Συστατικά: Πολτός ελληνικού φυστικιού (70%), υδρογονωμένο φοινικέλαιο, ζάχαρη, καραμέλα (3%) , κομμάτια ψημένου ελληνικού φυστικιού (2%) , αρωματικές ύλες, αλάτι. Διατηρείται σε δροσερό και σκιερό μέρος. Η παρουσία λαδιού στην επιφάνεια είναι φυσικό φαινόμενο. Ανα κατέψτε καλά Πριν από κάθε χρήση. Παράγεται και συσκευάζεται στην Ελλάδα από : Χρήστος Αγριανίδης. φυστικιού . Αμμουδιά Σερρν.
