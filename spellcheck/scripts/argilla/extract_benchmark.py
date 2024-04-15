@@ -120,7 +120,7 @@ def postprocessing_map_fn(element: Mapping) -> Mapping:
 def postprocessing_filter_fn(
         element: Mapping, 
         status: Literal["submitted", "discarded"] = "discarded"
-    ) -> Mapping:
+    ) -> bool:
     """Filter dataset depending on annotation status.
 
     Args:
@@ -143,7 +143,7 @@ def postprocessing_filter_fn(
         status (Literal["submitted", "discarded"], optional): Annotation status to filter. Defaults to "discarded".
 
     Returns:
-        Mapping: _description_
+        Mapping: True if kept, False otherwise.
     """
     # Since it can be possible there are several annotators, we only take the last annotation
     for reference in element["reference"]:
