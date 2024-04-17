@@ -81,8 +81,8 @@ def process_annotation_created_or_updated(project: Project, annotation: dict) ->
 
 
 def compute_checked_flag(annotation: dict) -> bool:
-    """Add the `checked` flag to the task data if the annotation has the
-    `checked` value added by the annotator."""
+    """Add the `checked` flag to the task data if the annotation has the `checked` value added by
+    the annotator."""
     checked = False
     for annotation_result in annotation["result"]:
         if (
@@ -171,6 +171,13 @@ def check_bounding_boxes_unmodified(annotation: dict, prediction: dict) -> str |
     if diff_count:
         error_message = f"some prediction bounding boxes are different from annotation bounding boxes (diff: {diff_count} / {len(annotation_results)})"
         print(f"Error: {error_message}")
+
+        if diff_count <= 5:
+            for p, a in zip(prediction_results, annotation_results):
+                if p != a:
+                    print(f"Prediction: {p}")
+                    print(f"Annotation: {a}")
+                    print("---" * 10)
         return error_message
 
     return None
