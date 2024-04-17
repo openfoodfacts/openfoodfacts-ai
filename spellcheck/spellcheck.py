@@ -25,7 +25,5 @@ class SpellChecker:
         Return:
             (str): Corrected list of ingredients.
         """
-        LOGGER.info(f"List of ingredients to correct: {list_of_ingredients}")
         correction = self.model.predict(text=list_of_ingredients)
-        LOGGER.info(f"Correction: {correction}")
         return correction
