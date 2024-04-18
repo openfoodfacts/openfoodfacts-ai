@@ -1,4 +1,30 @@
 import difflib
+import os
+from pathlib import Path
+import logging
+from typing import Mapping, Iterable
+import json 
+
+
+def get_repo_dir():
+    """Return the pathlib.Path of the Spellcheck repository"""
+    return Path(os.path.dirname(__file__)).parent
+
+
+def get_logger(level: str = "INFO") -> logging.Logger:
+    """Return LOGGER
+
+    Args:
+        level (str, optional): Logging level. Defaults to "INFO".
+
+    Returns:
+        logging.Logger: Logger
+    """
+    logging.basicConfig(
+        level=logging.getLevelName("INFO"),
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    )
+    return logging.getLogger(__name__)
 
 
 def show_diff(original_text: str, corrected_text: str, missing_element: str = "~"):
@@ -25,13 +51,21 @@ def show_diff(original_text: str, corrected_text: str, missing_element: str = "~
         return corrected_text
 
 
-if __name__ == "__main__":
+def load_jsonl(path: Path) -> Iterable[Mapping]:
+    """Load JSONL file
 
-    # Example usage:
-    original_text = "The fast brown fox jum - ped over the lazy dog."
-    corrected_text = "The qu - ick brown fox jumped over the lazy dog."
+    Args:
+        path (Path): JSONL path
 
-    # highlighted_result = highlight_corrected(original_text, corrected_text)
-    # print(highlighted_result)
+    Raise:
+        ValueError: Not a jsonl file.
 
-    print(show_diff(original_text, corrected_text))
+    Returns:
+        Iterable[Mapping]: Data
+    """
+    if path.suffix != ".jsonl":
+        raise ValueError(f"'.jsonl' file expected. Got {path.suffix} instead.")
+    
+    with open(path, "r") as f:
+        lines = f.readlines()
+    return [json.loads(line) for line in lines]

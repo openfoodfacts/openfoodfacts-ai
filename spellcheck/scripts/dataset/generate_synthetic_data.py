@@ -1,7 +1,6 @@
-import logging
-from pathlib import Path
-import os
 import json
+from pathlib import Path
+from typing import List
 
 import pandas as pd
 
@@ -9,28 +8,24 @@ from spellcheck import SpellChecker
 from utils.llm import OpenAIChatCompletion
 from utils.prompt import SystemPrompt, Prompt
 from utils.model import OpenAIModel
+from utils.utils import get_logger, get_repo_dir
 
 
-REPO_DIR = Path(os.path.dirname(__file__)).parent.parent
+REPO_DIR = get_repo_dir()
 DATA_PATH = REPO_DIR / "data/dataset/extracted_lists_of_ingredients.parquet"
 SYNTHETIC_DATA_PATH = REPO_DIR / "data/dataset/synthetic_data.jsonl"
 
-LOGGER = logging.getLogger(__name__)
-logging.basicConfig(
-    level=logging.getLevelName("INFO"),
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
+LOGGER = get_logger()
 
 
 def main():
+    
     df = pd.read_parquet(DATA_PATH)
-
     existing_codes = (
         pd.read_json(SYNTHETIC_DATA_PATH, lines=True)["code"].to_list()
         if SYNTHETIC_DATA_PATH.exists()
         else []
     )
-
     spellchecker = SpellChecker(
         model=OpenAIModel(
             llm=OpenAIChatCompletion(
@@ -39,27 +34,50 @@ def main():
             )
         )
     )
-    with open(SYNTHETIC_DATA_PATH, "a") as file:
-        for _, row in df.iterrows():
-            if row["code"] in existing_codes:
-                LOGGER.info("Product was already generated. Pass")
-            else:
-                row["corrected_text"] = spellchecker.predict(row["ingredients_text"])
-                json.dump(row.to_dict(), file, ensure_ascii=False) # For accents
-                file.write("\n")
-                file.flush() # Immediatly write the line into the file
-    LOGGER.info("Synthetic genration finished.")
+    generate_synthetic_data(
+        df=df,
+        output_data_path=SYNTHETIC_DATA_PATH,
+        existing_codes=existing_codes,
+        spellchecker=spellchecker,
+        original_text_feature="ingredients_text",
+        synthetic_feature = 'corrected_text'
+    )
 
 
 def generate_synthetic_data(
     df: pd.DataFrame,
+    output_data_path: Path,
+    existing_codes: List,
     spellchecker: SpellChecker,
-    feature_name: str,
-    output_path: Path,
-    synthetic_feature_name: str = "correction_text",
-) -> pd.DataFrame:
-    """"""
-    LOGGER.info("Start generating synthetic data.")
+    original_text_feature: str,
+    synthetic_feature: str
+) -> None:
+    """Generate synthetic data for text-based features using a spellchecker.
+
+    Notes:
+    - This function appends synthetic data to an existing file specified by output_data_path.
+    - Each row in the DataFrame is processed, and if the code is not in the list of existing codes, the text in the original_text_feature column is corrected using the spellchecker and appended to the output file along with other data.
+    
+    Parameters:
+    - df (pd.DataFrame): Input DataFrame containing the original data.
+    - output_data_path (Path): Path to save the synthetic data.
+    - existing_codes (List): List of existing codes to skip already generated products.
+    - spellchecker (SpellChecker): Spellchecker object to correct text features.
+    - original_text_feature (str): Name of the column containing original text data.
+    - synthetic_feature (str): Name of the column to store synthetic data.
+
+
+    """
+    with open(output_data_path, "a") as file:
+        for _, row in df.iterrows():
+            if row["code"] in existing_codes:
+                LOGGER.info("Product was already generated. Pass")
+            else:
+                row[synthetic_feature] = spellchecker.predict(row[original_text_feature])
+                json.dump(row.to_dict(), file, ensure_ascii=False) # Ensure ascii for accents
+                file.write("\n")
+                file.flush() # Immediatly write the line into the file
+    LOGGER.info("Synthetic generation finished.")
 
 
 if __name__ == "__main__":
