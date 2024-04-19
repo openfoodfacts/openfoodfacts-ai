@@ -7,10 +7,19 @@ The influence of the Spellcheck on the list of ingredients needs to be controlle
 From the different types of errors observed across products, we came with these spellcheck guidelines:
 
 * Correct typos;
-* Whitespaces between words and percentages shouldn't be corrected. The text needs to be kept as unchanged as possible.
-(Example: `Ingredient 0,2   %`);
-* Some ingredients are enclosed with `_`, such as `_milk_` or `_cacahuetes_`, to detect allergens. Needs to be unchanged by the spellcheck. However, in the case it is not an ingredient, such as `_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.`, it needs to be modified into `_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.`;
+* Percentages
+    * Whitespaces between words and percentages shouldn't be corrected. The text needs to be kept as unchanged as possible.
+    (Example: `Ingredient 0,2   %`).
+    * The only case when a whitespace involving a percentage should be modified is if the *digit* is stuck the previous word (*ex: cheese1.9% -> cheese 1.9%*)
+* Some ingredients are enclosed with `_`, such as `_milk_` or `_cacahuetes_`, to detect allergens. Should remain unchanged. However, in the case it is not an ingredient, such as `_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.`, it needs to be modified into `_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.`;
 * Some percentages were badly parsed by the OCR, such as `cheese (196)` instead of `cheese (1%)` or `καραμέλα (396` instead of `καραμέλα (3%)` . Since there is a recognizable pattern, `%` being transformed into `96`, the spellcheck should be able to recognize and correct it.
+* If characters in French miss an accent, need to be fixed. (*ex: cafe -> café*)
+* `*` should remain in the corrected text as much as possible (*ex: Schweinefleisch\* -> Schweinefleisch\**)
+* Whitespaces shouldn't been modified excepted for this cases:
+    * Words or characters that are supposed to be separated: *ex: crabe(...) -> crabe ()*;
+    * No whitespace after a punctuation (*ex: syrup,sugar -> syrup, sugar*)
+* Uppercase to lowercase or vice-versa are accepted.
+* In French, the character `oe` or `œ` should remain unchanged after correction (*ex: œuf, bœuf). If it is missing, should be replaced by default by `œ`.
 
 ## ✅ Benchmark - Validation dataset
 
@@ -178,3 +187,38 @@ With these metric, we're now capable of evaluating our spellcheck accurately on 
 * This evaluation algorithm depends on how well the sequence alignment was performed. It works only if there's enough information (similar tokens) to align sequences. It means noisy sequences can influence the sequence alignment and therefore bias the metrics calculation. Adding a noise threshold, such as calculating the **BLEU** score between Original-Reference & Original-Prediction could be a good solution to prevent this.
 
 * The Needleman-Wunsch is the foundation of this algorithm. It can be worth performing hyperparameter tuning to get the best sequence alignment for our case.
+
+
+## Training dataset 
+
+### Extract the data
+
+From the JSONL file available on [Open Food Facts Data](https://world.openfoodfacts.org/data), we extracted **3000** products with a proportion of percentage-unknwonw sufficent to train a model on corrected errors. We decided to select a percentage-unknonwn-ingredients between *20% - 40%*.
+
+Since this tag doesn't exist, we calculated the percentage-unknown using the keys `fraction` = `unknown-ingredients_n` / `ingredients_n`. 
+
+The dataset being extremely large (43 GB once decompressed), we used the [Polars](https://pola.rs/) library to manipulate the data. You can find the extraction script at `scripts/dataset/extract_data.py`.
+
+The extracted products are stored as a `.parquet` file at `data/dataset/extracted_lists_of_ingredients.parquet`.
+
+### Generate the synthetic data
+
+We then generated the synthetic dataset using GPT-3.5-Turbo and the same prompt that was used for generating the benchmark, located at `utils/prompt.py`.
+
+Calling OpenAI GPT-3.5-Turbo to constitute our dataset costed around **3.25$** (around 6 millions tokens - ~3000 requests).
+
+The script is located at `scripts/dataset/generate_synthetic_data.py` and the synthetic dataset at `data/dataset/synthetic_data.jsonl`.
+
+### Argilla
+
+To get an overview of the dataset and later correct it manually, we pushed the synthetic dataset into **Argilla**.
+
+You can find it [there](https://argilla.openfoodfacts.org/dataset/6ecc7c73-900b-4557-a12d-4ab23266a681/annotation-mode).
+
+### Post-processing
+
+After a first check on Argilla, there are plenty of *low-hanging fruits* errors implemented during the synthetic data generation that we can correct using a post-processing step:
+
+* `###Corrected list of ingredients:` from the prompt in the output
+
+The post-processed data is located at `data/dataset/post_processed_synthetic_data.jsonl` (*manually processed*)
