@@ -145,7 +145,9 @@ Now we can detect which tokens were added, deleted or modified from the *Origina
 
 But as you may have noticed, pairs of tokens are now misaligned because a new word `big` (`2466`) was added to the Prediction but not in the Reference.
  
-3. Pairs of tokens (Original-Reference; Original-Prediction) are aligned to consider gaps in case Reference and/or Prediction have different lengths.
+3. Pairs of tokens (Original-Reference; Original-Prediction) are aligned to consider gaps in case Reference and/or Prediction have different lengths. 
+
+This mainly occurs when additional words are added whether in References or Predictions compared to Originals. This is translated as an additional *gap* in the Original list of tokens.
 
 To better visualize which tokens were modified in comparison of the *Original*, each list of pairs is modified into a sparse vector. If the original token was modified, or if a token was added or deleted, it is considered as `1`: 
 
@@ -161,9 +163,35 @@ Orig-Ref:      1  '0'  0   1   0   1   1   1   1
 Orig-Pred:     0   1   0   1   1   1   1   1   1
 ```
 
-The pairs are now aligned. We can now know which tokens were supposed to change, and which were not supposed to.
+--------------------------------------------------------------------
+*Note:* We would do the same in case an additional token were added to the Reference instead, or in both Reference and Predictions. Here's an example of the latter: 
 
-By multiplying these vectors, we can calculate the Precision-Recall metrics.
+*Before*
+``` 
+Original:       1016   8415   4502   389    279    --     282    1425    11
+Reference:      791    8415   374    389    279    9999   38681   --     13
+Sparse:         1      0      1      0      0      1      1      1       1       
+
+Original:       1016    --    8415   4502   389    279    282    1425    11
+Prediction:     791    2466   8415   374    304    279    --     38681   13
+Sparse:         1      1      0      1      1      0      1      1       1
+```
+
+*After*
+``` 
+Original:       1016    --    8415   4502   389   279     --    282    1425    11
+Reference:      791     --    8415   374    389   279    9999   38681   --     13
+Sparse:         1       0     0      1      0      0     1      1      1      1  
+
+Original:       1016    --    8415   4502   389   279    --     282    1425    11
+Prediction:     791    2466   8415   374    304   279    --     --     38681   13
+Sparse:         1      1      0      1      1      0      0      1     1       1
+```
+--------------------------------------------------------------------
+
+Our pairs are now aligned. We can now know which tokens were supposed to change, and which were not supposed to.
+
+By multiplying the sparse vectors, we can calculate the Precision-Recall metrics.
 
 4. Compute Precision, Recall, and Correction Precision
 
@@ -177,9 +205,10 @@ Orig-Pred:         0    1    0    1    1    1    1    1    1
 Signification:     FN   FP   TN   TP   FP   TP   TP   TP   TP
 ```
 
-Also, since these metrics consider if the correct token was modified and not if the right token was chosen by the 
+Also, since these metrics consider if the correct token was modified, and not if the right token was chosen by the 
 model, we also calculate the `correction_precision` for each `TP`.
 
+`correction_precision` considers only tokens modified by the model **that were supposed to be modified according to the Reference.**
 
 With these metric, we're now capable of evaluating our spellcheck accurately on this task!
 
