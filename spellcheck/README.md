@@ -193,7 +193,7 @@ With these metric, we're now capable of evaluating our spellcheck accurately on 
 
 ### Extract the data
 
-From the JSONL file available on [Open Food Facts Data](https://world.openfoodfacts.org/data), we extracted **3000** products with a proportion of percentage-unknwonw sufficent to train a model on corrected errors. We decided to select a percentage-unknonwn-ingredients between *20% - 40%*.
+From the JSONL file available on [Open Food Facts Data](https://world.openfoodfacts.org/data), we extracted **3000** products. We decided to select a percentage-unknonwn-ingredients between *20% - 40%*.
 
 Since this tag doesn't exist, we calculated the percentage-unknown using the keys `fraction` = `unknown-ingredients_n` / `ingredients_n`. 
 

@@ -119,9 +119,8 @@ class SpellcheckEvaluator(Evaluator):
             pred_pairs = self.sequence_alignment(original_tokens, prediction_tokens)
 
             # Align ref-pairs and pred-pairs 
-            aligned_ref_pairs, aligned_pred_pairs = self.align_ref_pred_pairs(
-                ref_pairs=ref_pairs,
-                pred_pairs=pred_pairs
+            aligned_ref_pairs, aligned_pred_pairs = self.align_pairs(
+                ref_pairs, pred_pairs
             )
 
             # Convert pairs into sparse matrices for metrics calculation
@@ -139,8 +138,8 @@ class SpellcheckEvaluator(Evaluator):
 
             precision = true_positive / (true_positive + false_postive)
             recall = true_positive / (true_positive + false_negative)
-            f1 = 2 * (precision * recall) / (precision + recall)
-            f1_beta = (1 + self.beta**2) * precision * recall / (self.beta**2 * precision + recall)
+            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) != 0 else 0
+            f1_beta = (1 + self.beta**2) * precision * recall / (self.beta**2 * precision + recall) if (precision + recall) != 0 else 0
 
             precisions.append(precision)
             recalls.append(recall)
@@ -150,9 +149,7 @@ class SpellcheckEvaluator(Evaluator):
             # Also calculate if model token predictions are correct
             correction_precision = self.compute_correction_precision(
                 ref_pairs=aligned_ref_pairs,
-                pred_pairs=aligned_pred_pairs,
-                sparse_ref_pairs=sparse_ref_pairs, 
-                sparse_pred_pairs=sparse_pred_pairs
+                pred_pairs=aligned_pred_pairs
             )
             correction_precisions.append(correction_precision)
 
@@ -172,9 +169,9 @@ class SpellcheckEvaluator(Evaluator):
     def sequence_alignment(
         tokens_1: List[int],
         tokens_2: List[int],
-        match_score: int = 2,
-        mismatch_score: int = -2,
-        gap_penalty: int = -1,
+        match_score: int = 1,
+        mismatch_score: int = -1,
+        gap_penalty: int = -2,
     ) -> List[Tuple]:
         """Needleman-Wunsch Sequence alignment algorithm used in bioinformatique to align 2 sequences.
         Wiki: https://en.wikipedia.org/wiki/Sequence_alignment
@@ -209,7 +206,8 @@ class SpellcheckEvaluator(Evaluator):
         ```
         """
         # Initialize matrix
-        matrix = [[0] * (len(tokens_2) + 1) for _ in range(len(tokens_1) + 1)]
+        matrix = [[i * gap_penalty] + [0] * (len(tokens_2)) for i in range(len(tokens_1) + 1)]
+        matrix[0] = [(j * gap_penalty) for j in range(len(tokens_2) + 1)]
         # Fill in the matrix
         for i in range(1, len(tokens_1) + 1):
             for j in range(1, len(tokens_2) + 1):
@@ -234,9 +232,11 @@ class SpellcheckEvaluator(Evaluator):
             elif matrix[i][j] == matrix[i - 1][j] + gap_penalty:
                 alignment.append((tokens_1[i - 1], None))  # Mark deletion
                 i -= 1
-            else:
+            elif matrix[i][j] == matrix[i][j - 1] + gap_penalty:
                 alignment.append((None, tokens_2[j - 1]))  # Mark insertion
                 j -= 1
+            
+
         # Handle remaining elements if any
         while i > 0:
             alignment.append((tokens_1[i - 1], None))  # Mark remaining deletions
@@ -266,67 +266,64 @@ class SpellcheckEvaluator(Evaluator):
         return [0 if i == j else 1 for i, j in pairs]
     
     @staticmethod
-    def align_ref_pred_pairs(
-        ref_pairs: List[Tuple], 
-        pred_pairs: List[Tuple],
-        insert_pairs: Tuple = (None, None)
+    def align_pairs(
+        pairs1: List[Tuple], 
+        pairs2: List[Tuple],
+        neutral_pair: Tuple = (None, None)
     ) -> Tuple[List[Tuple], List[Tuple]]:
-        """Reference and Prediction pairs are aligned in case of different lengths to enable metrics calculation.
-        In case of one list of pairs smaller than the other one, the neutral pair (None, None) is inserted into the shortest list to 
-        be considered as 0 in it's respective sparse vector, which means it doesn't count as a modification.
+        """SInce we compare Pairs between the Reference and the Prediction, it's possible that tokens were added or deleted
+        in one but not in the other. This leads to a misalignment between pairs of tokens required for calculating 
+        Precision and Recall.
+
+        For this reason, we add a "neutral" pair of tokens for each gap in the opposite list of pairs. This "neutral" pair
+        aligns the modifed tokens without adding any influence on the metrics calculation.
 
         Example:
         ```
         Before:
-        Orig-Ref pairs: [(400, 400), (350, 350), (20, 18), (21, 40), (23, 23)]
+        Orig-Ref pairs: [(400, 400), (350, 350), (20, 18), (21, 40), (None, 51), (23, 23)]
         Orig-Pred pairs: [(400, 400), (350, 350), (None, 800), (20, 18), (21, 40), (23, 80)]
         
-        sparse Ref: [0, 0, 1, 1, 0]
+        sparse Ref: [0, 0, 1, 1, 1, 0]
         sparse Pred: [0, 0, 1, 1, 1, 1]
 
         After:
-        Orig-Ref pairs: [(400, 400), (350, 350), (None, None), (20, 18), (21, 40), (23, 23)] => len
-        Orig-Pred pairs: [(400, 400), (350, 350), (None, 800), (20, 18), (21, 40), (23, 80)] 
+        Orig-Ref pairs: [(400, 400), (350, 350), (None, None), (20, 18), (21, 40), (None, 51) (23, 23)]
+        Orig-Pred pairs: [(400, 400), (350, 350), (None, 800), (20, 18), (21, 40), (None, None), (23, 80)] 
 
-        sparse Ref: [0, 0, 0, 1, 1, 0]
-        sparse Pred: [0, 0, 1, 1, 1, 1]
+        sparse Ref: [0, 0, 0, 1, 1, 1, 0]
+        sparse Pred: [0, 0, 1, 1, 1, 0, 1]
 
         Args:
-            ref_pairs (List[Tuple]): List of Orig-Ref token pairs
-            pred_pairs (List[Tuple]): List of Orig-Pred token pairs
-            insert_pairs (Tuple, optional): Pair to insert for alignment. Defaults to (None, None).
+            pairs1 (List[Tuple]): Can be list of Orig-Ref token pairs
+            pairs2 (List[Tuple]): Can be list of Orig-Pred token pairs
+            neutral_pairs (Tuple, optional): Pair to insert for alignment. Defaults to (None, None).
 
         Returns:
-            Tuple[List[Tuple], List[Tuple]]: Aligned list of pairs.
+            Tuple[List[Tuple], List[Tuple]]: Aligned list of pairs. 
         """
-        if len(ref_pairs) != len(pred_pairs):
-            longest_pairs = max(ref_pairs, pred_pairs, key=len)
-            shortest_pairs = min(ref_pairs, pred_pairs, key=len)
-            ids = [idx for idx, pairs in enumerate(longest_pairs) if pairs[0] is None]
-            aligned_shortest_pairs = []
-            for idx, elt in enumerate(shortest_pairs):
-                if idx in ids:
-                    # Insert
-                    aligned_shortest_pairs.append(insert_pairs)
-                    aligned_shortest_pairs.append(elt)
-                else:
-                    aligned_shortest_pairs.append(elt)
-            if ref_pairs is shortest_pairs:
-                return aligned_shortest_pairs, longest_pairs
-            elif pred_pairs is shortest_pairs:
-                return longest_pairs, aligned_shortest_pairs
-        if len(ref_pairs) == len(pred_pairs):
-            # Do nothing
-            return ref_pairs, pred_pairs
+        # Since we insert into the list, we create copies to avoid the global modification
+        pairs1_bis, pairs2_bis = pairs1.copy(), pairs2.copy()
+        pairs1_gap_ids = [idx for idx, pair in enumerate(pairs1_bis) if pair[0] is None]
+        pairs2_gap_ids = [idx for idx, pair in enumerate(pairs2_bis) if pair[0] is None]
+        # Insert neutral pair. Reversed to prevent shifting.
+        for pred_gap_idx in reversed(pairs2_gap_ids):
+            pairs1_bis.insert(pred_gap_idx, neutral_pair)
+        for ref_gap_idx in reversed(pairs1_gap_ids):
+            pairs2_bis.insert(ref_gap_idx, neutral_pair)
+        return pairs1_bis, pairs2_bis
 
-    @staticmethod
     def compute_correction_precision(
+        self,
         ref_pairs: List[Tuple],
         pred_pairs: List[Tuple], 
-        sparse_ref_pairs: List[int], 
-        sparse_pred_pairs: List[int]
     ) -> float:
-        """Correction precision metric correspond to the precision of the model the predict the correct token.
+        """Correction precision metric corresponding to the precision of the model the predict the correct token.
+
+        Note:
+        We consider only tokens that were modified by the model & were supposed to be modified. 
+        It means that if the model missed a token correction, or added one, it is not considered in the correction precision calculation
+        in case the token wasn"t supposed to be corrected.
 
         Args:
             ref_pairs (List[Tuple]): List of Orig-Ref token pairs
@@ -335,20 +332,49 @@ class SpellcheckEvaluator(Evaluator):
             sparse_pred_pairs (List[int]): sparse vector representation of Orig-Pred pairs
 
         Returns:
-            float: precision of picking the right token
+            float: precision of picking the right token.
         """
-        true_positive_ids = np.multiply(sparse_ref_pairs, sparse_pred_pairs)
-        true_positive = np.sum([ref_pairs[idx][1] == pred_pairs[idx][1] for idx in true_positive_ids if idx == 1])
-        precision = true_positive / np.sum(true_positive_ids)
-        return precision
+        sparse_ref_pairs, sparse_pred_pairs = (
+            self.convert_pairs_into_sparse(ref_pairs), 
+            self.convert_pairs_into_sparse(pred_pairs)
+        )
+        true_positives = np.multiply(sparse_ref_pairs, sparse_pred_pairs)
+        correction_true_positives = [
+            ref_pairs[idx][1] == pred_pairs[idx][1] 
+            for idx, tp in enumerate(true_positives) 
+            if tp == 1
+        ]
+        correction_precision = (
+            np.sum(correction_true_positives) / np.sum(true_positives) 
+            if np.sum(true_positives) != 0 
+            else 0
+        )
+        return correction_precision
 
 
 if __name__ == "__main__":
-    # Test
-    orig = ["Th cat si on the fride,", "Sumer is commig!"]
-    ref = ["The cat is on the fridge.", "Summer is comming!"]
-    pred = ["Th big cat is in the fridge.", "Summer is hot!"]
 
-    spellcheck_evaluator = SpellcheckEvaluator(originals=orig, references=ref)
-    results = spellcheck_evaluator.evaluate(predictions=pred)
+    # DEBUG
+    ORGINALS = [
+    "cacao maigre en Sucre poudre 20% - émulsifiant : léci - thines de tournesol - carbo - nate de magnésium",
+    "Ananas, Ananassaft, Säuerungs - mittel: Citronensäure",
+    "_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.",
+    "The cas is on the firdge"
+]
+    REFERENCES = [
+    "cacao maigre en Sucre poudre 20% - émulsifiant : lécithines de tournesol - carbonate de magnésium",
+    "Ananas, Ananassaft, Säuerungsmittel: Citronensäure",
+    "_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.",
+    "The cat is in the fridge"
+]
+    PREDICTIONS = [
+    "cacao maigre en Sucre pdre 20% - émulsifiant : lécithines de tournesol - carbona de magnésium",
+    "Ananas, Säuerungsmittel: Citronensäure",
+    "Cacahuetes con cáscara tostado. _Trazas de frutos de cáscara_.",
+    "The big cat is in the fridge"
+    
+]
+
+    spellcheck_evaluator = SpellcheckEvaluator(originals=ORGINALS, references=REFERENCES)
+    results = spellcheck_evaluator.evaluate(predictions=PREDICTIONS)
     print(results)
