@@ -56,3 +56,5 @@ class Prompt:
     """Class containing LLM prompts"""
 
     spellcheck_prompt_template = """###List of ingredients:\n{}\n\n###Corrected list of ingredients:\n"""
+
+    claude_spellcheck_prompt_template = """Just print the corrected list of ingredients and nothing else!\n###List of ingredients:\n{}\n\n###Corrected list of ingredients:\n """

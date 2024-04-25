@@ -15,10 +15,14 @@ python-dotenv = "^1.0.1"
 datasets = "^2.18.0"
 transformers = {extras = ["torch"], version = "^4.39.3"}
 tiktoken = "^0.6.0"
+openfoodfacts = "^0.2.1"
+anthropic = "^0.25.6"
 
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
+duckdb = "^0.10.2"
+google-generativeai = "^0.5.2"
 
 [build-system]
 requires = ["poetry-core"]
