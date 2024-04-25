@@ -1,6 +1,7 @@
 import logging
 from abc import ABC, abstractmethod
 from typing import Mapping, Tuple, List, Iterable
+from tqdm import tqdm
 
 import tiktoken
 import numpy as np
@@ -13,7 +14,12 @@ class Evaluator(ABC):
     """Evaluation class."""
 
     @abstractmethod
-    def evaluate(self, predictions, **kwargs) -> Mapping:
+    def evaluate(
+        self,
+        predictions: Iterable[str],
+        references: Iterable[str], 
+        **kwargs
+    ) -> Mapping:
         """Abstract method to calculate metrics based on the predictions and the evaluation method.
 
         Args:
@@ -66,16 +72,14 @@ class SpellcheckEvaluator(Evaluator):
     def __init__(
         self,
         originals: Iterable[str],
-        references: Iterable[str],
         encoding_name: str = "cl100k_base",
         beta: float = 1.0
     ) -> None:
         self.originals = originals
-        self.references = references
         self.encoder = tiktoken.get_encoding(encoding_name=encoding_name)
         self.beta = beta
 
-    def evaluate(self, predictions: List[str]) -> Mapping:
+    def evaluate(self, predictions: List[str], references: List[str]) -> Mapping:
         """Evaluate the performance of Spellcheck on correcting ingredient lists for ingredients extraction.
 
         Metrics: 
@@ -87,6 +91,7 @@ class SpellcheckEvaluator(Evaluator):
 
         Args:
             predictions (List[str]): Correction from the Spellcheck
+            references (List[str]): Reference
 
         Raises:
             ValueError: Batch of texts not provided.
@@ -107,7 +112,11 @@ class SpellcheckEvaluator(Evaluator):
         correction_precisions = []
 
         # Batch
-        for original, reference, prediction in zip(self.originals, self.references, predictions):
+        for original, reference, prediction in tqdm(
+            zip(self.originals, references, predictions), 
+            total=len(predictions),
+            desc="Evaluation"
+        ):
 
             # Convert into tokens.
             original_tokens = self.encoder.encode(original)
@@ -133,11 +142,11 @@ class SpellcheckEvaluator(Evaluator):
 
             # Calculate metrics
             true_positive = np.sum(np.multiply(sparse_ref_pairs, sparse_pred_pairs))
-            false_postive = np.sum(np.multiply(inverse_sparse_ref_pairs, sparse_pred_pairs))
+            false_positive = np.sum(np.multiply(inverse_sparse_ref_pairs, sparse_pred_pairs))
             false_negative = np.sum(np.multiply(sparse_ref_pairs, inverse_sparse_pred_pairs))
 
-            precision = true_positive / (true_positive + false_postive)
-            recall = true_positive / (true_positive + false_negative)
+            precision = true_positive / (true_positive + false_positive) if (true_positive + false_positive) != 0 else 0
+            recall = true_positive / (true_positive + false_negative) if (true_positive + false_negative) != 0 else 0
             f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) != 0 else 0
             f1_beta = (1 + self.beta**2) * precision * recall / (self.beta**2 * precision + recall) if (precision + recall) != 0 else 0
 

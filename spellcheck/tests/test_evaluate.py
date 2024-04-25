@@ -24,12 +24,12 @@ PREDICTIONS = [
 ]
 
 # Init
-evaluator = SpellcheckEvaluator(originals=ORGINALS, references=REFERENCES)
+evaluator = SpellcheckEvaluator(originals=ORGINALS)
 
 
-def test_evaluate(predictions= PREDICTIONS):
+def test_evaluate(predictions = PREDICTIONS, references = REFERENCES):
     """Test the overall function evaluate()."""
-    evaluator.evaluate(predictions=predictions)
+    evaluator.evaluate(predictions=predictions, references=references)
     assert True
 
 
@@ -95,6 +95,16 @@ def test_sequence_alignment(inputs, expected):
             (
                 [(1, 1), (2, 2), (None, None), (4, 4)],
                 [(1, 1), (2, 2), (None, 3), (4, 4)]
+            )
+        ),
+        (
+            (
+                [(1, 1), (None, 7), (2, 2), (4, 4)],
+                [(1, 1), (2, 2), (None, 3), (4, 4)]
+            ),
+            (
+                [(1, 1), (None, 7), (2, 2), (None, None), (4, 4)],
+                [(1, 1), (None, None), (2, 2), (None, 3), (4, 4)]
             )
         ),
         (
