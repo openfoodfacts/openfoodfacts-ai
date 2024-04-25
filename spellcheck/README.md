@@ -110,7 +110,7 @@ The uniqueness of this evaluation algorithm lies in its calculation of precision
 
 The process is divided into 4 steps:
 
-1. Texts (Original-Reference-Prediction) are tokenized using a Byte Pair Encoding ([BPE](https://en.wikipedia.org/wiki/Byte_pair_encoding)) tokenizer from the [tiktoken](https://github.com/openai/tiktoken) library from OpenAI.
+1. **Texts (Original-Reference-Prediction) are tokenized using a Byte Pair Encoding ([BPE](https://en.wikipedia.org/wiki/Byte_pair_encoding)) tokenizer from the [tiktoken](https://github.com/openai/tiktoken) library from OpenAI.**
 
 Example:
 ``` 
@@ -128,7 +128,7 @@ Prediction:     1016   2466   8415   374   304   279     38681  13
 
 We notice which tokens were modified, added, or deleted. But this transformation creates a misalignement. Thus, we need to align those 3 token sequences. 
 
-2. Encoded originals and references are aligned using a [Sequence Alignment](https://en.wikipedia.org/wiki/Sequence_alignment) technique. This kind of algorithm is particularly used in bioinformatics to align DNA sequences.
+2. **Encoded originals and references are aligned using a [Sequence Alignment](https://en.wikipedia.org/wiki/Sequence_alignment) technique. This kind of algorithm is particularly used in bioinformatics to align DNA sequences.**
 
 We use the [Needleman-Wunsch](https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm) algorithm and create 2 lists of pairs: *Orig-Ref pairs* and *Orig-Pred pairs*. 
 
@@ -145,7 +145,7 @@ Now we can detect which tokens were added, deleted or modified from the *Origina
 
 But as you may have noticed, pairs of tokens are now misaligned because a new word `big` (`2466`) was added to the Prediction but not in the Reference.
  
-3. Pairs of tokens (Original-Reference; Original-Prediction) are aligned to consider gaps in case Reference and/or Prediction have different lengths. 
+3. **Pairs of tokens (Original-Reference; Original-Prediction) are aligned to consider gaps in case Reference and/or Prediction have different lengths. **
 
 This mainly occurs when additional words are added whether in References or Predictions compared to Originals. This is translated as an additional *gap* in the Original list of tokens.
 
@@ -181,7 +181,7 @@ Sparse:         1      1      0      1      1      0      1      1       1
 ``` 
 Original:       1016    --    8415   4502   389   279     --    282    1425    11
 Reference:      791     --    8415   374    389   279    9999   38681   --     13
-Sparse:         1       0     0      1      0      0     1      1      1      1  
+Sparse:         1       0     0      1      0      0     1      1      1       1  
 
 Original:       1016    --    8415   4502   389   279    --     282    1425    11
 Prediction:     791    2466   8415   374    304   279    --     --     38681   13
@@ -193,7 +193,7 @@ Our pairs are now aligned. We can now know which tokens were supposed to change,
 
 By multiplying the sparse vectors, we can calculate the Precision-Recall metrics.
 
-4. Compute Precision, Recall, and Correction Precision
+4. **Compute Precision, Recall, and Correction Precision**
 
 By taking these 2 sparse vectors and their inverse, we can calculate the number of True Positives (`TP`), False Positives (`FP`) and False Negatives (`FN`) to compute the Precision and Recall.
 
