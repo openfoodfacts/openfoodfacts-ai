@@ -7,7 +7,7 @@ from utils.model import BaseModel
 LOGGER = logging.getLogger(__name__)
 
 
-class SpellChecker:
+class Spellcheck:
     """Spellcheck module to correct typos and errors in lists of ingredients.
     
     Args:
@@ -16,7 +16,7 @@ class SpellChecker:
     def __init__(self, model: BaseModel) -> None:
         self.model = model
 
-    def predict(self, list_of_ingredients: str) -> str:
+    def correct(self, text: str) -> str:
         """Correct list of ingredients
         
         Args:
@@ -25,5 +25,5 @@ class SpellChecker:
         Return:
             (str): Corrected list of ingredients.
         """
-        correction = self.model.predict(text=list_of_ingredients)
+        correction = self.model.generate(text=text)
         return correction

@@ -6,10 +6,9 @@ import json
 import random
 import requests
 
-from spellcheck import SpellChecker
-from utils.llm import OpenAIChatCompletion
+from spellcheck import Spellcheck
 from utils.prompt import SystemPrompt, Prompt
-from utils.model import OpenAIModel
+from utils.model import OpenAIChatCompletion
 
 
 LOGGER = logging.getLogger(__name__)
@@ -34,7 +33,7 @@ HEADERS = {"User-Agent": "Agent-Jeremy", "From": "jeremy@off.com"}
 def prepare_benchmark(
     benchmark_version: str,
     save_path: Path,
-    spellchecker: SpellChecker,
+    spellcheck: Spellcheck,
     url: str = URL,
     db_feature_names: List[str] = ["ingredients_text", "lang", "code"],
     db_size: int = 100,
@@ -54,7 +53,7 @@ def prepare_benchmark(
     data_from_db = prepare_data_from_db(
         url=url,
         size=db_size,
-        spellchecker=spellchecker,
+        spellcheck=spellcheck,
         feature_names=db_feature_names,
         headers=headers,
     )
@@ -69,7 +68,7 @@ def prepare_benchmark(
 
 def prepare_data_from_db(
     url: str,
-    spellchecker: SpellChecker,
+    spellcheck: Spellcheck,
     size: int,
     feature_names: List[str],
     origin: str = "50-percent-unknown",
@@ -87,7 +86,7 @@ def prepare_data_from_db(
     for product in data["products"]:
         # Extract the required information from the product data and fix the list of ingredients using the Spellchecker
         product_data = {key: product[key] for key in feature_names}
-        product_data["reference"] = spellchecker.predict(product["ingredients_text"])
+        product_data["reference"] = spellcheck.predict(product["ingredients_text"])
         product_data["origin"] = origin
         products_data.append(product_data)
     LOGGER.info(
@@ -143,16 +142,14 @@ def prepare_data_from_old_fr(
 
 
 if __name__ == "__main__":
-    spellchecker = SpellChecker(
-        model=OpenAIModel(
-            llm=OpenAIChatCompletion(
-                prompt_template=Prompt.spellcheck_prompt_template,
-                system_prompt=SystemPrompt.spellcheck_system_prompt,
-            )
+    spellcheck = Spellcheck(
+        model=OpenAIChatCompletion(
+            prompt_template=Prompt.spellcheck_prompt_template,
+            system_prompt=SystemPrompt.spellcheck_system_prompt
         )
-    )
+    )    
     prepare_benchmark(
         benchmark_version=BENCHMARK_VERSION,
         save_path=BENCHMARK_PATH,
-        spellchecker=spellchecker,
+        spellcheck=spellcheck,
     )

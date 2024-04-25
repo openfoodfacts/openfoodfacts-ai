@@ -6,10 +6,10 @@ import os
 import logging
 import json
 
-from spellcheck import SpellChecker
-from utils.llm import OpenAIChatCompletion
+from spellcheck import Spellcheck
 from utils.prompt import SystemPrompt, Prompt
-from utils.model import OpenAIModel
+from utils.model import OpenAIChatCompletion
+
 
 
 SPELLCHECK_DIR = Path(os.path.dirname(__file__)).parent.parent
@@ -22,7 +22,7 @@ logging.basicConfig(format="%(asctime)s %(message)s", level=logging.INFO)
 
 def prepare_test_benchmark(
     labeled_data_path: Path, 
-    spellchecker: SpellChecker, 
+    spellcheck: Spellcheck, 
     save_path: Path
 ) -> None:
     """Preparation of the test benchmark using labeled data. 
@@ -30,7 +30,7 @@ def prepare_test_benchmark(
 
     Args:
         labeled_data_path (Path): Manually labeled list of ingredients
-        spellchecker (SpellChecker): Spellcheck module
+        spellcheck (Spellcheck): Spellcheck module
         save_path (Path): Test benchmark save path
     """
     data = load_labeled_data(labeled_data_path)
@@ -38,7 +38,7 @@ def prepare_test_benchmark(
             {
                 "original": original,
                 "reference": reference,
-                "openai_prediction": spellchecker.predict(original)
+                "openai_prediction": spellcheck.predict(original)
             } for original, reference, _ in data
         ]
     }
@@ -67,16 +67,14 @@ def save_data(data: Mapping, save_path: Path) -> None:
 
 
 if __name__ == "__main__":
-    spellchecker = SpellChecker(
-        model=OpenAIModel(
-            llm=OpenAIChatCompletion(
-                prompt_template=Prompt.spellcheck_prompt_template,
-                system_prompt=SystemPrompt.spellcheck_system_prompt
-            )
+    spellcheck = Spellcheck(
+        model=OpenAIChatCompletion(
+            prompt_template=Prompt.spellcheck_prompt_template,
+            system_prompt=SystemPrompt.spellcheck_system_prompt
         )
     )
     prepare_test_benchmark(
         labeled_data_path=LABELED_DATA_PATH,
-        spellchecker=spellchecker,
+        spellcheck=spellcheck,
         save_path=BENCHMARK_PATH
     )
