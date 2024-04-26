@@ -1,12 +1,4 @@
 {
-  "metrics": {
-    "correction_precision": 0.6157954132860687,
-    "precision": 0.5460671040391152,
-    "recall": 0.6130502619940764,
-    "f1": 0.5481261645609331,
-    "f1_beta": 0.5606654306033796,
-    "beta": 1.5
-  },
   "originals": [
     "Ananas, Ananassaft, Säuerungs - mittel: Citronensäure",
     "_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.",

@@ -21,7 +21,7 @@ def get_logger(level: str = "INFO") -> logging.Logger:
         logging.Logger: Logger
     """
     logging.basicConfig(
-        level=logging.getLevelName("INFO"),
+        level=logging.getLevelName(level),
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
     return logging.getLogger(__name__)
@@ -53,19 +53,15 @@ def show_diff(original_text: str, corrected_text: str, missing_element: str = "~
 
 def load_jsonl(path: Path) -> Iterable[Mapping]:
     """Load JSONL file
-
     Args:
         path (Path): JSONL path
-
     Raise:
         ValueError: Not a jsonl file.
-
     Returns:
         Iterable[Mapping]: Data
     """
     if path.suffix != ".jsonl":
         raise ValueError(f"'.jsonl' file expected. Got {path.suffix} instead.")
-    
     with open(path, "r") as f:
         lines = f.readlines()
     return [json.loads(line) for line in lines]
