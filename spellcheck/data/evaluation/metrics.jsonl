@@ -1,0 +1,66 @@
+{
+    "metrics": {
+        "correction_precision": 0.6157954132860687,
+        "precision": 0.5460671040391152,
+        "recall": 0.6130502619940764,
+        "f1": 0.5481261645609331,
+        "f1_beta": 0.5606654306033796,
+        "beta": 1.5
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "25/04/2024",
+    "benchmark_version": "0.1",
+    "benchmark_size": 246
+}
+{
+    "metrics": {
+        "correction_precision": 0.4708773774823285,
+        "precision": 0.4015515106191568,
+        "recall": 0.4976773000111427,
+        "f1": 0.40383567007909066,
+        "f1_beta": 0.4190921338368768,
+        "beta": 1.5
+    },
+    "model": "claude-3-haiku-20240307",
+    "date": "26/04/2024 12:24:10",
+    "benchmark_version": "0.1",
+    "benchmark_size": 154,
+    "comments": [
+        "Requests per minutes / day attained",
+        "Claude prompt used instead of the basic one. Check Prompt class.",
+        "Models overview: https://docs.anthropic.com/claude/docs/models-overview"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.5944338318342587,
+        "precision": 0.5260807045621008,
+        "recall": 0.596854571880158,
+        "f1": 0.5248184554561945,
+        "f1_beta": 0.5248184554561945,
+        "beta": 1.0
+    },
+    "model": "claude-3-sonnet-20240229",
+    "date": "26/04/2024 16:26:57",
+    "benchmark_version": "0.1",
+    "benchmark_size": 157,
+    "comments": [
+        "Requests per minutes / day attained",
+        "Claude prompt used instead of the basic one. Check Prompt class.",
+        "Models overview: https://docs.anthropic.com/claude/docs/models-overview"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.4750910003479174,
+        "precision": 0.4375529320523882,
+        "recall": 0.39780894502721126,
+        "f1": 0.3859432020439635,
+        "f1_beta": 0.3859432020439635,
+        "beta": 1.0
+    },
+    "model": "claude-3-opus-20240229",
+    "date": "26/04/2024 17:24:30",
+    "benchmark_version": "0.1",
+    "benchmark_size": 110
+}
