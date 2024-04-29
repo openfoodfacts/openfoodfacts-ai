@@ -1,26 +1,21 @@
-import os
-import logging
 import json
-from pathlib import Path
-from typing import Mapping, Callable, Literal
+from typing import Mapping, Callable, Literal, List
 from dotenv import load_dotenv
 
 from argilla import FeedbackDataset
 from datasets import Dataset
 
+from utils.utils import get_logger, get_repo_dir
+
 
 load_dotenv()
 
-logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
-LOGGER = logging.getLogger(__name__)
+LOGGER = get_logger()
 
-SPELLCHECK_DIR = Path(os.path.realpath(__file__)).parent.parent.parent
-ARGILLA_DATASET_NAME = "benchmark"
+REPO_DIR = get_repo_dir()
+ARGILLA_DATASET_NAME = "benchmark_v2"
 ARGILLA_WORKSPACE_NAME = "spellcheck"
-BENCHMARK_PATH = SPELLCHECK_DIR / "data/benchmark/verified_benchmark.parquet"
+BENCHMARK_PATH = REPO_DIR / "data/benchmark/verified_benchmark.parquet"
 
 
 def main():
@@ -108,9 +103,11 @@ def postprocessing_map_fn(element: Mapping) -> Mapping:
     Returns:
         Mapping: Post-processed element
     """
+    reference = element["reference"][0]["value"] if element["reference"] else element["reference-suggestion"]
+    postprocessed_reference = remove_markdown(reference)
     return {
         "original": element["original"],
-        "reference": element["reference"][0]["value"] if element["reference"] else element["reference-suggestion"],
+        "reference": postprocessed_reference,
         "lang": json.loads(element["metadata"])['lang'],
         "data_origin": json.loads(element["metadata"])["data_origin"],
         "is_truncated": 0 if not element["is_truncated"] or element["is_truncated"][0]["value"] == "NO" else 1
@@ -151,6 +148,29 @@ def postprocessing_filter_fn(
             return False
         break 
     return True
+
+
+def remove_markdown(
+    text: str, 
+    markdowns: List[str] = ["<mark>", "</mark>"], 
+    empty_str: str = "~"
+)->  str:
+    """Markdowns were added to the text in Argilla to highlight the difference with the original text. They are removed during
+    the dataset extraction.
+
+    Args:
+        text (str): Text to process
+        markdown (str, optional): Markdown elements added to the text to highilight difference. 
+            See show_diff(). Defaults to "</mark>".
+        empty_str (str, optional): To represent an element deleted from the original text. Defaults to "~".
+
+    Returns:
+        str: Post-processed text
+    """
+    for markdown in markdowns:
+        text = text.replace(markdown, "")
+    text = text.replace(empty_str, "")
+    return text
 
 
 if __name__ == "__main__":
