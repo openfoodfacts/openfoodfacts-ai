@@ -17,7 +17,7 @@ import pandas as pd
 from utils.utils import get_logger, get_repo_dir
 from utils.evaluation import SpellcheckEvaluator
 from spellcheck import Spellcheck
-from utils.model import AnthropicChatCompletion
+from utils.model import AnthropicChatCompletion, OpenAIChatCompletion
 from utils.prompt import SystemPrompt, Prompt
 
 
@@ -28,14 +28,13 @@ BENCHMARK_PATH = REPO_DIR / "data/benchmark/verified_benchmark.parquet"
 METRICS_PATH = REPO_DIR / "data/evaluation/metrics.jsonl"
 
 # LLM
-MODEL_NAME = "claude-3-opus-20240229"
+MODEL_NAME = "gpt-4-turbo"
 
 # Predictions JSONL paths to study the results
-OUTPUT_EVALUATION_PATH = REPO_DIR / "data/evaluation/" / (MODEL_NAME + ".jsonl")
+PREDICTIONS_EVALUATION_PATH = REPO_DIR / "data/evaluation/" / (MODEL_NAME + ".jsonl")
 
-BETA_F1 = 1.5  # Favor Precision over Recall in the F1 score
-BENCHMARK_VERSION = "0.1"
-START = 56 # To restart the run
+BENCHMARK_VERSION = "0.2"
+START = 0 # To restart the run
 
 LOGGER = get_logger()
 
@@ -51,24 +50,23 @@ def main():
     evaluation = Evaluate(
         metrics_path=METRICS_PATH,
         benchmark_version=BENCHMARK_VERSION,
-        predictions_path=OUTPUT_EVALUATION_PATH,
+        predictions_path=PREDICTIONS_EVALUATION_PATH,
     )
-    evaluation.run_benchmark(
+    evaluation.run_evaluation(
         originals=originals,
         references=references,
         metadata=metadata,
         spellcheck=Spellcheck(
-            model=AnthropicChatCompletion(
-                prompt_template=Prompt.claude_spellcheck_prompt_template, # Modfiied prompt for Claude
+            model=OpenAIChatCompletion(
+                prompt_template=Prompt.spellcheck_prompt_template, #If Claude, use custom prompt template
                 system_prompt=SystemPrompt.spellcheck_system_prompt,
                 model_name=MODEL_NAME
             )
         ),
-        output_path=OUTPUT_EVALUATION_PATH,
-        wait=5
+        wait=2
     )
     evaluation.compute_metrics(
-        predictions_path=OUTPUT_EVALUATION_PATH,
+        predictions_path=PREDICTIONS_EVALUATION_PATH,
         model_name=MODEL_NAME
     )
 
@@ -91,12 +89,11 @@ class Evaluate:
         self.benchmark_version = benchmark_version
         self.predictions_path = predictions_path
         
-    def run_benchmark(
+    def run_evaluation(
         self,
         originals: Iterable[str],
         references: Iterable[str],
         spellcheck: Spellcheck,
-        predictions_path: Path,
         metadata: Iterable[Mapping],
         wait: int = None
     ) -> None:
@@ -111,8 +108,8 @@ class Evaluate:
             metadata (Iterable[Mapping]): Additional metadata to save along the predictions. Defaults to None.
             wait (int, optional): Waiting time in case of number of requests per minute limited. Defaults to None.
         """
-        LOGGER.info(f"Appending {str(predictions_path)} file.")
-        with open(predictions_path, "a") as file:
+        LOGGER.info(f"Appending {str(self.predictions_path)} file.")
+        with open(self.predictions_path, "a") as file:
             for original, reference, md in zip(originals, references, metadata):
                 timestamp = time.time()
                 prediction = spellcheck.correct(original)
@@ -143,9 +140,10 @@ class Evaluate:
         """
         with open(predictions_path, "r") as file:
             lines = file.readlines()
-        originals = [json.loads(line)["original"] for line in lines]
-        references = [json.loads(line)["reference"] for line in lines]
-        predictions = [json.loads(line)["prediction"] for line in lines]
+            elements = [json.loads(line) for line in lines]
+        originals = [element["original"] for element in elements]
+        references = [element["reference"] for element in elements]
+        predictions = [element["prediction"] for element in elements]
         evaluator = SpellcheckEvaluator(originals=originals) #TODO Remove the module call from the function 
         metrics = evaluator.evaluate(predictions, references)
         metrics_output = {

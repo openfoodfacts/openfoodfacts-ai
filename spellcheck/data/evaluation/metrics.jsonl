@@ -64,3 +64,73 @@
     "benchmark_version": "0.1",
     "benchmark_size": 110
 }
+{
+    "metrics": {
+        "correction_precision": 0.5411694079019865,
+        "precision": 0.48657770327832556,
+        "recall": 0.56719903250949,
+        "f1": 0.5011592204460352,
+        "f1_beta": 0.5011592204460352,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "29/04/2024 10:27:53",
+    "benchmark_version": "0.2",
+    "benchmark_size": 243
+}
+{
+    "metrics": {
+        "correction_precision": 0.4049266979044456,
+        "precision": 0.3226394651253341,
+        "recall": 0.46455629400679027,
+        "f1": 0.34544526425986594,
+        "f1_beta": 0.34544526425986594,
+        "beta": 1.0
+    },
+    "model": "claude-3-haiku-20240307",
+    "date": "29/04/2024 11:15:32",
+    "benchmark_version": "0.2",
+    "benchmark_size": 243
+}
+{
+    "metrics": {
+        "correction_precision": 0.43929884170570765,
+        "precision": 0.3664067671991553,
+        "recall": 0.490016284718536,
+        "f1": 0.38329015990790677,
+        "f1_beta": 0.38329015990790677,
+        "beta": 1.0
+    },
+    "model": "claude-3-sonnet-20240229",
+    "date": "29/04/2024 11:53:34",
+    "benchmark_version": "0.2",
+    "benchmark_size": 243
+}
+{
+    "metrics": {
+        "correction_precision": 0.5161168319349098,
+        "precision": 0.4492653556018427,
+        "recall": 0.4810378429238078,
+        "f1": 0.43541010792459894,
+        "f1_beta": 0.43541010792459894,
+        "beta": 1.0
+    },
+    "model": "claude-3-opus-20240229",
+    "date": "29/04/2024 13:39:58",
+    "benchmark_version": "0.2",
+    "benchmark_size": 114
+}
+{
+    "metrics": {
+        "correction_precision": 0.4897752620538616,
+        "precision": 0.40099172306069253,
+        "recall": 0.534792030481331,
+        "f1": 0.4297383726744152,
+        "f1_beta": 0.4297383726744152,
+        "beta": 1.0
+    },
+    "model": "gpt-4-turbo",
+    "date": "29/04/2024 14:14:07",
+    "benchmark_version": "0.2",
+    "benchmark_size": 243
+}

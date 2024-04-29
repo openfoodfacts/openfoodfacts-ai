@@ -4,18 +4,18 @@
 
 The influence of the Spellcheck on the list of ingredients needs to be controlled to avoid alterating contributions and/or add new errors. Therefore, we keep the modification to a minimum to favour Precision over Recall.
 
-From the different types of errors observed across products, we came with these spellcheck guidelines:
+From the different types of errors observed across products, we came up with these spellcheck guidelines:
 
 * Correct typos;
 * Percentages
     * Whitespaces between words and percentages shouldn't be corrected. The text needs to be kept as unchanged as possible.
     (Example: `Ingredient 0,2   %`).
-    * The only case when a whitespace involving a percentage should be modified is if the *digit* is stuck the previous word (*ex: cheese1.9% -> cheese 1.9%*)
+    * The only case when a whitespace involving a percentage should be modified is if the *digit* is stuck in the previous word (*ex: cheese1.9% -> cheese 1.9%*)
 * Some ingredients are enclosed with `_`, such as `_milk_` or `_cacahuetes_`, to detect allergens. Should remain unchanged. However, in the case it is not an ingredient, such as `_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.`, it needs to be modified into `_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.`;
 * Some percentages were badly parsed by the OCR, such as `cheese (196)` instead of `cheese (1%)` or `καραμέλα (396` instead of `καραμέλα (3%)` . Since there is a recognizable pattern, `%` being transformed into `96`, the spellcheck should be able to recognize and correct it.
-* If characters in French miss an accent, need to be fixed. (*ex: cafe -> café*)
+* If characters in French miss an accent, needs to be fixed. (*ex: cafe -> café*)
 * `*` should remain in the corrected text as much as possible (*ex: Schweinefleisch\* -> Schweinefleisch\**)
-* Whitespaces shouldn't been modified excepted for this cases:
+* Whitespaces shouldn't been modified except for this cases:
     * Words or characters that are supposed to be separated: *ex: crabe(...) -> crabe ()*;
     * No whitespace after a punctuation (*ex: syrup,sugar -> syrup, sugar*)
 * Uppercase to lowercase or vice-versa are accepted.
@@ -217,6 +217,27 @@ With these metric, we're now capable of evaluating our spellcheck accurately on 
 
 * The Needleman-Wunsch is the foundation of this algorithm. It can be worth performing hyperparameter tuning to get the best sequence alignment for our case.
 
+
+### LLM evaluation against the benchmark
+
+We evaluated **Proprietary LLMs** such as OpenAI GPTs and Anthropic Claude 3 models. This gives us a baseline on how these solutions perform on the Spellcheck task compared to our model.
+
+Benchmark version: **v0.2**
+
+
+| Model | Precision | Recall | F1-Score | Correction Precision|
+|----------|----------|----------|----------|----------|
+| GPT-3.5-Turbo | **0.487** | **0.567** | **0.501** | **0.541** | 
+| GPT-4-Turbo | 0.401 | 0.535 | 0.430 | 0.490 |
+| Claude-3-Haiku | 0.322 | 0.465 | 0.345 | 0.405 | 
+| Claude-3-Sonnet | 0.366 | 0.490 | 0.383 | 0.439 |
+| Claude-3-Opus| 0.449 | 0.481 | 0.435 | 0.516 |
+
+Notes:
+* **Precision**: Proportion of model predictions that were actually mistakes
+* **Recall**: Proportion of mistakes founded
+* **F1-Score**: Mean-like between Precision and Recall
+* **Correction Precision**: When model found the mistake location, proportion of right modification 
 
 ## Training dataset 
 

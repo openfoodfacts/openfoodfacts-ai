@@ -27,7 +27,7 @@ class OpenAIChatCompletion(BaseModel):
         self,
         prompt_template: str,
         system_prompt: str,
-        model_name: Literal["gpt-3.5-turbo", "gpt-4-turbo"] = "gpt-3.5-turbo",
+        model_name: Literal["gpt-3.5-turbo", "gpt-4-turbo"],
         temperature: float = 0,
         max_tokens: int = 512,
     ) -> None:
@@ -51,8 +51,7 @@ class OpenAIChatCompletion(BaseModel):
 
 
 class AnthropicChatCompletion(BaseModel):
-    """LLMs from Anthropic.
-    
+    """LLMs from Anthropic
     """
     def __init__(
         self,
