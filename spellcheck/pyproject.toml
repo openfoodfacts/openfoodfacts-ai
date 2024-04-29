@@ -23,6 +23,7 @@ anthropic = "^0.25.6"
 pytest = "^8.1.1"
 duckdb = "^0.10.2"
 google-generativeai = "^0.5.2"
+huggingface-hub = {extras = ["cli"], version = "^0.22.2"}
 
 [build-system]
 requires = ["poetry-core"]

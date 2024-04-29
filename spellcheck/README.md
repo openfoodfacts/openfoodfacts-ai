@@ -60,7 +60,7 @@ Our idea is to use the existing dataset developed a few years ago, enhance it wi
 │       └── 1_old_fr_data_check.ipynb
 ```
 
-The benchmark is composed of **247** lists of ingredients from 3 data sources:
+The benchmark is composed of **243** lists of ingredients from 3 data sources:
 
 * **30%** of the old dataset composed of manually corrected lists of ingredients in French from the previous work by Lucain W. The old dataset, `spellcheck/old/test_sets/fr` is used  to constitute our new dataset. It is composed of `List of Ingredients` before and after spellcheck, mainly in French. The processing scripts are located at: `spellcheck/scripts/old_to_new` - and the processed data in `spellcheck/data/fr`.
 
@@ -218,7 +218,7 @@ With these metric, we're now capable of evaluating our spellcheck accurately on 
 * The Needleman-Wunsch is the foundation of this algorithm. It can be worth performing hyperparameter tuning to get the best sequence alignment for our case.
 
 
-### LLM evaluation against the benchmark
+### 👨‍⚖️ LLM evaluation against the benchmark
 
 We evaluated **Proprietary LLMs** such as OpenAI GPTs and Anthropic Claude 3 models. This gives us a baseline on how these solutions perform on the Spellcheck task compared to our model.
 
