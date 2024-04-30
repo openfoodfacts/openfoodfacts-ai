@@ -18,7 +18,10 @@ From the different types of errors observed across products, we came up with the
 * Whitespaces shouldn't been modified except for this cases:
     * Words or characters that are supposed to be separated: *ex: crabe(...) -> crabe ()*;
     * No whitespace after a punctuation (*ex: syrup,sugar -> syrup, sugar*)
-* Uppercase to lowercase or vice-versa are accepted.
+* Regarding uppercases and lowercases, since the spellcheck should modify at least as possible lists of ingredient, we don't modify
+uppercases or lowercases except for two reasons:
+    * After a period: `orange.trace de...` ->  `orange. Trace de...`
+    * If it's a proper noun: `france`-> `France`
 * In French, the character `oe` or `œ` should remain unchanged after correction (*ex: œuf, bœuf). If it is missing, should be replaced by default by `œ`.
 
 ## ✅ Benchmark - Validation dataset
