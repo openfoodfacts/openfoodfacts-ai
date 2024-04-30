@@ -4,17 +4,16 @@ from pathlib import Path
 from typing import Annotated, Optional
 from urllib.parse import urlparse
 
+import datasets
 import typer
 from label_studio_sdk import Client
 from openfoodfacts.images import extract_barcode_from_url
 from openfoodfacts.utils import get_image_from_url, get_logger
 
-import datasets
-
 logger = get_logger()
 
 
-def create_sample(task: dict, only_checked: bool = False) -> dict | None:
+def create_sample(task: dict, only_checked: bool = False) -> Optional[dict]:
     """Generate a LayoutLM dataset sample from a Label Studio task.
 
     :param item: the Label Studio task
@@ -43,6 +42,11 @@ def create_sample(task: dict, only_checked: bool = False) -> dict | None:
         "image_url": task_data["image_url"],
         "batch": task_data["batch"],
         "label_studio_id": task["id"],
+        "checked": False,
+        "usda_table": False,
+        "nutrition_text": False,
+        "no_nutrition_table": False,
+        "comment": "",
     }
 
     current_bbox_id = None
@@ -66,11 +70,11 @@ def create_sample(task: dict, only_checked: bool = False) -> dict | None:
             if result["from_name"] == "label":
                 assert len(result_value["labels"]) == 1
                 ner_tag = result_value["labels"][0]
-                if ner_tag == "other":
+                if ner_tag in ("other", "other-nutriment"):
                     ner_tag = "O"
                 else:
                     ner_tag = ner_tag.replace("-", "_").upper()
-                    previous_ner_tag = ner_tags[-1] if ner_tags else None
+                    previous_ner_tag = ner_tags[-1] if ner_tags else "O"
                     previous_ner_tag = (
                         previous_ner_tag
                         if previous_ner_tag == "O"
@@ -181,7 +185,9 @@ def get_tasks(
         filters={
             "conjunction": "and",
             "items": filter_items,
-        }
+        },
+        # This view contains all samples
+        view_id=61,
     )
 
 
@@ -197,11 +203,18 @@ def push_dataset(
     revision: Annotated[
         str, typer.Option(help="Dataset revision on Hugging Face datasets")
     ] = "main",
+    test_split_count: Annotated[
+        int, typer.Option(help="Number of samples in test split")
+    ] = 30,
 ):
     logger.info("Fetching tasks from Label Studio, project %s", project_id)
     tasks = get_tasks(label_studio_url, api_key, project_id, batch_ids)
     samples = [sample for sample in (create_sample(task) for task in tasks) if sample]
     logger.info("Generated %s samples", len(samples))
+
+    if not samples:
+        logger.error("No valid samples found, exiting")
+        raise typer.Exit(code=1)
 
     ner_tag_set = set()
     for sample in samples:
@@ -239,7 +252,8 @@ def push_dataset(
             },
         }
     )
-    dataset = datasets.Dataset.from_list(samples, features=features, split="train")
+    dataset = datasets.Dataset.from_list(samples, features=features)
+    dataset = dataset.train_test_split(test_size=test_split_count, shuffle=False)
 
     # dataset.save_to_disk("datasets/nutrient-detection-layout")
     logger.info(
