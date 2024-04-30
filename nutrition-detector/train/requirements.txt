@@ -1,0 +1,7 @@
+transformers==3.30.1
+torch==2.3.0
+datasets==2.19.0
+accelerate==0.29.3
+Pillow==10.3.0
+seqeval==1.2.2
+evaluate==0.4.2
