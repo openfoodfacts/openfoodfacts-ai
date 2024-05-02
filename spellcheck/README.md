@@ -23,6 +23,8 @@ uppercases or lowercases except for two reasons:
     * After a period: `orange.trace de...` ->  `orange. Trace de...`
     * If it's a proper noun: `france`-> `France`
 * In French, the character `oe` or `œ` should remain unchanged after correction (*ex: œuf, bœuf). If it is missing, should be replaced by default by `œ`.
+* Commas and other word separators (, -, .) should be added to distinct ingredients. **We don't add a period** or modify the existing punctuation at the end of the list of ingredients.
+    * Example: *"citric acid electrolytes (salt, magnesium and calcium chlorides, mono-potassion phosphate)"* -> *"citric acid, electrolytes (salt, magnesium and calcium chlorides, mono-potassion phosphate)"*
 
 ## ✅ Benchmark - Validation dataset
 

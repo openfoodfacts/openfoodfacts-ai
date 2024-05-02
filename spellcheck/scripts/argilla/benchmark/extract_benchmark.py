@@ -1,11 +1,12 @@
 import json
-from typing import Mapping, Callable, Literal, List
+from typing import Mapping, Callable, Literal
 from dotenv import load_dotenv
 
 from argilla import FeedbackDataset
 from datasets import Dataset
 
 from utils.utils import get_logger, get_repo_dir
+from config.data import ArgillaConfig
 
 
 load_dotenv()
@@ -105,18 +106,20 @@ def postprocessing_map_fn(element: Mapping) -> Mapping:
     """
     reference = element["reference"][0]["value"] if element["reference"] else element["reference-suggestion"]
     postprocessed_reference = remove_markdown(reference)
+    lang = json.loads(element["metadata"]).get("lang")
+    data_origin = json.loads(element["metadata"]).get("data_origin")
     return {
         "original": element["original"],
         "reference": postprocessed_reference,
-        "lang": json.loads(element["metadata"])['lang'],
-        "data_origin": json.loads(element["metadata"])["data_origin"],
+        "lang": lang,
+        "data_origin": data_origin,
         "is_truncated": 0 if not element["is_truncated"] or element["is_truncated"][0]["value"] == "NO" else 1
     }
     
 
 def postprocessing_filter_fn(
         element: Mapping, 
-        status: Literal["submitted", "discarded"] = "discarded"
+        status: Literal["submitted", "discarded", "draft"] = "submitted"
     ) -> bool:
     """Filter dataset depending on annotation status.
 
@@ -143,33 +146,29 @@ def postprocessing_filter_fn(
         Mapping: True if kept, False otherwise.
     """
     # Since it can be possible there are several annotators, we only take the last annotation
-    for reference in element["reference"]:
-        if reference["status"] == status:
-            return False
-        break 
+    if element["reference"][0]["status"] != status:
+        return False
     return True
 
 
 def remove_markdown(
     text: str, 
-    markdowns: List[str] = ["<mark>", "</mark>"], 
-    empty_str: str = "~"
+    deleted_element: str = ArgillaConfig.deleted_element
 )->  str:
     """Markdowns were added to the text in Argilla to highlight the difference with the original text. They are removed during
     the dataset extraction.
 
     Args:
         text (str): Text to process
-        markdown (str, optional): Markdown elements added to the text to highilight difference. 
-            See show_diff(). Defaults to "</mark>".
-        empty_str (str, optional): To represent an element deleted from the original text. Defaults to "~".
+        deleted_element (str, optional): To represent an element deleted from the original text.
 
     Returns:
         str: Post-processed text
     """
-    for markdown in markdowns:
-        text = text.replace(markdown, "")
-    text = text.replace(empty_str, "")
+    # Transition in deleted element: from ~ to #. Only in one in the future.
+    text = text.replace("<mark>" + "~" + "</mark>", "")
+    text = text.replace("<mark>" + deleted_element + "</mark>", "")
+    text = text.replace("<mark>", "").replace("</mark>", "")
     return text
 
 

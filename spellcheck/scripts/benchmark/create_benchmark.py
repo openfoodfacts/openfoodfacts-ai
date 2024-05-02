@@ -86,7 +86,7 @@ def prepare_data_from_db(
     for product in data["products"]:
         # Extract the required information from the product data and fix the list of ingredients using the Spellchecker
         product_data = {key: product[key] for key in feature_names}
-        product_data["reference"] = spellcheck.predict(product["ingredients_text"])
+        product_data["reference"] = spellcheck.correct(product["ingredients_text"])
         product_data["origin"] = origin
         products_data.append(product_data)
     LOGGER.info(

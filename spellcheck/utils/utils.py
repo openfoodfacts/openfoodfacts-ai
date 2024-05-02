@@ -3,7 +3,9 @@ import os
 from pathlib import Path
 import logging
 from typing import Mapping, Iterable
-import json 
+import json
+
+from config.data import ArgillaConfig
 
 
 def get_repo_dir():
@@ -27,7 +29,7 @@ def get_logger(level: str = "INFO") -> logging.Logger:
     return logging.getLogger(__name__)
 
 
-def show_diff(original_text: str, corrected_text: str, missing_element: str = "~"):
+def show_diff(original_text: str, corrected_text: str, deleted_element: str = ArgillaConfig.deleted_element):
     """Unify operations between two compared strings
     seqm is a difflib.SequenceMatcher instance whose a & b are strings
     """
@@ -41,7 +43,7 @@ def show_diff(original_text: str, corrected_text: str, missing_element: str = "~
             elif opcode == 'insert':
                 output.append("<mark>" + seqm.b[b0:b1] + "</mark>")
             elif opcode == 'delete':
-                output.append("<mark>" + missing_element + "</mark>")
+                output.append("<mark>" + deleted_element + "</mark>")
             elif opcode == 'replace':
                 output.append("<mark>" + seqm.b[b0:b1] + "</mark>")
             else:
