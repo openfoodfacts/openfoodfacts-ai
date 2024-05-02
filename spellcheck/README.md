@@ -40,14 +40,17 @@ Our idea is to use the existing dataset developed a few years ago, enhance it wi
 ```bash
 ├── data
 │   ├── benchmark
-│   │   ├── benchmark.json
-│   │   ├── test_benchmark.json
-│   │   └── verified_benchmark.parquet
-│   ├── fr
-│   │   ├── 0_fr_data.json
+│   │   ├── additional_products
+│   │   │   ├── extracted_additional_products.parquet       # Products extracted and added to the benchmark v0.3
+│   │   │   └── synthetically_corrected_products.parquet    # Correction with OpenAI GPT-3.5
+│   │   ├── benchmark.json                                  # Correction with OpenAI GPT-3.5 before being pushed to Argilla for verification
+│   │   ├── test_benchmark.json                             # Sample to test synthetic generation and prompt engineering
+│   │   └── verified_benchmark.parquet                      # Benchmark after Argilla verification. Pushed to HuggingFace "openfoodfacts/spellcheck-benchmark"
+│   ├── fr                                                  # Data from previous work (in *old* folder)
+│   │   ├── 0_fr_data.json                                  
 │   │   └── 1_old_fr_no_duplicate_data.json
 │   └── labeled
-│       └── corrected_list_of_ingredients.txt
+│       └── corrected_list_of_ingredients.txt               # Data gathered during exploratory phase
 ```
 
 *Scripts*
@@ -227,22 +230,20 @@ With these metric, we're now capable of evaluating our spellcheck accurately on 
 
 We evaluated **Proprietary LLMs** such as OpenAI GPTs and Anthropic Claude 3 models. This gives us a baseline on how these solutions perform on the Spellcheck task compared to our model.
 
-Benchmark version: **v0.2**
+Benchmark version: **v0.3**
 
 
 | Model | Precision | Recall | F1-Score | Correction Precision|
 |----------|----------|----------|----------|----------|
-| GPT-3.5-Turbo | **0.487** | **0.567** | **0.501** | **0.541** | 
-| GPT-4-Turbo | 0.401 | 0.535 | 0.430 | 0.490 |
-| Claude-3-Haiku | 0.322 | 0.465 | 0.345 | 0.405 | 
-| Claude-3-Sonnet | 0.366 | 0.490 | 0.383 | 0.439 |
-| Claude-3-Opus| 0.449 | 0.481 | 0.435 | 0.516 |
+| GPT-3.5-Turbo | **0.746** | **0.884** | **0.809** | **0.929** |
+| Claude-3-Haiku | 0.373 | 0.785 | 0.506 | 0.805 | 
+| Claude-3-Sonnet | 0.423 | 0.770 | 0.546 | 0.813 |
 
 Notes:
-* **Precision**: Proportion of model predictions that were actually mistakes
-* **Recall**: Proportion of mistakes founded
+* **Precision**: Proportion of errors correctly detected by the model
+* **Recall**: Proportion of errors founded
 * **F1-Score**: Mean-like between Precision and Recall
-* **Correction Precision**: When model found the mistake location, proportion of right modification 
+* **Correction Precision**: When model found the error location in the list of ingredients, proportion of correct modification.
 
 ## Training dataset 
 

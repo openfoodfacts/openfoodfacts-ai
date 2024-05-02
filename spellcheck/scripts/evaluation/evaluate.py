@@ -11,6 +11,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import time
 from datetime import datetime
+from tqdm import tqdm
 
 import pandas as pd
 
@@ -27,14 +28,14 @@ BENCHMARK_PATH = REPO_DIR / "data/benchmark/verified_benchmark.parquet"
 # Metrics
 METRICS_PATH = REPO_DIR / "data/evaluation/metrics.jsonl"
 
-# LLM
-MODEL_NAME = "gpt-4-turbo"
+MODEL_NAME = "claude-3-sonnet-20240229"
+BENCHMARK_VERSION = "0.3"
 
 # Predictions JSONL paths to study the results
-PREDICTIONS_EVALUATION_PATH = REPO_DIR / "data/evaluation/" / (MODEL_NAME + ".jsonl")
+PREDICTIONS_EVALUATION_PATH = REPO_DIR / "data/evaluation/" / (MODEL_NAME + "-benchmark-v" + BENCHMARK_VERSION + ".jsonl")
 
-BENCHMARK_VERSION = "0.2"
 START = 0 # To restart the run
+WAIT = 5
 
 LOGGER = get_logger()
 
@@ -57,13 +58,13 @@ def main():
         references=references,
         metadata=metadata,
         spellcheck=Spellcheck(
-            model=OpenAIChatCompletion(
-                prompt_template=Prompt.spellcheck_prompt_template, #If Claude, use custom prompt template
+            model=AnthropicChatCompletion(
+                prompt_template=Prompt.claude_spellcheck_prompt_template, #If Claude, use custom prompt template
                 system_prompt=SystemPrompt.spellcheck_system_prompt,
                 model_name=MODEL_NAME
             )
         ),
-        wait=2
+        wait=WAIT
     )
     evaluation.compute_metrics(
         predictions_path=PREDICTIONS_EVALUATION_PATH,
@@ -110,7 +111,11 @@ class Evaluate:
         """
         LOGGER.info(f"Appending {str(self.predictions_path)} file.")
         with open(self.predictions_path, "a") as file:
-            for original, reference, md in zip(originals, references, metadata):
+            for original, reference, md in tqdm(
+                    zip(originals, references, metadata),
+                    desc="Evaluation against benchmark",
+                    total=len(originals)
+                ):
                 timestamp = time.time()
                 prediction = spellcheck.correct(original)
                 md["latency"] = time.time() - timestamp

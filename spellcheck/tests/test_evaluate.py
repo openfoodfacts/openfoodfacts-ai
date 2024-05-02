@@ -134,7 +134,7 @@ def test_align_pairs(inputs, expected):
                 [(1, 1), (2, 3), (4, 5), (6, 6)],
                 [(1, 1), (2, 2), (4, 7), (6, 6)]
             ),
-            0.0
+            [0]
         ),
         (
 
@@ -142,14 +142,14 @@ def test_align_pairs(inputs, expected):
                 [(1, 1), (2, 3), (4, 5), (None, None), (6, 6)],
                 [(1, 1), (2, 3), (4, 5), (None, 6), (6, 7)]
             ),
-            1.0
+            [1, 1]
         ),
         (
             (
                 [(1, 1), (2, 3), (5, 6), (7, 8)],
                 [(1, 1), (2, 4), (5, 6), (7, 9)]
             ),
-            1/3
+            [0, 1, 0]
         ),
 
         (
@@ -157,25 +157,30 @@ def test_align_pairs(inputs, expected):
                 [(791, 791), (None, None), (4865, 8415), (374, 374), (389, 304), (279, 279), (282, None), (2668, None), (713, 38681)],
                 [(791, 791), (None, 2466), (4865, 8415), (374, 374), (389, 304), (279, 279), (282, None), (2668, None), (713, 38681)]
             ),
-            1.0
+            [1, 1, 1, 1, 1]
         ),
         (
             (
                 [(2127, 2127), (26997, 26997), (11, 11), (1556, 1556), (276, 276), (56692, 56692), (728, 728), (11, 11), (328, 328), (2357, 2357), (8977, 8977), (29222, None), (482, 2234), (48432, 3647), (301, 96383), (25, 25), (18002, 18002), (2298, 2298), (729, 729), (2357, 2357), (554, 554)],
                 [(2127, 2127), (26997, 26997), (11, None), (1556, None), (276, None), (56692, None), (728, None), (11, 11), (328, 328), (2357, 2357), (8977, 8977), (29222, None), (482, 2234), (48432, 3647), (301, 96383), (25, 25), (18002, 18002), (2298, 2298), (729, 729), (2357, 2357), (554, 554)]
             ),
-            1.0
+            [1, 1, 1, 1]
         )
     ]
 )
-def test_compute_correction_precision(inputs, expected):
+def test_get_correction_true_positives(inputs, expected):
     """Test correction precison calculation.
 
     It corresponds to the accuracy of the model to select the right token based only on tokens that
     were supposed to be changed.
     """
     ref_pairs, pred_pairs = inputs
-    correction_precision = evaluator.compute_correction_precision(
+    correction_precision = evaluator.get_correction_true_positives(
         ref_pairs, pred_pairs
     )
     assert correction_precision == expected
+    
+evaluator.get_correction_true_positives(
+    ref_pairs=[(791, 791), (None, None), (4865, 8415), (374, 374), (389, 304), (279, 279), (282, None), (2668, None), (713, 38681)],
+    pred_pairs=[(791, 791), (None, 2466), (4865, 8415), (374, 374), (389, 304), (279, 279), (282, None), (2668, None), (713, 38681)]
+)

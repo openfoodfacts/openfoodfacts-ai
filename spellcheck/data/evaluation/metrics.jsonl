@@ -134,3 +134,45 @@
     "benchmark_version": "0.2",
     "benchmark_size": 243
 }
+{
+    "metrics": {
+        "correction_precision": 0.9286563614744352,
+        "precision": 0.7455673758865248,
+        "recall": 0.8843322818086226,
+        "f1": 0.809042809042809,
+        "f1_beta": 0.809042809042809,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "02/05/2024 18:24:17",
+    "benchmark_version": "0.3",
+    "benchmark_size": 162
+}
+{
+    "metrics": {
+        "correction_precision": 0.8047493403693932,
+        "precision": 0.37303149606299213,
+        "recall": 0.7846790890269151,
+        "f1": 0.5056704469646431,
+        "f1_beta": 0.5056704469646431,
+        "beta": 1.0
+    },
+    "model": "claude-3-haiku-20240307",
+    "date": "02/05/2024 18:26:09",
+    "benchmark_version": "0.3",
+    "benchmark_size": 162
+}
+{
+    "metrics": {
+        "correction_precision": 0.8128415300546448,
+        "precision": 0.42287694974003465,
+        "recall": 0.7697160883280757,
+        "f1": 0.5458612975391498,
+        "f1_beta": 0.5458612975391498,
+        "beta": 1.0
+    },
+    "model": "claude-3-sonnet-20240229",
+    "date": "02/05/2024 18:54:52",
+    "benchmark_version": "0.3",
+    "benchmark_size": 162
+}

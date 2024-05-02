@@ -103,13 +103,12 @@ class SpellcheckEvaluator(Evaluator):
             raise ValueError(
                 f"Evaluate requires a batch of texts. Got {type(predictions)} instead."
             )
-        
-        # Metrics to output for each line
-        precisions = []
-        recalls = []
-        f1s = []
-        f1_betas = []
-        correction_precisions = []
+
+        # To calculate Precision Recall across the examples.
+        true_positives = []
+        false_positives = []
+        false_negatives = []
+        correction_true_positives = []
 
         # Batch
         for original, reference, prediction in tqdm(
@@ -140,35 +139,41 @@ class SpellcheckEvaluator(Evaluator):
             inverse_sparse_ref_pairs = [1 if i == 0 else 0 for i in sparse_ref_pairs]
             inverse_sparse_pred_pairs = [1 if i == 0 else 0 for i in sparse_pred_pairs]
 
-            # Calculate metrics
-            true_positive = np.sum(np.multiply(sparse_ref_pairs, sparse_pred_pairs))
-            false_positive = np.sum(np.multiply(inverse_sparse_ref_pairs, sparse_pred_pairs))
-            false_negative = np.sum(np.multiply(sparse_ref_pairs, inverse_sparse_pred_pairs))
+            seq_true_positives = np.multiply(sparse_ref_pairs, sparse_pred_pairs)
+            seq_false_positives = np.multiply(inverse_sparse_ref_pairs, sparse_pred_pairs)
+            seq_false_negatives = np.multiply(sparse_ref_pairs, inverse_sparse_pred_pairs)
 
-            precision = true_positive / (true_positive + false_positive) if (true_positive + false_positive) != 0 else 0
-            recall = true_positive / (true_positive + false_negative) if (true_positive + false_negative) != 0 else 0
-            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) != 0 else 0
-            f1_beta = (1 + self.beta**2) * precision * recall / (self.beta**2 * precision + recall) if (precision + recall) != 0 else 0
-
-            precisions.append(precision)
-            recalls.append(recall)
-            f1s.append(f1)
-            f1_betas.append(f1_beta)
-
-            # Also calculate if model token predictions are correct
-            correction_precision = self.compute_correction_precision(
+            # Also check if model token predictions are correct
+            seq_correction_true_positives = self.get_correction_true_positives(
                 ref_pairs=aligned_ref_pairs,
                 pred_pairs=aligned_pred_pairs
             )
-            correction_precisions.append(correction_precision)
+
+            true_positives.extend(seq_true_positives)
+            false_positives.extend(seq_false_positives)
+            false_negatives.extend(seq_false_negatives)
+            correction_true_positives.extend(seq_correction_true_positives)
+
+        # Sum
+        true_positive = np.sum(true_positives)
+        false_positive = np.sum(false_positives)
+        false_negative = np.sum(false_negatives)
+        correction_true_positive = np.sum(correction_true_positives)
+
+        # Metrics calculation
+        precision = true_positive / (true_positive + false_positive) if (true_positive + false_positive) != 0 else 0
+        recall = true_positive / (true_positive + false_negative) if (true_positive + false_negative) != 0 else 0
+        f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) != 0 else 0
+        f1_beta = (1 + self.beta**2) * precision * recall / (self.beta**2 * precision + recall) if (precision + recall) != 0 else 0
+        correction_precision = correction_true_positive / true_positive if true_positive != 0 else 0
 
         # Mean results for the entire batch 
         results = {
-            "correction_precision": np.mean(correction_precisions),
-            "precision": np.mean(precisions),
-            "recall": np.mean(recalls),
-            "f1": np.mean(f1s),
-            "f1_beta": np.mean(f1_betas),
+            "correction_precision": correction_precision,
+            "precision": precision,
+            "recall": recall,
+            "f1": f1,
+            "f1_beta": f1_beta,
             "beta": self.beta,
         }
         LOGGER.info(f"Evaluation metrics: {results}")
@@ -322,12 +327,12 @@ class SpellcheckEvaluator(Evaluator):
             pairs2_bis.insert(ref_gap_idx, neutral_pair)
         return pairs1_bis, pairs2_bis
 
-    def compute_correction_precision(
+    def get_correction_true_positives(
         self,
         ref_pairs: List[Tuple],
         pred_pairs: List[Tuple], 
     ) -> float:
-        """Correction precision metric corresponding to the precision of the model the predict the correct token.
+        """Correction true positives corresponding to the precision of the model the predict the correct token.
 
         Note:
         We consider only tokens that were modified by the model & were supposed to be modified. 
@@ -337,8 +342,6 @@ class SpellcheckEvaluator(Evaluator):
         Args:
             ref_pairs (List[Tuple]): List of Orig-Ref token pairs
             pred_pairs (List[Tuple]): List of Orig-Pred token pairs
-            sparse_ref_pairs (List[int]): sparse vector representation of Orig-Ref pairs
-            sparse_pred_pairs (List[int]): sparse vector representation of Orig-Pred pairs
 
         Returns:
             float: precision of picking the right token.
@@ -349,16 +352,11 @@ class SpellcheckEvaluator(Evaluator):
         )
         true_positives = np.multiply(sparse_ref_pairs, sparse_pred_pairs)
         correction_true_positives = [
-            ref_pairs[idx][1] == pred_pairs[idx][1] 
+            int(ref_pairs[idx][1] == pred_pairs[idx][1]) 
             for idx, tp in enumerate(true_positives) 
             if tp == 1
         ]
-        correction_precision = (
-            np.sum(correction_true_positives) / np.sum(true_positives) 
-            if np.sum(true_positives) != 0 
-            else 0
-        )
-        return correction_precision
+        return correction_true_positives
 
 
 if __name__ == "__main__":
@@ -384,6 +382,6 @@ if __name__ == "__main__":
     
 ]
 
-    spellcheck_evaluator = SpellcheckEvaluator(originals=ORGINALS, references=REFERENCES)
-    results = spellcheck_evaluator.evaluate(predictions=PREDICTIONS)
+    spellcheck_evaluator = SpellcheckEvaluator(originals=ORGINALS)
+    results = spellcheck_evaluator.evaluate(predictions=PREDICTIONS, references=REFERENCES)
     print(results)

@@ -2,22 +2,36 @@
 
 from typing import Iterable, Mapping, List
 from pathlib import Path
-import os
-import logging
 import json
 
 from spellcheck import Spellcheck
 from utils.prompt import SystemPrompt, Prompt
 from utils.model import OpenAIChatCompletion
+from utils.utils import get_logger, get_repo_dir
 
 
+LOGGER = get_logger()
 
-SPELLCHECK_DIR = Path(os.path.dirname(__file__)).parent.parent
-LABELED_DATA_PATH = SPELLCHECK_DIR / "data/labeled/corrected_list_of_ingredients.txt"
-BENCHMARK_PATH = SPELLCHECK_DIR / "data/benchmark/test_benchmark.json"
+REPO_DIR = get_repo_dir()
+LABELED_DATA_PATH = REPO_DIR / "data/labeled/corrected_list_of_ingredients.txt"
+BENCHMARK_PATH = REPO_DIR / "data/benchmark/test_benchmark.json"
 
-LOGGER = logging.getLogger(__name__)
-logging.basicConfig(format="%(asctime)s %(message)s", level=logging.INFO)
+MODEL_NAME = "gpt-3.5-turbo"
+
+
+def main():
+    spellcheck = Spellcheck(
+        model=OpenAIChatCompletion(
+            prompt_template=Prompt.spellcheck_prompt_template,
+            system_prompt=SystemPrompt.spellcheck_system_prompt,
+            model_name=MODEL_NAME
+        )
+    )
+    prepare_test_benchmark(
+        labeled_data_path=LABELED_DATA_PATH,
+        spellcheck=spellcheck,
+        save_path=BENCHMARK_PATH
+    )
 
 
 def prepare_test_benchmark(
@@ -38,7 +52,7 @@ def prepare_test_benchmark(
             {
                 "original": original,
                 "reference": reference,
-                "openai_prediction": spellcheck.predict(original)
+                "openai_prediction": spellcheck.correct(original)
             } for original, reference, _ in data
         ]
     }
@@ -67,14 +81,4 @@ def save_data(data: Mapping, save_path: Path) -> None:
 
 
 if __name__ == "__main__":
-    spellcheck = Spellcheck(
-        model=OpenAIChatCompletion(
-            prompt_template=Prompt.spellcheck_prompt_template,
-            system_prompt=SystemPrompt.spellcheck_system_prompt
-        )
-    )
-    prepare_test_benchmark(
-        labeled_data_path=LABELED_DATA_PATH,
-        spellcheck=spellcheck,
-        save_path=BENCHMARK_PATH
-    )
+    main()
