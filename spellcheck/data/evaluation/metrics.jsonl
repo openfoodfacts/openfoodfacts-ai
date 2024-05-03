@@ -176,3 +176,21 @@
     "benchmark_version": "0.3",
     "benchmark_size": 162
 }
+{
+    "metrics": {
+        "correction_precision": 0.9258823529411765,
+        "precision": 0.769927536231884,
+        "recall": 0.8975712777191129,
+        "f1": 0.8288639687957094,
+        "f1_beta": 0.8288639687957094,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "03/05/2024 12:08:41",
+    "benchmark_version": "0.3.1",
+    "benchmark_size": 162,
+    "comments": [
+        "Prompt slightly modified to keep '_' around allergens and keeping whitespaces",
+        "It happens that whitespaces with % is wrong because an initial percentage were different from the rest. Example: 'sucre 40%, lemon 7,2 %'. LLM struggles with that"
+    ]
+}
