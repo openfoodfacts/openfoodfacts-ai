@@ -7,7 +7,7 @@ from utils.utils import get_repo_dir, get_logger
 
 REPO_DIR = get_repo_dir()
 DATA_PATH = REPO_DIR / "data/database/openfoodfacts-products.jsonl"
-OUTPUT_DATA_PATH = REPO_DIR / "data/dataset/extracted_lists_of_ingredients.parquet"
+OUTPUT_DATA_PATH = REPO_DIR / "data/dataset/0_extracted_lists_of_ingredients.parquet"
 
 FEATURE_NAMES = [
     "code",

@@ -10,7 +10,7 @@ from utils.utils import show_diff, get_repo_dir, load_jsonl
 load_dotenv()
 
 REPO_DIR = get_repo_dir()
-SYNTHETIC_DATASET = REPO_DIR / "data/dataset/synthetic_data.jsonl"
+SYNTHETIC_DATASET = REPO_DIR / "data/dataset/1_synthetic_data.jsonl"
 
 ARGILLA_DATASET_NAME = "training_dataset"
 ARGILLA_WORKSPACE_NAME = "spellcheck"

@@ -165,8 +165,7 @@ def remove_markdown(
     Returns:
         str: Post-processed text
     """
-    # Transition in deleted element: from ~ to #. Only in one in the future.
-    text = text.replace("<mark>" + "~" + "</mark>", "")
+    text = text.replace("<mark>" + "~" + "</mark>", "") # Transition in deleted element: from ~ to #. Only in one in the future.
     text = text.replace("<mark>" + deleted_element + "</mark>", "")
     text = text.replace("<mark>", "").replace("</mark>", "")
     return text

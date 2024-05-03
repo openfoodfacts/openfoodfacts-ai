@@ -11,8 +11,10 @@ from utils.utils import get_logger, get_repo_dir
 
 
 REPO_DIR = get_repo_dir()
-DATA_PATH = REPO_DIR / "data/dataset/extracted_lists_of_ingredients.parquet"
-SYNTHETIC_DATA_PATH = REPO_DIR / "data/dataset/synthetic_data.jsonl"
+DATA_PATH = REPO_DIR / "data/dataset/0_extracted_lists_of_ingredients.parquet"
+SYNTHETIC_DATA_PATH = REPO_DIR / "data/dataset/1bis_synthetic_data.jsonl"
+
+MODEL_NAME = "gpt-3.5-turbo"
 
 LOGGER = get_logger()
 
@@ -28,7 +30,8 @@ def main():
     spellcheck = Spellcheck(
         model=OpenAIChatCompletion(
             prompt_template=Prompt.spellcheck_prompt_template,
-            system_prompt=SystemPrompt.spellcheck_system_prompt
+            system_prompt=SystemPrompt.spellcheck_system_prompt,
+            model_name=MODEL_NAME
         )
     )
     generate_synthetic_data(
@@ -70,7 +73,7 @@ def generate_synthetic_data(
             if row["code"] in existing_codes:
                 LOGGER.info("Product was already generated. Pass")
             else:
-                row[synthetic_feature] = spellcheck.predict(row[original_text_feature])
+                row[synthetic_feature] = spellcheck.correct(row[original_text_feature])
                 json.dump(row.to_dict(), file, ensure_ascii=False) # Ensure ascii for accents
                 file.write("\n")
                 file.flush() # Immediatly write the line into the file
