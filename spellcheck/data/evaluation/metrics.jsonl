@@ -194,3 +194,20 @@
         "It happens that whitespaces with % is wrong because an initial percentage were different from the rest. Example: 'sucre 40%, lemon 7,2 %'. LLM struggles with that"
     ]
 }
+{
+    "metrics": {
+        "correction_precision": 0.9273809523809524,
+        "precision": 0.7533632286995515,
+        "recall": 0.8870116156282999,
+        "f1": 0.8147429679922406,
+        "f1_beta": 0.8147429679922406,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "03/05/2024 16:39:28",
+    "benchmark_version": "0.3.2",
+    "benchmark_size": 162,
+    "comments": [
+        "Modify prompt to reduce hallucination regarding percentages"
+    ]
+}

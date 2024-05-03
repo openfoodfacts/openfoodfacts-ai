@@ -12,7 +12,7 @@ From the different types of errors observed across products, we came up with the
     (Example: `Ingredient 0,2   %`).
     * The only case when a whitespace involving a percentage should be modified is if the *digit* is stuck in the previous word (*ex: cheese1.9% -> cheese 1.9%*)
 * Some ingredients are enclosed with `_`, such as `_milk_` or `_cacahuetes_`, to detect allergens. Should remain unchanged. However, in the case it is not an ingredient, such as `_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.`, it needs to be modified into `_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.`;
-* Some percentages were badly parsed by the OCR, such as `cheese (196)` instead of `cheese (1%)` or `καραμέλα (396` instead of `καραμέλα (3%)` . Since there is a recognizable pattern, `%` being transformed into `96`, the spellcheck should be able to recognize and correct it.
+* Some percentages were badly parsed by the OCR. Since we cannot be sure about what is the right value, it is preferable to keep it as it is.
 * If characters in French miss an accent, needs to be fixed. (*ex: cafe -> café*)
 * `*` should remain in the corrected text as much as possible (*ex: Schweinefleisch\* -> Schweinefleisch\**)
 * Whitespaces shouldn't been modified except for this cases:
