@@ -14,7 +14,7 @@ load_dotenv()
 LOGGER = get_logger()
 
 REPO_DIR = get_repo_dir()
-ARGILLA_DATASET_NAME = "benchmark_v2"
+ARGILLA_DATASET_NAME = "benchmark_v4"
 ARGILLA_WORKSPACE_NAME = "spellcheck"
 BENCHMARK_PATH = REPO_DIR / "data/benchmark/verified_benchmark.parquet"
 

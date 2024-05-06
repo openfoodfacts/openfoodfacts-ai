@@ -211,3 +211,20 @@
         "Modify prompt to reduce hallucination regarding percentages"
     ]
 }
+{
+    "metrics": {
+        "correction_precision": 0.9343575418994413,
+        "precision": 0.69921875,
+        "recall": 0.8817733990147784,
+        "f1": 0.7799564270152505,
+        "f1_beta": 0.7799564270152505,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "06/05/2024 11:06:35",
+    "benchmark_version": "4.2",
+    "benchmark_size": 152,
+    "comments": [
+        "Benchmark modified: no more percentage correction (396 -> 3% no more), if whitespace not necessary ('crabe(...)'), don't add one ('crabe (...)' no more"
+    ]
+}

@@ -10,14 +10,16 @@ From the different types of errors observed across products, we came up with the
 * Percentages
     * Whitespaces between words and percentages shouldn't be corrected. The text needs to be kept as unchanged as possible.
     (Example: `Ingredient 0,2   %`).
+    * If the percentage is ambiguous, we don't correct it. (*ex: "15 0%" - "396"*)
     * The only case when a whitespace involving a percentage should be modified is if the *digit* is stuck in the previous word (*ex: cheese1.9% -> cheese 1.9%*)
 * Some ingredients are enclosed with `_`, such as `_milk_` or `_cacahuetes_`, to detect allergens. Should remain unchanged. However, in the case it is not an ingredient, such as `_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.`, it needs to be modified into `_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.`;
 * Some percentages were badly parsed by the OCR. Since we cannot be sure about what is the right value, it is preferable to keep it as it is.
 * If characters in French miss an accent, needs to be fixed. (*ex: cafe -> café*)
 * `*` should remain in the corrected text as much as possible (*ex: Schweinefleisch\* -> Schweinefleisch\**)
 * Whitespaces shouldn't been modified except for this cases:
-    * Words or characters that are supposed to be separated: *ex: crabe(...) -> crabe ()*;
     * No whitespace after a punctuation (*ex: syrup,sugar -> syrup, sugar*)
+    * No whitespace between a word and a punctuation: (*ex: crabe(...) -> crabe(...)*)
+    * 
 * Regarding uppercases and lowercases, since the spellcheck should modify at least as possible lists of ingredient, we don't modify
 uppercases or lowercases except for two reasons:
     * After a period: `orange.trace de...` ->  `orange. Trace de...`
