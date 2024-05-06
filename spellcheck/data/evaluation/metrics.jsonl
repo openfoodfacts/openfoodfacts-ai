@@ -228,3 +228,62 @@
         "Benchmark modified: no more percentage correction (396 -> 3% no more), if whitespace not necessary ('crabe(...)'), don't add one ('crabe (...)' no more"
     ]
 }
+{
+    "metrics": {
+        "correction_precision": 0.9283489096573209,
+        "precision": 0.6993464052287581,
+        "recall": 0.7906403940886699,
+        "f1": 0.7421965317919074,
+        "f1_beta": 0.7421965317919074,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "06/05/2024 12:16:44",
+    "benchmark_version": "4.3",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.9243323442136498,
+        "precision": 0.6863543788187373,
+        "recall": 0.8300492610837439,
+        "f1": 0.7513935340022296,
+        "f1_beta": 0.7513935340022296,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "06/05/2024 12:39:29",
+    "benchmark_version": "4.4",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 1.0,
+        "precision": 1.0,
+        "recall": 0.019704433497536946,
+        "f1": 0.03864734299516908,
+        "f1_beta": 0.03864734299516908,
+        "beta": 1.0
+    },
+    "model": "rules_based_model",
+    "date": "06/05/2024 14:05:16",
+    "benchmark_version": "4.0",
+    "benchmark_size": 152,
+    "comment": [
+        "Try heuristic method: 'léci - thine' -> 'lécithine'"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.9148264984227129,
+        "precision": 0.6997792494481236,
+        "recall": 0.7807881773399015,
+        "f1": 0.7380675203725262,
+        "f1_beta": 0.7380675203725262,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "06/05/2024 14:30:24",
+    "benchmark_version": "4.5",
+    "benchmark_size": 152
+}

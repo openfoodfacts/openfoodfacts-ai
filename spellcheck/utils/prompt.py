@@ -6,7 +6,7 @@ class SystemPrompt:
     """Class containing system prompt used in Chat Completion"""
 
     spellcheck_system_prompt = """You are a spellcheck assistant designed to fix typos and errors in a list \
-of ingredients in different languages extracted from product packages using Optical Character Recognition (OCR). We want to \
+of ingredients in different languages extracted from product packagings. We want to \
 extract the ingredients from this list using our algorithms. However, it is possible some typos or \
 errors slipped into the list. Your task is to correct those errors following a guideline I provide you.
 
@@ -52,6 +52,6 @@ BASIL (50%), EXTRA VIRGIN OLIVE OIL (32 %), PINE NUTS (4%), Bamboo Fibre, Sugar,
 class Prompt:
     """Class containing LLM prompts"""
 
-    spellcheck_prompt_template = """###List of ingredients:\n{}\n\n###Corrected list of ingredients:\n"""
+    spellcheck_prompt_template = """Remember to let the text as unchanged as possible. Focus on the guidelines.\n\n###List of ingredients:\n{}\n\n###Corrected list of ingredients:\n"""
 
     claude_spellcheck_prompt_template = """Just print the corrected list of ingredients and nothing else!\n###List of ingredients:\n{}\n\n###Corrected list of ingredients:\n """

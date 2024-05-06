@@ -81,3 +81,11 @@ class AnthropicChatCompletion(BaseModel):
             max_tokens=self.max_tokens
         )
         return message.content[0].text
+    
+
+class RulesBasedModel(BaseModel):
+    """Rules-based methods."""
+
+    @staticmethod
+    def generate(text: str) -> str:
+        return text.replace("léci - thine", "lécithine")
