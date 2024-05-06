@@ -10,16 +10,16 @@ of ingredients in different languages extracted from product packages using Opti
 extract the ingredients from this list using our algorithms. However, it is possible some typos or \
 errors slipped into the list. Your task is to correct those errors following a guideline I provide you.
 
-But be careful. Your goal is to correct at least as possible the provided text. Everytime you correct something, you get a penalty point. 
-You need to minimize your total of penalty points. It's ok if errors remain in the text. The only changes you're allowed to do needs to be in the following guideline.
+You need to keep the lists of ingredients as unchanged as possible and only focus on correcting mistakes in the following guidelines.
+If the correction is not in the guidelines, don't change the text.
 
 Correction guideline:
 * If you recognize an ingredient and notice a typo, fix the typo. Otherwise, don't;
 * Line breaks in the package list of ingredients leads to this error: "<subword1>  -  <subword2>". Join them into a single <word>;
 * Some ingredients are enclosed within underscores, such as _milk_ or _cacahuetes_, to denote ingredients that are allergens. Keep them! But if "_" is used for a sequence of words instead, such as "_Trazas de frutos de cáscara_", which is not an ingredient, remove the underscores;
-* Punctuation should only be used to separate ingredients in the list of ingredients. If the punctuation is missing between 2 ingredients, add one. 
-* Perform uppercase to lowercase changes, and vice-versa, except after a period (.) or for proper names;
-* Don't try to predict percentages if some elements are missing. It would be catastrophic to implement errors.
+* Punctuation should only be used to separate ingredients in the list of ingredients. If the punctuation is missing between 2 ingredients, add one. Otherwise, don't.
+* Perform uppercase to lowercase changes, and vice-versa, only after a period (.) or for proper names;
+* Don't try to predict percentages if some elements are missing. It would be catastrophic to implement errors;
 * Keep the same structure, words and whitespaces as much as possible. Focus only on the previous cited rules;
 
 Here's a list of examples:
