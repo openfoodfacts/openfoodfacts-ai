@@ -287,3 +287,36 @@
     "benchmark_version": "4.5",
     "benchmark_size": 152
 }
+{
+    "metrics": {
+        "correction_precision": 0.6401766004415012,
+        "precision": 0.6997792494481236,
+        "recall": 0.7807881773399015,
+        "f1": 0.7380675203725262,
+        "f1_beta": 0.7380675203725262,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "09/05/2024 09:36:56",
+    "benchmark_version": "4.5",
+    "benchmark_size": 152,
+    "comments":
+        ["Correction precision is modified to consider True Positives but also False Positives: CorrPrecision / (TP + FP)"]
+}
+{
+    "metrics": {
+        "correction_precision": 0.6805225653206651,
+        "precision": 0.7315914489311164,
+        "recall": 0.7958656330749354,
+        "f1": 0.7623762376237624,
+        "f1_beta": 0.7623762376237624,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "09/05/2024 10:05:11",
+    "version": "4.5",
+    "benchmark_size": 152,
+    "comments":[
+        "New metrics after normalization to focus on real errors: lowercase & whitespaces normalization"
+    ]
+}

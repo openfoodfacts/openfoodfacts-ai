@@ -18,7 +18,7 @@ import pandas as pd
 from utils.utils import get_logger, get_repo_dir
 from utils.evaluation import SpellcheckEvaluator
 from spellcheck import Spellcheck
-from utils.model import AnthropicChatCompletion, OpenAIChatCompletion
+from utils.model import AnthropicChatCompletion, OpenAIChatCompletion, RulesBasedModel
 from utils.prompt import SystemPrompt, Prompt
 
 
@@ -28,14 +28,14 @@ BENCHMARK_PATH = REPO_DIR / "data/benchmark/verified_benchmark.parquet"
 # Metrics
 METRICS_PATH = REPO_DIR / "data/evaluation/metrics.jsonl"
 
-MODEL_NAME = "claude-3-sonnet-20240229"
-BENCHMARK_VERSION = "0.3"
+MODEL_NAME = "gpt-3.5-turbo"
+BENCHMARK_VERSION = "4.5"
 
 # Predictions JSONL paths to study the results
 PREDICTIONS_EVALUATION_PATH = REPO_DIR / "data/evaluation/" / (MODEL_NAME + "-benchmark-v" + BENCHMARK_VERSION + ".jsonl")
 
 START = 0 # To restart the run
-WAIT = 5
+WAIT = 0
 
 LOGGER = get_logger()
 
@@ -58,8 +58,8 @@ def main():
         references=references,
         metadata=metadata,
         spellcheck=Spellcheck(
-            model=AnthropicChatCompletion(
-                prompt_template=Prompt.claude_spellcheck_prompt_template, #If Claude, use custom prompt template
+            model=OpenAIChatCompletion(
+                prompt_template=Prompt.spellcheck_prompt_template, #If Claude, use custom prompt template
                 system_prompt=SystemPrompt.spellcheck_system_prompt,
                 model_name=MODEL_NAME
             )
@@ -149,19 +149,34 @@ class Evaluate:
         originals = [element["original"] for element in elements]
         references = [element["reference"] for element in elements]
         predictions = [element["prediction"] for element in elements]
+        originals, references, predictions = self.normalize(originals, references, predictions)
         evaluator = SpellcheckEvaluator(originals=originals) #TODO Remove the module call from the function 
         metrics = evaluator.evaluate(predictions, references)
         metrics_output = {
             "metrics": metrics,
             "model": model_name,
             "date": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-            "benchmark_version": self.benchmark_version,
+            "version": self.benchmark_version,
             "benchmark_size": len(predictions)
         }
         with open(self.metrics_path, "a") as file:
             json.dump(metrics_output, file, indent=4)
             file.write("\n")
 
+    @staticmethod
+    def normalize(*text_batches) -> Tuple:
+        """Normalize texts to not consider some corrections during the metrics calculation.
+
+        Args:
+            Batches of texts
+        Returns:
+            (Tuple) Processed texts
+        """
+        def process(text: str) -> str:
+            text = text.lower()                                           # Lowercase
+            text = " ".join([token.strip() for token in text.split()])    # Normalize whitespaces
+            return text
+        return ([process(text) for text in text_batch] for text_batch in text_batches)
 
 def load_benchmark(
     benchmark_path: Path, 
