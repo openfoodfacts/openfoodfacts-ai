@@ -16,10 +16,8 @@ From the different types of errors observed across products, we came up with the
 * Some percentages were badly parsed by the OCR. Since we cannot be sure about what is the right value, it is preferable to keep it as it is.
 * If characters in French miss an accent, needs to be fixed. (*ex: cafe -> café*)
 * `*` should remain in the corrected text as much as possible (*ex: Schweinefleisch\* -> Schweinefleisch\**)
-* Whitespaces shouldn't been modified except for this cases:
-    * No whitespace after a punctuation (*ex: syrup,sugar -> syrup, sugar*)
-    * No whitespace between a word and a punctuation: (*ex: crabe(...) -> crabe(...)*)
-    * 
+* Whitespaces shouldn't been modified except for these cases:
+    * When two words are stuck to each other: *"rizbrun -> riz brun*
 * Regarding uppercases and lowercases, since the spellcheck should modify at least as possible lists of ingredient, we don't modify
 uppercases or lowercases except for two reasons:
     * After a period: `orange.trace de...` ->  `orange. Trace de...`
@@ -218,7 +216,7 @@ Signification:     FN   FP   TN   TP   FP   TP   TP   TP   TP
 Also, since these metrics consider if the correct token was modified, and not if the right token was chosen by the 
 model, we also calculate the `correction_precision` for each `TP`.
 
-`correction_precision` considers only tokens modified by the model **that were supposed to be modified according to the Reference.**
+`correction_precision` evaluates the performance of the model to correct tokens over relatively to all predictions (TP + FP). 
 
 With these metric, we're now capable of evaluating our spellcheck accurately on this task!
 
@@ -246,6 +244,21 @@ Notes:
 * **Recall**: Proportion of errors founded
 * **F1-Score**: Mean-like between Precision and Recall
 * **Correction Precision**: When model found the error location in the list of ingredients, proportion of correct modification.
+
+### 100 % known-ingredients products
+
+The worst thing the Spellcheck can do is to implement errors into the lists of ingredients that are fine. In other term, we need to test how bad **false positives** are.
+
+To do so, we extract a sample of 100 products with ingredients fully recognized by the OFF parser.
+
+Using **DuckDB** and the JSONL file containing the products from the database:
+
+```sql
+select code, ingredients_text, lang from read_ndjson('openfoodfacts-products.jsonl.gz')
+where unknown_ingredients_n == 0 and ingredients_text is not null
+using sample 200
+;
+```
 
 ## Training dataset 
 

@@ -312,9 +312,9 @@
         "f1_beta": 0.7623762376237624,
         "beta": 1.0
     },
-    "model": "gpt-3.5-turbo",
-    "date": "09/05/2024 10:05:11",
-    "version": "4.5",
+    "model": "gpt-35-turbo",
+    "date": "09/05/2024 16:43:48",
+    "version": "v4",
     "benchmark_size": 152,
     "comments":[
         "New metrics after normalization to focus on real errors: lowercase & whitespaces normalization"

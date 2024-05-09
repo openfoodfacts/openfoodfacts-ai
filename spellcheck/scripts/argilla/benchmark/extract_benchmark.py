@@ -1,3 +1,4 @@
+import re
 import json
 from typing import Mapping, Callable, Literal
 from dotenv import load_dotenv
@@ -165,9 +166,9 @@ def remove_markdown(
     Returns:
         str: Post-processed text
     """
-    text = text.replace("<mark>" + "~" + "</mark>", "") # Transition in deleted element: from ~ to #. Only in one in the future.
-    text = text.replace("<mark>" + deleted_element + "</mark>", "")
-    text = text.replace("<mark>", "").replace("</mark>", "")
+    text = re.sub("<mark.*>" + "~" + "</mark>", "") # Transition in deleted element: from ~ to #. Only in one in the future.
+    text = re.sub("<mark.*>" + deleted_element + "</mark>", "")
+    text = re.sub("<[\/]mark.*>", "")
     return text
 
 

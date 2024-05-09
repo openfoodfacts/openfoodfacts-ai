@@ -20,6 +20,7 @@ from utils.evaluation import SpellcheckEvaluator
 from spellcheck import Spellcheck
 from utils.model import AnthropicChatCompletion, OpenAIChatCompletion, RulesBasedModel
 from utils.prompt import SystemPrompt, Prompt
+from utils.argilla_modules import BenchmarkEvaluationArgilla
 
 
 REPO_DIR = get_repo_dir()
@@ -28,14 +29,22 @@ BENCHMARK_PATH = REPO_DIR / "data/benchmark/verified_benchmark.parquet"
 # Metrics
 METRICS_PATH = REPO_DIR / "data/evaluation/metrics.jsonl"
 
-MODEL_NAME = "gpt-3.5-turbo"
-BENCHMARK_VERSION = "4.5"
+MODEL_NAME = "gpt-35-turbo"
+BENCHMARK_VERSION = "v4"
+PROMPT_VERSION = "v5"
 
 # Predictions JSONL paths to study the results
-PREDICTIONS_EVALUATION_PATH = REPO_DIR / "data/evaluation/" / (MODEL_NAME + "-benchmark-v" + BENCHMARK_VERSION + ".jsonl")
+PREDICTIONS_EVALUATION_PATH = REPO_DIR / "data/evaluation/" / (
+    MODEL_NAME 
+    + "-benchmark" + BENCHMARK_VERSION 
+    + "-prompt" + PROMPT_VERSION 
+    + ".jsonl"
+)
 
 START = 0 # To restart the run
 WAIT = 0
+
+ARGILLA_DATASET_NAME = f"Evaluation-{MODEL_NAME}-benchmark-{BENCHMARK_VERSION}-prompt-{PROMPT_VERSION}"
 
 LOGGER = get_logger()
 
@@ -51,6 +60,7 @@ def main():
     evaluation = Evaluate(
         metrics_path=METRICS_PATH,
         benchmark_version=BENCHMARK_VERSION,
+        prompt_version=PROMPT_VERSION,
         predictions_path=PREDICTIONS_EVALUATION_PATH,
     )
     evaluation.run_evaluation(
@@ -67,9 +77,15 @@ def main():
         wait=WAIT
     )
     evaluation.compute_metrics(
-        predictions_path=PREDICTIONS_EVALUATION_PATH,
+        predictions_path=REPO_DIR / "data/evaluation/gpt-3.5-turbo-benchmark-v4.5.jsonl",
         model_name=MODEL_NAME
     )
+    BenchmarkEvaluationArgilla.from_jsonl(
+        path=REPO_DIR / "data/evaluation/gpt-3.5-turbo-benchmark-v4.5.jsonl"
+    ).deploy(
+        dataset_name=ARGILLA_DATASET_NAME
+    )
+    
 
 class Evaluate:
     """Evaluation module to compute the performance of the Spellcheck against the benchmark.
@@ -84,10 +100,12 @@ class Evaluate:
         self,
         metrics_path: Path,
         benchmark_version: str,
+        prompt_version: str,
         predictions_path: Path,
     ) -> None:
         self.metrics_path = metrics_path
         self.benchmark_version = benchmark_version
+        self.prompt_version = prompt_version
         self.predictions_path = predictions_path
         
     def run_evaluation(
@@ -156,7 +174,8 @@ class Evaluate:
             "metrics": metrics,
             "model": model_name,
             "date": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-            "version": self.benchmark_version,
+            "benchmark_version": self.benchmark_version,
+            "prompt_version": self.prompt_version,
             "benchmark_size": len(predictions)
         }
         with open(self.metrics_path, "a") as file:
