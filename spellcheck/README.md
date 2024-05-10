@@ -230,20 +230,24 @@ With these metric, we're now capable of evaluating our spellcheck accurately on 
 
 We evaluated **Proprietary LLMs** such as OpenAI GPTs and Anthropic Claude 3 models. This gives us a baseline on how these solutions perform on the Spellcheck task compared to our model.
 
-Benchmark version: **v0.3**
+Texts are normalized to not consider some typical corrections:
+* lowercase-uppercase
+* whitespaces between words
+
+Benchmark version: **v4**
+Prompt version: **v5**
 
 
-| Model | Precision | Recall | F1-Score | Correction Precision|
-|----------|----------|----------|----------|----------|
-| GPT-3.5-Turbo | **0.746** | **0.884** | **0.809** | **0.929** |
-| Claude-3-Haiku | 0.373 | 0.785 | 0.506 | 0.805 | 
-| Claude-3-Sonnet | 0.423 | 0.770 | 0.546 | 0.813 |
+| Model | Correction Precision | Localisation Precision | Localisation Recall | Localisation F1 | Human evaluation
+|----------|----------|----------|----------|----------|----------|
+| GPT-3.5-Turbo | **0.681** | **0.732** | **0.796** | **0.762** | **0.803** |
 
 Notes:
-* **Precision**: Proportion of errors rightly detected by the model
-* **Recall**: Proportion of errors founded
-* **F1-Score**: Mean-like between Precision and Recall
-* **Correction Precision**: When model found the error location in the list of ingredients, proportion of correct modification.
+* **Correction Precision**: Proportion of correct modification.
+* **Localisation Precision**: Proportion of errors rightly detected by the model
+* **Localisation Recall**: Proportion of errors founded
+* **Localisation F1**: Mean-like between Precision and Recall
+* **Human evaluation**: Proportion of good corrections after human analysis
 
 ### 100 % known-ingredients products
 
