@@ -29,22 +29,22 @@ BENCHMARK_PATH = REPO_DIR / "data/benchmark/verified_benchmark.parquet"
 # Metrics
 METRICS_PATH = REPO_DIR / "data/evaluation/metrics.jsonl"
 
-MODEL_NAME = "gpt-35-turbo"
-BENCHMARK_VERSION = "v4"
-PROMPT_VERSION = "v5"
+MODEL_NAME = "gpt-3.5-turbo"
+BENCHMARK_VERSION = "v5"
+PROMPT_VERSION = "v6"
 
 # Predictions JSONL paths to study the results
 PREDICTIONS_EVALUATION_PATH = REPO_DIR / "data/evaluation/" / (
     MODEL_NAME 
-    + "-benchmark" + BENCHMARK_VERSION 
-    + "-prompt" + PROMPT_VERSION 
+    + "-benchmark-" + BENCHMARK_VERSION 
+    + "-prompt-" + PROMPT_VERSION 
     + ".jsonl"
 )
 
 START = 0 # To restart the run
 WAIT = 0
 
-ARGILLA_DATASET_NAME = f"Evaluation-{MODEL_NAME}-benchmark-{BENCHMARK_VERSION}-prompt-{PROMPT_VERSION}"
+ARGILLA_DATASET_NAME = f"Evaluation-{MODEL_NAME}-benchmark-{BENCHMARK_VERSION}-prompt-{PROMPT_VERSION}".replace(".", "") # Replace for gpt3.5 => "." not accepted by Argilla
 
 LOGGER = get_logger()
 
@@ -77,11 +77,12 @@ def main():
         wait=WAIT
     )
     evaluation.compute_metrics(
-        predictions_path=REPO_DIR / "data/evaluation/gpt-3.5-turbo-benchmark-v4.5.jsonl",
+        predictions_path=PREDICTIONS_EVALUATION_PATH,
         model_name=MODEL_NAME
     )
+    # Human evaluation
     BenchmarkEvaluationArgilla.from_jsonl(
-        path=REPO_DIR / "data/evaluation/gpt-3.5-turbo-benchmark-v4.5.jsonl"
+        path=PREDICTIONS_EVALUATION_PATH
     ).deploy(
         dataset_name=ARGILLA_DATASET_NAME
     )

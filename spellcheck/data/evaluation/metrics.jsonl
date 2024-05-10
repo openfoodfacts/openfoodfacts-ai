@@ -314,9 +314,27 @@
     },
     "model": "gpt-35-turbo",
     "date": "09/05/2024 16:43:48",
-    "version": "v4",
+    "version": "v4.5",
     "benchmark_size": 152,
     "comments":[
         "New metrics after normalization to focus on real errors: lowercase & whitespaces normalization"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.7286914765906363,
+        "precision": 0.7671068427370948,
+        "recall": 0.8202824133504493,
+        "f1": 0.7928039702233252,
+        "f1_beta": 0.7928039702233252,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "10/05/2024 19:08:53",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 151,
+    "comments":[
+        "From the previous human eval, improve prompt. Human evaluation pretty good in my opinion"
     ]
 }

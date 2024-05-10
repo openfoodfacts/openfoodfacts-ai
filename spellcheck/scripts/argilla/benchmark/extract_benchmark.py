@@ -165,10 +165,9 @@ def remove_markdown(
 
     Returns:
         str: Post-processed text
-    """
-    text = re.sub("<mark.*>" + "~" + "</mark>", "") # Transition in deleted element: from ~ to #. Only in one in the future.
-    text = re.sub("<mark.*>" + deleted_element + "</mark>", "")
-    text = re.sub("<[\/]mark.*>", "")
+    """ 
+    text = re.sub("<mark(?:\s\w+[^>]*)?>" + deleted_element + "<\/mark>", "", text) # <mark>#</mark> - <mark style=ba...>#</mark> if an element was deleted
+    text = re.sub("<\/?mark(?:\s\w+[^>]*)?>", "", text) # <mark style=ba...> - <mark> - </mark>
     return text
 
 

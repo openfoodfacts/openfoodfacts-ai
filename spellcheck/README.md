@@ -234,13 +234,13 @@ Texts are normalized to not consider some typical corrections:
 * lowercase-uppercase
 * whitespaces between words
 
-Benchmark version: **v4**
-Prompt version: **v5**
+Benchmark version: **v5**
+Prompt version: **v6**
 
 
 | Model | Correction Precision | Localisation Precision | Localisation Recall | Localisation F1 | Human evaluation
 |----------|----------|----------|----------|----------|----------|
-| GPT-3.5-Turbo | **0.681** | **0.732** | **0.796** | **0.762** | **0.803** |
+| GPT-3.5-Turbo | **0.729** | **0.767** | **0.820** | **0.793** | **0.887** |
 
 Notes:
 * **Correction Precision**: Proportion of correct modification.
