@@ -234,13 +234,15 @@ Texts are normalized to not consider some typical corrections:
 * lowercase-uppercase
 * whitespaces between words
 
+In addition to computing metrics using the evaluation algorithm, predictions against the benchmark are pushed to Argilla for human evaluation. The proportion of good corrections is then calculated.
+
 Benchmark version: **v5**
 Prompt version: **v6**
 
 
 | Model | Correction Precision | Localisation Precision | Localisation Recall | Localisation F1 | Human evaluation
 |----------|----------|----------|----------|----------|----------|
-| GPT-3.5-Turbo | **0.729** | **0.767** | **0.820** | **0.793** | **0.887** |
+| GPT-3.5-Turbo | **0.729** | **0.767** | **0.820** | **0.793** | **0.894** |
 
 Notes:
 * **Correction Precision**: Proportion of correct modification.
@@ -260,7 +262,7 @@ Using **DuckDB** and the JSONL file containing the products from the database:
 ```sql
 select code, ingredients_text, lang from read_ndjson('openfoodfacts-products.jsonl.gz')
 where unknown_ingredients_n == 0 and ingredients_text is not null
-using sample 200
+using sample 100
 ;
 ```
 
