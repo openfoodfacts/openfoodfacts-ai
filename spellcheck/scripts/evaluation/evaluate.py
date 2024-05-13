@@ -54,7 +54,7 @@ WAIT = 0
 
 # Replace for gpt3.5 => "." not accepted by Argilla
 ARGILLA_BENCHMARK_DATASET_NAME = f"Evaluation-{MODEL_NAME}-benchmark-{BENCHMARK_VERSION}-prompt-{PROMPT_VERSION}".replace(".", "") 
-ARGILLA_INGREDIENTS_COMPLETE_DATASET_NAME = f"Evaluation-{MODEL_NAME}-ingredients-complete-{BENCHMARK_VERSION}-prompt-{PROMPT_VERSION}".replace(".", "")
+ARGILLA_INGREDIENTS_COMPLETE_DATASET_NAME = f"Evaluation-{MODEL_NAME}-ingredients-complete-{INGREDIENTS_COMPLETE_VERSION}-prompt-{PROMPT_VERSION}".replace(".", "")
 
 LOGGER = get_logger()
 
