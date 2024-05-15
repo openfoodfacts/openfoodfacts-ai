@@ -8,22 +8,20 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9,<3.10"
 openai = "^1.14.3"
-evaluate = "^0.4.1"
-sacrebleu = "^2.4.1"
 argilla = "^1.26.1"
 python-dotenv = "^1.0.1"
 datasets = "^2.18.0"
 transformers = {extras = ["torch"], version = "^4.39.3"}
 tiktoken = "^0.6.0"
 openfoodfacts = "^0.2.1"
-anthropic = "^0.25.6"
 
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
 duckdb = "^0.10.2"
-google-generativeai = "^0.5.2"
 huggingface-hub = {extras = ["cli"], version = "^0.22.2"}
+google-cloud-aiplatform = "^1.51.0"
+anthropic = "^0.25.9"
 
 [build-system]
 requires = ["poetry-core"]

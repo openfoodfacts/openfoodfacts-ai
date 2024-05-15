@@ -6,7 +6,7 @@ from typing import Iterable
 
 import argilla as rg
 
-from utils.utils import show_diff
+from spellcheck.utils import show_diff
 
 
 logging.basicConfig(
@@ -20,6 +20,14 @@ ARGILLA_DATASET_NAME = "benchmark"
 ARGILLA_WORKSPACE_NAME = "spellcheck"
 
 load_dotenv()
+
+
+def main():
+    push_dataset_updates(
+        previous_name=ARGILLA_DATASET_NAME,
+        workspace=ARGILLA_WORKSPACE_NAME,
+        new_name=ARGILLA_TEST_DATASET_NAME
+    )
 
 
 def update_dataset(name: str, workspace: str) -> None:
@@ -139,14 +147,4 @@ def push_dataset_updates(previous_name: str, workspace: str, new_name: str) -> N
 
 
 if __name__ == "__main__":
-
-    # update_dataset(
-    #     name=ARGILLA_DATASET_NAME,
-    #     workspace=ARGILLA_WORKSPACE_NAME
-    # )
-
-    push_dataset_updates(
-        previous_name=ARGILLA_DATASET_NAME,
-        workspace=ARGILLA_WORKSPACE_NAME,
-        new_name=ARGILLA_TEST_DATASET_NAME
-    )
+    main()

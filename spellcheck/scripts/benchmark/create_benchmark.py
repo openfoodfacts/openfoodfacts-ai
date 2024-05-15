@@ -6,9 +6,9 @@ import json
 import random
 import requests
 
-from spellcheck import Spellcheck
-from utils.prompt import SystemPrompt, Prompt
-from utils.model import OpenAIChatCompletion
+from spellcheck.spellcheck import Spellcheck
+from spellcheck.prompt import SystemPrompt, Prompt
+from spellcheck.model import OpenAIChatCompletion
 
 
 LOGGER = logging.getLogger(__name__)

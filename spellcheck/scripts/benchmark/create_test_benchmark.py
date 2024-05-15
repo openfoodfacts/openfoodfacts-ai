@@ -4,10 +4,10 @@ from typing import Iterable, Mapping, List
 from pathlib import Path
 import json
 
-from spellcheck import Spellcheck
-from utils.prompt import SystemPrompt, Prompt
-from utils.model import OpenAIChatCompletion
-from utils.utils import get_logger, get_repo_dir
+from spellcheck.spellcheck import Spellcheck
+from spellcheck.prompt import SystemPrompt, Prompt
+from spellcheck.model import OpenAIChatCompletion
+from spellcheck.utils import get_logger, get_repo_dir
 
 
 LOGGER = get_logger()

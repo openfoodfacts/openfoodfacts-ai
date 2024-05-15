@@ -1,7 +1,7 @@
 """Spellcheck module."""
 import logging
 
-from utils.model import BaseModel
+from spellcheck.model import BaseModel
 
 
 LOGGER = logging.getLogger(__name__)

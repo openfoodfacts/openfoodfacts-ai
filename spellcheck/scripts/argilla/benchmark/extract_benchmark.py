@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 from argilla import FeedbackDataset
 from datasets import Dataset
 
-from utils.utils import get_logger, get_repo_dir
-from config.data import ArgillaConfig
+from spellcheck.utils import get_logger, get_repo_dir
+from spellcheck.config import ArgillaConfig
 
 
 load_dotenv()

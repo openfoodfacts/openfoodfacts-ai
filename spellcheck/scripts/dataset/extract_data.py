@@ -2,7 +2,7 @@ from typing import List, Mapping, Tuple
 
 import polars as pl
 
-from utils.utils import get_repo_dir, get_logger
+from spellcheck.utils import get_repo_dir, get_logger
 
 
 REPO_DIR = get_repo_dir()

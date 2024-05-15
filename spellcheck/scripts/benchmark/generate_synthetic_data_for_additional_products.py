@@ -1,9 +1,10 @@
+"""Append new ingredients lists corrections using LLM to the benchmark."""
 import pandas as pd
 
-from spellcheck import Spellcheck
-from utils.model import OpenAIChatCompletion
-from utils.prompt import SystemPrompt, Prompt
-from utils.utils import get_repo_dir, get_logger
+from spellcheck.spellcheck import Spellcheck
+from spellcheck.model import OpenAIChatCompletion
+from spellcheck.prompt import SystemPrompt, Prompt
+from spellcheck.utils import get_repo_dir, get_logger
 
 
 LOGGER = get_logger()
@@ -13,6 +14,7 @@ ADDITIONAL_PRODUCTS_PATH = REPO_DIR / "data/benchmark/additional_products/extrac
 SYNTHETIC_DATA_PATH = REPO_DIR / "data/benchmark/additional_products/synthetically_corrected_products.parquet"
 
 MODEL_NAME = "gpt-3.5-turbo"
+
 
 def main():
 

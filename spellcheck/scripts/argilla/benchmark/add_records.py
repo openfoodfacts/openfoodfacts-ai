@@ -3,7 +3,7 @@ from typing import Iterable
 import argilla as rg
 import pandas as pd 
 
-from utils.utils import get_logger, get_repo_dir, show_diff
+from spellcheck.utils import get_logger, get_repo_dir, show_diff
 
 
 LOGGER = get_logger()

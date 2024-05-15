@@ -5,12 +5,12 @@ import logging
 from typing import Mapping, Iterable, Literal
 import json
 
-from config.data import ArgillaConfig
+from spellcheck.config import ArgillaConfig
 
 
 def get_repo_dir():
     """Return the pathlib.Path of the Spellcheck repository"""
-    return Path(os.path.dirname(__file__)).parent
+    return Path(os.path.dirname(__file__)).parent.parent
 
 
 def get_logger(level: str = "INFO") -> logging.Logger:
@@ -41,7 +41,7 @@ def show_diff(
     Args:
         original_text (str): Comparison reference
         corrected_text (str): Text to highlight differences
-        color (Literal[&quot;yellow&quot;, &quot;orange&quot;, &quot;red&quot;], optional): _description_. Defaults to "yellow".
+        color (Literal["yellow", "orange", "red"], optional): Highlight color. Defaults to "yellow".
         deleted_element (str, optional): _description_. Defaults to ArgillaConfig.deleted_element.
 
     Raises:

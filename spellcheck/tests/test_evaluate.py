@@ -1,6 +1,6 @@
 import pytest
 
-from utils.evaluation import SpellcheckEvaluator
+from spellcheck.evaluation.evaluator import SpellcheckEvaluator
 
 
 ORGINALS = [
