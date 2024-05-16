@@ -243,6 +243,7 @@ Prompt version: **v6**
 | Model | Correction Precision | Localisation Precision | Localisation Recall | Localisation F1 | Human evaluation
 |----------|----------|----------|----------|----------|----------|
 | GPT-3.5-Turbo | **0.729** | **0.767** | **0.820** | **0.793** | **0.894** |
+| Gemini-1.0-pro | 0.499 | 0.561 | 0.658 |**0.605 | - |
 
 Notes:
 * **Correction Precision**: Proportion of correct modification.
