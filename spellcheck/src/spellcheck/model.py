@@ -4,12 +4,16 @@ from typing import Literal
 
 from openai import OpenAI
 from anthropic import Client
+import vertexai
+from vertexai.generative_models import GenerativeModel
 
 
 class BaseModel(ABC):
     """Base model used by the Spellcheck."""
+
     @abstractmethod
     def generate(self, text: str) -> str:
+        """From a string, return a response."""
         raise NotImplementedError
 
 
@@ -89,3 +93,48 @@ class RulesBasedModel(BaseModel):
     @staticmethod
     def generate(text: str) -> str:
         return text.replace("léci - thine", "lécithine")
+    
+
+class GeminiModel(BaseModel):
+    """Google Gemini."""
+
+    def __init__(
+        self,
+        system_prompt: str,
+        prompt_template: str,
+        model_name: Literal[
+            "gemini-1.0-pro-002",
+            # "gemini-1.5-flash-latest", # Not available in Robotoff project
+            # "gemini-1.5-pro-latest" # Not available in Robotoff project
+        ], 
+        temperature: float = 0,
+        max_tokens: int= 512,
+        project_id: str = "robotoff",
+        location: str = "us-central1"
+    ) -> None:
+        self.prompt_template = prompt_template
+
+        # Init model 
+        vertexai.init(project=project_id, location=location)
+        generation_config = {
+            "temperature": temperature,
+            "max_output_tokens": max_tokens,
+            "response_mime_type": "text/plain"
+        }
+        self.model = GenerativeModel(
+            model_name=model_name,
+            generation_config=generation_config,
+            system_instruction=system_prompt,
+        )
+
+    def generate(self, text: str) -> str:
+        response = self.model.generate_content(
+            self.prompt_template.format(text),
+        )
+        finish_reason = response.to_dict()["candidates"][0]["finish_reason"]
+        # OK
+        if finish_reason == "STOP":
+            return response.text
+        # Not OK such as "RECITATION", which means Google found out the text is copied from a web page
+        else:
+            return text

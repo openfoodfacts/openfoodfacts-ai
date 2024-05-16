@@ -338,3 +338,21 @@
         "From the previous human eval, improve prompt. Human evaluation pretty good in my opinion"
     ]
 }
+{
+    "metrics": {
+        "correction_precision": 0.4994547437295529,
+        "precision": 0.5605234460196292,
+        "recall": 0.6581306017925737,
+        "f1": 0.6054181389870436,
+        "f1_beta": 0.6054181389870436,
+        "beta": 1.0
+    },
+    "model": "gemini-1.0-pro-002",
+    "date": "16/05/2024 18:00:36",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152,
+    "comments": [
+        "'###Corrected list of ingredients:' removed manually"
+    ]
+}

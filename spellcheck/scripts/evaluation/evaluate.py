@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 from spellcheck.utils import get_repo_dir, get_logger
 from spellcheck.spellcheck import Spellcheck
-from spellcheck.model import AnthropicChatCompletion, OpenAIChatCompletion, RulesBasedModel
+from spellcheck.model import AnthropicChatCompletion, OpenAIChatCompletion, RulesBasedModel, GeminiModel
 from spellcheck.prompt import SystemPrompt, Prompt
 from spellcheck.argilla_modules import BenchmarkEvaluationArgilla, IngredientsCompleteEvaluationArgilla
 from spellcheck.evaluation.evaluation import Evaluate, import_benchmark, import_ingredients_complete
@@ -22,7 +22,7 @@ INGREDIENTS_COMPLETE_DATA_PATH = REPO_DIR / "data/database/ingredients_complete.
 # Metrics
 METRICS_PATH = REPO_DIR / "data/evaluation/metrics.jsonl"
 
-MODEL_NAME = "gpt-3.5-turbo"
+MODEL_NAME = "gemini-1.0-pro-002"
 BENCHMARK_VERSION = "v5"
 PROMPT_VERSION = "v6"
 INGREDIENTS_COMPLETE_VERSION = "v1"
@@ -55,8 +55,8 @@ load_dotenv()
 
 def main():
     spellcheck=Spellcheck(
-        model=OpenAIChatCompletion(
-            prompt_template=Prompt.spellcheck_prompt_template, #If Claude, use custom prompt template
+        model=GeminiModel(
+            prompt_template=Prompt.claude_spellcheck_prompt_template, #If Claude, use custom prompt template
             system_prompt=SystemPrompt.spellcheck_system_prompt,
             model_name=MODEL_NAME
         )
@@ -81,9 +81,7 @@ def main():
         spellcheck=spellcheck,
         wait=WAIT
     )
-    evaluation.compute_metrics(
-        model_name=MODEL_NAME
-    )
+    evaluation.compute_metrics()
     # Human evaluation
     BenchmarkEvaluationArgilla.from_jsonl(
         path=PREDICTIONS_EVALUATION_PATH
