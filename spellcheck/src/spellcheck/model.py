@@ -104,8 +104,8 @@ class GeminiModel(BaseModel):
         prompt_template: str,
         model_name: Literal[
             "gemini-1.0-pro-002",
-            # "gemini-1.5-flash-latest", # Not available in Robotoff project
-            # "gemini-1.5-pro-latest" # Not available in Robotoff project
+            "gemini-1.5-flash-preview-0514",
+            "gemini-1.5-pro-preview-0409" 
         ], 
         temperature: float = 0,
         max_tokens: int= 512,

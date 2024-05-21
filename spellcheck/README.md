@@ -14,7 +14,7 @@ From the different types of errors observed across products, we came up with the
     * The only case when a whitespace involving a percentage should be modified is if the *digit* is stuck in the previous word (*ex: cheese1.9% -> cheese 1.9%*)
 * Some ingredients are enclosed with `_`, such as `_milk_` or `_cacahuetes_`, to detect allergens. Should remain unchanged. However, in the case it is not an ingredient, such as `_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.`, it needs to be modified into `_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.`;
 * Some percentages were badly parsed by the OCR. Since we cannot be sure about what is the right value, it is preferable to keep it as it is.
-* If characters in French miss an accent, needs to be fixed. (*ex: cafe -> café*)
+* We're ok with accents modified or not.
 * `*` should remain in the corrected text as much as possible (*ex: Schweinefleisch\* -> Schweinefleisch\**)
 * Whitespaces shouldn't been modified except for these cases:
     * When two words are stuck to each other: *"rizbrun -> riz brun*
@@ -25,6 +25,7 @@ uppercases or lowercases except for two reasons:
 * In French, the character `oe` or `œ` should remain unchanged after correction (*ex: œuf, bœuf). If it is missing, should be replaced by default by `œ`.
 * Commas and other word separators (, -, .) should be added to distinct ingredients. **We don't add a period** or modify the existing punctuation at the end of the list of ingredients.
     * Example: *"citric acid electrolytes (salt, magnesium and calcium chlorides, mono-potassion phosphate)"* -> *"citric acid, electrolytes (salt, magnesium and calcium chlorides, mono-potassion phosphate)"*
+* If ":" is missing to, such as `conservateur nitrite de sodium`, we add it:  `conservateur: nitrite de sodium`
 
 ## ✅ Benchmark - Validation dataset
 
@@ -240,13 +241,17 @@ Benchmark version: **v5**
 Prompt version: **v6**
 
 
-| Model | Correction Precision | Localisation Precision | Localisation Recall | Localisation F1 | Human evaluation
-|----------|----------|----------|----------|----------|----------|
-| GPT-3.5-Turbo | **0.729** | **0.767** | **0.820** | **0.793** | **0.894** |
-| Gemini-1.0-pro | 0.499 | 0.561 | 0.658 |**0.605 | - |
+| Model | Correction Precision | Correction Recall | Localisation Precision | Localisation Recall | Localisation F1 | Human evaluation
+|----------|----------|----------|----------|----------|----------|----------|
+| GPT-3.5-Turbo | **0.729** | **0.779** | **0.767** | **0.820** | **0.793** | **0.894** |
+| Gemini-1.0-pro | 0.499 | 0.586 | 0.561 | 0.658 | 0.605 | 0.717 |
+| Gemini-1.5-flash | 0.514 | 0.693 | 0.590 | 0.795 | 0.677 | 0.790 |
+| Gemini-1.5-pro | 0.364 | 0.658 | 0.415 | 0.750 | 0.534 | - |
+
 
 Notes:
-* **Correction Precision**: Proportion of correct modification.
+* **Correction Precision**: Proportion of correct modifications.
+* **Correction Recall**: Proportion of errors found and corrected
 * **Localisation Precision**: Proportion of errors rightly detected by the model
 * **Localisation Recall**: Proportion of errors founded
 * **Localisation F1**: Mean-like between Precision and Recall

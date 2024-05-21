@@ -356,3 +356,97 @@
         "'###Corrected list of ingredients:' removed manually"
     ]
 }
+{
+    "metrics": {
+        "correction_precision": 0.5137701804368471,
+        "precision": 0.5897435897435898,
+        "recall": 0.795134443021767,
+        "f1": 0.6772082878953108,
+        "f1_beta": 0.6772082878953108,
+        "beta": 1.0
+    },
+    "model": "gemini-1.5-flash-preview-0514",
+    "date": "21/05/2024 10:02:44",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.3640226628895184,
+        "precision": 0.415014164305949,
+        "recall": 0.7503201024327785,
+        "f1": 0.5344277245782034,
+        "f1_beta": 0.5344277245782034,
+        "beta": 1.0
+    },
+    "model": "gemini-1.5-pro-preview-0409",
+    "date": "21/05/2024 15:39:43",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.3640226628895184,
+        "correction_recall": 0.6581306017925737,
+        "precision": 0.415014164305949,
+        "recall": 0.7503201024327785,
+        "f1": 0.5344277245782034,
+        "f1_beta": 0.5344277245782034,
+        "beta": 1.0
+    },
+    "model": "gemini-1.5-pro-preview-0409",
+    "date": "21/05/2024 17:13:04",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.5137701804368471,
+        "correction_recall": 0.6927016645326505,
+        "precision": 0.5897435897435898,
+        "recall": 0.795134443021767,
+        "f1": 0.6772082878953108,
+        "f1_beta": 0.6772082878953108,
+        "beta": 1.0
+    },
+    "model": "gemini-1.5-flash-preview-0514",
+    "date": "21/05/2024 17:15:08",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.4994547437295529,
+        "correction_recall": 0.586427656850192,
+        "precision": 0.5605234460196292,
+        "recall": 0.6581306017925737,
+        "f1": 0.6054181389870436,
+        "f1_beta": 0.6054181389870436,
+        "beta": 1.0
+    },
+    "model": "gemini-1.0-pro-002",
+    "date": "21/05/2024 17:16:38",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.7286914765906363,
+        "correction_recall": 0.7792041078305519,
+        "precision": 0.7671068427370948,
+        "recall": 0.8202824133504493,
+        "f1": 0.7928039702233252,
+        "f1_beta": 0.7928039702233252,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "21/05/2024 17:18:02",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 151
+}

@@ -166,11 +166,12 @@ class SpellcheckEvaluator(Evaluator):
         f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) != 0 else 0
         f1_beta = (1 + self.beta**2) * precision * recall / (self.beta**2 * precision + recall) if (precision + recall) != 0 else 0
         correction_precision = correction_true_positive / (true_positive + false_positive) if true_positive != 0 else 0
-
+        correction_recall = correction_true_positive / (true_positive + false_negative) if correction_true_positive !=0 else 0
 
         # Mean results for the entire batch 
         results = {
             "correction_precision": correction_precision,
+            "correction_recall": correction_recall,
             "precision": precision,
             "recall": recall,
             "f1": f1,
