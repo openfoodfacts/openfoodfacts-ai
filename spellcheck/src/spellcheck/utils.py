@@ -4,6 +4,7 @@ from pathlib import Path
 import logging
 from typing import Mapping, Iterable, Literal
 import json
+import time
 
 from spellcheck.config import ArgillaConfig
 
@@ -85,3 +86,15 @@ def load_jsonl(path: Path) -> Iterable[Mapping]:
     with open(path, "r") as f:
         lines = f.readlines()
     return [json.loads(line) for line in lines]
+
+
+def timer(fn):
+    """Decorator to track function duration."""
+    def wrapper(*args, **kwargs):
+        logger = get_logger()
+        timestamp = time.time()
+        logger.info(f"Start {fn.__name__}.")
+        output = fn(*args, **kwargs)
+        logger.info(f"The function {fn.__name__} took {round(time.time() - timestamp)} to finish.")
+        return output
+    return wrapper

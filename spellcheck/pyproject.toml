@@ -14,6 +14,8 @@ datasets = "^2.18.0"
 transformers = {extras = ["torch"], version = "^4.39.3"}
 tiktoken = "^0.6.0"
 openfoodfacts = "^0.2.1"
+polars = "^0.20.28"
+evaluate = "^0.4.2"
 
 
 [tool.poetry.group.dev.dependencies]
