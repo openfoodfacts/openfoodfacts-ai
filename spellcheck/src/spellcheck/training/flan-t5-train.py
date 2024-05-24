@@ -1,6 +1,8 @@
 """Flan-T5 training script."""
 from typing import Iterable, Tuple
+from dotenv import load_dotenv
 
+import comet_ml
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from transformers import DataCollatorForSeq2Seq
 from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
@@ -20,10 +22,10 @@ model_id="google/flan-t5-small"
 dataset_id = "openfoodfacts/spellcheck-dataset"
 benchmark_id = 'openfoodfacts/spellcheck-benchmark'
 padding = "max_length"
-max_length = 512
+# max_length = 512
 instruction = "Correct the list of ingredients: "
 # Hugging Face repository id
-repository_id = REPO_DIR / "model-training" / f"{model_id.split('/')[1]}-{model_name}"
+repository_id = REPO_DIR / "src/training/model-training" / f"{model_id.split('/')[1]}-{model_name}"
 
 
 def main():
@@ -35,6 +37,23 @@ def main():
     # Load data
     train_dataset = load_dataset(path=dataset_id, split="train") 
     benchmark_dataset = load_dataset(path=benchmark_id, split="train")
+
+    evaluator = SpellcheckEvaluator(benchmark_dataset["original"])
+
+    def compute_metrics(eval_preds):
+        experiment = comet_ml.get_global_experiment()
+        pred_tokens, ref_tokens = eval_preds
+        # Need to convert -100 tokens back to pad_token
+        ref_tokens = np.where(ref_tokens != -100, ref_tokens, tokenizer.pad_token_id)
+        predictions = tokenizer.batch_decode(pred_tokens, skip_special_tokens=True)
+        references = tokenizer.batch_decode(ref_tokens, skip_special_tokens=True)
+        metrics = evaluator.evaluate(predictions=predictions, references=references)
+        print(metrics)
+        if experiment:
+            experiment.log_metrics(metrics)
+        else:
+            print("No experiment in compute_metrics")
+        return metrics
 
     preprocessed_train_dataset = train_dataset.map(
         preprocess, 
@@ -66,15 +85,15 @@ def main():
         label_pad_token_id=label_pad_token_id,
         pad_to_multiple_of=8
     )
-
     training_args = Seq2SeqTrainingArguments(
         output_dir=repository_id,
-        per_device_train_batch_size=2,
-        per_device_eval_batch_size=2,
+        overwrite_output_dir=True,
+        per_device_train_batch_size=8,
+        per_device_eval_batch_size=8,
         predict_with_generate=True,
         fp16=False, # Overflows with fp16
-        learning_rate=5e-5,
-        num_train_epochs=0.1,
+        learning_rate=1e-4, # https://huggingface.co/docs/transformers/en/model_doc/t5#training:~:text=Additional%20training%20tips%3A
+        num_train_epochs=1,
         # logging & evaluation strategies
         logging_dir=f"{repository_id}/logs",
         logging_strategy="steps",
@@ -83,9 +102,7 @@ def main():
         save_strategy="epoch",
         save_total_limit=2,
         load_best_model_at_end=True,
-        # metric_for_best_model="overall_f1",
     )
- 
     # Create Trainer instance
     trainer = Seq2SeqTrainer(
         model=model,
@@ -93,10 +110,11 @@ def main():
         data_collator=data_collator,
         train_dataset=preprocessed_train_dataset,
         eval_dataset=preprocessed_benchmark_dataset,
+        compute_metrics=compute_metrics
     )
     trainer.train()
 
-    
+
 def preprocess(sample, input_name, target_name, tokenizer):
     """Preprocessing step
 
@@ -111,13 +129,12 @@ def preprocess(sample, input_name, target_name, tokenizer):
     # tokenize inputs
     model_inputs = tokenizer(
         inputs, 
-        max_length=max_length, 
         padding=padding, 
         truncation=True
     )
     # Tokenize targets with the `text_target` keyword argument
     labels = tokenizer(
-        text_target=sample[target_name], 
+        sample[target_name], 
         padding=padding,
         truncation=True
     )
@@ -129,7 +146,7 @@ def preprocess(sample, input_name, target_name, tokenizer):
         ]
     model_inputs["labels"] = labels["input_ids"]
     return model_inputs
-    
+
 
 if __name__ == "__main__":
     main()

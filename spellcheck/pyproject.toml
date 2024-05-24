@@ -16,6 +16,7 @@ tiktoken = "^0.6.0"
 openfoodfacts = "^0.2.1"
 polars = "^0.20.28"
 evaluate = "^0.4.2"
+comet-ml = "^3.42.1"
 
 
 [tool.poetry.group.dev.dependencies]
