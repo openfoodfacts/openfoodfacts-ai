@@ -243,7 +243,8 @@ Prompt version: **v6**
 
 | Model | Correction Precision | Correction Recall | Localisation Precision | Localisation Recall | Localisation F1 | Human evaluation
 |----------|----------|----------|----------|----------|----------|----------|
-| GPT-3.5-Turbo | **0.729** | **0.779** | **0.767** | **0.820** | **0.793** | **0.894** |
+| FlanT5-Small | **0.815** | 0.486 | **0.876** | 0.522 | 0.654 | - |
+| GPT-3.5-Turbo | 0.729 | **0.779** | 0.767 | **0.820** | **0.793** | **0.894** |
 | Gemini-1.0-pro | 0.499 | 0.586 | 0.561 | 0.658 | 0.605 | 0.717 |
 | Gemini-1.5-flash | 0.514 | 0.693 | 0.590 | 0.795 | 0.677 | 0.790 |
 | Gemini-1.5-pro | 0.364 | 0.658 | 0.415 | 0.750 | 0.534 | - |
