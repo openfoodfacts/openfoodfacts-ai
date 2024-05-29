@@ -11,10 +11,9 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from transformers import DataCollatorForSeq2Seq
 from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
 from datasets import load_dataset, disable_caching
-import torch
 import numpy as np
 
-from spellcheck.evaluation.evaluator import SpellcheckEvaluator 
+# from spellcheck.evaluation.evaluator import SpellcheckEvaluator 
 
 
 disable_caching()
@@ -35,14 +34,14 @@ def parse_args():
 
     #Training
     parser.add_argument("--pretrained_model_name", type=str, help="Pretrained model id to fine-tune from the Hugging Face Hub.")
-    parser.add_argument("--epochs", type=float, default=1, help="Number of epochs.")
+    parser.add_argument("--num_train_epochs", type=float, default=1, help="Number of epochs.")
     parser.add_argument("--per_device_train_batch_size", type=int, default=8, help="Training batch size.")
     parser.add_argument("--per_device_eval_batch_size", type=int, default=8, help="Eval batch size.")
     parser.add_argument("--lr", type=float, default=5e-5, help="Learning rate.")
     parser.add_argument("--seed", type=int, default=42, help="Seed.")
     parser.add_argument("--warmup_steps", type=int, default=0, help="Number of steps used for a linear warmup from 0 to `learning_rate`")
-    parser.add_argument("--fp16", type=strtobool, default=False if torch.cuda.get_device_capability()[0] == 8 else False, help="Whether to use bf16.")
-
+    parser.add_argument("--fp16", type=strtobool, default=False, help="Whether to use bf16.")
+    parser.add_argument("--generation_max_tokens", type=int, default=512, help="Max tokens used for text generation in the Trainer module.")
     # Evaluation
     parser.add_argument("--beta", type=float, default=1, help="Coefficient used in f1-beta score. beta < 1 favors Precision over Recall.")
     
@@ -76,45 +75,46 @@ class FlanT5Training:
         model = AutoModelForSeq2SeqLM.from_pretrained(args.pretrained_model_name)
 
         # Load data
-        train_dataset = load_dataset(path=args.training_data) 
+        train_dataset = load_dataset(path=args.training_data, split="train") 
         benchmark_dataset = load_dataset(path=args.evaluation_data, split="train")
 
-        # Evaluation
-        evaluator = SpellcheckEvaluator(benchmark_dataset["original"], beta=args.beta)
+        #TODO: Solve dependency issue
+        # # Evaluation
+        # evaluator = SpellcheckEvaluator(benchmark_dataset["original"], beta=args.beta)
 
-        def compute_metrics(eval_preds: Tuple) -> Mapping[str, Any]:
-            """Metrics calculation used by Trainer.
-            The function needs to be nested into the training function because of CometML, 
-            which loses tracking otherwise.
+        # def compute_metrics(eval_preds: Tuple) -> Mapping[str, Any]:
+        #     """Metrics calculation used by Trainer.
+        #     The function needs to be nested into the training function because of CometML, 
+        #     which loses tracking otherwise.
 
-            Args:
-                eval_preds (Tuple): Containing prediction and label tokens 
+        #     Args:
+        #         eval_preds (Tuple): Containing prediction and label tokens 
 
-            Returns:
-                Mapping: Metrics on the evaluation dataset
-            """
-            # Get the experiment initialized by Trainer
-            experiment = comet_ml.get_global_experiment()
+        #     Returns:
+        #         Mapping: Metrics on the evaluation dataset
+        #     """
+        #     # Get the experiment initialized by Trainer
+        #     experiment = comet_ml.get_global_experiment()
 
-            pred_tokens, ref_tokens = eval_preds
+        #     pred_tokens, ref_tokens = eval_preds
 
-            # Need to convert -100 tokens back to pad_token
-            ref_tokens = np.where(ref_tokens != -100, ref_tokens, tokenizer.pad_token_id)
-            pred_tokens = np.where(pred_tokens != -100, pred_tokens, tokenizer.pad_token_id)
+        #     # Need to convert -100 tokens back to pad_token
+        #     ref_tokens = np.where(ref_tokens != -100, ref_tokens, tokenizer.pad_token_id)
+        #     pred_tokens = np.where(pred_tokens != -100, pred_tokens, tokenizer.pad_token_id)
             
-            # Transform back in texts
-            predictions = tokenizer.batch_decode(pred_tokens, skip_special_tokens=True)
-            references = tokenizer.batch_decode(ref_tokens, skip_special_tokens=True)
+        #     # Transform back in texts
+        #     predictions = tokenizer.batch_decode(pred_tokens, skip_special_tokens=True)
+        #     references = tokenizer.batch_decode(ref_tokens, skip_special_tokens=True)
             
-            # Usage of our custom evaluation algorithm
-            metrics = evaluator.evaluate(predictions=predictions, references=references)
-            logging.info(f"Metrics: {metrics}")
+        #     # Usage of our custom evaluation algorithm
+        #     metrics = evaluator.evaluate(predictions=predictions, references=references)
+        #     logging.info(f"Metrics: {metrics}")
 
-            if experiment:
-                experiment.log_metrics(metrics)
-            else:
-                logging.warning("No experiment in compute_metrics.")
-            return metrics
+        #     if experiment:
+        #         experiment.log_metrics(metrics)
+        #     else:
+        #         logging.warning("No experiment in compute_metrics.")
+        #     return metrics
 
         # Prepare data for training
         preprocessed_train_dataset = train_dataset.map(
@@ -157,7 +157,8 @@ class FlanT5Training:
             generation_max_length               = args.generation_max_tokens,          # Default to 20 (depends on the task)
             fp16                                = args.fp16,                           # Overflows with fp16
             learning_rate                       = args.lr,                             # https://huggingface.co/docs/transformers/en/model_doc/t5#training:~:text=Additional%20training%20tips%3A
-            num_train_epochs                    = args.training_epochs,
+            num_train_epochs                    = args.num_train_epochs,
+            warmup_steps                        = args.warmup_steps,
             #Logging & evaluation strategies
             logging_dir                         = f"{args.output_dir}/logs",
             logging_strategy                    = "steps",
@@ -166,7 +167,7 @@ class FlanT5Training:
             save_strategy                       = "epoch",
             save_total_limit                    = 2,                                   # Number checkpoints saved at the same
             load_best_model_at_end              = True,
-            metric_for_best_model               = "f1_beta"                            # Metric used to select the best model.
+            # metric_for_best_model               = "f1_beta",                           # Metric used to select the best model.
         )
         trainer = Seq2SeqTrainer(
             model           = model,
@@ -174,9 +175,8 @@ class FlanT5Training:
             data_collator   = data_collator,
             train_dataset   = preprocessed_train_dataset,
             eval_dataset    = preprocessed_benchmark_dataset,
-            compute_metrics = compute_metrics,
+            # compute_metrics = compute_metrics,
         )
-
         trainer.train()
 
 
@@ -220,7 +220,7 @@ class FlanT5Training:
 
 if __name__ == "__main__":
     
-    args = parse_args()
+    args, _ = parse_args()
     FlanT5Training().train(args)
     copy_files(
         os.path.join(args.output_dir, "code"), 

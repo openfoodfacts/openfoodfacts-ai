@@ -16,7 +16,7 @@ tiktoken = "^0.6.0"
 openfoodfacts = "^0.2.1"
 polars = "^0.20.28"
 evaluate = "^0.4.2"
-comet-ml = "^3.42.1"
+pydantic = "^2.7.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -25,6 +25,10 @@ duckdb = "^0.10.2"
 huggingface-hub = {extras = ["cli"], version = "^0.22.2"}
 google-cloud-aiplatform = "^1.51.0"
 anthropic = "^0.25.9"
+comet-ml = "^3.42.1"
+sagemaker = "^2.221.1"
+metaflow = "^2.12.0"
+omegaconf = "^2.3.0"
 
 [build-system]
 requires = ["poetry-core"]
