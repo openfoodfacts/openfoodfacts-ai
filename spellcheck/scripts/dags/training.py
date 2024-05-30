@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 import comet_ml
-from metaflow import FlowSpec, step
+from metaflow import FlowSpec, step, current
 from omegaconf import OmegaConf
 from sagemaker.huggingface import HuggingFace
 
@@ -46,7 +46,7 @@ class TrainingPipeline(FlowSpec):
             environment          = {
                 "COMET_PROJECT_NAME": os.getenv("COMET_PROJECT_NAME"),
                 "COMET_API_KEY": os.getenv("COMET_API_KEY"),
-                "EXPERIMENT_TAGS": self.conf.estimator.comet_ml_tags,
+                "EXPERIMENT_TAGS": self.conf.estimator.comet_ml_tags + current.run_id, # Add Metaflow run_id to the training job
             },                                                                 # environment variables used during training 
             hyperparameters      = self.conf.hyperparameters,                 # the hyperparameters used for the training job
         )

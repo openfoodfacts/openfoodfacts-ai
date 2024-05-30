@@ -1,6 +1,7 @@
 """Flan-T5 training script."""
 import os
 import sys
+import json
 from typing import Mapping, Iterable, Any, Tuple
 import argparse
 from distutils.util import strtobool
@@ -26,6 +27,9 @@ logging.basicConfig(
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 
+# Retrieve Sagemaker job name to get the model artifact from S3
+SM_TRAINING_ENV = json.loads(os.getenv("SM_TRAINING_ENV"))  # Need to be deserialized
+SM_JOB_NAME = SM_TRAINING_ENV["job_name"]
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -43,6 +47,7 @@ def parse_args():
     parser.add_argument("--lr", type=float, default=5e-5, help="Learning rate.")
     parser.add_argument("--seed", type=int, default=42, help="Seed.")
     parser.add_argument("--warmup_steps", type=int, default=0, help="Number of steps used for a linear warmup from 0 to `learning_rate`")
+    parser.add_argument("--warmup_ratio", type=int, default=0, help="Warm-up ratio.")
     parser.add_argument("--fp16", type=strtobool, default=False, help="Whether to use bf16.")
     parser.add_argument("--generation_max_tokens", type=int, default=512, help="Max tokens used for text generation in the Trainer module.")
     
@@ -89,7 +94,9 @@ class FlanT5Training:
 
         # Load data
         train_dataset = load_dataset(path=args.training_data, split="train+test") 
-        benchmark_dataset = load_dataset(path=args.evaluation_data, split="train")
+        evaluation_dataset = load_dataset(path=args.evaluation_data, split="train")
+        LOGGER.info(f"Training dataset: {train_dataset}")
+        LOGGER.info(f"Evaluation dataset: {evaluation_dataset}")
 
         # Prepare datasets for training
         preprocessed_train_dataset = train_dataset.map(
@@ -102,10 +109,10 @@ class FlanT5Training:
                 "tokenizer": tokenizer,
             }
         )
-        preprocessed_benchmark_dataset = benchmark_dataset.map(
+        preprocessed_evaluation_dataset = evaluation_dataset.map(
             self.preprocess,
             batched=True,
-            remove_columns=benchmark_dataset.column_names,
+            remove_columns=evaluation_dataset.column_names,
             fn_kwargs={
                 "input_name": "original", 
                 "target_name": "reference",
@@ -115,7 +122,7 @@ class FlanT5Training:
 
         # Custom evaluation
         evaluator = SpellcheckEvaluator(
-            originals=benchmark_dataset["original"], 
+            originals=evaluation_dataset["original"], 
             beta=args.beta
         )
 
@@ -150,8 +157,9 @@ class FlanT5Training:
             if experiment:
                 experiment.log_metrics(metrics)
                 # Log texts
-                experiment.log_text(references[10], metadata={"type": "Reference"})
-                experiment.log_text(predictions[10], metadata={"type": "Prediction"})
+                for idx in [5, 50, 100]:
+                    experiment.log_text(predictions[idx], metadata={"type": "Prediction"})
+                    experiment.log_text(references[idx], metadata={"type": "Reference"})
             else:
                 logging.warning("No experiment in compute_metrics.")
             return metrics
@@ -177,6 +185,7 @@ class FlanT5Training:
             learning_rate                       = args.lr,                             # https://huggingface.co/docs/transformers/en/model_doc/t5#training:~:text=Additional%20training%20tips%3A
             num_train_epochs                    = args.num_train_epochs,
             warmup_steps                        = args.warmup_steps,
+            warmup_ratio                        = args.warmup_ratio,
             #Logging & evaluation strategies
             logging_dir                         = f"{args.output_dir}/logs",
             logging_strategy                    = "steps",
@@ -193,7 +202,7 @@ class FlanT5Training:
             args            = training_args,
             data_collator   = data_collator,
             train_dataset   = preprocessed_train_dataset,
-            eval_dataset    = preprocessed_benchmark_dataset,
+            eval_dataset    = preprocessed_evaluation_dataset,
             compute_metrics = compute_metrics,
         )
         trainer.train()
@@ -207,33 +216,24 @@ class FlanT5Training:
         experiment = comet_ml.ExistingExperiment(experiment_key=experiment.get_key())
         
         # Experiment tags
-        tags = os.getenv("EXPERIMENT_TAGS") if isinstance(os.getenv("EXPERIMENT_TAGS"), list) else [os.getenv("EXPERIMENT_TAGS")]
+        tags = os.getenv("EXPERIMENT_TAGS")
         LOGGER.info(f"Log tags: {tags}")
         experiment.add_tags(tags)
 
-        # Artifacts
-        LOGGER.info("Start logging artifacts.")
-        training_dataset_artifact = comet_ml.Artifact(
-            name="Spellcheck-training-dataset",
-            artifact_type="dataset",
-            version_tags=args.training_data_version,
-        )
-        evaluation_dataset_artifact = comet_ml.Artifact(
-            name="Spellcheck-evaluation_dataset",
-            artifact_type="dataset",
-            version_tags=args.evaluation_data_version,
-        )
-        training_dataset_artifact.add_remote(
-            uri=args.training_data,
+        # Log remote model artifact from s3
+        model_uri = os.path.join(args.output_dir, SM_JOB_NAME, "output/model.tar.gz")
+        LOGGER.info(f"Training job uri: {model_uri}")
+        experiment.log_remote_model(
+            "Flan-T5-Small-Spellcheck", 
+            model_uri, 
             sync_mode=False
         )
-        evaluation_dataset_artifact.add_remote(
-            uri=args.evaluation_data,
-            sync_mode=False
-        )
-        experiment.log_artifact(training_dataset_artifact)
-        experiment.log_artifact(evaluation_dataset_artifact)
-        LOGGER.info("Artifacts logged.")
+
+        # Log dataset lengths
+        experiment.log_parameters({
+            "training_dataset_length": len(train_dataset),
+            "evaluation_dataset_length": len(evaluation_dataset),
+        })
         
         LOGGER.info("Training job finished.")
 
