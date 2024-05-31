@@ -31,6 +31,10 @@ logging.basicConfig(
 SM_TRAINING_ENV = json.loads(os.getenv("SM_TRAINING_ENV"))  # Need to be deserialized
 SM_JOB_NAME = SM_TRAINING_ENV["job_name"]
 
+# Where the model artifact is stored 
+S3_OUTPUT_URI = os.getenv("S3_OUTPUT_URI")
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
 
@@ -221,7 +225,7 @@ class FlanT5Training:
         experiment.add_tags(tags)
 
         # Log remote model artifact from s3
-        model_uri = os.path.join(args.output_dir, SM_JOB_NAME, "output/model.tar.gz")
+        model_uri = os.path.join(S3_OUTPUT_URI, SM_JOB_NAME, "output/model.tar.gz")
         LOGGER.info(f"Training job uri: {model_uri}")
         experiment.log_remote_model(
             "Flan-T5-Small-Spellcheck", 
