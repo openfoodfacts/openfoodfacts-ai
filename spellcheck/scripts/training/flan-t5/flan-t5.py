@@ -32,7 +32,7 @@ SM_TRAINING_ENV = json.loads(os.getenv("SM_TRAINING_ENV"))  # Need to be deseria
 SM_JOB_NAME = SM_TRAINING_ENV["job_name"]
 
 # Where the model artifact is stored 
-S3_OUTPUT_URI = os.getenv("S3_OUTPUT_URI")
+S3_MODEL_URI = os.getenv("S3_MODEL_URI")
 
 
 def parse_args():
@@ -83,6 +83,7 @@ def copy_files(dir: str, *filenames: Iterable[str]) -> None:
 class FlanT5Training:
     """Flan-T5 training. 
     """
+
     padding = "max_length"                               # Padding configuration. "max_length" means the moodel maxm length
     instruction = "Correct the list of ingredients: "    # Flan-T5 was pretrained using an instruction. We reuse the same
 
@@ -211,7 +212,16 @@ class FlanT5Training:
         )
         trainer.train()
         LOGGER.info("Training finished.")
-        
+
+        # Run and upload benchmark predictions to S3
+        LOGGER.info("Start exporting benchmark predictions to S3.")
+        predictions, _, _ = trainer.predict(preprocessed_evaluation_dataset)
+        preds = tokenizer.batch_decode(predictions, skip_special_tokens=True)
+        prediction_dataset = evaluation_dataset.add_column(name="prediction", column=preds)
+        s3_evaluation_path = os.path.join(os.getenv("S3_EVALUATION_URI"), "evaluation_" + SM_JOB_NAME)
+        LOGGER.info(f"S3 URI where predictions on evaluation are sent: {s3_evaluation_path}")
+        prediction_dataset.save_to_disk(s3_evaluation_path)
+
         # Finish Experiment tracking logging
         LOGGER.info("Start logging additional info into the experiment tracker.")
         # This process is required since the a bug with CometML shuts down connection to the experiment run
@@ -225,7 +235,7 @@ class FlanT5Training:
         experiment.add_tags(tags)
 
         # Log remote model artifact from s3
-        model_uri = os.path.join(S3_OUTPUT_URI, SM_JOB_NAME, "output/model.tar.gz")
+        model_uri = os.path.join(S3_MODEL_URI, SM_JOB_NAME, "output/model.tar.gz")
         LOGGER.info(f"Training job uri: {model_uri}")
         experiment.log_remote_model(
             "Flan-T5-Small-Spellcheck", 

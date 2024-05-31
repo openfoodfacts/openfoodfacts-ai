@@ -39,16 +39,16 @@ class TrainingPipeline(metaflow.FlowSpec):
         LOGGER.info(f"Config parameters: {self.conf}")
         self.next(self.train)
 
-    @metaflow.step
-    def validate(self):
-        """Validation step.
+    # @metaflow.step
+    # def validate(self):
+    #     """Validation step.
 
-        Validate: 
-            - cloud instance configuration,
-            - training hyperparameters,
-            - datasets schemas. 
-        """
-        pass
+    #     Validate: 
+    #         - cloud instance configuration,
+    #         - training hyperparameters,
+    #         - datasets schemas. 
+    #     """
+    #     pass
 
     @metaflow.step
     def train(self):
@@ -56,6 +56,13 @@ class TrainingPipeline(metaflow.FlowSpec):
         
         Use Sagemaker Training Job to package and run the training script in production.
         """
+        #TODO: Send string instead of list to Sagemaker environment
+        experiment_tags = (                                                   # add Metaflow run_id to the training job
+            self.conf.estimator.comet_ml_tags 
+            + metaflow.current.run_id                                 # add metaflow run_id to experiment tracking tags
+            + self.conf.hyperparameters.training_data_version
+            + self.conf.hyperparameters.evaluation_data_version 
+        ),
         self.estimator = HuggingFace(
             source_dir           = self.conf.estimator.source_dir,            # directory containing training script and requirements requirements.
             entry_point          = self.conf.estimator.entry_point,           # train script            
@@ -76,8 +83,12 @@ class TrainingPipeline(metaflow.FlowSpec):
                 "EXPERIMENT_TAGS": (                                          # add Metaflow run_id to the training job
                     self.conf.estimator.comet_ml_tags 
                     + metaflow.current.run_id                                 # add metaflow run_id to experiment tracking tags
+                    + self.conf.hyperparameters.training_data_version
+                    + self.conf.hyperparameters.evaluation_data_version 
                 ),
-                "S3_OUTPUT_URI": self.conf.estimator.output_path,             # the uri where the model artifact is stored is actually not in the SM_TRAINING_JOB environment variables. Let's add it.                                                            
+                "S3_MODEL_URI": self.conf.estimator.output_path,              # the uri where the model artifact is stored is actually not in the SM_TRAINING_JOB environment variables. Let's add it.
+                "S3_EVALUATION_URI": self.conf.estimator.s3_evaluation_uri
+
             },                                                                
         )
         self.estimator.fit(wait=True) # Wait for the pipeline. No need for inputs since data doesn't come from S3.
@@ -87,12 +98,12 @@ class TrainingPipeline(metaflow.FlowSpec):
         
         self.next(self.end)
 
-    @metaflow.step
-    def human_evaluation(self):
-        """Conditional step.
-        Push predictions of the trained model to Argilla.
-        """
-        pass
+    # @metaflow.step
+    # def human_evaluation(self):
+    #     """Conditional step.
+    #     Push predictions of the trained model to Argilla.
+    #     """
+    #     pass
 
 
     @metaflow.step
