@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 import argilla as rg
 import pandas as pd
+import datasets
 
 from spellcheck.utils import show_diff, load_jsonl
 
@@ -46,14 +47,20 @@ class ArgillaModule(ABC):
 
     @classmethod
     @abstractmethod
-    def from_jsonl(path: Path) -> None:
+    def from_jsonl(cls, path: Path) -> None:
         """Load the data from a JSONL file."""
         raise NotImplementedError
     
     @classmethod
     @abstractmethod
-    def from_parquet(path: Path) -> None:
+    def from_parquet(cls, path: Path) -> None:
         """Load the data from a parquet file."""
+        raise NotImplementedError
+    
+    @classmethod
+    @abstractmethod
+    def from_s3(cls, uri) -> None:
+        """Load from an S3 uri. The S3 uri needs to lead to a HF dataset folder."""
         raise NotImplementedError
 
 
@@ -151,6 +158,18 @@ class BenchmarkEvaluationArgilla(ArgillaModule):
     def from_parquet(path: Path) -> None:
         raise NotImplementedError
     
+    @classmethod
+    def from_s3(cls, uri: str) -> None:
+        if os.path.splitext(uri)[-1]:
+            raise ValueError("The S3 uri should be directed to a Hugging Face Dataset folder.")
+        dataset = datasets.load_from_disk(uri)
+        return cls(
+            dataset["original"],
+            dataset["reference"],
+            dataset["prediction"],
+            [{"lang": lang} for lang in dataset["lang"]]
+        )
+    
     @property
     def highlighted_references(self) -> Iterable[str]:
         """Highlight references.
@@ -162,7 +181,7 @@ class BenchmarkEvaluationArgilla(ArgillaModule):
         """Highlight predictions.
         """
         return [show_diff(reference, prediction, color="red") for reference, prediction in zip(self.references, self.predictions)]
-
+    
 
 class IngredientsCompleteEvaluationArgilla(ArgillaModule):
     """Prepare Ingredients-Complete dataset for False Positives verification.
@@ -252,7 +271,11 @@ class IngredientsCompleteEvaluationArgilla(ArgillaModule):
     
     @classmethod
     def from_parquet(path: Path) -> None:
-        raise NotImplementedError 
+        raise NotImplementedError
+    
+    @classmethod
+    def from_s3(path: Path) -> None:
+        raise NotImplementedError
 
     @property
     def highlighted_predictions(self):
@@ -348,6 +371,10 @@ class BenchmarkArgilla(ArgillaModule):
     @classmethod
     def from_jsonl(path: Path) -> None:
         raise NotImplementedError
+    
+    @classmethod
+    def from_s3(path: Path) -> None:
+        raise NotImplementedError
 
 
 class TrainingDataArgilla(ArgillaModule):
@@ -428,4 +455,8 @@ class TrainingDataArgilla(ArgillaModule):
     
     @classmethod
     def from_parquet(path: Path) -> None:
+        raise NotImplementedError
+    
+    @classmethod
+    def from_s3(path: Path) -> None:
         raise NotImplementedError

@@ -34,6 +34,9 @@ SM_JOB_NAME = SM_TRAINING_ENV["job_name"]
 # Where the model artifact is stored 
 S3_MODEL_URI = os.getenv("S3_MODEL_URI")
 
+# Tags. JSON Serialized as a string because List is not serializable 
+EXPERIMENT_TAGS = os.getenv("EXPERIMENT_TAGS").split(",")
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -218,27 +221,27 @@ class FlanT5Training:
         predictions, _, _ = trainer.predict(preprocessed_evaluation_dataset)
         preds = tokenizer.batch_decode(predictions, skip_special_tokens=True)
         prediction_dataset = evaluation_dataset.add_column(name="prediction", column=preds)
-        s3_evaluation_path = os.path.join(os.getenv("S3_EVALUATION_URI"), "evaluation_" + SM_JOB_NAME)
-        LOGGER.info(f"S3 URI where predictions on evaluation are sent: {s3_evaluation_path}")
+        s3_evaluation_path = os.path.join(os.getenv("S3_EVALUATION_URI"), "evaluation-" + SM_JOB_NAME)
+        LOGGER.info(f"S3 URI where predictions on evaluation are sent to: {s3_evaluation_path}")
         prediction_dataset.save_to_disk(s3_evaluation_path)
 
         # Finish Experiment tracking logging
         LOGGER.info("Start logging additional info into the experiment tracker.")
+
         # This process is required since the a bug with CometML shuts down connection to the experiment run
         experiment = comet_ml.get_global_experiment()
         LOGGER.info(f"Experiment name after Transformers trainer: {experiment.get_name()}")
         experiment = comet_ml.ExistingExperiment(experiment_key=experiment.get_key())
         
         # Experiment tags
-        tags = os.getenv("EXPERIMENT_TAGS")
-        LOGGER.info(f"Log tags: {tags}")
-        experiment.add_tags(tags)
+        LOGGER.info(f"Log tags: {EXPERIMENT_TAGS}")
+        experiment.add_tags(EXPERIMENT_TAGS)
 
         # Log remote model artifact from s3
         model_uri = os.path.join(S3_MODEL_URI, SM_JOB_NAME, "output/model.tar.gz")
         LOGGER.info(f"Training job uri: {model_uri}")
         experiment.log_remote_model(
-            "Flan-T5-Small-Spellcheck", 
+            "flan-t5-small-spellcheck", 
             model_uri, 
             sync_mode=False
         )
@@ -248,6 +251,10 @@ class FlanT5Training:
             "training_dataset_length": len(train_dataset),
             "evaluation_dataset_length": len(evaluation_dataset),
         })
+
+        # Log Metaflow run id
+        if metaflow_run_id := os.getenv("METAFLOW_RUN_ID"):
+            experiment.log_parameter("metaflow_run_id", metaflow_run_id)
         
         LOGGER.info("Training job finished.")
 

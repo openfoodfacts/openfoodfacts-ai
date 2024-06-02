@@ -1,4 +1,5 @@
 estimator:
+  model: "flan-t5-small"
   entry_point: "flan-t5.py"
   source_dir: "scripts/training/flan-t5"
   dependencies: 
@@ -13,6 +14,7 @@ estimator:
   py_version: "py39"                                  # the python version used in the training job
   comet_ml_tags: 
     - "flan-t5-small"
+    - "test"
   s3_evaluation_uri: "s3://open-food-facts-robotoff/spellcheck/evaluation_output/"
 
 hyperparameters:
