@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from typing import Iterable, Dict
 from pathlib import Path
 from dotenv import load_dotenv
+from tqdm import tqdm
 
 import argilla as rg
 import pandas as pd
@@ -406,7 +407,7 @@ class TrainingDataArgilla(ArgillaModule):
                 rg.TextField(name="original", title="Original", use_markdown=True),
             ],
             questions=[
-                rg.TextQuestion(name="reference", title="Correct the prediction."),
+                rg.TextQuestion(name="reference", title="Correct the prediction.", use_markdown=True),
                 rg.LabelQuestion(
                     name="is_truncated",
                     title="Is the list of ingredients truncated?",
@@ -422,7 +423,11 @@ class TrainingDataArgilla(ArgillaModule):
     
     def _prepare_records(self) -> Iterable[rg.FeedbackRecord]:
         records = []
-        for original, metadata in zip(self.originals, self.metadata):
+        for original, highlighted_reference, metadata in zip(
+            self.originals, 
+            self.highlighted_references, 
+            self.metadata
+        ):
             record = rg.FeedbackRecord(
                 fields={
                     "original": original,
@@ -430,7 +435,7 @@ class TrainingDataArgilla(ArgillaModule):
                 suggestions=[
                     rg.SuggestionSchema(
                         question_name="reference",
-                        value=self.highlighted_references
+                        value=highlighted_reference
                     )
                 ],
                 metadata={
@@ -442,7 +447,7 @@ class TrainingDataArgilla(ArgillaModule):
     
     @property
     def highlighted_references(self):
-        return [show_diff(original, reference) for original, reference in zip(self.originals, self.references)]
+        return [show_diff(original, reference) for original, reference in tqdm(zip(self.originals, self.references))]
 
     @classmethod
     def from_jsonl(cls, path: Path):
@@ -460,3 +465,18 @@ class TrainingDataArgilla(ArgillaModule):
     @classmethod
     def from_s3(path: Path) -> None:
         raise NotImplementedError
+    
+    @classmethod
+    def from_dataset(
+        cls, 
+        hf_repo: str, 
+        split: str = "train",
+        original_feature: str = "original",
+        reference_feature: str = "reference",
+    ) -> None:
+        dataset = datasets.load_dataset(hf_repo, split=split)
+        return cls(
+            originals=dataset[original_feature],
+            references=dataset[reference_feature],
+            metadata=[{"lang": lang} for lang in dataset["lang"]]
+        )
