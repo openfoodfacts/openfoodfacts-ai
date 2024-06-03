@@ -72,8 +72,10 @@ class TrainingPipeline(metaflow.FlowSpec):
         # Log Sagemaker training information into metaflow
         self.sagemaker_training_job_id = estimator.latest_training_job.job_name
         self.model_artifact_uri = self.conf.estimator.output_path + self.sagemaker_training_job_id
-        self.evaluation_uri = self.conf.estimator.s3_evaluation_uri + self.sagemaker_training_job_id
-        
+        self.evaluation_uri = os.path.join(
+            self.conf.estimator.s3_evaluation_uri,
+            "evaluation-" + self.sagemaker_training_job_id
+        )
         self.next(self.human_evaluation)
 
     @metaflow.step

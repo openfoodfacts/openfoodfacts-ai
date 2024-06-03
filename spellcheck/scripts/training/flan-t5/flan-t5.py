@@ -55,6 +55,7 @@ def parse_args():
     parser.add_argument("--seed", type=int, default=42, help="Seed.")
     parser.add_argument("--warmup_steps", type=int, default=0, help="Number of steps used for a linear warmup from 0 to `learning_rate`")
     parser.add_argument("--warmup_ratio", type=int, default=0, help="Warm-up ratio.")
+    parser.add_argument("--weight_decay", type=float, default=0, help="Weight decay to prevent overfitting")
     parser.add_argument("--fp16", type=strtobool, default=False, help="Whether to use bf16.")
     parser.add_argument("--generation_max_tokens", type=int, default=512, help="Max tokens used for text generation in the Trainer module.")
     
@@ -194,6 +195,7 @@ class FlanT5Training:
             num_train_epochs                    = args.num_train_epochs,
             warmup_steps                        = args.warmup_steps,
             warmup_ratio                        = args.warmup_ratio,
+            weight_decay                        = args.weight_decay,
             #Logging & evaluation strategies
             logging_dir                         = f"{args.output_dir}/logs",
             logging_strategy                    = "steps",
