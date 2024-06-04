@@ -1,20 +1,20 @@
 estimator:
-  model: "flan-t5-small"
+  model: "mt5-small"
   entry_point: "flan-t5.py"
   source_dir: "scripts/training/flan-t5"
   dependencies: 
     - "src/"
   output_path: "s3://open-food-facts-robotoff/spellcheck/model-training/"
   code_location: "s3://open-food-facts-robotoff/spellcheck/model-training/"
-  base_job_name: "flan-t5-training"
+  base_job_name: "mt5-small"
   instance_count: 1
   instance_type: "ml.g5.xlarge"
   transformers_version: "4.26"                         # the transformers version used in the training job
   pytorch_version: "1.13"                            # the pytorch_version version used in the training job
   py_version: "py39"                                  # the python version used in the training job
   comet_ml_tags: 
-    - "flan-t5-small"
-    - "test"
+    - "mt5-small"
+    # - "test"
   s3_evaluation_uri: "s3://open-food-facts-robotoff/spellcheck/evaluation_output/"
 
 hyperparameters:
@@ -22,14 +22,15 @@ hyperparameters:
   evaluation_data: "openfoodfacts/spellcheck-benchmark"
   training_data_version: v2
   evaluation_data_version: v5
-  pretrained_model_name: "google/flan-t5-small" 
+  pretrained_model_name: "google/mt5-small" 
   num_train_epochs: 3
-  per_device_train_batch_size: 16
+  per_device_train_batch_size: 8
   per_device_eval_batch_size: 8
   lr: 0.0003                                       # Paper https://arxiv.org/pdf/2210.11416
   warmup_steps: 0
   warmup_ratio: 0
   weight_decay: 0.01
+  gradient_checkpointing: True
   fp16: false
   seed: 42
   generation_max_length: 512

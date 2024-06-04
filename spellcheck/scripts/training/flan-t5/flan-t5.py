@@ -56,6 +56,7 @@ def parse_args():
     parser.add_argument("--warmup_steps", type=int, default=0, help="Number of steps used for a linear warmup from 0 to `learning_rate`")
     parser.add_argument("--warmup_ratio", type=int, default=0, help="Warm-up ratio.")
     parser.add_argument("--weight_decay", type=float, default=0, help="Weight decay to prevent overfitting")
+    parser.add_argument("--gradient_checkpointing", type=strtobool, default=False, help="To reduce GPU memory footprint during training")
     parser.add_argument("--fp16", type=strtobool, default=False, help="Whether to use bf16.")
     parser.add_argument("--generation_max_tokens", type=int, default=512, help="Max tokens used for text generation in the Trainer module.")
     
@@ -153,11 +154,11 @@ class FlanT5Training:
 
             # Need to convert -100 tokens back to pad_token
             ref_tokens = np.where(ref_tokens != -100, ref_tokens, tokenizer.pad_token_id)
-            pred_tokens = np.where(pred_tokens != -100, pred_tokens, tokenizer.pad_token_id)
             
             # Transform back in texts
             predictions = tokenizer.batch_decode(pred_tokens, skip_special_tokens=True)
             references = tokenizer.batch_decode(ref_tokens, skip_special_tokens=True)
+            LOGGER.info(f"First prediction element: {predictions[0]}\nFirst reference element: {references[0]}")
 
             # Custom evaluation
             metrics = evaluator.evaluate(predictions=predictions, references=references)
@@ -196,6 +197,7 @@ class FlanT5Training:
             warmup_steps                        = args.warmup_steps,
             warmup_ratio                        = args.warmup_ratio,
             weight_decay                        = args.weight_decay,
+            gradient_checkpointing              = args.gradient_checkpointing,
             #Logging & evaluation strategies
             logging_dir                         = f"{args.output_dir}/logs",
             logging_strategy                    = "steps",
