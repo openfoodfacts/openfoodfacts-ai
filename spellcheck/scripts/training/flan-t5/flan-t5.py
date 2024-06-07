@@ -54,12 +54,16 @@ def parse_args():
     parser.add_argument("--lr", type=float, default=5e-5, help="Learning rate.")
     parser.add_argument("--seed", type=int, default=42, help="Seed.")
     parser.add_argument("--warmup_steps", type=int, default=0, help="Number of steps used for a linear warmup from 0 to `learning_rate`")
-    parser.add_argument("--warmup_ratio", type=int, default=0, help="Warm-up ratio.")
+    parser.add_argument("--warmup_ratio", type=float, default=0, help="Warm-up ratio.")
     parser.add_argument("--weight_decay", type=float, default=0, help="Weight decay to prevent overfitting")
     parser.add_argument("--gradient_checkpointing", type=strtobool, default=False, help="To reduce GPU memory footprint during training")
     parser.add_argument("--fp16", type=strtobool, default=False, help="Whether to use bf16.")
     parser.add_argument("--generation_max_tokens", type=int, default=512, help="Max tokens used for text generation in the Trainer module.")
-    
+    parser.add_argument("--optim", type=str, default="adamw_torch", help="Optimizer.")
+    parser.add_argument("--lr_scheduler_type", type=str, default="linear", help="Learning scheduler type.")
+    parser.add_argument("--gradient_accumulation_steps", type=int, default=0, help="Accumulate bacthes before back propagation.")
+    parser.add_argument("--instruction", type=str, default="", help="Flan-T5 instruction.")
+
     # Versions
     parser.add_argument("--training_data_version", type=str, help="Training dataset version.")
     parser.add_argument("--evaluation_data_version", type=str, help="Evaluation dataset version.")
@@ -90,7 +94,6 @@ class FlanT5Training:
     """
 
     padding = "max_length"                               # Padding configuration. "max_length" means the moodel maxm length
-    instruction = "Correct the list of ingredients: "    # Flan-T5 was pretrained using an instruction. We reuse the same
 
     def train(self, args):
         """Training.
@@ -107,6 +110,9 @@ class FlanT5Training:
         evaluation_dataset = load_dataset(path=args.evaluation_data, split="train")
         LOGGER.info(f"Training dataset: {train_dataset}")
         LOGGER.info(f"Evaluation dataset: {evaluation_dataset}")
+        
+        # Add instruction for Flan-T5
+        self.instruction = args.instruction
 
         # Prepare datasets for training
         preprocessed_train_dataset = train_dataset.map(
@@ -184,6 +190,10 @@ class FlanT5Training:
             pad_to_multiple_of=8
         )
 
+        # Gradient checkpointing
+        if args.gradient_checkpointing:
+            model.use_cache = False
+        
         # Training
         training_args = Seq2SeqTrainingArguments(
             output_dir                          = args.output_dir,                     # Model checkpoints directory
@@ -198,16 +208,19 @@ class FlanT5Training:
             warmup_ratio                        = args.warmup_ratio,
             weight_decay                        = args.weight_decay,
             gradient_checkpointing              = args.gradient_checkpointing,
+            optim                               = args.optim,                          # AdamW or AdaFactor        
+            lr_scheduler_type                   = args.lr_scheduler_type,
+            gradient_accumulation_steps         = args.gradient_accumulation_steps,           
             #Logging & evaluation strategies
             logging_dir                         = f"{args.output_dir}/logs",
             logging_strategy                    = "steps",
-            logging_steps                       = 500,
+            logging_steps                       = 100,
             evaluation_strategy                 = "epoch",
             save_strategy                       = "epoch",
             save_total_limit                    = 2,                                   # Number checkpoints saved at the same
             load_best_model_at_end              = True,
             # metric_for_best_model               = "f1_beta",                           # Metric used to select the best model.
-            report_to="comet_ml"
+            report_to="comet_ml",
         )
         trainer = Seq2SeqTrainer(
             model           = model,
