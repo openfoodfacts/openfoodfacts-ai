@@ -1,4 +1,5 @@
 import copy
+import math
 import os
 from collections import Counter
 
@@ -71,6 +72,7 @@ def process_annotation_deleted(project: Project, annotation: dict) -> dict:
 
 def process_annotation_created_or_updated(project: Project, annotation: dict) -> dict:
     task_id = annotation["task"]
+    print(f"Processing annotation (created/updated) for task {task_id}")
     task = project.get_tasks(selected_ids=[task_id])[0]
     task_data = task["data"]
     task_data["checked"] = compute_checked_flag(annotation)
@@ -138,6 +140,33 @@ def check_for_warnings(annotation: dict) -> str:
     return "ok"
 
 
+def is_bounding_box_modified(word_annotation: dict, word_prediction: dict):
+    if word_annotation.keys() != word_prediction.keys():
+        print(
+            "Keys are different: %s / %s"
+            % (word_annotation.keys(), word_prediction.keys())
+        )
+        return True
+
+    for key in word_annotation.keys():
+        if key == "value":
+            for subkey in word_annotation[key].keys():
+                if isinstance(
+                    word_annotation[key][subkey], (float, int)
+                ) and isinstance(word_prediction[key][subkey], (float, int)):
+                    if not math.isclose(
+                        word_annotation[key][subkey], word_prediction[key][subkey]
+                    ):
+                        return True
+                elif word_annotation[key][subkey] != word_prediction[key][subkey]:
+                    return True
+        else:
+            if word_annotation[key] != word_prediction[key]:
+                return True
+
+    return False
+
+
 def check_bounding_boxes_unmodified(annotation: dict, prediction: dict) -> str | None:
     prediction_results = prediction["result"]
     annotation_results = copy.deepcopy(
@@ -166,7 +195,8 @@ def check_bounding_boxes_unmodified(annotation: dict, prediction: dict) -> str |
         return error_message
 
     diff_count = sum(
-        int(p != a) for p, a in zip(prediction_results, annotation_results)
+        int(is_bounding_box_modified(a, p))
+        for p, a in zip(prediction_results, annotation_results)
     )
     if diff_count:
         error_message = f"some prediction bounding boxes are different from annotation bounding boxes (diff: {diff_count} / {len(annotation_results)})"
@@ -174,7 +204,7 @@ def check_bounding_boxes_unmodified(annotation: dict, prediction: dict) -> str |
 
         if diff_count <= 5:
             for p, a in zip(prediction_results, annotation_results):
-                if p != a:
+                if is_bounding_box_modified(a, p):
                     print(f"Prediction: {p}")
                     print(f"Annotation: {a}")
                     print("---" * 10)
