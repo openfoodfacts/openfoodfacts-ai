@@ -28,9 +28,11 @@ import sys
 from dataclasses import dataclass, field
 from typing import Optional
 
+import datasets
 import numpy as np
 import transformers
 from codecarbon import EmissionsTracker
+from datasets import ClassLabel, load_dataset, load_metric
 from transformers import (
     AutoConfig,
     AutoModelForTokenClassification,
@@ -47,9 +49,6 @@ from transformers.data.data_collator import default_data_collator
 from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version
 from transformers.utils.versions import require_version
-
-import datasets
-from datasets import ClassLabel, load_dataset, load_metric
 
 # Will error if the minimal version of Transformers is not installed. Remove
 # at your own risks.
@@ -374,9 +373,11 @@ def main():
     # The .from_pretrained methods guarantee that only one local process can
     # concurrently download model & vocab.
     config = AutoConfig.from_pretrained(
-        model_args.config_name
-        if model_args.config_name
-        else model_args.model_name_or_path,
+        (
+            model_args.config_name
+            if model_args.config_name
+            else model_args.model_name_or_path
+        ),
         num_labels=num_labels,
         finetuning_task=data_args.task_name,
         cache_dir=model_args.cache_dir,
@@ -399,9 +400,11 @@ def main():
         )
     else:
         processor = AutoProcessor.from_pretrained(
-            model_args.processor_name
-            if model_args.processor_name
-            else model_args.model_name_or_path,
+            (
+                model_args.processor_name
+                if model_args.processor_name
+                else model_args.model_name_or_path
+            ),
             cache_dir=model_args.cache_dir,
             use_fast=True,
             revision=model_args.model_revision,
@@ -615,9 +618,9 @@ def main():
         kwargs["dataset_tags"] = data_args.dataset_name
         if data_args.dataset_config_name is not None:
             kwargs["dataset_args"] = data_args.dataset_config_name
-            kwargs[
-                "dataset"
-            ] = f"{data_args.dataset_name} {data_args.dataset_config_name}"
+            kwargs["dataset"] = (
+                f"{data_args.dataset_name} {data_args.dataset_config_name}"
+            )
         else:
             kwargs["dataset"] = data_args.dataset_name
 
