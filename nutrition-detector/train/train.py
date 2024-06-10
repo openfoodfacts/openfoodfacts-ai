@@ -14,14 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Fine-tuning LayoutLMv3 for token classification on FUNSD or CORD, or Open Food
-Facts ingredients extraction.
-
-Adapted from
-https://github.com/huggingface/transformers/blob/main/examples/research_projects/layoutlmv3/run_funsd_cord.py
+Fine-tuning LayoutLMv3 for token classification on FUNSD or CORD.
 """
+# You can also adapt this script on your own token classification task and datasets. Pointers for this are left as
+# comments.
 
-import functools
 import logging
 import os
 import sys
@@ -29,18 +26,15 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 import datasets
+import evaluate
 import numpy as np
 import transformers
-from codecarbon import EmissionsTracker
-from datasets import ClassLabel, load_dataset, load_metric
+from datasets import ClassLabel, load_dataset
 from transformers import (
     AutoConfig,
     AutoModelForTokenClassification,
     AutoProcessor,
     HfArgumentParser,
-    LayoutLMv2ImageProcessor,
-    LayoutXLMProcessor,
-    LayoutXLMTokenizerFast,
     Trainer,
     TrainingArguments,
     set_seed,
@@ -99,20 +93,28 @@ class ModelArguments:
             "help": "The specific model version to use (can be a branch name, tag name or commit id)."
         },
     )
+    use_auth_token: bool = field(
+        default=False,
+        metadata={
+            "help": (
+                "Will use the token generated when running `huggingface-cli login` (necessary to use this script "
+                "with private models)."
+            )
+        },
+    )
 
 
 @dataclass
 class DataTrainingArguments:
     """
-    Arguments pertaining to what data we are going to input our model for
-    training and eval.
+    Arguments pertaining to what data we are going to input our model for training and eval.
     """
 
     task_name: Optional[str] = field(
         default="ner", metadata={"help": "The name of the task (ner, pos...)."}
     )
     dataset_name: Optional[str] = field(
-        default="ingredient-extraction",
+        default="openfoodfacts/nutrient-detection-layout",
         metadata={"help": "The name of the dataset to use (via the datasets library)."},
     )
     dataset_config_name: Optional[str] = field(
@@ -299,31 +301,16 @@ def main():
     # Get the datasets
     # In distributed training, the load_dataset function guarantee that only
     # one local process can concurrently download the dataset.
-    if data_args.dataset_name == "funsd":
-        # Downloading and loading a dataset from the hub.
-        dataset = load_dataset(
-            "nielsr/funsd-layoutlmv3",
-            data_args.dataset_config_name,
-            cache_dir=model_args.cache_dir,
-        )
-    elif data_args.dataset_name == "cord":
-        # Downloading and loading a dataset from the hub.
-        dataset = load_dataset(
-            "nielsr/cord-layoutlmv3",
-            data_args.dataset_config_name,
-            cache_dir=model_args.cache_dir,
-        )
-    elif data_args.dataset_name == "ingredient-extraction":
-        # Downloading and loading a dataset from the hub.
-        dataset = load_dataset(
-            "raphael0202/ingredient-detection-layout-dataset",
-            data_args.dataset_config_name,
-            cache_dir=model_args.cache_dir,
-        )
-    else:
-        raise ValueError(
-            "This script only supports either FUNSD or CORD out-of-the-box."
-        )
+    logger.info(
+        "Trying to load the dataset from the datasets Hub, %s",
+        data_args.dataset_name,
+    )
+    dataset = load_dataset(
+        data_args.dataset_name,
+        data_args.dataset_config_name,
+        cache_dir=model_args.cache_dir,
+        token=True if model_args.use_auth_token else None,
+    )
 
     if training_args.do_train:
         column_names = dataset["train"].column_names
@@ -343,8 +330,8 @@ def main():
 
     remove_columns = column_names
 
-    # In the event the labels are not a `Sequence[ClassLabel]`, we will need
-    # to go through the dataset to get the unique labels.
+    # In the event the labels are not a `Sequence[ClassLabel]`, we will need to go through the dataset to get the
+    # unique labels.
     def get_label_list(labels):
         unique_labels = set()
         for label in labels:
@@ -353,8 +340,7 @@ def main():
         label_list.sort()
         return label_list
 
-    # If the labels are of type ClassLabel, they are already integers and we
-    # have the map stored somewhere.
+    # If the labels are of type ClassLabel, they are already integers and we have the map stored somewhere.
     # Otherwise, we have to get the list of labels manually.
     if isinstance(features[label_column_name].feature, ClassLabel):
         label_list = features[label_column_name].feature.names
@@ -362,7 +348,7 @@ def main():
         id2label = dict(enumerate(label_list))
         label2id = {v: k for k, v in enumerate(label_list)}
     else:
-        label_list = get_label_list(dataset["train"][label_column_name])
+        label_list = get_label_list(datasets["train"][label_column_name])
         id2label = dict(enumerate(label_list))
         label2id = {v: k for k, v in enumerate(label_list)}
     num_labels = len(label_list)
@@ -382,35 +368,22 @@ def main():
         finetuning_task=data_args.task_name,
         cache_dir=model_args.cache_dir,
         revision=model_args.model_revision,
+        token=True if model_args.use_auth_token else None,
     )
 
-    if model_args.model_name_or_path and model_args.model_name_or_path.startswith(
-        "microsoft/layoutxlm-"
-    ):
-        # The wrong tokenizer is loaded by default when using LayoutXLM, so we
-        # have to load it manually
-        tokenizer = LayoutXLMTokenizerFast.from_pretrained(
-            model_args.model_name_or_path
-        )
-        image_processor = LayoutLMv2ImageProcessor.from_pretrained(
-            model_args.model_name_or_path, apply_ocr=False
-        )
-        processor = LayoutXLMProcessor(
-            image_processor=image_processor, tokenizer=tokenizer
-        )
-    else:
-        processor = AutoProcessor.from_pretrained(
-            (
-                model_args.processor_name
-                if model_args.processor_name
-                else model_args.model_name_or_path
-            ),
-            cache_dir=model_args.cache_dir,
-            use_fast=True,
-            revision=model_args.model_revision,
-            add_prefix_space=True,
-            apply_ocr=False,
-        )
+    processor = AutoProcessor.from_pretrained(
+        (
+            model_args.processor_name
+            if model_args.processor_name
+            else model_args.model_name_or_path
+        ),
+        cache_dir=model_args.cache_dir,
+        use_fast=True,
+        revision=model_args.model_revision,
+        token=True if model_args.use_auth_token else None,
+        add_prefix_space=True,
+        apply_ocr=False,
+    )
 
     model = AutoModelForTokenClassification.from_pretrained(
         model_args.model_name_or_path,
@@ -418,16 +391,17 @@ def main():
         config=config,
         cache_dir=model_args.cache_dir,
         revision=model_args.model_revision,
+        token=True if model_args.use_auth_token else None,
     )
 
     # Set the correspondences label/ID inside the model config
     model.config.label2id = label2id
     model.config.id2label = id2label
 
-    # Preprocessing the dataset The processor does everything for us (prepare
-    # the image using LayoutLMv3ImageProcessor and prepare the words, boxes and
-    # word-level labels using LayoutLMv3TokenizerFast)
-    def prepare_examples(examples, label2id):
+    # Preprocessing the dataset
+    # The processor does everything for us (prepare the image using LayoutLMv3ImageProcessor
+    # and prepare the words, boxes and word-level labels using LayoutLMv3TokenizerFast)
+    def prepare_examples(examples):
         images = examples[image_column_name]
         words = examples[text_column_name]
         boxes = examples[boxes_column_name]
@@ -453,7 +427,7 @@ def main():
             train_dataset = train_dataset.select(range(data_args.max_train_samples))
         with training_args.main_process_first(desc="train dataset map pre-processing"):
             train_dataset = train_dataset.map(
-                functools.partial(prepare_examples, label2id=label2id),
+                prepare_examples,
                 batched=True,
                 remove_columns=remove_columns,
                 num_proc=data_args.preprocessing_num_workers,
@@ -471,7 +445,7 @@ def main():
             desc="validation dataset map pre-processing"
         ):
             eval_dataset = eval_dataset.map(
-                functools.partial(prepare_examples, label2id=label2id),
+                prepare_examples,
                 batched=True,
                 remove_columns=remove_columns,
                 num_proc=data_args.preprocessing_num_workers,
@@ -499,7 +473,7 @@ def main():
             )
 
     # Metrics
-    metric = load_metric("seqeval")
+    metric = evaluate.load("seqeval")
 
     def compute_metrics(p):
         predictions, labels = p
@@ -636,5 +610,4 @@ def _mp_fn(index):
 
 
 if __name__ == "__main__":
-    with EmissionsTracker(save_to_file=False) as tracker:
-        main()
+    main()
