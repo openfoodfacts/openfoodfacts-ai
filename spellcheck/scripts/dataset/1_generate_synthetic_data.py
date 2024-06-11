@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from typing import List
+from dotenv import load_dotenv
 
 import pandas as pd
 
@@ -10,9 +11,11 @@ from spellcheck.model import OpenAIChatCompletion
 from spellcheck.utils import get_logger, get_repo_dir
 
 
+load_dotenv()
+
 REPO_DIR = get_repo_dir()
-DATA_PATH = REPO_DIR / "data/dataset/0_extracted_lists_of_ingredients.parquet"
-SYNTHETIC_DATA_PATH = REPO_DIR / "data/dataset/1_synthetic_data_1.jsonl"
+DATA_PATH = REPO_DIR / "data/dataset/0bis_appended_dataset.parquet"
+SYNTHETIC_DATA_PATH = REPO_DIR / "data/dataset/1_synthetic_data.jsonl"
 
 MODEL_NAME = "gpt-3.5-turbo"
 
@@ -70,8 +73,8 @@ def generate_synthetic_data(
     """
     with open(output_data_path, "a") as file:
         for _, row in df.iterrows():
-            if row["code"] in existing_codes:
-                LOGGER.info("Product was already generated. Pass")
+            if int(row["code"]) in existing_codes:
+                LOGGER.info("Product was already generated. Pass.")
             else:
                 row[synthetic_feature] = spellcheck.correct(row[original_text_feature])
                 json.dump(row.to_dict(), file, ensure_ascii=False) # Ensure ascii for accents

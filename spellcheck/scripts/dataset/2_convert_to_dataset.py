@@ -9,7 +9,7 @@ REPO_DIR = get_repo_dir()
 DATA_PATH = REPO_DIR / "data/dataset/1_synthetic_data.jsonl"
 
 HF_REPO = "openfoodfacts/spellcheck-dataset"
-COMMIT_MESSAGE = "Dataset-v2"
+COMMIT_MESSAGE = "Dataset v3"
 
 
 def main():
@@ -21,10 +21,10 @@ def main():
         Dataset.from_list(data)
         .remove_columns(["ingredients_n", "unknown_ingredients_n", "fraction"])
         .rename_columns({"ingredients_text": "text", "corrected_text": "label"})
-    )
+    ).train_test_split(test_size=0.1, seed=42)
     dataset.push_to_hub(
         repo_id=HF_REPO,
-        commit_message=COMMIT_MESSAGE
+        commit_message=COMMIT_MESSAGE,
     )
 
 

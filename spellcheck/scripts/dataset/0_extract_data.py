@@ -1,15 +1,17 @@
 from typing import List, Mapping, Tuple
 
 import polars as pl
+from datasets import load_dataset, Dataset
 
 from spellcheck.utils import get_repo_dir, get_logger, timer
 
 
 REPO_DIR = get_repo_dir()
 DATA_PATH = REPO_DIR / "data/database/openfoodfacts-products.jsonl"
-OUTPUT_DATA_PATH = REPO_DIR / "data/dataset/0_extracted_lists_of_ingredients.parquet"
+OUTPUT_DATA_PATH = REPO_DIR / "data/dataset/0bis_appended_dataset.parquet"
 
 BENCHMARK_PATH = REPO_DIR / "data/benchmark/verified_benchmark.parquet"
+HF_DATASET_ID = "openfoodfacts/spellcheck-dataset"
 
 FEATURE_NAMES = [
     "code",
@@ -35,8 +37,9 @@ def main():
     if not DATA_PATH.is_file():
         raise ValueError(f"Data path is not valid: {str(DATA_PATH)}")
     
-    # Load benchmark to remove duplicates
+    # Load benchmark and dataset to remove duplicates
     benchmark_df = pl.read_parquet(BENCHMARK_PATH)
+    previous_dataset = load_dataset(HF_DATASET_ID, split="train+test")
 
     lazy_df = pl.scan_ndjson(DATA_PATH, ignore_errors=True)
     df = extract_data(
@@ -46,7 +49,8 @@ def main():
         dataset_size=DATASET_SIZE,
         percentage_unknown_range=PERCENTAGE_UNKNOWN_RANGE,
         seed=SEED,
-        benchmark_df=benchmark_df
+        benchmark_df=benchmark_df,
+        previous_dataset=previous_dataset,
     )
     LOGGER.info(f"The extracted dataset contains {len(df)} rows.")
     df.write_parquet(OUTPUT_DATA_PATH)
@@ -59,7 +63,8 @@ def extract_data(
     dtype_output_mapping: Mapping,
     dataset_size: int,
     seed: int,
-    benchmark_df: pl.DataFrame
+    benchmark_df: pl.DataFrame,
+    previous_dataset: Dataset,
 ) -> pl.DataFrame:
     """Extracts products from the JSONL database based on their percentage unknown range.
 
@@ -75,6 +80,7 @@ def extract_data(
         dataset_size (int): Desired size of the output dataset.
         seed (int): Random seed . Default to 42.
         benchmark_df (pl.DataFrame): Existing benchmark to remove duplicates in the output dataset.
+        previous_dataset (Dataset): Previous dataset to append
 
     Returns:
         pl.DataFrame: Polars dataframe
@@ -87,6 +93,7 @@ def extract_data(
         .filter((pl.col("fraction") >= percentage_min) & (pl.col("fraction") <= percentage_max))
         .unique(subset=["ingredients_text",]) # Remove duplicates within the dataset
         .filter(~pl.col("ingredients_text").is_in(benchmark_df["original"])) # Remove duplicates with Benchmark
+        .filter(~pl.col("ingredients_text").is_in(previous_dataset["text"])) # Remove duplicates with previous dataset
         .collect(streaming=True)
         .sample(n=dataset_size, shuffle=True, seed=seed)
         .cast(dtype_output_mapping)
