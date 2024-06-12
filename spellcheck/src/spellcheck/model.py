@@ -1,11 +1,16 @@
 """Spellcheck models"""
+import os
 from abc import ABC, abstractmethod
 from typing import Literal
+from dotenv import load_dotenv
 
 from openai import OpenAI
 from anthropic import Client
 import vertexai
 from vertexai.generative_models import GenerativeModel
+
+
+load_dotenv()
 
 
 class BaseModel(ABC):
@@ -138,3 +143,36 @@ class GeminiModel(BaseModel):
         # Not OK such as "RECITATION", which means Google found out the text is copied from a web page
         else:
             return text
+
+
+class LLMInferenceEndpoint(BaseModel):
+    """Open-Source LLM deployed on Hugging Face Inference Endpoints."""
+
+    def __init__(
+            self, 
+            prompt_template: str, 
+            system_prompt: str,
+            temperature: int = 0, 
+            max_tokens: int = 512
+        ) -> None:
+        self.client = OpenAI(
+            base_url=os.getenv("HF_INFERENCE_ENDPOINT_URL") + "/v1/",
+            api_key=os.getenv("HF_TOKEN")
+        ) # With TGI, we can use the existing OpenAI API to run our LLM
+        self.prompt_template = prompt_template
+        self.system_prompt = system_prompt
+        self.temperature = temperature
+        self.max_tokens = max_tokens
+
+    def generate(self, text: str) -> str:
+        message = self.client.chat.completions.create(
+            model="tgi",
+            messages=[
+                {"role": "user", "content": self.system_prompt + "\n\n" + self.prompt_template.format(text)},
+            ],
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+        )
+        return message.choices[0].message.content
+
+
