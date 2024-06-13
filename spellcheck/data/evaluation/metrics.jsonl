@@ -450,3 +450,19 @@
     "prompt_version": "v6",
     "benchmark_size": 151
 }
+{
+    "metrics": {
+        "correction_precision": 0.3810916179337232,
+        "correction_recall": 0.5006402048655569,
+        "precision": 0.48830409356725146,
+        "recall": 0.6414852752880922,
+        "f1": 0.5545102379634753,
+        "f1_beta": 0.5545102379634753,
+        "beta": 1.0
+    },
+    "model": "mistral-7b-instruct-v0.3",
+    "date": "13/06/2024 10:31:13",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 151
+}
