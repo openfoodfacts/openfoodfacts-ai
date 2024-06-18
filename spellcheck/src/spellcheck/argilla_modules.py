@@ -183,6 +183,23 @@ class BenchmarkEvaluationArgilla(ArgillaModule):
         """
         return [show_diff(reference, prediction, color="red") for reference, prediction in zip(self.references, self.predictions)]
     
+    @classmethod
+    def from_dataset(
+        cls, 
+        hf_repo: str, 
+        split: str = "train",
+        original_feature: str = "original",
+        reference_feature: str = "reference",
+        prediction_feature: str = "prediction"
+    ) -> None:
+        dataset = datasets.load_dataset(hf_repo, split=split)
+        return cls(
+            originals=dataset[original_feature],
+            references=dataset[reference_feature],
+            predictions=dataset[prediction_feature],
+            metadata=[{"lang": lang} for lang in dataset["lang"]]
+        )
+    
 
 class IngredientsCompleteEvaluationArgilla(ArgillaModule):
     """Prepare Ingredients-Complete dataset for False Positives verification.
