@@ -66,18 +66,22 @@ class SpellcheckEvaluator(Evaluator):
         references (List[str]): Batch of expected ingredients lists after correction
         encoding_name (str, optional): BPE tokenizer from the tiktoken library. Defaults to "cl100k_base".
         beta (float, optional): Coefficient for F1_beta metric. A coefficient of less than 1.0 gives more weight to the Recall, 
-    whereas a coefficient greater than 1.0 gives more weight to the Precision. 
+    whereas a coefficient greater than 1.0 gives more weight to the Precision.
+        drop_rate (foat, optional): Some predictions are (almost) empty, which means it would be irrelevant to compare them (alignment issue)
+    Therefore we drop to not bias the metrics. An additional metric is added to count them. 
     """
 
     def __init__(
         self,
         originals: Iterable[str],
         encoding_name: str = "cl100k_base",
-        beta: float = 1.0
+        beta: float = 1.0,
+        drop_rate: float = 0.4
     ) -> None:
         self.originals = originals
         self.encoder = tiktoken.get_encoding(encoding_name=encoding_name)
         self.beta = beta
+        self.drop_rate = drop_rate
 
     def evaluate(self, predictions: List[str], references: List[str]) -> Mapping:
         """Evaluate the performance of Spellcheck on correcting ingredient lists for ingredients extraction.
@@ -109,6 +113,7 @@ class SpellcheckEvaluator(Evaluator):
         false_positives = []
         false_negatives = []
         correction_true_positives = []
+        drop_count = 0
 
         # Batch
         for original, reference, prediction in tqdm(
@@ -121,6 +126,11 @@ class SpellcheckEvaluator(Evaluator):
             original_tokens = self.encoder.encode(original)
             reference_tokens = self.encoder.encode(reference)
             prediction_tokens = self.encoder.encode(prediction)
+
+            # Drop short or empty sequences to avoid alignment computation bias
+            if len(prediction_tokens) < self.drop_rate * len(reference_tokens):
+                drop_count += 1
+                pass
 
             # Align tokens to detect transformation, deletion or addition
             ref_pairs = self.sequence_alignment(original_tokens, reference_tokens)
@@ -177,6 +187,7 @@ class SpellcheckEvaluator(Evaluator):
             "f1": f1,
             "f1_beta": f1_beta,
             "beta": self.beta,
+            "drop_count": drop_count
         }
         LOGGER.info(f"Evaluation metrics: {results}")
         return results
