@@ -14,6 +14,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from transformers import DataCollatorForSeq2Seq
 from transformers import Seq2SeqTrainer, Seq2SeqTrainingArguments
 from datasets import load_dataset, disable_caching
+import numpy as np
 
 from spellcheck.evaluation.evaluator import SpellcheckEvaluator 
 
@@ -63,12 +64,12 @@ def parse_args():
     parser.add_argument("--generation_max_tokens", type=int, default=512, help="Max tokens used for text generation in the Trainer module.")
     parser.add_argument("--optim", type=str, default="adamw_torch", help="Optimizer.")
     parser.add_argument("--lr_scheduler_type", type=str, default="linear", help="Learning scheduler type.")
-    parser.add_argument("--gradient_accumulation_steps", type=int, default=0, help="Accumulate bacthes before back propagation.")
-    parser.add_argument("--instruction", type=str, default="Correct: ", help="Flan-T5 instruction.")
+    parser.add_argument("--gradient_accumulation_steps", type=int, default=1, help="Accumulate bacthes before back propagation.")
+    parser.add_argument("--instruction", type=str, default="none", help="Flan-T5 instruction.")
 
     # Versions
-    parser.add_argument("--training_data_version", type=str, help="Training dataset version.")
-    parser.add_argument("--evaluation_data_version", type=str, help="Evaluation dataset version.")
+    parser.add_argument("--training_data_version", type=str, default="v0", help="Training dataset version.")
+    parser.add_argument("--evaluation_data_version", type=str, default="v0", help="Evaluation dataset version.")
 
     # Evaluation
     parser.add_argument("--beta", type=float, default=1, help="Coefficient used in f1-beta score. beta < 1 favors Precision over Recall.")
@@ -173,6 +174,9 @@ class FlanT5Training:
             logging_strategy                    = "steps",
             logging_steps                       = 100,
             evaluation_strategy                 = "epoch",
+            save_strategy                       = "epoch",
+            save_total_limit                    = 1,
+            load_best_model_at_end              = True,
             # metric_for_best_model               = "f1_beta",                           # Metric used to select the best model.
             report_to="comet_ml",
         )
@@ -201,8 +205,10 @@ class FlanT5Training:
         # Run, evaluate and upload benchmark predictions to S3
         evaluator = SpellcheckEvaluator(originals=evaluation_dataset["original"], beta=args.beta)
         LOGGER.info("Start evaluating model on benchmark.")
-        preds, _, _ = trainer.predict(preprocessed_evaluation_dataset)
-        predictions = tokenizer.batch_decode(preds, skip_special_tokens=True)
+        preds, _, _ = trainer.predict(preprocessed_evaluation_dataset, repetiton_penalty=1.03)
+        predictions = np.where(preds != -100, preds, tokenizer.pad_token_id) # DataCollator pad tokens with -100 to match labels. See predict()
+        predictions = tokenizer.batch_decode(predictions, skip_special_tokens=True)
+        predictions = [prediction.strip() for prediction in predictions] # Remove and strip empty strings
         metrics = evaluator.evaluate(predictions=predictions, references=evaluation_dataset["reference"])
         LOGGER.info(f"Evaluation metrics: {metrics}")
         experiment.log_metrics(metrics)
@@ -211,24 +217,7 @@ class FlanT5Training:
         s3_evaluation_path = os.path.join(os.getenv("S3_EVALUATION_URI"), "evaluation-" + SM_JOB_NAME)
         LOGGER.info(f"S3 URI where predictions on evaluation are sent to: {s3_evaluation_path}")
         prediction_dataset.save_to_disk(s3_evaluation_path)
-
-
-        # Finish Experiment tracking logging
-        LOGGER.info("Start logging additional info into the experiment tracker.")
-
-        # This process is required since the a bug with CometML shuts down connection to the experiment run
-        experiment = comet_ml.get_global_experiment()
-        LOGGER.info(f"Experiment name after Transformers trainer: {experiment.get_name()}")
-        experiment = comet_ml.ExistingExperiment(experiment_key=experiment.get_key())
         
-        
-        # Finish Experiment tracking logging
-        LOGGER.info("Start logging additional info into the experiment tracker.")
-
-        # This process is required since the a bug with CometML shuts down connection to the experiment run
-        experiment = comet_ml.get_global_experiment()
-        LOGGER.info(f"Experiment name after Transformers trainer: {experiment.get_name()}")
-        experiment = comet_ml.ExistingExperiment(experiment_key=experiment.get_key())
         
         # Experiment tags
         LOGGER.info(f"Log tags: {EXPERIMENT_TAGS}")
@@ -273,6 +262,7 @@ class FlanT5Training:
         Returns:
             Mapping: Processed batch
         """
+        
         # add prefix to the input for t5
         inputs = [self.instruction + item for item in sample[input_name]]
         # tokenize inputs
