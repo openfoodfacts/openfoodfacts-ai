@@ -55,6 +55,7 @@
     <Choice alias="invalid-image" value="The image is blurry or has reflections that prevent reading the nutrition values"/>
     <Choice alias="unknown-serving-reference" value="It is not clear for how much product the nutrition information is computed"/>
     <Choice alias="ocr-error" value="Most of the nutrition values are wrongly extracted, or many bounding boxes are not well positioned"/>
+    <Choice alias="prepared-values" value="Some nutrition values are for prepared product"/>
   </Choices>
   <Header value="image URL: $image_url"/>
   <TextArea name="comment" toName="image" editable="true" required="false" placeholder="Write here an optional comment about the task" rows="5" maxSubmissions="1"/>

@@ -1,0 +1,5 @@
+typer==0.12.3
+label-studio-sdk==0.0.32
+openfoodfacts==0.3.0
+Pillow==10.3.0
+datasets==2.18.0
