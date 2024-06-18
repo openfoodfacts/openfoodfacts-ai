@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "spellcheck"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9,<3.10"
+openai = "^1.14.3"
+argilla = "^1.26.1"
+python-dotenv = "^1.0.1"
+datasets = "^2.18.0"
+transformers = {extras = ["torch"], version = "^4.39.3"}
+tiktoken = "^0.6.0"
+openfoodfacts = "^0.2.1"
+polars = "^0.20.28"
+evaluate = "^0.4.2"
+pydantic = "^2.7.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+duckdb = "^0.10.2"
+huggingface-hub = {extras = ["cli"], version = "^0.22.2"}
+google-cloud-aiplatform = "^1.51.0"
+anthropic = "^0.25.9"
+comet-ml = "^3.42.1"
+sagemaker = "^2.221.1"
+metaflow = "^2.12.0"
+omegaconf = "^2.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

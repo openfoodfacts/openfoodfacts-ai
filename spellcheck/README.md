@@ -1,226 +1,309 @@
-# SpellCheck
+# Spellcheck
 
-The Open Food Facts SpellCheck project aims to correct misspelled ingredients on product descriptions. Those errors mainly appear because of the use of the OCR.  
+## ⭐ Guidelines
 
-- [Install dependencies](#install-dependencies)
-- [Label data](#label-data)
-- [Tests](#tests)
-- [Models](#models)
-- [Performances](#performances)
+The influence of the Spellcheck on the list of ingredients needs to be controlled to avoid alterating contributions and/or add new errors. Therefore, we keep the modification to a minimum to favour Precision over Recall.
 
-# Install dependencies
+From the different types of errors observed across products, we came up with these spellcheck guidelines:
 
-This project runs using Python3.
-Create a virtualenv.
-```
-virtualenv -p /path/to/python3 .venv
-```
+* Correct typos;
+* Percentages
+    * Whitespaces between words and percentages shouldn't be corrected. The text needs to be kept as unchanged as possible.
+    (Example: `Ingredient 0,2   %`).
+    * If the percentage is ambiguous, we don't correct it. (*ex: "15 0%" - "396"*)
+    * The only case when a whitespace involving a percentage should be modified is if the *digit* is stuck in the previous word (*ex: cheese1.9% -> cheese 1.9%*)
+* Some ingredients are enclosed with `_`, such as `_milk_` or `_cacahuetes_`, to detect allergens. Should remain unchanged. However, in the case it is not an ingredient, such as `_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.`, it needs to be modified into `_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.`;
+* Some percentages were badly parsed by the OCR. Since we cannot be sure about what is the right value, it is preferable to keep it as it is.
+* We're ok with accents modified or not.
+* `*` should remain in the corrected text as much as possible (*ex: Schweinefleisch\* -> Schweinefleisch\**)
+* Whitespaces shouldn't been modified except for these cases:
+    * When two words are stuck to each other: *"rizbrun -> riz brun*
+* Regarding uppercases and lowercases, since the spellcheck should modify at least as possible lists of ingredient, we don't modify
+uppercases or lowercases except for two reasons:
+    * After a period: `orange.trace de...` ->  `orange. Trace de...`
+    * If it's a proper noun: `france`-> `France`
+* In French, the character `oe` or `œ` should remain unchanged after correction (*ex: œuf, bœuf). If it is missing, should be replaced by default by `œ`.
+* Commas and other word separators (, -, .) should be added to distinct ingredients. **We don't add a period** or modify the existing punctuation at the end of the list of ingredients.
+    * Example: *"citric acid electrolytes (salt, magnesium and calcium chlorides, mono-potassion phosphate)"* -> *"citric acid, electrolytes (salt, magnesium and calcium chlorides, mono-potassion phosphate)"*
+* If ":" is missing to, such as `conservateur nitrite de sodium`, we add it:  `conservateur: nitrite de sodium`
 
-Enter virtualenv.
-```
-source .venv/bin/activate
-```
+## ✅ Benchmark - Validation dataset
 
-Install requirements.
-```
-pip install -r requirements.txt
-```
+To improve the quality of the Spellcheck module, we decided to exploit the recent advancements with LLMs to train a task-specific Machine Learning model on OFF data. 
 
-### Vocabularies
+Creating this kind of solution requires rigorously building a benchmark/validation dataset to estimate the future models' performances. 
 
-The RegexModel uses vocabularies in order to make corrections (see **Models**). Vocabularies come from the [RobotOFF github repository](https://github.com/openfoodfacts/robotoff/tree/master/data/taxonomies). Please run download script to use them :
-```
-sh ./download_vocabulary.sh
-```
+Our idea is to use the existing dataset developed a few years ago, enhance it with new data, and then perform synthetic data generation using LLMs.
 
-# Label data
+### 🧵 Data lineage
 
-To label data, you must have a MongoDB running with the OFF database on it. By default, it will connect to localhost/port 27017 without any password. To change this behavior, edit the `mongo.py` file.  
-Once MongoDB is configured, run the following command :
-```
-streamlit run label.py
-```
-It will open a streamlit dashboard on the browser.
-
-# Tests
-
-## Run tests
-
-Command to run tests:
-```
-python test.py
-```
-For now, test is ran only on FR dataset for selected models. To configure which models to use, edit the `test.py` file.  
-
-Each time the script is ran, a folder is created under `experiment/model_name/datetime/`. It contains :
-- `original.txt` : the original descriptions sent to the model.
-- `correct.txt` : the correct descriptions (hand-labelled).
-- `prediction.txt` : the descriptions corrected by the model.
-- `tags.txt` : tags associated to each item. Can be ignored.
-- `metrics.json` : summary of the performances of the model.
-- `detailed_metrics.csv` : CSV containing metrics for each individual item.
-
-## Review predictions
-
-A CLI tool is available to review model predictions once the test pipeline has been run. It takes the path to the experiment folder and an item_id as input. It outputs :
-- the original, correct and predicted descriptions with normalization (lowercase, œu->oe,...)
-- the original, correct and predicted ingredients Counter, as they are computed for the metrics
-- some curated ingredients Counters with only relevant ingredients (those appearing in the calculation of precision/recall/fidelity metrics)
-
-See example bellow :
-
-```
->> python cli.py review --path=experiments/RobotoffAPI__index_product__conf_1/2020_04_22_17h17m15s --item-id=3321431025323
-
-Id : 3321431025323
-
-Original   : saumon (poisson) atlantique (salmo salar) élevé en ecoss (royaume-uni) issu d'animaux nourris sans ogm 97%, sel 3%.
-
-Correct    : saumon (poisson) atlantique (salmo salar) élevé en ecosse (royaume-uni) issu d'animaux nourris sans ogm 97%, sel 3%.
-
-Prediction : saumon (poisson) atlantique (salmo salar) élevé en ecosse (royaume-uni) issu d'animaux nourris sans ogm 97%, sel 3%.
-
-Tags     : ['VALID']
-
-Original ingredients :
-Counter({'saumon': 1, 'poisson': 1, 'atlantique': 1, 'salmo': 1, 'salar': 1, 'élevé': 1, 'en': 1, 'eco': 1, 'royaume': 1, 'uni': 1, 'issu': 1, "d'": 1, 'animaux': 1, 'nourri': 1, 'san': 1, 'ogm': 1, '97': 1, 'sel': 1, '3': 1})
-
-Correct ingredients :
-Counter({'saumon': 1, 'poisson': 1, 'atlantique': 1, 'salmo': 1, 'salar': 1, 'élevé': 1, 'en': 1, 'ecosse': 1, 'royaume': 1, 'uni': 1, 'issu': 1, "d'": 1, 'animaux': 1, 'nourri': 1, 'san': 1, 'ogm': 1, '97': 1, 'sel': 1, '3': 1})
-Predicted ingredients :
-
-Counter({'saumon': 1, 'poisson': 1, 'atlantique': 1, 'salmo': 1, 'salar': 1, 'élevé': 1, 'en': 1, 'ecosse': 1, 'royaume': 1, 'uni': 1, 'issu': 1, "d'": 1, 'animaux': 1, 'nourri': 1, 'san': 1, 'ogm': 1, '97': 1, 'sel': 1, '3': 1})
-
-
-Not original, correct
-Counter({'ecosse': 1})
-
-Not original, predicted
-
-Counter({'ecosse': 1})
-Not original, correct, predicted
-Counter({'ecosse': 1})
-
-Original, correct, not predicted
-Counter()
+*Data*
+```bash
+├── data
+│   ├── benchmark
+│   │   ├── additional_products
+│   │   │   ├── extracted_additional_products.parquet       # Products extracted and added to the benchmark v0.3
+│   │   │   └── synthetically_corrected_products.parquet    # Correction with OpenAI GPT-3.5
+│   │   ├── benchmark.json                                  # Correction with OpenAI GPT-3.5 before being pushed to Argilla for verification
+│   │   ├── test_benchmark.json                             # Sample to test synthetic generation and prompt engineering
+│   │   └── verified_benchmark.parquet                      # Benchmark after Argilla verification. Pushed to HuggingFace "openfoodfacts/spellcheck-benchmark"
+│   ├── fr                                                  # Data from previous work (in *old* folder)
+│   │   ├── 0_fr_data.json                                  
+│   │   └── 1_old_fr_no_duplicate_data.json
+│   └── labeled
+│       └── corrected_list_of_ingredients.txt               # Data gathered during exploratory phase
 ```
 
-# Models
-
-The test framework is based on models. Each model is a class inherited from `BaseModel` that implements a Spellcheck algorithm. The Model can then be evaluated on the test data using the `test.py` script.
-
-## Identity Model
-
-Basic model that doesn't correct anything on the input data. The objective is to have a baseline against which to compare algorithms.
-
-## RobotOFF API Model
-
-Model that wraps calls to the [RobotOFF API](https://github.com/openfoodfacts/robotoff). RobotOFF corrections are mainly based on some ElasticSearch suggestions. Rules are then applied to determine whether or not the suggestion is relevant.  
-The RobotOFF API has two parameters :
-- `index` :  can be either `product` (default), `product_all`, `product_extended` or `product_extended_all`]. Specify the vocabulary used by ES.
-- `confidence` : float, default to 1. Threshold parameter for ElasticSearch.
-
-
-At the moment, RobotOFF API is the model that handles almost all the spelling corrections. Especially, it performs well on misspelled words (maximum edit distance : 2). Calls are cached using joblib to speed up the tests so make sure to refresh the cache if RobotOFF behavior changed.
-
-## Regex Model
-
-Model containing several rule-based algorithms.
-
-### Pattern-based replacements
-
-Most basic algorithm that does some search and replace in the original string.  
-Patterns can be find in `./spellcheck/models/regex/patterns_fr.txt` . The file is divided in sections. Each section is composed of the correct form (first line) followed by common mistakes (following lines). The objective is to complete the document incrementally. Comments can be added using a `#` .  
-**Example :**
-```
-# This is a comment
-
-ingrédient
-ingredienb
-ingedients
-ingédients
+*Scripts*
+```bash
+├── scripts
+│   ├── argilla
+│   │   ├── benchmark.py                                         # Deploy benchmark data to Argilla for annotation
+│   │   └── extract_benchmark.py                                 # Extract annotated benchmark
+│   ├── benchmark      
+│   │   ├── create_benchmark.py                                  # Initial benchmark created from different sources
+│   │   ├── create_test_benchmark.py
+│   │   └── generate_synthetic_data_for_additional_products.py   # Additional products are added to the benchmark
+│   └── old_to_new                                               # Data from previous work is taken for buidling the benchmark
+│       ├── 0_convert_old_data.py
+│       └── 1_old_fr_data_check.ipynb
 ```
 
-### Percentages
+<!-- The benchmark is composed of **162** lists of ingredients from 3 data sources:
 
-Regex-based rules that aim to handle all occurrences of percentages in a string and format them to a standard shape.
+* **30%** of the old dataset composed of manually corrected lists of ingredients in French from the previous work by Lucain W. The old dataset, `spellcheck/old/test_sets/fr` is used  to constitute our new dataset. It is composed of `List of Ingredients` before and after spellcheck, mainly in French. The processing scripts are located at: `spellcheck/scripts/old_to_new` - and the processed data in `spellcheck/data/fr`.
 
-**Examples :**
+    * `data/fr/0_fr_data.json`: the old data is extracted and transformed into a json file. Basic processing are performed, such as removing *NO_VALID* data (data size: **786**) - script: `scripts/old_to_new/0_convert_old_data.py`
+
+    * `data/1_old_fr_no_duplicate_data.json`: We noticed a lot of duplicates before and after spellcheck, representing almost half of the dataset. We remove them (data size: **441**) - script: `scripts/old_to_new/1_old_fr_data_check.ipynb`
+
+* **15** manually corrected lists of ingredients in different languages. 
+    
+    * This small sample was used to prompt engineer GPT-3.5 on achieving good performances on the spellcheck task.
+    * Those examples mainly comes from the OFF website.
+    * data: `data/labeled/corrected_list_of_ingredients.txt` & `data/benchmark/test_benchmark.json` - script: `scripts/benchmark/create_test_benchmark.py` 
+
+* **100** lists of ingredients with the tag `50-percent-unknown` corrected with the prompted GPT-3.5. It follows the correction guidelines defined with the OFF team and based on observations in production. You'll find the prompt used to augment the data with GPT-3.5 at `utils/prompt.py`. These 100 lists of ingredients are extracted from the OFF database and processed right away during the benchmark creation.
+
+Benchmark composition script: `scripts/benchmark/create_benchmark.py`
+
+Once composed, the benchmark is then verified  using Argilla to ensure the correction generated by OpenAI respect the Spellcheck guidelines. The corrected benchmark is located at `data/benchmark/verified_benchmark.parquet`. -->
+
+### ✍️ Argilla
+
+Argilla is an open-source annotation tool specific to Natural Language Processing.
+
+To annotate and verify the benchmark, we deployed an Argilla instance and manually verified the correction generated by GPT-3.5.
+
+Scripts:
+* `scripts/argilla/benchmark.py`: structure of the annotation tool for the spellcheck task
+* `scripts/argilla/extract_benchmark.py`: script to extract the annotated dataset from Argilla. The extracted dataset is saved at `data/benchmark/verified_benchmark.parquet`.
+
+
+### 📐 Evaluation metrics and algorithm
+
+Evaluating the Spellcheck is a hard task. 
+
+Most of the existing metrics and evaluation algorithms compute the similarity between the reference and the prediction such as BLEU or ROUGE scores. Others calculate the Precision-Recall on modified tokens for token classification tasks.
+
+But in our case, we would like to estimate how well the Spellcheck performs on recognizing and fixing the right elements in the list of ingredients. Therefore we need to compute the Precision-Recall of correctly modified tokens. 
+
+However, we don't have access to these tokens. Only to these text sequences:
+* The original: the list of ingredients to be corrected;
+* The reference: how we expect this list to be corrected;
+* The prediction: the correction from the model.
+
+Is there any way to get the Precision-Recall scores on corrected tokens only from these sequences? The answer is yes. This is the function of our evaluation algorithm: `scripts/benchmark/evaluation.py`.
+
+The uniqueness of this evaluation algorithm lies in its calculation of precision, recall, and F1 scores specifically for errors to be corrected, which are directly extracted from texts.
+
+The process is divided into 4 steps:
+
+1. **Texts (Original-Reference-Prediction) are tokenized using a Byte Pair Encoding ([BPE](https://en.wikipedia.org/wiki/Byte_pair_encoding)) tokenizer from the [tiktoken](https://github.com/openai/tiktoken) library from OpenAI.**
+
+Example:
+``` 
+Original:       "Th cat si on the fride,"
+Reference:      "The cat is on the fridge."
+Prediction:     "Th big cat is in the fridge."
 ```
-0.1%   -> 0,1%
-40, 3% -> 40,3%
-15?.3% -> 15,3%
-100 %  -> 100%
+
+After tokenization:
+``` 
+Original:       1016   8415   4502   389   279   282     1425   11
+Reference:      791    8415   374    389   279   38681   13
+Prediction:     1016   2466   8415   374   304   279     38681  13
 ```
 
-A dataset specific to percentages has been created (`./spellcheck/test_sets/percentages/fr.txt`). The goal is to have a way to be sure that the rules are doing what we want them to do and that adding a new one doesn't break the entire algorithm. This dataset is better suited for this task than the global metrics. A pytest script is associated to it. At the moment, the results are **1 failure against 1576 successes**. The remaining failure is an hard-example that we do not want to solve with a dedicated rule. If more mistakes of this type arise in the future, we might want to rethink it.
+We notice which tokens were modified, added, or deleted. But this transformation creates a misalignement. Thus, we need to align those 3 token sequences. 
 
-**Rules :**  
-- First we match substrings following this pattern : `[0 to 2 digits][(optionally) a whitespace][a separator][0 to 2 digits][(optionally) a whitespace][a % or similar symbol]`.
-- If the match contains/is part of an additive (e.g. Exxx), we drop it and to nothing.
-- Depending on whether the first or last digits are present or not, we format the match accordingly (e.g `XX,XX%` or `XX%`).
-- If no separator is found (only a whitespace), we concatenate the digits (example : `4 0%` -> `40%`). Just as a guarantee, we make sure that the value is below (or equals) to 100.
-- In addition to these rules, we pad the match with whitespaces if context needs it. Pad is added if previous or next char is an alphanumerical character (`raisin7%` -> `raisin 7%`) or an opening/closing parenthesis (`19%(lait` -> `19% (lait`).
+2. **Encoded originals and references are aligned using a [Sequence Alignment](https://en.wikipedia.org/wiki/Sequence_alignment) technique. This kind of algorithm is particularly used in bioinformatics to align DNA sequences.**
 
-### Vocabulary corrections
+We use the [Needleman-Wunsch](https://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm) algorithm and create 2 lists of pairs: *Orig-Ref pairs* and *Orig-Pred pairs*. 
 
-This third method is based on dictionaries of known words. The first vocabulary, called WikipediaVoc, is extracted and curated from the Wikipedia dataset. This vocabulary is very large and contains a lot of rare words. Hopefully, it doesn't contain a lot of misspelled words since only words occurring more than 3 times are kept. Second vocabulary, called IngredientsVoc, is created from the OFF database. This voc is smaller but more specialized for foods. Vocabularies come from the [RobotOFF github repository](https://github.com/openfoodfacts/robotoff/tree/master/data/taxonomies). They need to be downloaded before running the model using the `download_vocabulary.sh` script (see **Install dependencies**).
+After alignment:
+``` 
+Original:       1016   8415   4502   389   279   282    1425   11
+Reference:      791    8415   374    389   279   38681   --    13
 
-Method used :
-- We first tokenize the full description.
-- For each alphabetical tokens, we check whether the token is a know word of WikipediaVoc.
-- If not, 2 methods are used to make suggestions.
+Original:       1016    --    8415   4502  389   279    282    1425   11
+Prediction:     791    2466   8415   374   304   279    --     38681  13
+```
 
-**Finding the right split**  
-Sometimes the OCR misses a whitespace between two words (example : `farinede blé` -> `farine de blé`). In general, ElasticSearch is unable to suggest the good correction (example: `farine blé`). The idea is to look at every potential split (`fa rinede`, `far inede`, `fari nede`, (...), `farine de`) and keep it if both words exist in the IngredientsVoc (here : `farine de`). If multiple correct splits are possible, no changes is applied. Additionally, we don't consider splits that create a 1-char word in order to prevent introducing new errors.  
-*NB:* This last rule is conservative and sometimes misses some corrections (example : `àcoque` -> `à coque`).
+Now we can detect which tokens were added, deleted or modified from the *Original* sequence for both the *Reference* and the *Prediction*. 
 
-**Finding a correct variant**  
-Sometimes the OCR outputs the good word but without accents. Example : `ingredients` -> `ingrédients`. For each unknown token, we check whether an accented variant of the token exists in the IngredientsVoc. If a variant exists, we make the change. If multiple variants are found, we prefer not to correct the token.
+But as you may have noticed, pairs of tokens are now misaligned because a new word `big` (`2466`) was added to the Prediction but not in the Reference.
+ 
+3. **Pairs of tokens (Original-Reference; Original-Prediction) are aligned to consider gaps in case Reference and/or Prediction have different lengths.**
+
+This mainly occurs when additional words are added whether in References or Predictions compared to Originals. This is translated as an additional *gap* in the Original list of tokens.
+
+To better visualize which tokens were modified in comparison of the *Original*, each list of pairs is modified into a sparse vector. If the original token was modified, or if a token was added or deleted, it is considered as `1`: 
+
+``` 
+Orig-Ref:      1   0   1   0   1   1   1   1
+Orig-Pred:     0   1   0   1   1   1   1   1   1
+```
+
+Since the token `2466` was added in *Orig-Pred pairs*, we insert `0` into the *Orig-Ref sparse vector*, the shortest vector in this case, meaning that this "imaginary" token does not count as a change.
+
+``` 
+Orig-Ref:      1  '0'  0   1   0   1   1   1   1
+Orig-Pred:     0   1   0   1   1   1   1   1   1
+```
+
+--------------------------------------------------------------------
+*Note:* We would do the same in case an additional token were added to the Reference instead, or in both Reference and Predictions. Here's an example of the latter: 
+
+*Before*
+``` 
+Original:       1016   8415   4502   389    279    --     282    1425    11
+Reference:      791    8415   374    389    279    9999   38681   --     13
+Sparse:         1      0      1      0      0      1      1      1       1       
+
+Original:       1016    --    8415   4502   389    279    282    1425    11
+Prediction:     791    2466   8415   374    304    279    --     38681   13
+Sparse:         1      1      0      1      1      0      1      1       1
+```
+
+*After*
+``` 
+Original:       1016    --    8415   4502   389   279     --    282    1425    11
+Reference:      791     --    8415   374    389   279    9999   38681   --     13
+Sparse:         1       0     0      1      0      0     1      1      1       1  
+
+Original:       1016    --    8415   4502   389   279    --     282    1425    11
+Prediction:     791    2466   8415   374    304   279    --     --     38681   13
+Sparse:         1      1      0      1      1      0      0      1     1       1
+```
+--------------------------------------------------------------------
+
+Our pairs are now aligned. We can now know which tokens were supposed to change, and which were not supposed to.
+
+By multiplying the sparse vectors, we can calculate the Precision-Recall metrics.
+
+4. **Compute Precision, Recall, and Correction Precision**
+
+By taking these 2 sparse vectors and their inverse, we can calculate the number of True Positives (`TP`), False Positives (`FP`) and False Negatives (`FN`) to compute the Precision and Recall.
+
+If we consider the sparse vector corresponding to the *Prediction*:
+
+```
+Orig-Ref:          1    0    0    1    0    1    1    1    1
+Orig-Pred:         0    1    0    1    1    1    1    1    1
+Signification:     FN   FP   TN   TP   FP   TP   TP   TP   TP
+```
+
+Also, since these metrics consider if the correct token was modified, and not if the right token was chosen by the 
+model, we also calculate the `correction_precision` for each `TP`.
+
+`correction_precision` evaluates the performance of the model to correct tokens over relatively to all predictions (TP + FP). 
+
+With these metric, we're now capable of evaluating our spellcheck accurately on this task!
+
+**Notes:**
+* This evaluation algorithm depends on how well the sequence alignment was performed. It works only if there's enough information (similar tokens) to align sequences. It means noisy sequences can influence the sequence alignment and therefore bias the metrics calculation. Adding a noise threshold, such as calculating the **BLEU** score between Original-Reference & Original-Prediction could be a good solution to prevent this.
+
+* The Needleman-Wunsch is the foundation of this algorithm. It can be worth performing hyperparameter tuning to get the best sequence alignment for our case.
 
 
-Both methods are complementary and rely heavily on the quality of the vocabularies.
+### 👨‍⚖️ LLM evaluation against the benchmark
 
-## Pipeline Model
+We evaluated **Proprietary LLMs** such as OpenAI GPTs and Anthropic Claude 3 models. This gives us a baseline on how these solutions perform on the Spellcheck task compared to our model.
 
-The Pipeline model is an abstraction that enable chained-algorithms to be tested against the dataset. It became clear that the best model would be a combination of different algorithms to deal with the different types of errors.
+Texts are normalized to not consider some typical corrections:
+* lowercase-uppercase
+* whitespaces between words
 
-The Pipeline model takes as input a list of models and apply prediction by chaining predictions from them.
+In addition to computing metrics using the evaluation algorithm, predictions against the benchmark are pushed to Argilla for human evaluation. The proportion of good corrections is then calculated.
 
-# Performances
-
-## Metrics
-
-Several generic metrics are computed to compare models :
-- **number_items** : total number of items tested.
-- **number_should_have_been_changed** : number of items that needs a correction .
-- **number_changed** : number of items that has at least 1 modification.
-- **number_correct_when_changed** : number of changed items that are exactly correct, character by character.
-- **txt_precision** : precision of the model using an exact matching. Equals `number_correct_when_changed / number_changed`.
-- **txt_recall** : recall of the model using an exact matching. Equals `number_correct_when_changed / number_should_have_been_changed`.
-- **txt_similarity** : similarity score between predicted and correct descriptions. Similarity is computed using SequenceMatcher.
-
-It turns out that those metrics were not good enough to assess the performances of the spellchecker. For instance, a model could be penalized because a correct change has been made to an ingredient but the full description was still containing a mistake. Overall, txt_precision is higher on models that does less changes which is not our purpose.
+Benchmark version: **v5**
+Prompt version: **v6**
 
 
-To deal with this problem, we introduced "per ingredient metrics". The main strategy has been to split descriptions into lists of ingredients and compare those lists. Metrics are computed using 3 lists of ingredients : the original list, the predicted list and the correct list. The idea is to compare those lists to determine, for example, how many ingredients are simultaneously in predicted list and correct list but not original list. Different approaches has been tested (using sets, Counters and Sequence matching). The current one is the most advanced. It uses Sequence Matching from Python's Difflib library, applied on the lists. We struggled to use it because of the non-symmetrical aspect of the algorithm. We made it artificially symmetrical by wrapping it into a process that computes all possible combinations and take the best one. Metrics are :
-- **ingr_recall** : How many correct ingredients that were not in original description have been predicted ?
-- **ingr_precision** : How many predicted ingredients that were not in original description are correct ?
-- **ingr_fidelity** : How many correct ingredients from the original description are still correct in prediction ?
+| Model | Correction Precision | Correction Recall | Localisation Precision | Localisation Recall | Localisation F1 | Human evaluation
+|----------|----------|----------|----------|----------|----------|----------|
+| FlanT5-Small | **0.815** | 0.486 | **0.876** | 0.522 | 0.654 | - |
+| GPT-3.5-Turbo | 0.729 | **0.779** | 0.767 | **0.820** | **0.793** | **0.894** |
+| Gemini-1.0-pro | 0.499 | 0.586 | 0.561 | 0.658 | 0.605 | 0.717 |
+| Gemini-1.5-flash | 0.514 | 0.693 | 0.590 | 0.795 | 0.677 | 0.790 |
+| Gemini-1.5-pro | 0.364 | 0.658 | 0.415 | 0.750 | 0.534 | - |
+| Mistral-7B-Instruct-v3 (not fine-tuned) | 0.381 | 0.501 | 0.488 | 0.641 | 0.554 | - |
 
-Those metrics can be computed on an item per item basis. Micro and Macro averages are computed for global metrics.
 
-## FR dataset
+Notes:
+* **Correction Precision**: Proportion of correct modifications.
+* **Correction Recall**: Proportion of errors found and corrected
+* **Localisation Precision**: Proportion of errors rightly detected by the model
+* **Localisation Recall**: Proportion of errors founded
+* **Localisation F1**: Mean-like between Precision and Recall
+* **Human evaluation**: Proportion of good corrections after human analysis
 
-Another review of the performances is also available [here](https://docs.google.com/spreadsheets/d/1iuc3O_6oSvnKM9uHNpRD1dTd8wXESVXdlEOCct2QcGY/edit#gid=0).
+### 100 % known-ingredients products
 
-| Model name | IdentityModel | Percentages | Replacements | Vocabulary | Pipeline Percentages > Replacements > Vocabulary | RobotOFF (index product, confidence 1) | **Pipeline Replacements > Percentages > RobotOFF (index product_all, confidence 0.5) > Vocabulary** |
-|---|---|---|---|---|---|---|---|
-| Nb of items | 760 | 760 | 760 | 760 | 760 | 760 | **760** |
-| Nb should have changed | 389 | 389 | 389 | 389 | 389 | 389 | **389** |
-| Nb changed | 0 | 198 | 15 | 36 | 234 | 84 | **288** |
-| Nb correct when changed | 0 | 130 | 4 | 10 | 146 | 16 | **162** |
-| Txt similarity | 98,51%  | 98,67% | 98,58% | 98,57% | 99,96% | 98,75% | **99,06%** |
-| Macro precision | None | 86,62% | 94,44% | 88,52% | 87,78% | 85,99% | **85,53%** |
-| Macro recall  | None | 15,67% | 2,17% | 6,88% | 24,71% | 17,20% | **41,40%** |
-| Macro fidelity | 100% | 99,96% | 100% | 99,996% | 99,96% | 100% | **99,95%** |
+The worst thing the Spellcheck can do is to implement errors into the lists of ingredients that are fine. In other term, we need to test how bad **false positives** are.
+
+To do so, we extract a sample of 100 products with ingredients fully recognized by the OFF parser.
+
+Using **DuckDB** and the JSONL file containing the products from the database:
+
+```sql
+select code, ingredients_text, lang from read_ndjson('openfoodfacts-products.jsonl.gz')
+where unknown_ingredients_n == 0 and ingredients_text is not null
+using sample 100
+;
+```
+
+## Training dataset 
+
+### Extract the data
+
+From the JSONL file available on [Open Food Facts Data](https://world.openfoodfacts.org/data), we extracted **3000** products. We decided to select a percentage-unknonwn-ingredients between *20% - 40%*.
+
+Since this tag doesn't exist, we calculated the percentage-unknown using the keys `fraction` = `unknown-ingredients_n` / `ingredients_n`. 
+
+The dataset being extremely large (43 GB once decompressed), we used the [Polars](https://pola.rs/) library to manipulate the data. You can find the extraction script at `scripts/dataset/extract_data.py`.
+
+The extracted products are stored as a `.parquet` file at `data/dataset/0_extracted_lists_of_ingredients.parquet`.
+
+### Generate the synthetic data
+
+We then generated the synthetic dataset using GPT-3.5-Turbo and the same prompt that was used for generating the benchmark, located at `utils/prompt.py`.
+
+Calling OpenAI GPT-3.5-Turbo to constitute our dataset costed around **3.25$** (around 6 millions tokens - ~3000 requests).
+
+The script is located at `scripts/dataset/generate_synthetic_data.py` and the synthetic dataset at `data/dataset/1_synthetic_data.jsonl`.
+
+### Argilla
+
+To get an overview of the dataset and later correct it manually, we pushed the synthetic dataset into **Argilla**.
+
+You can find it [there](https://argilla.openfoodfacts.org/dataset/6ecc7c73-900b-4557-a12d-4ab23266a681/annotation-mode).
+
+### Post-processing
+
+After a first check on Argilla, there are plenty of *low-hanging fruits* errors implemented during the synthetic data generation that we can correct using a post-processing step:
+
+* `###Corrected list of ingredients:` from the prompt in the output
+
+The post-processed data is located at `data/dataset/2_post_processed_synthetic_data.jsonl` (*manually processed*)

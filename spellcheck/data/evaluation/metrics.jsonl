@@ -1,0 +1,468 @@
+{
+    "metrics": {
+        "correction_precision": 0.6157954132860687,
+        "precision": 0.5460671040391152,
+        "recall": 0.6130502619940764,
+        "f1": 0.5481261645609331,
+        "f1_beta": 0.5606654306033796,
+        "beta": 1.5
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "25/04/2024",
+    "benchmark_version": "0.1",
+    "benchmark_size": 246
+}
+{
+    "metrics": {
+        "correction_precision": 0.4708773774823285,
+        "precision": 0.4015515106191568,
+        "recall": 0.4976773000111427,
+        "f1": 0.40383567007909066,
+        "f1_beta": 0.4190921338368768,
+        "beta": 1.5
+    },
+    "model": "claude-3-haiku-20240307",
+    "date": "26/04/2024 12:24:10",
+    "benchmark_version": "0.1",
+    "benchmark_size": 154,
+    "comments": [
+        "Requests per minutes / day attained",
+        "Claude prompt used instead of the basic one. Check Prompt class.",
+        "Models overview: https://docs.anthropic.com/claude/docs/models-overview"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.5944338318342587,
+        "precision": 0.5260807045621008,
+        "recall": 0.596854571880158,
+        "f1": 0.5248184554561945,
+        "f1_beta": 0.5248184554561945,
+        "beta": 1.0
+    },
+    "model": "claude-3-sonnet-20240229",
+    "date": "26/04/2024 16:26:57",
+    "benchmark_version": "0.1",
+    "benchmark_size": 157,
+    "comments": [
+        "Requests per minutes / day attained",
+        "Claude prompt used instead of the basic one. Check Prompt class.",
+        "Models overview: https://docs.anthropic.com/claude/docs/models-overview"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.4750910003479174,
+        "precision": 0.4375529320523882,
+        "recall": 0.39780894502721126,
+        "f1": 0.3859432020439635,
+        "f1_beta": 0.3859432020439635,
+        "beta": 1.0
+    },
+    "model": "claude-3-opus-20240229",
+    "date": "26/04/2024 17:24:30",
+    "benchmark_version": "0.1",
+    "benchmark_size": 110
+}
+{
+    "metrics": {
+        "correction_precision": 0.5411694079019865,
+        "precision": 0.48657770327832556,
+        "recall": 0.56719903250949,
+        "f1": 0.5011592204460352,
+        "f1_beta": 0.5011592204460352,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "29/04/2024 10:27:53",
+    "benchmark_version": "0.2",
+    "benchmark_size": 243
+}
+{
+    "metrics": {
+        "correction_precision": 0.4049266979044456,
+        "precision": 0.3226394651253341,
+        "recall": 0.46455629400679027,
+        "f1": 0.34544526425986594,
+        "f1_beta": 0.34544526425986594,
+        "beta": 1.0
+    },
+    "model": "claude-3-haiku-20240307",
+    "date": "29/04/2024 11:15:32",
+    "benchmark_version": "0.2",
+    "benchmark_size": 243
+}
+{
+    "metrics": {
+        "correction_precision": 0.43929884170570765,
+        "precision": 0.3664067671991553,
+        "recall": 0.490016284718536,
+        "f1": 0.38329015990790677,
+        "f1_beta": 0.38329015990790677,
+        "beta": 1.0
+    },
+    "model": "claude-3-sonnet-20240229",
+    "date": "29/04/2024 11:53:34",
+    "benchmark_version": "0.2",
+    "benchmark_size": 243
+}
+{
+    "metrics": {
+        "correction_precision": 0.5161168319349098,
+        "precision": 0.4492653556018427,
+        "recall": 0.4810378429238078,
+        "f1": 0.43541010792459894,
+        "f1_beta": 0.43541010792459894,
+        "beta": 1.0
+    },
+    "model": "claude-3-opus-20240229",
+    "date": "29/04/2024 13:39:58",
+    "benchmark_version": "0.2",
+    "benchmark_size": 114
+}
+{
+    "metrics": {
+        "correction_precision": 0.4897752620538616,
+        "precision": 0.40099172306069253,
+        "recall": 0.534792030481331,
+        "f1": 0.4297383726744152,
+        "f1_beta": 0.4297383726744152,
+        "beta": 1.0
+    },
+    "model": "gpt-4-turbo",
+    "date": "29/04/2024 14:14:07",
+    "benchmark_version": "0.2",
+    "benchmark_size": 243
+}
+{
+    "metrics": {
+        "correction_precision": 0.9286563614744352,
+        "precision": 0.7455673758865248,
+        "recall": 0.8843322818086226,
+        "f1": 0.809042809042809,
+        "f1_beta": 0.809042809042809,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "02/05/2024 18:24:17",
+    "benchmark_version": "0.3",
+    "benchmark_size": 162
+}
+{
+    "metrics": {
+        "correction_precision": 0.8047493403693932,
+        "precision": 0.37303149606299213,
+        "recall": 0.7846790890269151,
+        "f1": 0.5056704469646431,
+        "f1_beta": 0.5056704469646431,
+        "beta": 1.0
+    },
+    "model": "claude-3-haiku-20240307",
+    "date": "02/05/2024 18:26:09",
+    "benchmark_version": "0.3",
+    "benchmark_size": 162
+}
+{
+    "metrics": {
+        "correction_precision": 0.8128415300546448,
+        "precision": 0.42287694974003465,
+        "recall": 0.7697160883280757,
+        "f1": 0.5458612975391498,
+        "f1_beta": 0.5458612975391498,
+        "beta": 1.0
+    },
+    "model": "claude-3-sonnet-20240229",
+    "date": "02/05/2024 18:54:52",
+    "benchmark_version": "0.3",
+    "benchmark_size": 162
+}
+{
+    "metrics": {
+        "correction_precision": 0.9258823529411765,
+        "precision": 0.769927536231884,
+        "recall": 0.8975712777191129,
+        "f1": 0.8288639687957094,
+        "f1_beta": 0.8288639687957094,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "03/05/2024 12:08:41",
+    "benchmark_version": "0.3.1",
+    "benchmark_size": 162,
+    "comments": [
+        "Prompt slightly modified to keep '_' around allergens and keeping whitespaces",
+        "It happens that whitespaces with % is wrong because an initial percentage were different from the rest. Example: 'sucre 40%, lemon 7,2 %'. LLM struggles with that"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.9273809523809524,
+        "precision": 0.7533632286995515,
+        "recall": 0.8870116156282999,
+        "f1": 0.8147429679922406,
+        "f1_beta": 0.8147429679922406,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "03/05/2024 16:39:28",
+    "benchmark_version": "0.3.2",
+    "benchmark_size": 162,
+    "comments": [
+        "Modify prompt to reduce hallucination regarding percentages"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.9343575418994413,
+        "precision": 0.69921875,
+        "recall": 0.8817733990147784,
+        "f1": 0.7799564270152505,
+        "f1_beta": 0.7799564270152505,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "06/05/2024 11:06:35",
+    "benchmark_version": "4.2",
+    "benchmark_size": 152,
+    "comments": [
+        "Benchmark modified: no more percentage correction (396 -> 3% no more), if whitespace not necessary ('crabe(...)'), don't add one ('crabe (...)' no more"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.9283489096573209,
+        "precision": 0.6993464052287581,
+        "recall": 0.7906403940886699,
+        "f1": 0.7421965317919074,
+        "f1_beta": 0.7421965317919074,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "06/05/2024 12:16:44",
+    "benchmark_version": "4.3",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.9243323442136498,
+        "precision": 0.6863543788187373,
+        "recall": 0.8300492610837439,
+        "f1": 0.7513935340022296,
+        "f1_beta": 0.7513935340022296,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "06/05/2024 12:39:29",
+    "benchmark_version": "4.4",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 1.0,
+        "precision": 1.0,
+        "recall": 0.019704433497536946,
+        "f1": 0.03864734299516908,
+        "f1_beta": 0.03864734299516908,
+        "beta": 1.0
+    },
+    "model": "rules_based_model",
+    "date": "06/05/2024 14:05:16",
+    "benchmark_version": "4.0",
+    "benchmark_size": 152,
+    "comment": [
+        "Try heuristic method: 'léci - thine' -> 'lécithine'"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.9148264984227129,
+        "precision": 0.6997792494481236,
+        "recall": 0.7807881773399015,
+        "f1": 0.7380675203725262,
+        "f1_beta": 0.7380675203725262,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "06/05/2024 14:30:24",
+    "benchmark_version": "4.5",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.6401766004415012,
+        "precision": 0.6997792494481236,
+        "recall": 0.7807881773399015,
+        "f1": 0.7380675203725262,
+        "f1_beta": 0.7380675203725262,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "09/05/2024 09:36:56",
+    "benchmark_version": "4.5",
+    "benchmark_size": 152,
+    "comments":
+        ["Correction precision is modified to consider True Positives but also False Positives: CorrPrecision / (TP + FP)"]
+}
+{
+    "metrics": {
+        "correction_precision": 0.6805225653206651,
+        "precision": 0.7315914489311164,
+        "recall": 0.7958656330749354,
+        "f1": 0.7623762376237624,
+        "f1_beta": 0.7623762376237624,
+        "beta": 1.0
+    },
+    "model": "gpt-35-turbo",
+    "date": "09/05/2024 16:43:48",
+    "version": "v4.5",
+    "benchmark_size": 152,
+    "comments":[
+        "New metrics after normalization to focus on real errors: lowercase & whitespaces normalization"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.7286914765906363,
+        "precision": 0.7671068427370948,
+        "recall": 0.8202824133504493,
+        "f1": 0.7928039702233252,
+        "f1_beta": 0.7928039702233252,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "10/05/2024 19:08:53",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 151,
+    "comments":[
+        "From the previous human eval, improve prompt. Human evaluation pretty good in my opinion"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.4994547437295529,
+        "precision": 0.5605234460196292,
+        "recall": 0.6581306017925737,
+        "f1": 0.6054181389870436,
+        "f1_beta": 0.6054181389870436,
+        "beta": 1.0
+    },
+    "model": "gemini-1.0-pro-002",
+    "date": "16/05/2024 18:00:36",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152,
+    "comments": [
+        "'###Corrected list of ingredients:' removed manually"
+    ]
+}
+{
+    "metrics": {
+        "correction_precision": 0.5137701804368471,
+        "precision": 0.5897435897435898,
+        "recall": 0.795134443021767,
+        "f1": 0.6772082878953108,
+        "f1_beta": 0.6772082878953108,
+        "beta": 1.0
+    },
+    "model": "gemini-1.5-flash-preview-0514",
+    "date": "21/05/2024 10:02:44",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.3640226628895184,
+        "precision": 0.415014164305949,
+        "recall": 0.7503201024327785,
+        "f1": 0.5344277245782034,
+        "f1_beta": 0.5344277245782034,
+        "beta": 1.0
+    },
+    "model": "gemini-1.5-pro-preview-0409",
+    "date": "21/05/2024 15:39:43",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.3640226628895184,
+        "correction_recall": 0.6581306017925737,
+        "precision": 0.415014164305949,
+        "recall": 0.7503201024327785,
+        "f1": 0.5344277245782034,
+        "f1_beta": 0.5344277245782034,
+        "beta": 1.0
+    },
+    "model": "gemini-1.5-pro-preview-0409",
+    "date": "21/05/2024 17:13:04",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.5137701804368471,
+        "correction_recall": 0.6927016645326505,
+        "precision": 0.5897435897435898,
+        "recall": 0.795134443021767,
+        "f1": 0.6772082878953108,
+        "f1_beta": 0.6772082878953108,
+        "beta": 1.0
+    },
+    "model": "gemini-1.5-flash-preview-0514",
+    "date": "21/05/2024 17:15:08",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.4994547437295529,
+        "correction_recall": 0.586427656850192,
+        "precision": 0.5605234460196292,
+        "recall": 0.6581306017925737,
+        "f1": 0.6054181389870436,
+        "f1_beta": 0.6054181389870436,
+        "beta": 1.0
+    },
+    "model": "gemini-1.0-pro-002",
+    "date": "21/05/2024 17:16:38",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.7286914765906363,
+        "correction_recall": 0.7792041078305519,
+        "precision": 0.7671068427370948,
+        "recall": 0.8202824133504493,
+        "f1": 0.7928039702233252,
+        "f1_beta": 0.7928039702233252,
+        "beta": 1.0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "21/05/2024 17:18:02",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 151
+}
+{
+    "metrics": {
+        "correction_precision": 0.3810916179337232,
+        "correction_recall": 0.5006402048655569,
+        "precision": 0.48830409356725146,
+        "recall": 0.6414852752880922,
+        "f1": 0.5545102379634753,
+        "f1_beta": 0.5545102379634753,
+        "beta": 1.0
+    },
+    "model": "mistral-7b-instruct-v0.3",
+    "date": "13/06/2024 10:31:13",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 151
+}
