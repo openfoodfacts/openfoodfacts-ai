@@ -144,7 +144,6 @@ class Evaluate:
         originals = [element["original"] for element in elements]
         references = [element["reference"] for element in elements]
         predictions = [element["prediction"] for element in elements]
-        originals, references, predictions = self.normalize(originals, references, predictions)
         evaluator = SpellcheckEvaluator(originals=originals) #TODO Remove the module call from the function 
         metrics = evaluator.evaluate(predictions, references)
         metrics_output = {
@@ -157,21 +156,4 @@ class Evaluate:
         }
         with open(self.metrics_path, "a") as file:
             json.dump(metrics_output, file, indent=4)
-            file.write("\n")
-
-    @staticmethod
-    def normalize(*text_batches) -> Tuple:
-        """Normalize texts to not consider some corrections during the metrics calculation.
-
-        Args:
-            Batches of texts
-        Returns:
-            (Tuple) Processed texts
-        """
-        def process(text: str) -> str:
-            text = text.lower()                                           # Lowercase
-            text = " ".join([token.strip() for token in text.split()])    # Normalize whitespaces
-            return text
-        return ([process(text) for text in text_batch] for text_batch in text_batches)
-
-   
+            file.write("\n")   

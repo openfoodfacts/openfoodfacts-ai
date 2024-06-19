@@ -184,3 +184,27 @@ evaluator.get_correction_true_positives(
     ref_pairs=[(791, 791), (None, None), (4865, 8415), (374, 374), (389, 304), (279, 279), (282, None), (2668, None), (713, 38681)],
     pred_pairs=[(791, 791), (None, 2466), (4865, 8415), (374, 374), (389, 304), (279, 279), (282, None), (2668, None), (713, 38681)]
 )
+
+
+@pytest.mark.parametrize(
+    "inputs, expected",
+    [
+        (
+            ["bœuf", "œuf"],
+            ["boeuf", "oeuf"]
+        ),
+        (
+            ["colour", "flavour"],
+            ["color", "flavor"]
+        ),
+        (
+            ["maïs", "â"],
+            ["mais", "a"]
+        )
+    ]
+)
+def test_normalize(inputs, expected):
+    """Text normalization before evaluation.
+    """
+    normalized_texts = evaluator.normalize(inputs)
+    assert normalized_texts == expected

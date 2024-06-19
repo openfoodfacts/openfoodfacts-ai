@@ -115,9 +115,14 @@ class SpellcheckEvaluator(Evaluator):
         correction_true_positives = []
         drop_count = 0
 
+        # Normalize texts before evaluation
+        normalized_originals = self.normalize(self.originals)
+        normalized_references = self.normalize(references)
+        normalized_predictions = self.normalize(predictions)
+
         # Batch
         for original, reference, prediction in tqdm(
-            zip(self.originals, references, predictions), 
+            zip(normalized_originals, normalized_references, normalized_predictions), 
             total=len(predictions),
             desc="Evaluation"
         ):
@@ -370,6 +375,26 @@ class SpellcheckEvaluator(Evaluator):
             if tp == 1
         ]
         return correction_true_positives
+
+    @staticmethod
+    def normalize(texts: List[str]) -> List[str]:
+        """Normalize texts to not consider some corrections during the metrics calculation.
+
+        Args:
+            Batches of texts
+        Returns:
+            (Tuple) Processed texts
+        """
+        def process(text: str) -> str:
+            text = text.lower()                                           # Lowercase
+            text = " ".join([token.strip() for token in text.split()])    # Normalize whitespaces
+            text = text.replace("œ", "oe")                                # Oeuf, Boeuf, ...
+            text = text.replace("ï", "i")                                 # Maïs, ...
+            text = text.replace("â", "a")                                 
+            text = text.replace("flavour", "flavor")                      # US/UK
+            text = text.replace("colour", "color")
+            return text
+        return [process(text) for text in texts]
 
 
 if __name__ == "__main__":
