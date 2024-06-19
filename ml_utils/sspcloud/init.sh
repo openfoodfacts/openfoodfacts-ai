@@ -28,8 +28,7 @@ git clone --depth=1 https://github.com/openfoodfacts/openfoodfacts-ai.git
 
 export folder="/home/onyxia/work/openfoodfacts-ai"
 
-# Add envvar to /home/onyxia/.bashrc
-sudo -u ${USERNAME} echo "export B=${SSP_USER_NAME}" >> /home/onyxia/.bashrc
+sudo -u ${USERNAME} sed -i "s/cd \/home\/onyxia\/work/cd \/home\/onyxia\/work\/openfoodfacts-ai/" /home/onyxia/.bashrc
 
 # Final env (for debugging)
 env | sort > env_final.out
