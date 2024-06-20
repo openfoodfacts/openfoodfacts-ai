@@ -170,8 +170,9 @@ class LLMQLoRATraining:
             logging_dir                         = f"{args.output_dir}/logs",
             logging_strategy                    = "steps",
             logging_steps                       = 10,
-            evaluation_strategy                 = "epoch",
-            save_strategy                       = "epoch",
+            evaluation_strategy                 = "steps",
+            eval_steps                          = 50,
+            save_strategy                       = "steps",
             save_total_limit                    = 1,
             load_best_model_at_end              = True,
             # metric_for_best_model               = "f1_beta",                           # Metric used to select the best model.
@@ -218,6 +219,7 @@ class LLMQLoRATraining:
             training_args.output_dir,
             low_cpu_mem_usage=True,
             torch_dtype=torch.float16,
+            trust_remote_code=True,  # Required because PEFT load pretrained model before merging adapaters
         )
         # Merge LoRA and base model and save
         model = model.merge_and_unload()
@@ -242,6 +244,7 @@ class LLMQLoRATraining:
             device_map="auto",
             attn_implementation="flash_attention_2",
             torch_dtype=torch_dtype,
+            trust_remote_code=True,
         )
 
         LOGGER.info("Start evaluating model on benchmark.")

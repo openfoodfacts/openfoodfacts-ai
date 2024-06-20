@@ -186,13 +186,12 @@ class BenchmarkEvaluationArgilla(ArgillaModule):
     @classmethod
     def from_dataset(
         cls, 
-        hf_repo: str, 
-        split: str = "train",
+        path: str, 
         original_feature: str = "original",
         reference_feature: str = "reference",
         prediction_feature: str = "prediction"
     ) -> None:
-        dataset = datasets.load_dataset(hf_repo, split=split)
+        dataset = datasets.load_from_disk(path)
         return cls(
             originals=dataset[original_feature],
             references=dataset[reference_feature],
