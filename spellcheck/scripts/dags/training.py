@@ -10,7 +10,7 @@ from spellcheck.argilla_modules import BenchmarkEvaluationArgilla
 
 
 REPO_DIR = get_repo_dir()
-CONF_PATH = REPO_DIR / "config/training.yml"
+CONF_PATH = REPO_DIR / "config/training_llm.yml"
 
 LOGGER = get_logger()
 
@@ -45,26 +45,29 @@ class TrainingPipeline(metaflow.FlowSpec):
         """
         # Sagemaker estimator
         estimator = HuggingFace(
-            source_dir           = self.conf.estimator.source_dir,                 # directory containing training script and requirements requirements.
-            entry_point          = self.conf.estimator.entry_point,                # train script            
-            dependencies         = self.conf.estimator.dependencies,               # Additional local library
-            output_path          = self.conf.estimator.output_path,                # s3 path to save the artifacts
-            code_location        = self.conf.estimator.code_location,              # s3 path to stage the code during the training job
-            instance_type        = self.conf.estimator.instance_type,              # instances type used for the training job
-            instance_count       = self.conf.estimator.instance_count,             # the number of instances used for training
-            base_job_name        = self.conf.estimator.base_job_name,              # the name of the training job
-            role                 = os.getenv("SAGEMAKER_ROLE"),                    # Iam role used in training job to access AWS ressources, e.g. S3
-            transformers_version = self.conf.estimator.transformers_version,       # the transformers version used in the training job
-            pytorch_version      = self.conf.estimator.pytorch_version,            # the pytorch_version version used in the training job
-            py_version           = self.conf.estimator.py_version,                 # the python version used in the training job
-            hyperparameters      = self.conf.hyperparameters,                      # the hyperparameters used for the training job            
-            environment          = {                                               # environment variables used during training 
-                "COMET_PROJECT_NAME": os.getenv("COMET_PROJECT_NAME"),
-                "COMET_API_KEY": os.getenv("COMET_API_KEY"),
-                "EXPERIMENT_TAGS": ",".join(self.conf.estimator.comet_ml_tags),    # experiment tags list sent as a string to be JSON serialized
-                "S3_MODEL_URI": self.conf.estimator.output_path,                   # the uri where the model artifact is stored is actually not in the SM_TRAINING_JOB environment variables. Let's add it.
-                "S3_EVALUATION_URI": self.conf.estimator.s3_evaluation_uri,     
-                "METAFLOW_RUN_ID": metaflow.current.run_id,                        # add metaflow run_id to experiment tracking tags
+            source_dir                 = self.conf.estimator.source_dir,                 # directory containing training script and requirements requirements.
+            entry_point                = self.conf.estimator.entry_point,                # train script            
+            dependencies               = self.conf.estimator.dependencies,               # Additional local library
+            output_path                = self.conf.estimator.output_path,                # s3 path to save the artifacts
+            code_location              = self.conf.estimator.code_location,              # s3 path to stage the code during the training job
+            instance_type              = self.conf.estimator.instance_type,              # instances type used for the training job
+            instance_count             = self.conf.estimator.instance_count,             # the number of instances used for training
+            base_job_name              = self.conf.estimator.base_job_name,              # the name of the training job
+            role                       = os.getenv("SAGEMAKER_ROLE"),                    # Iam role used in training job to access AWS ressources, e.g. S3
+            transformers_version       = self.conf.estimator.transformers_version,       # the transformers version used in the training job
+            pytorch_version            = self.conf.estimator.pytorch_version,            # the pytorch_version version used in the training job
+            py_version                 = self.conf.estimator.py_version,                 # the python version used in the training job
+            disable_output_compression = self.conf.estimator.disable_output_compression, # not compress output to save training time and cost
+            volume_size                = self.conf.estimator.volume_size,                # the size of the EBS volume in GB           
+            hyperparameters            = self.conf.hyperparameters,                      # the hyperparameters used for the training job
+            environment          = {                                                     # environment variables used during training 
+                "COMET_PROJECT_NAME": os.getenv("COMET_PROJECT_NAME"),      
+                "COMET_API_KEY": os.getenv("COMET_API_KEY"),      
+                "EXPERIMENT_TAGS": ",".join(self.conf.estimator.comet_ml_tags),          # experiment tags list sent as a string to be JSON serialized
+                "S3_MODEL_URI": self.conf.estimator.output_path,                         # the uri where the model artifact is stored is actually not in the SM_TRAINING_JOB environment variables. Let's add it.
+                "S3_EVALUATION_URI": self.conf.estimator.s3_evaluation_uri,           
+                "METAFLOW_RUN_ID": metaflow.current.run_id,                              # add metaflow run_id to experiment tracking tags
+                "HF_TOKEN": os.getenv("HF_TOKEN"),                                       # required by some models, such as llama-3 or Mistral
             },                                                                
         )
         estimator.fit(wait=True) # Wait for the pipeline. No need for inputs since data doesn't come from S3.
@@ -92,7 +95,7 @@ class TrainingPipeline(metaflow.FlowSpec):
             )
             # Get the latest experiment
             self.experiment_key = experiments[-1].key      
-            self.argilla_dataset_name = self.conf.estimator.model + "-exp-key-" + self.experiment_key
+            self.argilla_dataset_name = self.conf.estimator.base_job_name + "-exp-key-" + self.experiment_key
             BenchmarkEvaluationArgilla.from_s3(self.evaluation_uri).deploy(
                 dataset_name=self.argilla_dataset_name
             )

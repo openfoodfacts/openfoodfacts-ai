@@ -1,0 +1,44 @@
+estimator:
+  model: "phi-3-mini-4k-instruct"
+  entry_point: "llm.py"
+  source_dir: "scripts/training/llm"
+  dependencies: 
+    - "src/"
+  output_path: "s3://open-food-facts-robotoff/spellcheck/model-training/"
+  code_location: "s3://open-food-facts-robotoff/spellcheck/model-training/"
+  base_job_name: "phi-3-mini-4k-instruct"
+  instance_count: 1
+  instance_type: "ml.g5.2xlarge"
+  transformers_version: "4.36"                         # the transformers version used in the training job
+  pytorch_version: "2.1"                            # the pytorch_version version used in the training job
+  py_version: "py310"                                  # the python version used in the training job
+  disable_output_compression: true
+  volume_size: 300
+  comet_ml_tags: 
+    - "phi-3-mini-4k-instruct"
+    # - "test"
+    - "test_loss"
+  s3_evaluation_uri: "s3://open-food-facts-robotoff/spellcheck/evaluation_output/"
+
+hyperparameters:
+  training_data: "openfoodfacts/spellcheck-dataset"
+  evaluation_data: "openfoodfacts/spellcheck-benchmark"
+  training_data_version: v3
+  evaluation_data_version: v6
+  pretrained_model_name: "microsoft/Phi-3-mini-4k-instruct" 
+  num_train_epochs: 3
+  per_device_train_batch_size: 8
+  per_device_eval_batch_size: 8
+  lr: 0.0002                                    # Paper https://arxiv.org/pdf/2210.11416
+  warmup_steps: 0
+  warmup_ratio: 0.3
+  weight_decay: 0
+  gradient_checkpointing: true
+  seed: 42
+  optim: "adamw_torch_fused"                             # The optimizer to use: adamw_hf, adamw_torch, adamw_torch_fused, adamw_apex_fused, adamw_anyprecision or adafactor.
+  lr_scheduler_type: "constant"
+  gradient_accumulation_steps: 4
+  bf16: true
+  tf32: true
+  fp16: false
+  quantize: true

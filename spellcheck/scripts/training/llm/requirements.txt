@@ -1,0 +1,11 @@
+comet-ml
+tiktoken
+python-dotenv
+transformers==4.38.2
+datasets==2.18.0
+accelerate==0.27.2
+evaluate==0.4.1
+bitsandbytes==0.42.0
+trl==0.7.11
+peft==0.8.2
+flash-attn==2.5.6

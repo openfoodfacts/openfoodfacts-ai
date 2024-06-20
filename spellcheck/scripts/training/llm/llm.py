@@ -13,7 +13,7 @@ from transformers import (
     TrainingArguments,
     BitsAndBytesConfig,
     AutoModelForCausalLM,
-    PreTrainedTokenizerBase
+    PreTrainedTokenizerBase,
 )
 from peft import LoraConfig
 from trl import SFTTrainer
@@ -64,13 +64,10 @@ def parse_args():
     parser.add_argument("--fp16", type=strtobool, default=False, help="Whether to use fp16.")
     parser.add_argument("--bf16", type=strtobool, default=False, help="Whether to use bf16.")
     parser.add_argument("--tf32", type=strtobool, default=False, help="Whether to use tf32.")
-    parser.add_argument("--generation_max_tokens", type=int, default=512, help="Max tokens used for text generation in the Trainer module.")
     parser.add_argument("--optim", type=str, default="adamw_torch", help="Optimizer.")
     parser.add_argument("--lr_scheduler_type", type=str, default="linear", help="Learning scheduler type.")
     parser.add_argument("--gradient_accumulation_steps", type=int, default=1, help="Accumulate bacthes before back propagation.")
-    parser.add_argument("--instruction", type=str, default="none", help="Flan-T5 instruction.")
     parser.add_argument("--quantize", type=strtobool, default=True, help="Model quantization to save memeory footprint.")
-    parser.add_argument("--merge_adapters", type=strtobool, default=True, help="Merge Lora to the pretrained weights.")
 
     # Versions
     parser.add_argument("--training_data_version", type=str, default="v0", help="Training dataset version.")
@@ -86,13 +83,16 @@ def parse_args():
 class LLMQLoRATraining:
 
     def train(self, args):
+        LOGGER.info("Start training.")
 
+        LOGGER.info("Load datasets.")
         # Load data
         train_dataset = load_dataset(path=args.training_data) 
         evaluation_dataset = load_dataset(path=args.evaluation_data, split="train")
         LOGGER.info(f"Training dataset: {train_dataset}")
         LOGGER.info(f"Evaluation dataset: {evaluation_dataset}")
         
+        LOGGER.info("Load tokenizer.")
         # Tokenizer and Model
         tokenizer = AutoTokenizer.from_pretrained(args.pretrained_model_name, use_fast=True)
         tokenizer.pad_token = tokenizer.eos_token
@@ -110,18 +110,20 @@ class LLMQLoRATraining:
         else:
             quantization_config = None
 
+        LOGGER.info("Load model.")
         model = AutoModelForCausalLM.from_pretrained(
             args.pretrained_model_name,
             device_map="auto",
             attn_implementation="flash_attention_2",
             torch_dtype=torch_dtype,
             quantization_config=quantization_config,
+            trust_remote_code=True,
         )
         
         ################
         # Preprocessing
         ################
-
+        LOGGER.info("Start data preprocessing.")
         preprocessed_train_dataset = train_dataset.map(
             self.preprocess, 
             batched=False, 
@@ -131,20 +133,10 @@ class LLMQLoRATraining:
                 "target_name": "label",
             }
         )
-        # preprocessed_evaluation_dataset = evaluation_dataset.map(
-        #     self.preprocess,
-        #     batched=False,
-        #     remove_columns=evaluation_dataset.column_names,
-        #     fn_kwargs={
-        #         "input_name": "original", 
-        #         "target_name": "reference",
-        #     }
-        # )
 
         ################
         # PEFT
         ################
-
         # LoRA config based on QLoRA paper & Sebastian Raschka experiment
         peft_config = LoraConfig(
             lora_alpha=8,
@@ -200,14 +192,13 @@ class LLMQLoRATraining:
                 "append_concat_token": False,  # No need to add additional separator token
             },
         )
+        LOGGER.info("Start training.")
         trainer.train()
 
         #############
         # SAVE MODEL
         #############
-
-        trainer.tokenizer.save_pretrained(args.output_dir)
-
+        LOGGER.info("Start saving.")
         # merge adapter weights with base model and save
         # save int 4 model
         trainer.model.save_pretrained(training_args.output_dir)
@@ -233,11 +224,17 @@ class LLMQLoRATraining:
         model.save_pretrained(
             args.output_dir, safe_serialization=True, max_shard_size="2GB"
         )
-
+        # clear memory because of next evaluation step
+        del model
 
         #############
-        # Evaluate
+        # EVALUATE
         #############
+        LOGGER.info("Start evaluation.")
+        # This process is required since CometML shuts down connection to the experiment run after training
+        experiment = comet_ml.get_global_experiment()
+        LOGGER.info(f"Experiment name after Transformers trainer: {experiment.get_name()}")
+        experiment = comet_ml.ExistingExperiment(experiment_key=experiment.get_key())
 
         # Load fine-tuned model 
         model = AutoModelForCausalLM.from_pretrained(
@@ -246,11 +243,6 @@ class LLMQLoRATraining:
             attn_implementation="flash_attention_2",
             torch_dtype=torch_dtype,
         )
-
-        # This process is required since there is a bug with CometML shuts down connection to the experiment run
-        experiment = comet_ml.get_global_experiment()
-        LOGGER.info(f"Experiment name after Transformers trainer: {experiment.get_name()}")
-        experiment = comet_ml.ExistingExperiment(experiment_key=experiment.get_key())
 
         LOGGER.info("Start evaluating model on benchmark.")
         originals = evaluation_dataset["original"]
@@ -265,9 +257,12 @@ class LLMQLoRATraining:
         s3_evaluation_path = os.path.join(os.getenv("S3_EVALUATION_URI"), "evaluation-" + SM_JOB_NAME)
         LOGGER.info(f"S3 URI where predictions on evaluation are sent to: {s3_evaluation_path}")
         # prediction_dataset.save_to_disk(s3_evaluation_path)
-        prediction_dataset.save_to_disk("training_dir/eval_dataset")
+        prediction_dataset.save_to_disk(s3_evaluation_path)
 
-        # Finish Experiment tracking logging
+        #############
+        # ADDITIONAL EXP LOGGING
+        #############
+
         LOGGER.info("Start logging additional info into the experiment tracker.")
         
         # Experiment tags
@@ -278,7 +273,7 @@ class LLMQLoRATraining:
         model_uri = os.path.join(S3_MODEL_URI, SM_JOB_NAME, "output/model.tar.gz")
         LOGGER.info(f"Training job uri: {model_uri}")
         experiment.log_remote_model(
-            "mistral-7b_instruct-v0.3-spellcheck", 
+            "model", 
             model_uri, 
             sync_mode=False
         )
@@ -328,7 +323,7 @@ class LLMQLoRATraining:
         """
         instruction = ""
         instruction += "You're a spellcheck assistant. Correct the following list of ingredients:\n"
-        instruction += f"### List of ingredients:\n{text}"
+        instruction += f"### List of ingredients:\n{text}\n"
         instruction += "### Correction:\n"
         return instruction
     
@@ -341,6 +336,8 @@ class LLMQLoRATraining:
     ) -> List[str]:
         """Use fine-tuned model for inference.
 
+        NOTE: Inference extremely long because unoptimized (~20-30min). Thinking about using vLLM in another environment for evaluation.  
+
         Args:
             texts (List[str]): Sequence of lists of ingredients.
             model (AutoModelForCausalLM): LLM
@@ -351,8 +348,6 @@ class LLMQLoRATraining:
         """
         predictions = []
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        # tokenizer.pad_token = tokenizer.eos_token
-        # tokenizer.pad_token_id =  tokenizer.eos_token_id
         for text in tqdm(texts, total=len(texts), desc="Prediction"):
             prompt = self.prepare_instruction(text)
             messages = [{"role": "user", "content": prompt},]
