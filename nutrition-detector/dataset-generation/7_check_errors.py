@@ -1,4 +1,4 @@
-"""Push dataset to Hugging Face dataset hub."""
+"""Check for errors in the dataset."""
 
 import copy
 import math
