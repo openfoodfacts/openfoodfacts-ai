@@ -13,7 +13,7 @@ from spellcheck.utils import get_logger
 from spellcheck.evaluation.evaluator import SpellcheckEvaluator
 
 
-LOGGER = get_logger()
+LOGGER = get_logger("INFO")
 
 
 def import_benchmark(

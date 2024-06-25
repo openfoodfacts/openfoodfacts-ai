@@ -4,7 +4,7 @@ from spellcheck.utils import get_repo_dir
 from spellcheck.argilla_modules import TrainingDataArgilla
 from spellcheck.utils import get_logger
 
-LOGGER = get_logger()
+LOGGER = get_logger("INFO")
 
 load_dotenv()
 

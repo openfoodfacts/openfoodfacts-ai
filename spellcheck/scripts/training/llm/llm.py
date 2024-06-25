@@ -29,7 +29,7 @@ load_dotenv()
 # Dataset not saved in cache to save time
 disable_caching()
 
-LOGGER = get_logger()
+LOGGER = get_logger("INFO")
 
 # Retrieve Sagemaker job name to get the model artifact from S3
 SM_TRAINING_ENV = json.loads(os.getenv("SM_TRAINING_ENV"))  # Need to be deserialized
@@ -87,7 +87,7 @@ class LLMQLoRATraining:
 
         LOGGER.info("Load datasets.")
         # Load data
-        train_dataset = load_dataset(path=args.training_data) 
+        train_dataset = load_dataset(path=args.training_data, split="train+test") 
         evaluation_dataset = load_dataset(path=args.evaluation_data, split="train")
         LOGGER.info(f"Training dataset: {train_dataset}")
         LOGGER.info(f"Evaluation dataset: {evaluation_dataset}")
@@ -127,10 +127,19 @@ class LLMQLoRATraining:
         preprocessed_train_dataset = train_dataset.map(
             self.preprocess, 
             batched=False, 
-            remove_columns=train_dataset["train"].column_names, 
+            remove_columns=train_dataset.column_names, 
             fn_kwargs={
                 "input_name": "text", 
                 "target_name": "label",
+            }
+        )
+        preprocessed_evaluation_dataset = evaluation_dataset.map(
+            self.preprocess, 
+            batched=False, 
+            remove_columns=evaluation_dataset.column_names, 
+            fn_kwargs={
+                "input_name": "original", 
+                "target_name": "reference",
             }
         )
 
@@ -182,8 +191,8 @@ class LLMQLoRATraining:
         trainer = SFTTrainer(
             model=model,
             args=training_args,
-            train_dataset=preprocessed_train_dataset["train"],
-            eval_dataset=preprocessed_train_dataset["test"],
+            train_dataset=preprocessed_train_dataset,
+            eval_dataset=preprocessed_evaluation_dataset,
             peft_config=peft_config,
             tokenizer=tokenizer,
             max_seq_length=1024,
@@ -351,25 +360,25 @@ class LLMQLoRATraining:
         """
         predictions = []
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        for text in tqdm(texts, total=len(texts), desc="Prediction"):
-            prompt = self.prepare_instruction(text)
-            messages = [{"role": "user", "content": prompt},]
-            input_ids = tokenizer.apply_chat_template(messages, tokenize=True, return_tensors="pt")
-            pred = model.generate(
-                input_ids.to(device),
-                repetition_penalty=1.03,
-                do_sample=False,
-                max_new_tokens=512,
-                pad_token_id=tokenizer.eos_token_id,
-                **gen_kwargs,
-            )
-            # Decode, remove instruction and strip text
-            prediction = tokenizer.decode(pred[0], skip_special_tokens=True)[len(prompt):].strip()
-            predictions.append(prediction)
+        with torch.no_grad():
+            for text in tqdm(texts, total=len(texts), desc="Prediction"):
+                prompt = self.prepare_instruction(text)
+                messages = [{"role": "user", "content": prompt},]
+                input_ids = tokenizer.apply_chat_template(messages, tokenize=True, return_tensors="pt")
+                pred = model.generate(
+                    input_ids.to(device),
+                    # repetition_penalty=1.03,
+                    do_sample=False,
+                    max_new_tokens=512,
+                    pad_token_id=tokenizer.eos_token_id,
+                    **gen_kwargs,
+                )
+                # Decode, remove instruction and strip text
+                prediction = tokenizer.decode(pred[0], skip_special_tokens=True)[len(prompt):].strip()
+                predictions.append(prediction)
         return predictions
 
 
 if __name__ == "__main__":
-
     args, _ = parse_args()
     LLMQLoRATraining().train(args)

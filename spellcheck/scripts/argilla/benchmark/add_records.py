@@ -6,7 +6,7 @@ import pandas as pd
 from spellcheck.utils import get_logger, get_repo_dir, show_diff
 
 
-LOGGER = get_logger()
+LOGGER = get_logger("INFO")
 
 REPO_DIR = get_repo_dir()
 DATA_PATH = REPO_DIR / "data/benchmark/additional_products/synthetically_corrected_products.parquet"
