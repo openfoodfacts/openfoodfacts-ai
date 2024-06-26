@@ -14,7 +14,7 @@ Enter [**DuckDB**](https://duckdb.org/), an in-process analytical tool designed 
 
 In this article, we will walk you through exploring and exploiting the Open Food Facts database using DuckDB for your usage.
 
-![Main](front.png)
+<img src="front.png" alt="main" width="600" height="auto">
 
 ## Open Food Facts: The Largest Open Food Database in the World
 
