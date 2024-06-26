@@ -14,6 +14,8 @@ Enter [**DuckDB**](https://duckdb.org/), an in-process analytical tool designed 
 
 In this article, we will walk you through exploring and exploiting the Open Food Facts database using DuckDB for your usage.
 
+![Main](front.png)
+
 ## Open Food Facts: The Largest Open Food Database in the World
 
 **Open Food Facts** is an open-source project dedicated to providing consumers with total transparency over food products. This database is composed of over 3 million products from various countries, making it the largest open product database in the world.
