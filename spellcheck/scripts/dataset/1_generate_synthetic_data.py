@@ -19,7 +19,7 @@ SYNTHETIC_DATA_PATH = REPO_DIR / "data/dataset/1_synthetic_data.jsonl"
 
 MODEL_NAME = "gpt-3.5-turbo"
 
-LOGGER = get_logger()
+LOGGER = get_logger("INFO")
 
 
 def main():

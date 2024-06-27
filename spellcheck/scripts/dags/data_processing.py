@@ -3,11 +3,12 @@ from typing import Mapping
 from metaflow import FlowSpec, Parameter, step, current
 from datasets import load_dataset
 
-from spellcheck.utils import get_logger
+from spellcheck.utils import get_logger, get_repo_dir
 from spellcheck.processing import DataProcessor
 
 
 LOGGER = get_logger("INFO")
+# REPO_DIR = get_repo_dir()
 
 
 class DataProcessing(FlowSpec):
@@ -23,15 +24,16 @@ class DataProcessing(FlowSpec):
 
     dataset_revision = Parameter(
         name="dataset_revision",
-        default="83fdf77f06694e289b401e9d3ec11784e9c4f2ab",
-        help="Dataset commit indicating the version for processing. Default to Dataset v3."
+        default="v3",
+        type=str,
+        help="Dataset revision indicating the version for processing. Default to v3."
     )
 
     dataset_version = Parameter(
         name="dataset_version",
         type=str,
         required=True,
-        help="Dataset version. Should correspond to the commit on Hugging Face."
+        help="New processed dataset version."
     )
 
     dataset_split = Parameter(
@@ -69,7 +71,7 @@ class DataProcessing(FlowSpec):
         """Process dataset."""
 
         def process_fn(sample: Mapping) -> Mapping:
-            """Map function used to process dataset
+            """Map function used to process dataset. Add any additional processing in this function.
 
             Args:
                 sample (Mapping): Dataset batch element.
@@ -77,11 +79,11 @@ class DataProcessing(FlowSpec):
             Return:
                 (Mapping): Processed batch.
             """
-            processed_labels = DataProcessor.uniformize_oe(
+            processed_labels = DataProcessor.align_oe(
                 references=sample["text"],
                 texts=sample["label"]
             )
-            processed_labels = DataProcessor.uniformize_whitespace_percentage(
+            processed_labels = DataProcessor.align_whitespace_percentage(
                 references=sample["text"],
                 texts=processed_labels
             )
@@ -95,16 +97,18 @@ class DataProcessing(FlowSpec):
     @step
     def end(self):
         """End of the process."""
-        #NOTE: uncomment once preprocessing method done
-        
-        # self.processed_dataset.train_test_split(
-        #     test_size=self.dataset_test_size,
-        #     seed=42,
-        # ).push_to_hub(
-        #     repo_id=self.dataset_hf_repo,
-        #     commit_message=self.dataset_version,
-        #     commit_description=current.run_id, # Store Metaflow run id for traceability
+        # self.processed_dataset.to_parquet(
+        #     REPO_DIR / 
+        #     ("data/dataset/processed_dataset_" + self.dataset_version + ".parquet")
         # )
+        self.processed_dataset.train_test_split(
+            test_size=self.dataset_test_size,
+            seed=42,
+        ).push_to_hub(
+            repo_id=self.dataset_hf_repo,
+            commit_message=self.dataset_version,
+            commit_description="Metaflow run id:" + current.run_id, # Store Metaflow run id for traceability
+        )
         LOGGER.info("Data processing finished succesfully.")
 
 

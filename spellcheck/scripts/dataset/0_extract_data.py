@@ -29,7 +29,7 @@ DATASET_SIZE = 3000
 PERCENTAGE_UNKNOWN_RANGE = (0.2, 0.4)  # Min, Max desired
 SEED = 42
 
-LOGGER = get_logger()
+LOGGER = get_logger("INFO")
 
 
 def main():
