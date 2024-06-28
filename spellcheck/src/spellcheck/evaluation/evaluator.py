@@ -5,6 +5,7 @@ from tqdm import tqdm
 
 import tiktoken
 import numpy as np
+from unidecode import unidecode
 
 
 LOGGER = logging.getLogger(__name__)
@@ -393,6 +394,8 @@ class SpellcheckEvaluator(Evaluator):
             text = text.replace("â", "a")                                 
             text = text.replace("flavour", "flavor")                      # US/UK
             text = text.replace("colour", "color")
+            text = text.replace("pasteurized", "pasteurised")
+            text = unidecode(text)                                        # Remove accents
             return text
         return [process(text) for text in texts]
 

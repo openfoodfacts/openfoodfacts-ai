@@ -195,7 +195,7 @@ class LLMQLoRATraining:
             eval_dataset=preprocessed_evaluation_dataset,
             peft_config=peft_config,
             tokenizer=tokenizer,
-            max_seq_length=1024,
+            max_seq_length=1024, # Prompt instruction + Text
             packing=True,
             dataset_kwargs={
                 "add_special_tokens": False,  # We template with special tokens
@@ -334,9 +334,12 @@ class LLMQLoRATraining:
             str: Instruction.
         """
         instruction = ""
-        instruction += "You're a spellcheck assistant. Correct the following list of ingredients:\n"
+        instruction += """You are a spellcheck assistant designed to fix typos and errors in a list \
+of ingredients in different languages extracted from product packagings. We want to \
+extract the ingredients from this list using our algorithms. However, it is possible some typos or \
+errors slipped into the list. Your task is to correct those errors following a guideline I provide you.\n"""
         instruction += f"### List of ingredients:\n{text}\n"
-        instruction += "### Correction:\n"
+        instruction += "###Corrected list of ingredients:\n"
         return instruction
     
     def inference(

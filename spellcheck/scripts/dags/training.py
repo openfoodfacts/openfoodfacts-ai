@@ -9,10 +9,9 @@ from spellcheck.utils import get_logger, get_repo_dir
 from spellcheck.argilla_modules import BenchmarkEvaluationArgilla
 
 
-REPO_DIR = get_repo_dir()
 CONF_PATH = REPO_DIR / "config/training_llm.yml"
 
-LOGGER = get_logger()
+LOGGER = get_logger("INFO")
 
 load_dotenv()
 
@@ -25,7 +24,7 @@ class TrainingPipeline(metaflow.FlowSpec):
     do_human_eval = metaflow.Parameter(
         "do_human_eval",
         help="Whether to push the predictions of the trained model against the benchmark to Argilla.",
-        default=False,
+        default=True,
         type=bool,
     )
 
