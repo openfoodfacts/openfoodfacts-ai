@@ -466,3 +466,88 @@
     "prompt_version": "v6",
     "benchmark_size": 151
 }
+{
+    "metrics": {
+        "correction_precision": 0.7101024890190337,
+        "correction_recall": 0.7860615883306321,
+        "precision": 0.7481698389458272,
+        "recall": 0.8282009724473258,
+        "f1": 0.7861538461538463,
+        "f1_beta": 0.7861538461538463,
+        "beta": 1.0,
+        "drop_count": 0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "25/06/2024 10:19:48",
+    "benchmark_version": "v5",
+    "prompt_version": "v6",
+    "benchmark_size": 151
+}
+{
+    "metrics": {
+        "correction_precision": 0.5573366214549939,
+        "correction_recall": 0.7266881028938906,
+        "precision": 0.6091245376078915,
+        "recall": 0.7942122186495176,
+        "f1": 0.6894626657362177,
+        "f1_beta": 0.6894626657362177,
+        "beta": 1.0,
+        "drop_count": 0
+    },
+    "model": "gpt-3.5-turbo",
+    "date": "01/07/2024 13:08:32",
+    "benchmark_version": "v7.3",
+    "prompt_version": "v7",
+    "benchmark_size": 151
+}
+{
+    "metrics": {
+        "correction_precision": 0.5439882697947214,
+        "correction_recall": 0.5964630225080386,
+        "precision": 0.6304985337243402,
+        "recall": 0.6913183279742765,
+        "f1": 0.6595092024539878,
+        "f1_beta": 0.6595092024539878,
+        "beta": 1.0,
+        "drop_count": 0
+    },
+    "model": "gemini-1.5-flash-preview-0514",
+    "date": "01/07/2024 15:19:04",
+    "benchmark_version": "v7.3",
+    "prompt_version": "v7",
+    "benchmark_size": 151
+}
+{
+    "metrics": {
+        "correction_precision": 0.17844767844767845,
+        "correction_recall": 0.809748427672956,
+        "precision": 0.19889119889119888,
+        "recall": 0.9025157232704403,
+        "f1": 0.3259511641113004,
+        "f1_beta": 0.3259511641113004,
+        "beta": 1.0,
+        "drop_count": 0
+    },
+    "model": "claude-3-5-sonnet-20240620",
+    "date": "01/07/2024 16:07:23",
+    "benchmark_version": "v7.3",
+    "prompt_version": "v7",
+    "benchmark_size": 152
+}
+{
+    "metrics": {
+        "correction_precision": 0.31130063965884863,
+        "correction_recall": 0.7019230769230769,
+        "precision": 0.35252309879175553,
+        "recall": 0.7948717948717948,
+        "f1": 0.4884293451501724,
+        "f1_beta": 0.4884293451501724,
+        "beta": 1.0,
+        "drop_count": 0
+    },
+    "model": "gpt-4o-2024-05-13",
+    "date": "01/07/2024 16:34:15",
+    "benchmark_version": "v7.3",
+    "prompt_version": "v7",
+    "benchmark_size": 151
+}

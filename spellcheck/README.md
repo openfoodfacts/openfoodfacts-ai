@@ -236,30 +236,30 @@ We evaluated **Proprietary LLMs** such as OpenAI GPTs and Anthropic Claude 3 mod
 
 Texts are normalized to not consider some typical corrections:
 * lowercase-uppercase
-* whitespaces between words
+* words are stripped (whitespace)
+* replace ("œ", "oe")
+* replace ("flavour", "flavor") - ("colour", "color") - ("pasteurized", "pasteurised")
+* removed all accent using the Unidecode library    
+* remove linebreaks: ("\n", "")     
 
 In addition to computing metrics using the evaluation algorithm, predictions against the benchmark are pushed to Argilla for human evaluation. The proportion of good corrections is then calculated.
 
-Benchmark version: **v5**
-Prompt version: **v6**
+Benchmark version: **v7.3** -- Prompt version: **v7**
 
 
-| Model | Correction Precision | Correction Recall | Localisation Precision | Localisation Recall | Localisation F1 | Human evaluation
-|----------|----------|----------|----------|----------|----------|----------|
-| GPT-3.5-Turbo | 0.729 | **0.779** | 0.767 | **0.820** | **0.793** | **0.894** |
-| Gemini-1.0-pro | 0.499 | 0.586 | 0.561 | 0.658 | 0.605 | 0.717 |
-| Gemini-1.5-flash | 0.514 | 0.693 | 0.590 | 0.795 | 0.677 | 0.790 |
-| Gemini-1.5-pro | 0.364 | 0.658 | 0.415 | 0.750 | 0.534 | - |
-| Mistral-7B-Instruct-v3 | 0.532 | 0.556 | 0.604 | 0.631 | 0.617 | **Good** |
-| Mistral-7B-Instruct-v3 (not fine-tuned) | 0.381 | 0.501 | 0.488 | 0.641 | 0.554 | - |
+| Model | Correction Precision | Correction Recall | Correction F1 | Human evaluation
+|----------|----------|----------|----------|----------|
+| GPT-3.5-Turbo | 0.557 | 0.727 | 0.631 | - |
+| GPT-4o | 0.311 | 0.702 | 0.431 |
+| Gemini-1.5-flash | 0.544 | 0.596 | 0.569 | - |
+| Claude3-Sonnet-3.5 | 0.178 | **0.810** | 0.292 | - |
+| **Our model** | **0.664** | 0.630 | **0.647** | - |
 
 
 Notes:
 * **Correction Precision**: Proportion of correct modifications.
 * **Correction Recall**: Proportion of errors found and corrected
-* **Localisation Precision**: Proportion of errors rightly detected by the model
-* **Localisation Recall**: Proportion of errors founded
-* **Localisation F1**: Mean-like between Precision and Recall
+* **Correction F1**: Mean-like between Precision and Recall
 * **Human evaluation**: Proportion of good corrections after human analysis
 
 ### 100 % known-ingredients products
