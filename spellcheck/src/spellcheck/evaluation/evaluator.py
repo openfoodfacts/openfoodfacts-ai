@@ -396,6 +396,7 @@ class SpellcheckEvaluator(Evaluator):
             text = text.replace("colour", "color")
             text = text.replace("pasteurized", "pasteurised")
             text = unidecode(text)                                        # Remove accents
+            text = text.replace("\n", "")                                 # Counted as an error by evaluator
             return text
         return [process(text) for text in texts]
 
