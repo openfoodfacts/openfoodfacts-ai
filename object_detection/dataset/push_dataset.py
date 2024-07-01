@@ -39,12 +39,14 @@ from PIL import Image
 
 session = requests.Session()
 
+# Feature dictionary to parse the TFRecord files
 feature_dict = {
     "image/height": tf.io.FixedLenFeature((), tf.int64, default_value=1),
     "image/width": tf.io.FixedLenFeature((), tf.int64, default_value=1),
     "image/filename": tf.io.FixedLenFeature((), tf.string, default_value=""),
     "image/source_id": tf.io.FixedLenFeature((), tf.string, default_value=""),
     "image/key/sha256": tf.io.FixedLenFeature((), tf.string, default_value=""),
+    # The image is stored as a string
     "image/encoded": tf.io.FixedLenFeature((), tf.string, default_value=""),
     "image/format": tf.io.FixedLenFeature((), tf.string, default_value="jpeg"),
     "image/object/bbox/xmin": tf.io.VarLenFeature(tf.float32),
@@ -62,6 +64,7 @@ def _parse_image_function(example_proto):
     return tf.io.parse_single_example(example_proto, feature_dict)
 
 
+# The HuggingFace Dataset features
 hf_ds_features = datasets.Features(
     {
         "image_id": datasets.Value("string"),
@@ -92,7 +95,8 @@ def get_image_from_url(
       occured, defaults to False. If False, None is returned if an error
       occured.
     :param session: requests Session to use, by default no session is used.
-    :return: the Pillow Image or None.
+    :return: a tuple containing the loaded image and the image bytes, or
+        (None, None)
     """
     r = get_asset_from_url(image_url, error_raise, session)
     if r is None:
@@ -326,12 +330,22 @@ def push_from_url(
     create_hf: bool = True,
     create_ultralytics: bool = True,
     ultralytics_output_dir: Optional[Path] = None,
-):
+) -> None:
     """Convert Tensorflow TFRecord to HuggingFace Dataset.
 
     Args:
         train_url: URL to the training TFRecord file.
         test_url: URL to the testing TFRecord file.
+        repo_id: HuggingFace repository ID.
+        category_names: list of category names.
+        use_filename: if True, use the filename to generate the image ID.
+        raise_if_error: if True, raise an error if an error occurs during the
+            image loading.
+        create_hf: if True, create the HuggingFace dataset.
+        create_ultralytics: if True, create the Ultralytics dataset.
+        ultralytics_output_dir: directory where the Ultralytics dataset will be
+            saved.
+
     """
     if create_ultralytics:
         if not ultralytics_output_dir:
@@ -352,7 +366,7 @@ def push_from_url(
                 raise_if_error=raise_if_error,
                 image_dir=(
                     ultralytics_output_dir / "datasets" / "images"
-                    if ultralytics_output_dir
+                    if create_ultralytics
                     else None
                 ),
             )
@@ -402,7 +416,7 @@ def push_from_local_file(
                 raise_if_error=raise_if_error,
                 image_dir=(
                     ultralytics_output_dir / "datasets" / "images"
-                    if ultralytics_output_dir
+                    if create_ultralytics
                     else None
                 ),
             )
@@ -420,40 +434,40 @@ def push_from_local_file(
 
 
 if __name__ == "__main__":
-    # push_from_url(
-    #     ultralytics_output_dir=Path(
-    #         "/home/raphael/datasets/nutriscore-detection/ultralytics"
-    #     ),
-    #     train_url="https://github.com/openfoodfacts/robotoff-models/releases/download/tf-nutriscore-1.0/train.record",
-    #     test_url="https://github.com/openfoodfacts/robotoff-models/releases/download/tf-nutriscore-1.0/val.record",
-    #     repo_id="openfoodfacts/nutriscore-object-detection",
-    #     category_names=[
-    #         "nutriscore-a",
-    #         "nutriscore-b",
-    #         "nutriscore-c",
-    #         "nutriscore-d",
-    #         "nutriscore-e",
+    push_from_url(
+        ultralytics_output_dir=Path(
+            "/home/raphael/datasets/nutriscore-detection/ultralytics"
+        ),
+        train_url="https://github.com/openfoodfacts/robotoff-models/releases/download/tf-nutriscore-1.0/train.record",
+        test_url="https://github.com/openfoodfacts/robotoff-models/releases/download/tf-nutriscore-1.0/val.record",
+        repo_id="openfoodfacts/nutriscore-object-detection",
+        category_names=[
+            "nutriscore-a",
+            "nutriscore-b",
+            "nutriscore-c",
+            "nutriscore-d",
+            "nutriscore-e",
+        ],
+        use_filename=False,
+        raise_if_error=False,
+        create_hf=True,
+        create_ultralytics=False,
+    )
+
+    # push_from_local_file(
+    #     Path("/home/raphael/datasets/nutrition-table-detection/tfrecord"),
+    #     "openfoodfacts/nutrition-table-detection",
+    #     [
+    #         "nutrition-table",
+    #         "nutrition-table-small",
+    #         "nutrition-table-small-energy",
+    #         "nutrition-table-text",
     #     ],
-    #     use_filename=False,
+    #     use_filename=True,
     #     raise_if_error=False,
     #     create_hf=True,
     #     create_ultralytics=False,
+    #     ultralytics_output_dir=Path(
+    #         "/home/raphael/datasets/nutrition-table-detection/ultralytics"
+    #     ),
     # )
-
-    push_from_local_file(
-        Path("/home/raphael/datasets/nutrition-table-detection/tfrecord"),
-        "openfoodfacts/nutrition-table-detection",
-        [
-            "nutrition-table",
-            "nutrition-table-small",
-            "nutrition-table-small-energy",
-            "nutrition-table-text",
-        ],
-        use_filename=True,
-        raise_if_error=False,
-        create_hf=False,
-        create_ultralytics=True,
-        ultralytics_output_dir=Path(
-            "/home/raphael/datasets/nutrition-table-detection/ultralytics"
-        ),
-    )
