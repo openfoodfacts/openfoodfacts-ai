@@ -31,7 +31,7 @@ Luckily for us, tools to process this large amount of data have been developed o
 
 [**DuckDB**](https://duckdb.org/) is an open-source project developed to analyze and process large amounts of data using a feature-rich SQL language. 
 
-For years, [Apache Spark](https://spark.apache.org/) have been the most used tool for handling large-scale datasets. However, its complexity and setup requirements can be seen as *overkill* for mid-sized data (10 to 100GB).
+For years, [Apache Spark](https://spark.apache.org/) has been the most used tool for handling large-scale datasets. However, its complexity and setup requirements can be seen as *overkill* for mid-sized data (10 to 100GB).
 
 Similarly, **SQL** is one of the oldest and most widely used languages for database communication. Yet, it often needs external database infrastructure such as [PostGreSQL](https://www.postgresql.org/) or [MySQL](https://www.mysql.com/), which can be overly complex for analyzing simpler data formats like Parquet or CSV.
 
@@ -102,6 +102,8 @@ Let's have a look at the Open Food Facts data using the `DESCRIBE` command:
 .timer on --Activate the timer
 DESCRIBE (SELECT * FROM read_ndjson('openfoodfacts-products.jsonl.gz', ignore_errors=True)) --ignore_errors is necessary since some elements in the data are in the wrong format
 ```
+
+> Note: `--` is used to comment SQL code 
 
 ```
 ┌───────────────────────────────────────────┬─────────────┬─────────┬─────────┬─────────┬─────────┐
@@ -177,13 +179,15 @@ SELECT count(*) from read_ndjson('openfoodfacts-products.jsonl.gz', ignore_error
 └─────────────┘
 ```
 
-This means the dataset contains over 3 billions elements!
+The database is massive, with over 3 millions products and detailled information for each one of them.
 
-However, not every feature is relevant for our analysis; many are actually legacy. We only need a few key features. Since DuckDB is optimized for columnar queries, it is perfect for selecting specific features from this massive dataset.
+However, not every feature is relevant for our analysis; many are actually legacy. We only need a few features for our analysis. 
+
+Since DuckDB is optimized for columnar queries, this will make the process really fast.
 
 Let's examine a single product to get an idea of what the data looks like.
 
-> You can custom the output visual using `.mode <option>` and `.maxrows <n>`. This is particularly useful if the data doesn't fit in tables. Use .help mode to see the available options.
+> You can custom the output visual using `.mode <option>` and `.maxrows <n>`. This is particularly useful if the data doesn't fit in tables. Use the `.help` mode to see the available options.
 
 ```sql
 .mode lines --Configure outputs to be printed as lines instead of box
@@ -217,13 +221,15 @@ amino_acids_prev_tags = []
 ...
 ```
 
+Nutri-score, list of ingredients in different languages, additives, ... Each product comes with valuable information we can use for our applications.
+
 Now that we've introduced **DuckDB** and explored the structure of the **Open Food Facts** database, it's time to dive into some analysis.
 
 ### What are the most predominant languages?
 
-First, since we don't need the entire dataset for our analysis, we can segment our exploration by creating tables in the DuckDB database. This will allow us to persist our work and make any future queries faster and more efficient than querying the entire dataset each time.
+First, since we don't need the entire dataset for our analysis, we can segment our exploration by creating tables in the DuckDB database. This will allow us to persist our work and make any future queries faster and more efficient than querying the entire dataset every time.
 
-Let's start by creating a table for our analysis. Here's how we can do it:
+Let's start by creating a table for our analysis:
 
 ```sql
 CREATE TABLE lang_product AS 
@@ -231,9 +237,9 @@ SELECT lang, code, product_name FROM read_ndjson('openfoodfacts-products.jsonl.g
 WHERE code IS NOT NULL;  
 ```
 
-We can show the list of tables using `.tables`. In addition to being lightweight, the table is optimized for SQL queries.
+We can show the list of tables using `.tables`. In addition to being lightweight, the table is highly optimized for SQL queries.
 
-Once the table is created, we can start querying the data to find out which languages are most predominant.
+We can start querying the data to find out which languages are most predominant.
 
 ```sql
 SELECT lang, count() AS count 
@@ -272,9 +278,13 @@ DESC LIMIT 20;
 Run Time (s): real 0.040 user 0.112340 sys 0.035817
 ```
 
-### List products containing specific ingredients
+**0.04 secondes to process over 3 millions products!** This is how fast DuckDB can be to process the Open Food Facts database.
 
-To retrieve all products containing a specific ingredient, we can first create a table containing a subset of the database relevant to your task:
+### List all products containing specific ingredients
+
+We could use the database in a food search engine application.
+
+To retrieve all products containing a specific ingredient, we can first create a table containing a subset of the database relevant to our task:
 
 ```sql
 CREATE TABLE products AS
@@ -282,46 +292,50 @@ SELECT code, product_name, ingredients_text, lang FROM read_ndjson('openfoodfact
 WHERE product_name IS NOT NULL AND ingredients_text IS NOT NULL;
 ```
 
-Next, to list all products containing the ingredient "snail," you can use [pattern matching](https://duckdb.org/docs/sql/functions/pattern_matching) in DuckDB. This allows you to perform case-insensitive searches within the ingredients_text column.
+Let's say we want to retrieve all products containing "cheese". A method would be to use the [pattern matching](https://duckdb.org/docs/sql/functions/pattern_matching) feature from DuckDB and perform a search in the `ingredients_text` column.
 
 ```sql
+.maxrows 10
 FROM products
-WHERE ingredients_text ILIKE '%snail%'; -- % matches any sequence of zero or more characters - ILIKE is case insensitive
+WHERE ingredients_text ILIKE '%cheese%'; -- `%` matches any sequence of zero or more characters - ILIKE is case insensitive - LIKE for case sensitive search
 ```
 
-This query will return all products that mention "snail" in their ingredients list.
-
 ```
-┌───────────────┬──────────────────────┬───────────────────────────────────────────────────────────────────────────────────────────┬─────────┐
-┌───────────────┬──────────────────────┬───────────────────────────────────────────────────────────────────────────────────────────┬─────────┐
-│     code      │     product_name     │                                     ingredients_text                                      │  lang   │
-│    varchar    │       varchar        │                                          varchar                                          │ varchar │
-├───────────────┼──────────────────────┼───────────────────────────────────────────────────────────────────────────────────────────┼─────────┤
-│ 0041224260146 │ Escargots snails     │ Snails water, salt, pepper, laurel, cloves, citric acid.                                  │ en      │
-│ 0041224263048 │ Escargot Snails      │ Snails, water, salt, pepper, laurel, cloves, citric acid                                  │ en      │
-│ 0070670007821 │ Precooked helix sn…  │ Snails, water, salt, spices and natural flavors.                                          │ en      │
-│ 3111950425700 │ Sabarot, Helix Luc…  │ Snail helix iucorum, water                                                                │ en      │
-│ 3459860004807 │ Mousse de volaille…  │ t) Mousse de votaitte à rorientate — tngrédients : snailk', riz. To), stabilkants : et …  │ fr      │
-│ 8801114305515 │ Snail Bean Paste S…  │ Fermented soybean paste, water, fermented soybean lump, snail, garlic, tuna seasoning, …  │ en      │
-│ 0055415700502 │ Escargots            │ SNAILS, WATER, SALT, SPICES\r\nINGREDIENTS: ESCARGOTS, EAU, SEL, EPICES  \r\nFOR NUTRIT…  │ fr      │
-│ 0060897015402 │ escargots            │ SNAILS, WATER, SALT, SPICES. \nescargots,EAU, SEL EPICES.                                 │ fr      │
-│ 0208167602994 │ Danish snails        │ since 1929 hays market family owned , operated for 4 genepations 201 johnstown center d…  │ en      │
-│ 3261089925104 │ Escargots with gar…  │ Snails, butter (milk), garlic, parsley, shallot, salt, pepper, spices, celery.            │ en      │
-│ 8809479166499 │ Snail essence mask   │ ne face to let tne remaining essence absorb, [ngredents] water, glycerin, methylpropane…  │ en      │
-│ 8809279621358 │ Foodaholic snail m…  │ waler,glycerinpropylene glycolalcoholpeg-60 hydrogenated castor ophenoxy ethanolmethyl …  │ en      │
-│ 6970006620769 │ Liuzhou Snail Rice…  │ mixed dried rice noodles bag:(rice, corn starch, drinking water, rice:corn starch3d55:4…  │ en      │
-│ 0667888056019 │ Snails               │ Snails, Water, Salt, Spices.                                                              │ en      │
-│ 4820219341369 │ Bob                  │ Склад: Начинка (77 %): яблука 61,6 %, полуниці (Харчова (пот 15,4 %, Молочний шоколад (…  │ uk      │
-│ 4045198900141 │ Apfelschnecken (ro…  │ Apfelschneckenfleisch (Pila polita). Aus Binnenfischerei in: Mekong, Vietnam, Schleppne…  │ de      │
-│ 4820219341352 │                      │ ДЛЯ ПРИГОТУВАННЯ СМАЧНЮЩОТ ЦУКЕРКИ ЛИШЕ ФРУКТИ ТА СПРАВЖНІЙ БЕЛЬГІЙСІ ДОДАНИЙ ЦУКОР? - …  │ en      │
-│ 3800236030416 │ wow bust             │ ولره ¿cose wow coo excel ingredients (inci): aqua, snail secretion filtrate, glycerin, …  │ en      │
-│ 4820219344278 │                      │ BOB SNAIL ŚLIMAK BOB Podczas produkcji ani jeden ślimak nie został skrzywdzony, skrzywd…  │ de      │
-├───────────────┴──────────────────────┴───────────────────────────────────────────────────────────────────────────────────────────┴─────────┤
-│ 19 rows                                                                                                                          4 columns │
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-Run Time (s): real 0.774 user 2.786429 sys 0.000849
+┌───────────────┬──────────────────────┬────────────────────────────────────────────────────────────────────────────────────────────────────────────────┬─────────┐
+│     code      │     product_name     │                                                ingredients_text                                                │  lang   │
+│    varchar    │       varchar        │                                                    varchar                                                     │ varchar │
+├───────────────┼──────────────────────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────┼─────────┤
+│ 0000000018340 │ Fire Roasted Hatch…  │ Dry roasted almonds, hatch green chile seasoning (organic cheddar cheese powder [organic cheddar cheese {cul…  │ en      │
+│ 0000000032117 │ Tricolor Tortellini  │ Egg pasta (refined durum semolina wheat flour, pasteurized eggs, dehydrated tomato and spinach), filling (gr…  │ en      │
+│ 0000020043070 │ Biscuit              │ Enriched wheat flour (niacin, reduced iron, thiamin mononitrate, riboflavin, folic acid, malted barley flour…  │ en      │
+│ 0000020043087 │ Biscuit              │ Enriched wheat flour (niacin, reduced iron, thiamin mononitrate, riboflavin, folic acid, malted barley flour…  │ en      │
+│ 0000168175589 │ Mcvitie's, digesti…  │ Fortified wheat flour (with calcium, iron, niacin, thiamin), vegetable oil (palm), sugar, wholemeal wheat fl…  │ en      │
+│    ·          │          ·           │                                                       ·                                                        │ ·       │
+│    ·          │          ·           │                                                       ·                                                        │ ·       │
+│    ·          │          ·           │                                                       ·                                                        │ ·       │
+│ 29397297      │ M&S Chicken Caesar…  │ full fat soft cheese (milk) rapeseed oil water parmigiano reggiano cheese , , (milk) chicken breast (4,5%) (…  │ en      │
+│ 9414323991982 │ Beef Lasagne         │ Meat Sauce (58%) [Tomato Purée (34%), Beef (19%), Onion (2.3%), Maize Thickener (1422), Brown Sugar, Salt, H…  │ en      │
+│ 01154047      │ Sweet Maui rings     │ yellow corn flour, white rice flour, vegetable oil (contains one or more of the following: corn oil, sunflow…  │ en      │
+│ 0005050215800 │ Garlic mushroom, m…  │ Fortified Wheat Flour (Wheat Flour, Calcium Carbonate, Iron, Niacin, Thiamin), Water, Mozzarella Cheese (Cow…  │ en      │
+│ 5208046258194 │                      │ Egg pasta 72% (durum wheat semolina, egg 19.4%), filling 28% [breadcrumbs (soft wheat flour, water, yeast, s…  │ en      │
+├───────────────┴──────────────────────┴────────────────────────────────────────────────────────────────────────────────────────────────────────────────┴─────────┤
+│ 38483 rows (10 shown)                                                                                                                                 4 columns │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+Run Time (s): real 0.299 user 2.891531 sys 0.009861
 ```
 
+Over 38483 matches in less than 0.3 secondes!
+
+Let's now export this result in a parquet format for further analysis.
+
+```sql
+COPY(
+FROM products WHERE ingredients_text ILIKE '%cheese%'
+) TO cheese_products.parquet (FORMAT PARQUET);
+Run Time (s): real 0.422 user 3.038148 sys 0.019620
+```
+
+Using the `COPY` feature, we can export portions of the database in no time. Many file formats are supported, such as *csv, parquet, JSON and even EXCEL*.
 ## Conclusions
 
 **DuckDB** is a powerful tool that empowers users to exploit and analyze large amounts of data swiftly and efficiently, all without the need for complex infrastructure. Rapidly evolving with strong community support, DuckDB is becoming a go-to solution for data analysis tasks.
