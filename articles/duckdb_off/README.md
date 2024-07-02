@@ -346,7 +346,7 @@ Food transparency in the palm of your hand. :duck::orange:
 
 ## How to contribute to Open Food Facts?
 
-Since Open Food Facts is a collaborative project, and you too can contribute to enhancing food transparency worldwide.
+Since Open Food Facts is a collaborative project, you can contribute to enhancing food transparency worldwide.
 
 You can either:
 
