@@ -342,7 +342,7 @@ Using the `COPY` feature, we can export portions of the database in no time. Man
 
 Coupled with the Open Food Facts database, you gain access to a vast catalog of products that can be leveraged for various projects.
 
-Food transparency is the palm of your hand. :duck::orange:
+Food transparency in the palm of your hand. :duck::orange:
 
 ## How to contribute to Open Food Facts?
 
