@@ -6,11 +6,10 @@ from omegaconf import OmegaConf
 from sagemaker.huggingface import HuggingFace
 
 from spellcheck.utils import get_logger, get_repo_dir
-from spellcheck.argilla_modules import BenchmarkEvaluationArgilla
+from spellcheck.argilla.deployment import BenchmarkEvaluationArgilla
 
-
+REPO_DIR = get_repo_dir()
 CONF_PATH = REPO_DIR / "config/training_llm.yml"
-
 LOGGER = get_logger("INFO")
 
 load_dotenv()

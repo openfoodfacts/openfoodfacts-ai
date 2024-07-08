@@ -1,5 +1,5 @@
 from spellcheck.utils import get_repo_dir
-from spellcheck.argilla_modules import BenchmarkArgilla
+from spellcheck.argilla.deployment import BenchmarkArgilla
 
 REPO_DIR = get_repo_dir()
 BENCHMARK_PATH = REPO_DIR / "data/benchmark/verified_benchmark.parquet"

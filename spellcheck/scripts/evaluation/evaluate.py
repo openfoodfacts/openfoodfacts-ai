@@ -17,7 +17,7 @@ from spellcheck.model import (
     LLMInferenceEndpoint,
 )
 from spellcheck.prompt import SystemPrompt, Prompt
-from spellcheck.argilla_modules import BenchmarkEvaluationArgilla, IngredientsCompleteEvaluationArgilla
+from spellcheck.argilla.deployment import BenchmarkEvaluationArgilla, IngredientsCompleteEvaluationArgilla
 from spellcheck.evaluation.evaluation import Evaluate, import_benchmark, import_ingredients_complete
 
 
