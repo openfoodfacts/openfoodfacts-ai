@@ -5,6 +5,7 @@ import string
 from collections import defaultdict
 from typing import Iterator, Optional
 
+import openfoodfacts
 import redis
 import requests
 import tqdm
@@ -12,6 +13,7 @@ import typer
 from openfoodfacts.images import generate_image_url, generate_json_ocr_url
 from openfoodfacts.ocr import OCRResult
 from openfoodfacts.utils import get_logger
+from ratelimit import limits, sleep_and_retry
 
 logger = get_logger()
 
@@ -182,12 +184,22 @@ def format_sample(product: dict, min_threshold: Optional[int] = None):
         nutrition_key = f"nutrition_{lang}"
         nutrition_image = images[nutrition_key]
         image_id = nutrition_image["imgid"]
+
+        if image_id not in images:
+            logger.info(f"Image {image_id} not found")
+            continue
+
         full_image = images[image_id]
         width = full_image["sizes"]["full"]["w"]
         height = full_image["sizes"]["full"]["h"]
         image_url = generate_image_url(barcode, image_id=image_id)
         ocr_url = generate_json_ocr_url(barcode, image_id=image_id)
-        ocr_result = OCRResult.from_url(ocr_url)
+
+        try:
+            ocr_result = OCRResult.from_url(ocr_url)
+        except openfoodfacts.ocr.OCRResultGenerationException as e:
+            logger.info(f"Error generating OCR result: {e}")
+            continue
 
         if not ocr_result.full_text_annotation:
             continue
@@ -233,9 +245,9 @@ def format_sample(product: dict, min_threshold: Optional[int] = None):
     return None
 
 
-def product_iter(max_page: int) -> Iterator[str]:
+def product_iter(start_page: int, max_page: int) -> Iterator[str]:
     q = 'states_tags:"en:nutrition-photo-selected" AND states_tags:"en:nutrition-facts-completed"'
-    for page in range(1, max_page + 1):
+    for page in range(start_page, max_page + 1):
         r = requests.get(
             "https://search.openfoodfacts.org/search",
             params={"q": q, "page_size": 50, "page": page, "field": "code"},
@@ -243,7 +255,18 @@ def product_iter(max_page: int) -> Iterator[str]:
         yield from (p["code"] for p in r["hits"])
 
 
+@sleep_and_retry
+@limits(calls=1, period=1)
+def get_product(product_code: str):
+    """Get product details from OpenFoodFacts API, and limit the rate of
+    requests (1 req/s)."""
+    return requests.get(
+        f"https://world.openfoodfacts.org/api/v2/product/{product_code}?fields=images,nutriments,code,lang"
+    ).json()
+
+
 def create_dataset(
+    start_page: int = 1,
     max_page: int = 100,
     min_threshold: int = 5,
     redis_cache_key: str = "off:nutrition-dataset:products",
@@ -252,14 +275,14 @@ def create_dataset(
     sample_count = 0
 
     with open("dataset.jsonl", "a") as f:
-        for product_code in tqdm.tqdm(product_iter(max_page), desc="products"):
+        for product_code in tqdm.tqdm(
+            product_iter(start_page=start_page, max_page=max_page), desc="products"
+        ):
             if client.hexists(redis_cache_key, product_code):
                 logger.info(f"Product {product_code} already processed")
                 continue
             product_count += 1
-            r = requests.get(
-                f"https://world.openfoodfacts.org/api/v2/product/{product_code}?fields=images,nutriments,code,lang"
-            ).json()
+            r = get_product(product_code)
 
             if "product" not in r:
                 logger.error(f"Product {product_code} not found")

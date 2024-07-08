@@ -12,6 +12,8 @@ from openfoodfacts.utils import get_image_from_url, get_logger
 
 logger = get_logger()
 
+app = typer.Typer(pretty_exceptions_enable=False)
+
 
 def create_sample(task: dict, only_checked: bool = False) -> Optional[dict]:
     """Generate a LayoutLM dataset sample from a Label Studio task.
@@ -22,12 +24,13 @@ def create_sample(task: dict, only_checked: bool = False) -> Optional[dict]:
     """
     task_data = task["data"]
     annotations_data = task["annotations"]
+    task_id = task["id"]
 
     if len(annotations_data) == 0:
         # No annotation, skip
         return None
     elif len(annotations_data) > 1:
-        logger.error("Task %s has more than one annotation", task["id"])
+        logger.error("Task %s has more than one annotation", task_id)
         return None
 
     annotation_data = annotations_data[0]
@@ -41,13 +44,17 @@ def create_sample(task: dict, only_checked: bool = False) -> Optional[dict]:
         "ocr_url": ocr_url,
         "image_url": task_data["image_url"],
         "batch": task_data["batch"],
-        "label_studio_id": task["id"],
+        "label_studio_id": task_id,
         "checked": False,
         "usda_table": False,
         "nutrition_text": False,
         "no_nutrition_table": False,
         "comment": "",
     }
+
+    if task_data.get("error", "ok") != "ok":
+        logger.warning("Task %s has an error: %s", task_id, task_data["error"])
+        return None
 
     current_bbox_id = None
     tokens = []
@@ -68,7 +75,7 @@ def create_sample(task: dict, only_checked: bool = False) -> Optional[dict]:
             current_bbox_id = None
 
             if result["from_name"] == "label":
-                assert len(result_value["labels"]) == 1
+                assert len(result_value["labels"]) == 1, "Only one label is expected"
                 ner_tag = result_value["labels"][0]
                 if ner_tag in ("other", "other-nutriment"):
                     ner_tag = "O"
@@ -86,7 +93,7 @@ def create_sample(task: dict, only_checked: bool = False) -> Optional[dict]:
                         ner_tag = f"B-{ner_tag}"
                 ner_tags.append(ner_tag)
             elif result["from_name"] == "transcription":
-                assert len(result_value["text"]) == 1
+                assert len(result_value["text"]) == 1, "Only one text is expected"
                 tokens.append(result_value["text"][0])
                 # Also add bounding box information
                 # Every coordinate is between 0 and 100 (excluded), LayoutLM
@@ -118,7 +125,7 @@ def create_sample(task: dict, only_checked: bool = False) -> Optional[dict]:
             elif result["from_name"] == "issues" and result["value"]["choices"]:
                 logger.info(
                     "Task %s has issues: %s, skipping",
-                    task["id"],
+                    task_id,
                     result["value"]["choices"],
                 )
                 return None
@@ -133,10 +140,19 @@ def create_sample(task: dict, only_checked: bool = False) -> Optional[dict]:
             continue
 
     if only_checked and not meta["checked"]:
-        logger.info("Task %s is not checked, skipping", task["id"])
+        logger.info("Task %s is not checked, skipping", task_id)
         return None
 
-    assert len(tokens) == len(bboxes) == len(ner_tags)
+    if not (len(tokens) == len(bboxes) == len(ner_tags)):
+        logger.warning(
+            "Mismatch in lengths for task ID %s: [tokens]:%s [bboxes]:%s [ner_tags]:%s",
+            task_id,
+            len(tokens),
+            len(bboxes),
+            len(ner_tags),
+        )
+        return None
+
     image = get_image_from_url(image_url, error_raise=False)
 
     if image is None:
@@ -191,12 +207,16 @@ def get_tasks(
     )
 
 
+@app.command()
 def push_dataset(
     api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
     # The project ID is hardcoded to 42, as it is the ID of the project on our
     # Label Studio instance
     project_id: Annotated[int, typer.Option(..., help="Label Studio project ID")] = 42,
-    batch_ids: Optional[list[int]] = None,
+    batch_ids: Annotated[
+        Optional[str],
+        typer.Option(..., help="comma-separated list of batch IDs to include"),
+    ] = None,
     label_studio_url: Annotated[
         str, typer.Option()
     ] = "https://annotate.openfoodfacts.org",
@@ -205,9 +225,12 @@ def push_dataset(
     ] = "main",
     test_split_count: Annotated[
         int, typer.Option(help="Number of samples in test split")
-    ] = 30,
+    ] = 120,
 ):
     logger.info("Fetching tasks from Label Studio, project %s", project_id)
+    if batch_ids:
+        batch_ids = list(map(int, batch_ids.split(",")))
+        logger.info("Fetching tasks for batches %s", batch_ids)
     tasks = get_tasks(label_studio_url, api_key, project_id, batch_ids)
     samples = [sample for sample in (create_sample(task) for task in tasks) if sample]
     logger.info("Generated %s samples", len(samples))
@@ -264,4 +287,4 @@ def push_dataset(
 
 
 if __name__ == "__main__":
-    typer.run(push_dataset)
+    app()

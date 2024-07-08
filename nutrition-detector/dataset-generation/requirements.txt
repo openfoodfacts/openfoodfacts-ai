@@ -1,5 +1,8 @@
 typer==0.12.3
-label-studio-sdk==0.0.32
+label-studio-sdk==1.0.2
 openfoodfacts==0.3.0
 Pillow==10.3.0
 datasets==2.18.0
+redis==5.0.6
+ratelimit==2.2.1
+more_itertools==10.3.0
