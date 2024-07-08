@@ -68,6 +68,9 @@ def parse_args():
     parser.add_argument("--lr_scheduler_type", type=str, default="linear", help="Learning scheduler type.")
     parser.add_argument("--gradient_accumulation_steps", type=int, default=1, help="Accumulate bacthes before back propagation.")
     parser.add_argument("--quantize", type=strtobool, default=True, help="Model quantization to save memeory footprint.")
+    parser.add_argument("--logging_steps", type=int, default=50, help="Number of steps between training log.")
+    parser.add_argument("--eval_steps", type=int, default=25, help="Number of steps between evaluation computation.")
+    parser.add_argument("--save_total_limit", type=int, default=0, help="Number of checkpoint saved at the same time during the training.")
 
     # Versions
     parser.add_argument("--training_data_version", type=str, default="v0", help="Training dataset version.")
@@ -178,11 +181,11 @@ class LLMQLoRATraining:
             #Logging & evaluation strategies
             logging_dir                         = f"{args.output_dir}/logs",
             logging_strategy                    = "steps",
-            logging_steps                       = 10,
+            logging_steps                       = args.logging_steps,
             evaluation_strategy                 = "steps",
-            eval_steps                          = 50,
+            eval_steps                          = args.eval_steps,
             save_strategy                       = "steps",
-            save_total_limit                    = 1,
+            save_total_limit                    = args.save_total_limit,
             load_best_model_at_end              = True,
             # metric_for_best_model               = "f1_beta",                           # Metric used to select the best model.
             report_to="comet_ml",
@@ -268,7 +271,7 @@ class LLMQLoRATraining:
         prediction_dataset = evaluation_dataset.add_column(name="prediction", column=predictions)
         s3_evaluation_path = os.path.join(os.getenv("S3_EVALUATION_URI"), "evaluation-" + SM_JOB_NAME)
         LOGGER.info(f"S3 URI where predictions on evaluation are sent to: {s3_evaluation_path}")
-        # prediction_dataset.save_to_disk(s3_evaluation_path)
+        experiment.log_parameter("evaluation_uri", s3_evaluation_path)
         prediction_dataset.save_to_disk(s3_evaluation_path)
 
         #############
@@ -299,6 +302,9 @@ class LLMQLoRATraining:
         # Log Metaflow run id
         if metaflow_run_id := os.getenv("METAFLOW_RUN_ID"):
             experiment.log_parameter("metaflow_run_id", metaflow_run_id)
+        
+        # Log training job name
+        experiment.log_parameter("training_job_name", SM_JOB_NAME)
         
         LOGGER.info("Training job finished.")
 
