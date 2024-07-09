@@ -158,6 +158,12 @@ def export(
         Optional[Path],
         typer.Option(help="Path to the output directory", file_okay=False),
     ] = None,
+    download_images: Annotated[
+        bool,
+        typer.Option(
+            help="if True, don't use HF images and download images from the server"
+        ),
+    ] = False,
 ):
     """Export Label Studio annotation, either to Hugging Face Datasets or
     local files (ultralytics format)."""
@@ -198,7 +204,9 @@ def export(
 
     elif from_ == "hf":
         if to == "ultralytics":
-            export_from_hf_to_ultralytics(repo_id, output_dir)
+            export_from_hf_to_ultralytics(
+                repo_id, output_dir, download_images=download_images
+            )
         else:
             raise typer.BadParameter("Unsupported export format")
     else:
@@ -211,6 +219,7 @@ def check_dataset(
     project_id: Annotated[int, typer.Option(help="Label Studio Project ID")],
     label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
 ):
+    """Check a dataset for duplicate images."""
     from collections import defaultdict
 
     import imagehash

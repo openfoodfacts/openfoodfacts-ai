@@ -126,7 +126,9 @@ def export_from_ls_to_ultralytics(
             f.write(f"  {i}: {category_name}\n")
 
 
-def export_from_hf_to_ultralytics(repo_id: str, output_dir: Path):
+def export_from_hf_to_ultralytics(
+    repo_id: str, output_dir: Path, download_images: bool = True
+):
     """Export annotations from a Hugging Face dataset project to the
     Ultralytics format.
 
@@ -136,6 +138,7 @@ def export_from_hf_to_ultralytics(repo_id: str, output_dir: Path):
     logger.info("Repo ID: %s", repo_id)
     ds = datasets.load_dataset(repo_id)
     output_dir.mkdir(parents=True, exist_ok=True)
+    category_id_to_name = {}
 
     for split in ["train", "val"]:
         split_labels_dir = output_dir / "labels" / split
@@ -146,15 +149,20 @@ def export_from_hf_to_ultralytics(repo_id: str, output_dir: Path):
         for sample in tqdm.tqdm(ds[split], desc="samples"):
             image_id = sample["image_id"]
             image_url = sample["meta"]["image_url"]
-            download_output = download_image(image_url, return_bytes=True)
-            if download_output is None:
-                logger.error("Failed to download image: %s", image_url)
-                continue
 
-            _, image_bytes = download_output
-
-            with (output_dir / "images" / split / f"{image_id}.jpg").open("wb") as f:
-                f.write(image_bytes)
+            if download_images:
+                download_output = download_image(image_url, return_bytes=True)
+                if download_output is None:
+                    logger.error("Failed to download image: %s", image_url)
+                    continue
+                _, image_bytes = download_output
+                with (output_dir / "images" / split / f"{image_id}.jpg").open(
+                    "wb"
+                ) as f:
+                    f.write(image_bytes)
+            else:
+                image = sample["image"]
+                image.save(output_dir / "images" / split / f"{image_id}.jpg")
 
             objects = sample["objects"]
             bboxes = objects["bbox"]
@@ -165,6 +173,8 @@ def export_from_hf_to_ultralytics(repo_id: str, output_dir: Path):
                 for bbox, category_id, category_name in zip(
                     bboxes, category_ids, category_names
                 ):
+                    if category_id not in category_id_to_name:
+                        category_id_to_name[category_id] = category_name
                     y_min, x_min, y_max, x_max = bbox
                     y_min = min(max(y_min, 0.0), 1.0)
                     x_min = min(max(x_min, 0.0), 1.0)
@@ -184,6 +194,9 @@ def export_from_hf_to_ultralytics(repo_id: str, output_dir: Path):
                     y_center = y_min + height / 2
                     f.write(f"{category_id} {x_center} {y_center} {width} {height}\n")
 
+    category_names = [
+        x[1] for x in sorted(category_id_to_name.items(), key=lambda x: x[0])
+    ]
     with (output_dir / "data.yaml").open("w") as f:
         f.write("path: .\n")
         f.write("train: images/train\n")
