@@ -1,0 +1,2 @@
+ultralytics==8.2.48
+mlflow==2.14.2
