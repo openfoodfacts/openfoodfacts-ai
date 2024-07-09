@@ -41,12 +41,18 @@ def export_to_hf(
         hf_ds.push_to_hub(repo_id, split=split)
 
 
-def export_to_ultralytics(
+def export_from_ls_to_ultralytics(
     ls: LabelStudio,
     output_dir: Path,
     category_names: list[str],
     project_id: int,
 ):
+    """Export annotations from a Label Studio project to the Ultralytics
+    format.
+
+    The Label Studio project should be an object detection project with a
+    single rectanglelabels annotation result per task.
+    """
     logger.info("Project ID: %d, category names: %s", project_id, category_names)
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -109,6 +115,74 @@ def export_to_ultralytics(
                 x_center = x_min + width / 2
                 y_center = y_min + height / 2
                 f.write(f"{category_id} {x_center} {y_center} {width} {height}\n")
+
+    with (output_dir / "data.yaml").open("w") as f:
+        f.write("path: .\n")
+        f.write("train: images/train\n")
+        f.write("val: images/val\n")
+        f.write("test:\n")
+        f.write("names:\n")
+        for i, category_name in enumerate(category_names):
+            f.write(f"  {i}: {category_name}\n")
+
+
+def export_from_hf_to_ultralytics(repo_id: str, output_dir: Path):
+    """Export annotations from a Hugging Face dataset project to the
+    Ultralytics format.
+
+    The Label Studio project should be an object detection project with a
+    single rectanglelabels annotation result per task.
+    """
+    logger.info("Repo ID: %s", repo_id)
+    ds = datasets.load_dataset(repo_id)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    for split in ["train", "val"]:
+        split_labels_dir = output_dir / "labels" / split
+        split_labels_dir.mkdir(parents=True, exist_ok=True)
+        split_images_dir = output_dir / "images" / split
+        split_images_dir.mkdir(parents=True, exist_ok=True)
+
+        for sample in tqdm.tqdm(ds[split], desc="samples"):
+            image_id = sample["image_id"]
+            image_url = sample["meta"]["image_url"]
+            download_output = download_image(image_url, return_bytes=True)
+            if download_output is None:
+                logger.error("Failed to download image: %s", image_url)
+                continue
+
+            _, image_bytes = download_output
+
+            with (output_dir / "images" / split / f"{image_id}.jpg").open("wb") as f:
+                f.write(image_bytes)
+
+            objects = sample["objects"]
+            bboxes = objects["bbox"]
+            category_ids = objects["category_id"]
+            category_names = objects["category_name"]
+
+            with (output_dir / "labels" / split / f"{image_id}.txt").open("w") as f:
+                for bbox, category_id, category_name in zip(
+                    bboxes, category_ids, category_names
+                ):
+                    y_min, x_min, y_max, x_max = bbox
+                    y_min = min(max(y_min, 0.0), 1.0)
+                    x_min = min(max(x_min, 0.0), 1.0)
+                    y_max = min(max(y_max, 0.0), 1.0)
+                    x_max = min(max(x_max, 0.0), 1.0)
+                    width = x_max - x_min
+                    height = y_max - y_min
+                    # Save the labels in the Ultralytics format:
+                    # - one label per line
+                    # - each line is a list of 5 elements:
+                    #   - category_id
+                    #   - x_center
+                    #   - y_center
+                    #   - width
+                    #   - height
+                    x_center = x_min + width / 2
+                    y_center = y_min + height / 2
+                    f.write(f"{category_id} {x_center} {y_center} {width} {height}\n")
 
     with (output_dir / "data.yaml").open("w") as f:
         f.write("path: .\n")

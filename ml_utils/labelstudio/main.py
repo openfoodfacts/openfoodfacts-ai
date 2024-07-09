@@ -23,6 +23,7 @@ def create_project(
     ],
     label_studio_url: str = "https://annotate.openfoodfacts.org",
 ):
+    """Create a new Label Studio project."""
     from label_studio_sdk.client import LabelStudio
 
     ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
@@ -138,38 +139,70 @@ def convert_object_detection_dataset(
 
 @app.command()
 def export(
+    from_: Annotated[str, typer.Option("--from", help="Input format to use")],
     to: Annotated[str, typer.Option(help="Export format to use")],
+    api_key: Annotated[Optional[str], typer.Option(envvar="LABEL_STUDIO_API_KEY")],
     repo_id: Annotated[
-        str, typer.Option(help="Hugging Face Datasets repository ID to convert")
-    ],
+        Optional[str],
+        typer.Option(help="Hugging Face Datasets repository ID to convert"),
+    ] = None,
     category_names: Annotated[
-        str, typer.Option(help="Category names to use, as a comma-separated list")
-    ],
-    api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
-    project_id: Annotated[int, typer.Option(help="Label Studio Project ID")],
-    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
+        Optional[str],
+        typer.Option(help="Category names to use, as a comma-separated list"),
+    ] = None,
+    project_id: Annotated[
+        Optional[int], typer.Option(help="Label Studio Project ID")
+    ] = None,
+    label_studio_url: Optional[str] = LABEL_STUDIO_DEFAULT_URL,
     output_dir: Annotated[
         Optional[Path],
         typer.Option(help="Path to the output directory", file_okay=False),
     ] = None,
 ):
+    """Export Label Studio annotation, either to Hugging Face Datasets or
+    local files (ultralytics format)."""
     from label_studio_sdk.client import LabelStudio
 
-    from cli.export import export_to_hf, export_to_ultralytics
+    from cli.export import (
+        export_from_hf_to_ultralytics,
+        export_from_ls_to_ultralytics,
+        export_to_hf,
+    )
 
-    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
-    category_names_list = category_names.split(",")
+    if (to == "hf" or from_ == "hf") and repo_id is None:
+        raise typer.BadParameter("Repository ID is required for export/import with HF")
 
-    if to == "hf":
-        export_to_hf(ls, repo_id, category_names_list, project_id)
+    if to == "hf" and category_names is None:
+        raise typer.BadParameter("Category names are required for HF export")
 
-    elif to == "ultralytics":
-        if output_dir is None:
-            raise typer.BadParameter(
-                "Output directory is required for Ultralytics export"
+    if from_ == "ls":
+        if project_id is None:
+            raise typer.BadParameter("Project ID is required for LS export")
+        if api_key is None:
+            raise typer.BadParameter("API key is required for LS export")
+
+    if to == "ultralytics" and output_dir is None:
+        raise typer.BadParameter("Output directory is required for Ultralytics export")
+
+    if from_ == "ls":
+        if to == "hf":
+            ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
+            category_names_list = category_names.split(",")
+            export_to_hf(ls, repo_id, category_names_list, project_id)
+        elif to == "ultralytics":
+            export_from_ls_to_ultralytics(
+                ls, output_dir, category_names_list, project_id
             )
+        else:
+            raise typer.BadParameter("Unsupported export format")
 
-        export_to_ultralytics(ls, output_dir, category_names_list, project_id)
+    elif from_ == "hf":
+        if to == "ultralytics":
+            export_from_hf_to_ultralytics(repo_id, output_dir)
+        else:
+            raise typer.BadParameter("Unsupported export format")
+    else:
+        raise typer.BadParameter("Unsupported input format")
 
 
 @app.command()
