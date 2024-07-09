@@ -68,10 +68,11 @@ def parse_args():
     parser.add_argument("--lr_scheduler_type", type=str, default="linear", help="Learning scheduler type.")
     parser.add_argument("--gradient_accumulation_steps", type=int, default=1, help="Accumulate bacthes before back propagation.")
     parser.add_argument("--quantize", type=strtobool, default=True, help="Model quantization to save memeory footprint.")
-    parser.add_argument("--logging_steps", type=int, default=50, help="Number of steps between training log.")
-    parser.add_argument("--eval_steps", type=int, default=25, help="Number of steps between evaluation computation.")
+    parser.add_argument("--logging_steps", type=int, default=25, help="Number of steps between training log.")
+    parser.add_argument("--eval_steps", type=int, default=50, help="Number of steps between evaluation computation.")
     parser.add_argument("--save_total_limit", type=int, default=0, help="Number of checkpoint saved at the same time during the training.")
-
+    parser.add_argument("--train_data_revision", type=str, default="v0", help="Revision of the training data on HuggingFace.")
+    
     # Versions
     parser.add_argument("--training_data_version", type=str, default="v0", help="Training dataset version.")
     parser.add_argument("--evaluation_data_version", type=str, default="v0", help="Evaluation dataset version.")
@@ -87,10 +88,14 @@ class LLMQLoRATraining:
 
     def train(self, args):
         LOGGER.info("Start training.")
+        LOGGER.info(f"Training dir: {args.output_dir}")
 
         LOGGER.info("Load datasets.")
-        # Load data
-        train_dataset = load_dataset(path=args.training_data, split="train+test") 
+        train_dataset = load_dataset(
+            path=args.training_data, 
+            split="train+test",
+            revision=args.train_data_revision,
+        ) 
         evaluation_dataset = load_dataset(path=args.evaluation_data, split="train")
         LOGGER.info(f"Training dataset: {train_dataset}")
         LOGGER.info(f"Evaluation dataset: {evaluation_dataset}")
@@ -145,6 +150,8 @@ class LLMQLoRATraining:
                 "target_name": "reference",
             }
         )
+        LOGGER.info(f"Preprocessed_train_data features: {preprocessed_train_dataset}")
+        LOGGER.info(f"Fist row of the preprocessed dataset: {preprocessed_evaluation_dataset[0]}")
 
         ################
         # PEFT
@@ -156,7 +163,7 @@ class LLMQLoRATraining:
             r=16,
             bias="none",
             target_modules="all-linear",
-            task_type="CAUSAL_LM",
+            task_type="CAUSAL_LM", #TODO: try SEQ_2_SEQ_LM
         )
 
         ################
@@ -198,7 +205,7 @@ class LLMQLoRATraining:
             eval_dataset=preprocessed_evaluation_dataset,
             peft_config=peft_config,
             tokenizer=tokenizer,
-            max_seq_length=1024, # Prompt instruction + Text
+            max_seq_length=2048, # Prompt instruction + Text
             packing=True,
             dataset_kwargs={
                 "add_special_tokens": False,  # We template with special tokens
@@ -305,7 +312,7 @@ class LLMQLoRATraining:
         
         # Log training job name
         experiment.log_parameter("training_job_name", SM_JOB_NAME)
-        
+
         LOGGER.info("Training job finished.")
 
 
@@ -333,6 +340,8 @@ class LLMQLoRATraining:
     def prepare_instruction(self, text: str) -> str:
         """Prepare instruction prompt for fine-tuning and inference.
 
+        Notes: Currently over 430 tokens.
+
         Args:
             text (str): List of ingredients
 
@@ -343,7 +352,25 @@ class LLMQLoRATraining:
         instruction += """You are a spellcheck assistant designed to fix typos and errors in a list \
 of ingredients in different languages extracted from product packagings. We want to \
 extract the ingredients from this list using our algorithms. However, it is possible some typos or \
-errors slipped into the list. Your task is to correct those errors following a guideline I provide you.\n"""
+errors slipped into the list. Your task is to correct those errors following a guideline I provide you.\n\n\
+Correction guideline:
+* If you recognize an ingredient and notice a typo, fix the typo. If you're not sure, don't correct;
+* Line breaks in the package list of ingredients leads to this error: "<subword1>  -  <subword2>". Join them into a single <word>;
+* Some ingredients are enclosed within underscores, such as _milk_ or _cacahuetes_, to denote ingredients that are allergens. Keep those underscores;
+* In the same way, some ingredients are characterized with *, such as "cane sugar*". You need to keep them as well;
+* Punctuation such as "," is used to separate 2 ingredients from the list. If the punctuation is missing between 2 ingredients, add one. Otherwise, don't modify the punctuation;
+* Never perform uppercase to lowercase changes, and vice-versa, except after a period (.) or for proper names;
+* Never try to predict percentages in case of OCR bad parsing. Just keep it as it is;
+* Some additives (such as E124, E150c, etc...) are badly parsed by the OCR. Don't try to correct them;
+* Keep the same structure, words and whitespaces as much as possible;
+* Don't try to add or remove accents to letters in uppercase;
+* Whitespaces between a number and the % symbol shall remain unchanged;
+* Keep character "œ" and"oe" unchanged;
+* If ":" is missing, such as `conservateur nitrite de sodium`, we add it:  `conservateur: nitrite de sodium`;
+* Never uppercase letters except if it follows a period "." or the name is a proper name;
+* Don't change the whitespace before a comma ",", but add it after if missing;
+* DOn't add an accent to uppercase letters;
+"""
         instruction += f"### List of ingredients:\n{text}\n"
         instruction += "###Corrected list of ingredients:\n"
         return instruction
