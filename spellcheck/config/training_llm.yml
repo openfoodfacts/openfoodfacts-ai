@@ -1,12 +1,12 @@
 estimator:
-  model: "mistral-7b-instruct-v3"
+  model: "mistral-7b-v3"
   entry_point: "llm.py"
   source_dir: "scripts/training/llm"
   dependencies: 
     - "src/"
   output_path: "s3://open-food-facts-robotoff/spellcheck/model-training/"
   code_location: "s3://open-food-facts-robotoff/spellcheck/model-training/"
-  base_job_name: "mistral-7b-instruct-v3"
+  base_job_name: "mistral-7b-v3"
   instance_count: 1
   instance_type: "ml.g5.2xlarge"
   transformers_version: "4.36"                         # the transformers version used in the training job
@@ -15,11 +15,11 @@ estimator:
   disable_output_compression: true
   volume_size: 300
   comet_ml_tags: 
-    - "mistral-7b-instruct-v0.3"
+    - "mistral-7b-v0.3"
     # - "test"
     - "eval_loss"
-    - "eval_normalization"
-    - guidelines-instruction
+    - "eval-normalization"
+    # - guidelines-instruction
   s3_evaluation_uri: "s3://open-food-facts-robotoff/spellcheck/evaluation_output/"
 
 hyperparameters:
@@ -27,7 +27,7 @@ hyperparameters:
   evaluation_data: "openfoodfacts/spellcheck-benchmark"
   training_data_version: v5.0
   evaluation_data_version: v7.4
-  pretrained_model_name: "mistralai/Mistral-7B-Instruct-v0.3" 
+  pretrained_model_name: "mistralai/Mistral-7B-v0.3" 
   num_train_epochs: 3
   per_device_train_batch_size: 4
   per_device_eval_batch_size: 4
@@ -48,4 +48,5 @@ hyperparameters:
   eval_steps: 25
   save_total_limit: 1
   train_data_revision: "v5"
-  
+  max_seq_length: 2048
+  packing: True

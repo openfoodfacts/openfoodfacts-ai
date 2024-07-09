@@ -72,7 +72,9 @@ def parse_args():
     parser.add_argument("--eval_steps", type=int, default=50, help="Number of steps between evaluation computation.")
     parser.add_argument("--save_total_limit", type=int, default=0, help="Number of checkpoint saved at the same time during the training.")
     parser.add_argument("--train_data_revision", type=str, default="v0", help="Revision of the training data on HuggingFace.")
-    
+    parser.add_argument("--max_seq_length", type=int, default=1024, help="Max sequence length used in TRL.")
+    parser.add_argument("--packing", type=strtobool, default=True, help="Pack exemples together during training.")
+
     # Versions
     parser.add_argument("--training_data_version", type=str, default="v0", help="Training dataset version.")
     parser.add_argument("--evaluation_data_version", type=str, default="v0", help="Evaluation dataset version.")
@@ -205,11 +207,12 @@ class LLMQLoRATraining:
             eval_dataset=preprocessed_evaluation_dataset,
             peft_config=peft_config,
             tokenizer=tokenizer,
-            max_seq_length=2048, # Prompt instruction + Text
-            packing=True,
+            max_seq_length=args.max_seq_length, # Prompt instruction + Text
+            packing=args.packing,
+            dataset_text_field="text",
             dataset_kwargs={
-                "add_special_tokens": False,  # We template with special tokens
-                "append_concat_token": False,  # No need to add additional separator token
+                "add_special_tokens": True,  # Add bos token and other special token from the tokenizer
+                "append_concat_token": True,  # If true, appends eos_token_id at the end of each sample being packed.
             },
         )
         LOGGER.info("Start training.")
@@ -329,52 +332,15 @@ class LLMQLoRATraining:
         Returns:
             Mapping: User/Assistant exchanges used for Instruction Fine-Tuning. Used with tokenizer.apply_chat_template()
         """
-        instruction = self.prepare_instruction(sample[input_name])
         return {
-            "messages": [
-                {"role": "user", "content": instruction},
-                {"role": "assistant", "content": sample[target_name]},
-            ]
+            "text": (
+                "###Correct the list of ingredients:\n"
+                + sample[input_name]
+                + "\n\n###Correction:\n"
+                + sample[target_name]
+            )
         }
-    
-    def prepare_instruction(self, text: str) -> str:
-        """Prepare instruction prompt for fine-tuning and inference.
-
-        Notes: Currently over 430 tokens.
-
-        Args:
-            text (str): List of ingredients
-
-        Returns:
-            str: Instruction.
-        """
-        instruction = ""
-        instruction += """You are a spellcheck assistant designed to fix typos and errors in a list \
-of ingredients in different languages extracted from product packagings. We want to \
-extract the ingredients from this list using our algorithms. However, it is possible some typos or \
-errors slipped into the list. Your task is to correct those errors following a guideline I provide you.\n\n\
-Correction guideline:
-* If you recognize an ingredient and notice a typo, fix the typo. If you're not sure, don't correct;
-* Line breaks in the package list of ingredients leads to this error: "<subword1>  -  <subword2>". Join them into a single <word>;
-* Some ingredients are enclosed within underscores, such as _milk_ or _cacahuetes_, to denote ingredients that are allergens. Keep those underscores;
-* In the same way, some ingredients are characterized with *, such as "cane sugar*". You need to keep them as well;
-* Punctuation such as "," is used to separate 2 ingredients from the list. If the punctuation is missing between 2 ingredients, add one. Otherwise, don't modify the punctuation;
-* Never perform uppercase to lowercase changes, and vice-versa, except after a period (.) or for proper names;
-* Never try to predict percentages in case of OCR bad parsing. Just keep it as it is;
-* Some additives (such as E124, E150c, etc...) are badly parsed by the OCR. Don't try to correct them;
-* Keep the same structure, words and whitespaces as much as possible;
-* Don't try to add or remove accents to letters in uppercase;
-* Whitespaces between a number and the % symbol shall remain unchanged;
-* Keep character "œ" and"oe" unchanged;
-* If ":" is missing, such as `conservateur nitrite de sodium`, we add it:  `conservateur: nitrite de sodium`;
-* Never uppercase letters except if it follows a period "." or the name is a proper name;
-* Don't change the whitespace before a comma ",", but add it after if missing;
-* DOn't add an accent to uppercase letters;
-"""
-        instruction += f"### List of ingredients:\n{text}\n"
-        instruction += "###Corrected list of ingredients:\n"
-        return instruction
-    
+      
     def inference(
         self, 
         texts: List[str], 
