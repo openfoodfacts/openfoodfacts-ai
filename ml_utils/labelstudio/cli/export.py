@@ -1,4 +1,7 @@
+import functools
 import logging
+import pickle
+import tempfile
 from pathlib import Path
 
 import datasets
@@ -11,6 +14,13 @@ from cli.sample import HF_DS_FEATURES, format_object_detection_sample_to_hf
 logger = logging.getLogger(__name__)
 
 
+def _pickle_sample_generator(dir: Path):
+    """Generator that yields samples from pickles in a directory."""
+    for pkl in dir.glob("*.pkl"):
+        with open(pkl, "rb") as f:
+            yield pickle.load(f)
+
+
 def export_to_hf(
     ls: LabelStudio,
     repo_id: str,
@@ -19,26 +29,30 @@ def export_to_hf(
 ):
     logger.info("Project ID: %d, category names: %s", project_id, category_names)
 
-    for split in ["train", "val"]:
-        logger.info("Processing split: %s", split)
-        samples = []
-        for task in tqdm.tqdm(
-            ls.tasks.list(project=project_id, fields="all"),
-            desc="tasks",
-        ):
-            if task.data["split"] != split:
-                continue
-            sample = format_object_detection_sample_to_hf(
-                task.data, task.annotations, category_names
-            )
-            if sample is not None:
-                samples.append(sample)
+    with tempfile.TemporaryDirectory() as tmp_dir_str:
+        tmp_dir = Path(tmp_dir_str)
+        logger.info("Saving samples to temporary directory: %s", tmp_dir)
+        for split in ["train", "val"]:
+            logger.info("Processing split: %s", split)
+            for i, task in tqdm.tqdm(
+                enumerate(ls.tasks.list(project=project_id, fields="all")),
+                desc="tasks",
+            ):
+                if task.data["split"] != split:
+                    continue
+                sample = format_object_detection_sample_to_hf(
+                    task.data, task.annotations, category_names
+                )
+                if sample is not None:
+                    # Save output as pickle
+                    with open(tmp_dir / f"{split}_{i:05}.pkl", "wb") as f:
+                        pickle.dump(sample, f)
 
-        hf_ds = datasets.Dataset.from_list(
-            samples,
-            features=HF_DS_FEATURES,
-        )
-        hf_ds.push_to_hub(repo_id, split=split)
+            hf_ds = datasets.Dataset.from_generator(
+                functools.partial(_pickle_sample_generator, tmp_dir),
+                features=HF_DS_FEATURES,
+            )
+            hf_ds.push_to_hub(repo_id, split=split)
 
 
 def export_from_ls_to_ultralytics(
