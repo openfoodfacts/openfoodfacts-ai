@@ -60,59 +60,9 @@ def import_data(
 
 
 @app.command()
-def create_export_snapshot(
-    title: Annotated[str, typer.Option(help="Export snapshot title")],
-    api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
-    project_id: Annotated[int, typer.Option(help="Label Studio Project ID")],
-    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
-):
-    """Create an export snapshot for a Label Studio project."""
-    from label_studio_sdk.client import LabelStudio
-
-    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
-    output = ls.projects.exports.create(id=project_id, request={"title": title})
-    logger.info(f"Export snapshot created: {output}")
-
-
-@app.command()
-def list_export_snapshot(
-    api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
-    project_id: Annotated[int, typer.Option(help="Label Studio Project ID")],
-    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
-):
-    """List export snapshot for a Label Studio project."""
-    from label_studio_sdk.client import LabelStudio
-
-    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
-    logger.info("## Exported snapshot ##")
-    for snapshot in ls.projects.exports.list(id=project_id):
-        logger.info(
-            f"id: {snapshot.id}, title: {snapshot.title}, status: {snapshot.status}, converted_formats: {snapshot.converted_formats}"
-        )
-
-
-@app.command()
-def download_export_snapshot(
-    export_id: Annotated[int, typer.Option(help="Export snapshot ID")],
-    export_type: Annotated[str, typer.Option(help="Export format to use")],
-    api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
-    project_id: Annotated[int, typer.Option(help="Label Studio Project ID")],
-    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
-):
-    """List export snapshot for a Label Studio project."""
-    from label_studio_sdk.client import LabelStudio
-
-    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
-    snapshot = ls.projects.exports.download(
-        id=project_id, export_pk=export_id, export_type=export_type
-    )
-    logger.info(f"Export snapshot downloaded: {snapshot}")
-
-
-@app.command()
 def convert_object_detection_dataset(
-    dataset_id: Annotated[
-        str, typer.Option(help="Hugging Face Datasets dataset ID to convert")
+    repo_id: Annotated[
+        str, typer.Option(help="Hugging Face Datasets repository ID to convert")
     ],
     output_file: Annotated[
         Path, typer.Option(help="Path to the output JSON file", exists=False)
@@ -124,8 +74,9 @@ def convert_object_detection_dataset(
 
     from cli.sample import format_object_detection_sample_from_hf
 
-    logger.info("Loading dataset: %s", dataset_id)
-    ds = load_dataset(dataset_id)
+    logger.info("Loading dataset: %s", repo_id)
+    ds = load_dataset(repo_id)
+    logger.info("Dataset loaded: %s", tuple(ds.keys()))
 
     with output_file.open("wt") as f:
         for split in ds.keys():
@@ -278,12 +229,13 @@ def create_dataset_file(
         Path, typer.Option(help="Path to the output JSON file", exists=False)
     ],
 ):
+    """Create a Label Studio dataset file from a list of image URLs."""
     from urllib.parse import urlparse
 
     import tqdm
     from openfoodfacts.utils import get_image_from_url
 
-    from cli.sample import format_object_detection_sample
+    from cli.sample import format_object_detection_sample_to_ls
 
     logger.info("Loading dataset: %s", input_file)
 
@@ -308,7 +260,7 @@ def create_dataset_file(
                 logger.warning("Failed to load image: %s", url)
                 continue
 
-            label_studio_sample = format_object_detection_sample(
+            label_studio_sample = format_object_detection_sample_to_ls(
                 image_id, url, image.width, image.height, extra_meta
             )
             f.write(json.dumps(label_studio_sample) + "\n")
@@ -402,11 +354,20 @@ def update_prediction(
 
 @app.command()
 def add_split(
-    train_split: float,
+    train_split: Annotated[
+        float, typer.Option(help="fraction of samples to add in train split")
+    ],
     api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
     project_id: Annotated[int, typer.Option(help="Label Studio project ID")],
     label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
 ):
+    """Update the split field of tasks in a Label Studio project.
+
+    The split field is set to "train" with probability `train_split`, and "val"
+    otherwise. Tasks without a split field are assigned a split based on the
+    probability, and updated in the server. Tasks with a non-null split field
+    are not updated.
+    """
     import random
 
     from label_studio_sdk.client import LabelStudio
@@ -422,10 +383,49 @@ def add_split(
 
 
 @app.command()
+def annotate_from_prediction(
+    api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
+    project_id: Annotated[int, typer.Option(help="Label Studio project ID")],
+    updated_by: Annotated[
+        Optional[int], typer.Option(help="User ID to declare as annotator")
+    ] = None,
+    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
+):
+    """Create annotations for all tasks from predictions.
+
+    This command is useful if you imported tasks with predictions, and want to
+    "validate" these predictions by creating annotations.
+    """
+    import tqdm
+    from label_studio_sdk.client import LabelStudio
+    from label_studio_sdk.types.task import Task
+
+    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
+
+    task: Task
+    for task in tqdm.tqdm(
+        ls.tasks.list(project=project_id, fields="all"), desc="tasks"
+    ):
+        task_id = task.id
+        if task.total_annotations == 0 and task.total_predictions > 0:
+            logger.info("Creating annotation for task: %s", task_id)
+            ls.annotations.create(
+                id=task_id,
+                result=task.predictions[0]["result"],
+                project=project_id,
+                updated_by=updated_by,
+            )
+
+
+# Label Studio user management
+
+
+@app.command()
 def list_user(
     api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
     label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
 ):
+    """List all users in Label Studio."""
     from label_studio_sdk.client import LabelStudio
 
     ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
@@ -445,6 +445,71 @@ def delete_user(
 
     ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
     ls.users.delete(user_id)
+
+
+# Temporary scripts
+
+
+@app.command()
+def skip_rotated_images(
+    api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
+    project_id: Annotated[int, typer.Option(help="Label Studio project ID")],
+    updated_by: Annotated[
+        Optional[int], typer.Option(help="User ID to declare as annotator")
+    ] = None,
+    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
+):
+    import requests
+    import tqdm
+    from label_studio_sdk.client import LabelStudio
+    from label_studio_sdk.types.task import Task
+    from openfoodfacts.ocr import OCRResult
+
+    session = requests.Session()
+    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
+
+    task: Task
+    for task in tqdm.tqdm(
+        ls.tasks.list(project=project_id, fields="all"), desc="tasks"
+    ):
+        if any(annotation["was_cancelled"] for annotation in task.annotations):
+            continue
+
+        assert task.total_annotations == 1, (
+            "Task has multiple annotations (%s)" % task.id
+        )
+        task_id = task.id
+
+        annotation = task.annotations[0]
+        annotation_id = annotation["id"]
+
+        ocr_url = task.data["image_url"].replace(".jpg", ".json")
+        ocr_result = OCRResult.from_url(ocr_url, session=session, error_raise=False)
+
+        if ocr_result is None:
+            logger.warning("No OCR result for task: %s", task_id)
+            continue
+
+        orientation_result = ocr_result.get_orientation()
+
+        if orientation_result is None:
+            # logger.info("No orientation for task: %s", task_id)
+            continue
+
+        orientation = orientation_result.orientation.name
+        if orientation != "up":
+            logger.info(
+                "Skipping rotated image for task: %s (orientation: %s)",
+                task_id,
+                orientation,
+            )
+            ls.annotations.update(
+                id=annotation_id,
+                was_cancelled=True,
+                updated_by=updated_by,
+            )
+        elif orientation == "up":
+            logger.debug("Keeping annotation for task: %s", task_id)
 
 
 if __name__ == "__main__":

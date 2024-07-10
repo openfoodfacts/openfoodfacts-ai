@@ -126,13 +126,22 @@ def format_object_detection_sample_from_hf(hf_sample: dict, split: str) -> dict:
     }
 
 
-def format_object_detection_sample(
+def format_object_detection_sample_to_ls(
     image_id: str,
     image_url: str,
     width: int,
     height: int,
     extra_meta: dict | None = None,
 ) -> dict:
+    """Format an object detection sample in Label Studio format.
+
+    Args:
+        image_id: The image ID.
+        image_url: The URL of the image.
+        width: The width of the image.
+        height: The height of the image.
+        extra_meta: Extra metadata to include in the sample.
+    """
     extra_meta = extra_meta or {}
     return {
         "data": {
