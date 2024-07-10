@@ -332,15 +332,25 @@ class LLMQLoRATraining:
         Returns:
             Mapping: User/Assistant exchanges used for Instruction Fine-Tuning. Used with tokenizer.apply_chat_template()
         """
-        return {
-            "text": (
-                "###Correct the list of ingredients:\n"
-                + sample[input_name]
-                + "\n\n###Correction:\n"
-                + sample[target_name]
-            )
-        }
-      
+        instruction = self.prepare_instruction(sample[input_name])
+        return {"text": instruction + sample[target_name]}
+
+    def prepare_instruction(self, text: str) -> str:
+        """Prepare instruction prompt for fine-tuning and inference.
+
+        Args:
+            text (str): List of ingredients
+
+        Returns:
+            str: Instruction.
+        """
+        instruction = (
+            "###Correct the list of ingredients:\n"
+            + text
+            + "\n\n###Correction:\n"
+        )
+        return instruction
+
     def inference(
         self, 
         texts: List[str], 
@@ -365,8 +375,7 @@ class LLMQLoRATraining:
         with torch.no_grad():
             for text in tqdm(texts, total=len(texts), desc="Prediction"):
                 prompt = self.prepare_instruction(text)
-                messages = [{"role": "user", "content": prompt},]
-                input_ids = tokenizer.apply_chat_template(messages, tokenize=True, return_tensors="pt")
+                input_ids = tokenizer(prompt, add_special_tokens=True, return_tensors="pt").input_ids
                 pred = model.generate(
                     input_ids.to(device),
                     # repetition_penalty=1.03,
