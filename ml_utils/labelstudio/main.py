@@ -1,3 +1,4 @@
+import enum
 import json
 from pathlib import Path
 from typing import Annotated, Optional
@@ -88,10 +89,20 @@ def convert_object_detection_dataset(
                 f.write(json.dumps(label_studio_sample) + "\n")
 
 
+class ExportSource(enum.StrEnum):
+    hf = "hf"
+    ls = "ls"
+
+
+class ExportDestination(enum.StrEnum):
+    hf = "hf"
+    ultralytics = "ultralytics"
+
+
 @app.command()
 def export(
-    from_: Annotated[str, typer.Option("--from", help="Input format to use")],
-    to: Annotated[str, typer.Option(help="Export format to use")],
+    from_: Annotated[ExportSource, typer.Option("--from", help="Input source to use")],
+    to: Annotated[ExportDestination, typer.Option(help="Where to export the data")],
     api_key: Annotated[Optional[str], typer.Option(envvar="LABEL_STUDIO_API_KEY")],
     repo_id: Annotated[
         Optional[str],
@@ -126,42 +137,38 @@ def export(
         export_to_hf,
     )
 
-    if (to == "hf" or from_ == "hf") and repo_id is None:
+    if (to == ExportDestination.hf or from_ == ExportSource.hf) and repo_id is None:
         raise typer.BadParameter("Repository ID is required for export/import with HF")
 
-    if to == "hf" and category_names is None:
+    if to == ExportDestination.hf and category_names is None:
         raise typer.BadParameter("Category names are required for HF export")
 
-    if from_ == "ls":
+    if from_ == ExportSource.ls:
         if project_id is None:
             raise typer.BadParameter("Project ID is required for LS export")
         if api_key is None:
             raise typer.BadParameter("API key is required for LS export")
 
-    if to == "ultralytics" and output_dir is None:
+    if to == ExportDestination.ultralytics and output_dir is None:
         raise typer.BadParameter("Output directory is required for Ultralytics export")
 
-    if from_ == "ls":
-        if to == "hf":
+    if from_ == ExportSource.ls:
+        if to == ExportDestination.hf:
             ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
             category_names_list = category_names.split(",")
             export_to_hf(ls, repo_id, category_names_list, project_id)
-        elif to == "ultralytics":
+        elif to == ExportDestination.ultralytics:
             export_from_ls_to_ultralytics(
                 ls, output_dir, category_names_list, project_id
             )
-        else:
-            raise typer.BadParameter("Unsupported export format")
 
-    elif from_ == "hf":
-        if to == "ultralytics":
+    elif from_ == ExportSource.hf:
+        if to == ExportDestination.ultralytics:
             export_from_hf_to_ultralytics(
                 repo_id, output_dir, download_images=download_images
             )
         else:
             raise typer.BadParameter("Unsupported export format")
-    else:
-        raise typer.BadParameter("Unsupported input format")
 
 
 @app.command()
