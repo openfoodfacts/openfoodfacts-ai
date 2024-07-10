@@ -23,6 +23,12 @@ then
   cd work
 fi
 
+# Install some useful packages
+apt update && apt install -y tmux htop
+
+# This is required for Ultralytics package
+apt install -y ffmpeg libsm6 libxext6
+
 # Clone OpenFoodFacts AI
 git clone --depth=1 https://github.com/openfoodfacts/openfoodfacts-ai.git
 
