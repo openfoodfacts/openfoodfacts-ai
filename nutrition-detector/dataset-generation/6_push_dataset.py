@@ -1,12 +1,17 @@
 """Push dataset to Hugging Face dataset hub."""
 
+import functools
+import pickle
+import tempfile
 from pathlib import Path
-from typing import Annotated, Optional
+from typing import Annotated, Iterator, Optional
 from urllib.parse import urlparse
 
 import datasets
+import tqdm
 import typer
-from label_studio_sdk import Client
+from label_studio_sdk import Task
+from label_studio_sdk.client import LabelStudio
 from openfoodfacts.images import extract_barcode_from_url
 from openfoodfacts.utils import get_image_from_url, get_logger
 
@@ -15,17 +20,18 @@ logger = get_logger()
 app = typer.Typer(pretty_exceptions_enable=False)
 
 
-def create_sample(task: dict, only_checked: bool = False) -> Optional[dict]:
+def create_sample(task: Task, only_checked: bool = False) -> Optional[dict]:
     """Generate a LayoutLM dataset sample from a Label Studio task.
 
     :param item: the Label Studio task
+    :param only_checked: whether to include only tasks that have been checked
+        by a second annotator.
     :return: the LayoutLMv3 dataset sample, or None if the task is not
         valid
     """
-    task_data = task["data"]
-    annotations_data = task["annotations"]
-    task_id = task["id"]
-
+    task_data = task.data
+    annotations_data = task.annotations
+    task_id = task.id
     if len(annotations_data) == 0:
         # No annotation, skip
         return None
@@ -173,11 +179,10 @@ def create_sample(task: dict, only_checked: bool = False) -> Optional[dict]:
 
 def get_tasks(
     label_studio_url: str, api_key: str, project_id: int, batch_ids: list[int] = None
-):
-    """Get tasks (annotations) from Label Studio."""
-    ls = Client(url=label_studio_url, api_key=api_key)
-    ls.check_connection()
-    project = ls.get_project(project_id)
+) -> Iterator[dict]:
+    """Yield tasks (annotations) from Label Studio."""
+
+    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
 
     filter_items = [
         {
@@ -197,14 +202,24 @@ def get_tasks(
                 "value": "batch-{}$".format("|".join(map(str, batch_ids))),
             }
         )
-    return project.get_tasks(
-        filters={
-            "conjunction": "and",
-            "items": filter_items,
+    yield from ls.tasks.list(
+        project=project_id,
+        query={
+            "filters": {
+                "conjunction": "and",
+                "items": filter_items,
+            }
         },
         # This view contains all samples
-        view_id=61,
+        view=61,
+        fields="all",
     )
+
+
+def sample_generator(dir_path: Path):
+    for file_path in dir_path.iterdir():
+        with file_path.open("rb") as f:
+            yield pickle.load(f)
 
 
 @app.command()
@@ -225,27 +240,43 @@ def push_dataset(
     ] = "main",
     test_split_count: Annotated[
         int, typer.Option(help="Number of samples in test split")
-    ] = 120,
+    ] = 180,
 ):
     logger.info("Fetching tasks from Label Studio, project %s", project_id)
     if batch_ids:
         batch_ids = list(map(int, batch_ids.split(",")))
         logger.info("Fetching tasks for batches %s", batch_ids)
-    tasks = get_tasks(label_studio_url, api_key, project_id, batch_ids)
-    samples = [sample for sample in (create_sample(task) for task in tasks) if sample]
-    logger.info("Generated %s samples", len(samples))
 
-    if not samples:
+    created = 0
+    ner_tag_set = set()
+
+    with tempfile.TemporaryDirectory() as tmp_dir_str:
+        tmp_dir = Path(tmp_dir_str)
+        logger.info("Saving samples in temporary directory %s", tmp_dir)
+
+        for i, task in enumerate(
+            tqdm.tqdm(
+                get_tasks(label_studio_url, api_key, project_id, batch_ids),
+                desc="tasks",
+            )
+        ):
+            sample = create_sample(task)
+            if sample:
+                logger.debug("Sample: %s", sample)
+                created += 1
+                ner_tag_set.update(
+                    ner_tag.split("-", maxsplit=1)[1]
+                    for ner_tag in sample["ner_tags"]
+                    if ner_tag != "O"
+                )
+                with (tmp_dir / f"{i:04d}.pkl").open("wb") as f:
+                    pickle.dump(sample, f)
+
+    logger.info("Generated %s samples", created)
+
+    if not created:
         logger.error("No valid samples found, exiting")
         raise typer.Exit(code=1)
-
-    ner_tag_set = set()
-    for sample in samples:
-        ner_tag_set.update(
-            ner_tag.split("-", maxsplit=1)[1]
-            for ner_tag in sample["ner_tags"]
-            if ner_tag != "O"
-        )
 
     all_ner_tags = ["O"]
     for ner_tag in ner_tag_set:
@@ -275,7 +306,9 @@ def push_dataset(
             },
         }
     )
-    dataset = datasets.Dataset.from_list(samples, features=features)
+    dataset = datasets.Dataset.from_generator(
+        functools.partial(sample_generator, tmp_dir), features=features
+    )
     dataset = dataset.train_test_split(test_size=test_split_count, shuffle=False)
 
     # dataset.save_to_disk("datasets/nutrient-detection-layout")
