@@ -29,11 +29,12 @@ def export_to_hf(
 ):
     logger.info("Project ID: %d, category names: %s", project_id, category_names)
 
-    with tempfile.TemporaryDirectory() as tmp_dir_str:
-        tmp_dir = Path(tmp_dir_str)
-        logger.info("Saving samples to temporary directory: %s", tmp_dir)
-        for split in ["train", "val"]:
-            logger.info("Processing split: %s", split)
+    for split in ["train", "val"]:
+        logger.info("Processing split: %s", split)
+
+        with tempfile.TemporaryDirectory() as tmp_dir_str:
+            tmp_dir = Path(tmp_dir_str)
+            logger.info("Saving samples to temporary directory: %s", tmp_dir)
             for i, task in tqdm.tqdm(
                 enumerate(ls.tasks.list(project=project_id, fields="all")),
                 desc="tasks",
@@ -69,12 +70,13 @@ def export_from_ls_to_ultralytics(
     """
     logger.info("Project ID: %d, category names: %s", project_id, category_names)
 
-    output_dir.mkdir(parents=True, exist_ok=True)
+    data_dir = output_dir / "data"
+    data_dir.mkdir(parents=True, exist_ok=True)
 
     for split in ["train", "val"]:
-        split_labels_dir = output_dir / "labels" / split
+        split_labels_dir = data_dir / "labels" / split
         split_labels_dir.mkdir(parents=True, exist_ok=True)
-        split_images_dir = output_dir / "images" / split
+        split_images_dir = data_dir / "images" / split
         split_images_dir.mkdir(parents=True, exist_ok=True)
 
     for task in tqdm.tqdm(
@@ -100,10 +102,10 @@ def export_from_ls_to_ultralytics(
 
         _, image_bytes = download_output
 
-        with (output_dir / "images" / split / f"{image_id}.jpg").open("wb") as f:
+        with (split_images_dir / f"{image_id}.jpg").open("wb") as f:
             f.write(image_bytes)
 
-        with (output_dir / "labels" / split / f"{image_id}.txt").open("w") as f:
+        with (split_labels_dir / f"{image_id}.txt").open("w") as f:
             for annotation_result in annotation["result"]:
                 if annotation_result["type"] != "rectanglelabels":
                     raise ValueError(
@@ -131,7 +133,7 @@ def export_from_ls_to_ultralytics(
                 f.write(f"{category_id} {x_center} {y_center} {width} {height}\n")
 
     with (output_dir / "data.yaml").open("w") as f:
-        f.write("path: .\n")
+        f.write("path: data\n")
         f.write("train: images/train\n")
         f.write("val: images/val\n")
         f.write("test:\n")
@@ -151,13 +153,14 @@ def export_from_hf_to_ultralytics(
     """
     logger.info("Repo ID: %s", repo_id)
     ds = datasets.load_dataset(repo_id)
-    output_dir.mkdir(parents=True, exist_ok=True)
+    data_dir = output_dir / "data"
+    data_dir.mkdir(parents=True, exist_ok=True)
     category_id_to_name = {}
 
     for split in ["train", "val"]:
-        split_labels_dir = output_dir / "labels" / split
+        split_labels_dir = data_dir / "labels" / split
         split_labels_dir.mkdir(parents=True, exist_ok=True)
-        split_images_dir = output_dir / "images" / split
+        split_images_dir = data_dir / "images" / split
         split_images_dir.mkdir(parents=True, exist_ok=True)
 
         for sample in tqdm.tqdm(ds[split], desc="samples"):
@@ -170,20 +173,18 @@ def export_from_hf_to_ultralytics(
                     logger.error("Failed to download image: %s", image_url)
                     continue
                 _, image_bytes = download_output
-                with (output_dir / "images" / split / f"{image_id}.jpg").open(
-                    "wb"
-                ) as f:
+                with (split_images_dir / f"{image_id}.jpg").open("wb") as f:
                     f.write(image_bytes)
             else:
                 image = sample["image"]
-                image.save(output_dir / "images" / split / f"{image_id}.jpg")
+                image.save(split_images_dir / f"{image_id}.jpg")
 
             objects = sample["objects"]
             bboxes = objects["bbox"]
             category_ids = objects["category_id"]
             category_names = objects["category_name"]
 
-            with (output_dir / "labels" / split / f"{image_id}.txt").open("w") as f:
+            with (split_labels_dir / f"{image_id}.txt").open("w") as f:
                 for bbox, category_id, category_name in zip(
                     bboxes, category_ids, category_names
                 ):
@@ -212,7 +213,7 @@ def export_from_hf_to_ultralytics(
         x[1] for x in sorted(category_id_to_name.items(), key=lambda x: x[0])
     ]
     with (output_dir / "data.yaml").open("w") as f:
-        f.write("path: .\n")
+        f.write("path: data\n")
         f.write("train: images/train\n")
         f.write("val: images/val\n")
         f.write("test:\n")
