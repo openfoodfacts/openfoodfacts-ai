@@ -241,7 +241,7 @@ class LLMQLoRATraining:
             training_args.output_dir,
             low_cpu_mem_usage=True,
             torch_dtype=torch.float16,
-            trust_remote_code=True,  # Required because PEFT load pretrained model before merging adapaters
+            trust_remote_code=True,  # Required because PEFT load pretrained model before merging adapters
         )
         # Merge LoRA and base model and save
         model = model.merge_and_unload()

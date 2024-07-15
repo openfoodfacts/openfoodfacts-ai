@@ -140,3 +140,57 @@ class SpellcheckExtraction(ArgillaExtraction):
         if reference[0]["status"] in self.extracted_status:
             return True
         return False
+    
+
+class SpellcheckDPOExtraction(ArgillaExtraction):
+    """Extract chosen and rejected correction from Argilla. This dataset is used to train a DPO (Direct Preference Optimization) model.
+
+    * 'Chosen': annotator modification.
+    * 'Rejected': LLM original suggestion
+    """
+    
+    def __init__(self, **kwargs) -> None:
+        """DPO Extraction only works for "submitted" are in extracted_status.
+        """
+        super().__init__(**kwargs)
+        if "submitted" not in self.extracted_status:
+            raise ValueError(f"'Submitted' not in extracted_status. Current status: {self.extracted_status}")
+
+    def _map_fn(self, element: Mapping[str, Any]) -> Mapping[str, Any]:
+        """_summary_
+
+        Args:
+            element (Mapping[str, Any]): _description_
+
+        Returns:
+            Mapping[str, Any]: _description_
+        """
+        # If status pending, we take the suggestion from the LLM
+        chosen = element["reference"][0]["value"]
+        rejected = element["reference-suggestion"]
+        postprocessed_chosen = self._remove_highlight_markdown(chosen)
+        postprocessed_rejected = self._remove_highlight_markdown(rejected)
+        # Metadata is JSON encoded
+        lang = json.loads(element["metadata"]).get("lang")
+        return {
+            "original": element["original"],
+            "chosen": postprocessed_chosen,
+            "rejected": postprocessed_rejected,
+            "lang": lang,
+        }
+    
+    def _filter_fn(self, element: Mapping[str, Any]) -> bool:
+        """Filter function that considers only examples with submitted annotations.
+
+        Args:
+            element (Mapping[str, Any]): Dataset row
+
+        Returns:
+            bool: Whether the row is kept.
+        """
+        reference = element.get("reference")
+        if not reference: 
+            return False
+        if reference[0]["status"] in self.extracted_status:
+            return True
+        return False 
