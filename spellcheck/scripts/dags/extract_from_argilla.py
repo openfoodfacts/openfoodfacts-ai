@@ -1,7 +1,7 @@
 import metaflow
 from datasets import Dataset
 
-from spellcheck.argilla.extraction import SpellcheckDPOExtraction
+from spellcheck.argilla.extraction import SpellcheckExtraction
 
 
 class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
@@ -91,7 +91,7 @@ class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
         """Argilla extraction step. Takes the status as input the user wants to extract.
         """
         print("Start extraction from Argilla.")
-        argilla_dataset = SpellcheckDPOExtraction(
+        argilla_dataset = SpellcheckExtraction(
             dataset_name=self.argilla_dataset_name,
             workspace_name=self.argilla_workspace_name,
             extracted_status=self.extracted_status,

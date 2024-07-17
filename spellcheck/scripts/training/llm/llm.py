@@ -139,8 +139,8 @@ class LLMQLoRATraining:
             batched=False, 
             remove_columns=train_dataset.column_names, 
             fn_kwargs={
-                "input_name": "text", 
-                "target_name": "label",
+                "input_name": "original", 
+                "target_name": "reference",
             }
         )
         preprocessed_evaluation_dataset = evaluation_dataset.map(
@@ -295,7 +295,7 @@ class LLMQLoRATraining:
         experiment.add_tags(EXPERIMENT_TAGS)
 
         # Log remote model artifact from s3
-        model_uri = os.path.join(S3_MODEL_URI, SM_JOB_NAME, "output/model.tar.gz")
+        model_uri = os.path.join(S3_MODEL_URI, SM_JOB_NAME, "output/model/")
         LOGGER.info(f"Training job uri: {model_uri}")
         experiment.log_remote_model(
             "model", 
