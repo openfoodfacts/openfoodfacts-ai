@@ -337,16 +337,11 @@ class BenchmarkArgilla(ArgillaModule):
     def _prepare_dataset(self) -> rg.FeedbackDataset:
         dataset = rg.FeedbackDataset(
             fields=[
+                rg.TextField(name="code", title="Code"),
                 rg.TextField(name="original", title="Original"),
             ],
             questions=[
                 rg.TextQuestion(name="reference", title="Correct the prediction.", use_markdown=True),
-                rg.LabelQuestion(
-                    name="is_truncated",
-                    title="Is the list of ingredients truncated?",
-                    labels=["YES","NO"],
-                    required=False
-                )
             ],
             metadata_properties=[
                 rg.TermsMetadataProperty(name="lang", title="Language"),
@@ -360,6 +355,7 @@ class BenchmarkArgilla(ArgillaModule):
             record = rg.FeedbackRecord(
                 fields={
                     "original": original,
+                    "code": metadata["code"] if metadata["code"] else "Code not available."
                 },
                 suggestions=[
                     rg.SuggestionSchema(
