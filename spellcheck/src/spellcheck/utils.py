@@ -1,5 +1,6 @@
 import difflib
 import os
+import sys
 from pathlib import Path
 import logging
 from typing import Mapping, Iterable, Literal, Optional
@@ -23,12 +24,14 @@ def get_logger(level: Optional[str] = None) -> logging.Logger:
     Returns:
         logging.Logger: Logger
     """
+    logger = logging.getLogger(__name__)
     if level:
         logging.basicConfig(
             level=logging.getLevelName(level),
             format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            stream=sys.stdout,
         )
-    return logging.getLogger(__name__)
+    return logger
 
 
 def show_diff(
