@@ -114,13 +114,12 @@ class SpellcheckExtraction(ArgillaExtraction):
         postprocessed_reference = self._remove_highlight_markdown(reference)
         # Metadata is JSON encoded
         lang = json.loads(element["metadata"]).get("lang")
-        data_origin = json.loads(element["metadata"]).get("data_origin")
         return {
             "original": element["original"],
             "reference": postprocessed_reference,
             "lang": lang,
-            "data_origin": data_origin,
-            "is_truncated": 0 if not element["is_truncated"] or element["is_truncated"][0]["value"] == "NO" else 1
+            "code": element.get("code"),
+            "is_truncated": 0 if not element.get("is_truncated") or element["is_truncated"][0]["value"] == "NO" else 1
         }
     
     def _filter_fn(self, element: Mapping[str, Any]) -> bool:
@@ -137,7 +136,7 @@ class SpellcheckExtraction(ArgillaExtraction):
         if not reference and "pending" in self.extracted_status:
             return True
         # Since it can be possible there are several annotators, we only take the last annotation
-        if reference[0]["status"] in self.extracted_status:
+        if reference and reference[0]["status"] in self.extracted_status:
             return True
         return False
     
