@@ -1,5 +1,4 @@
 from typing import Dict
-from tqdm import tqdm
 
 import metaflow
 from datasets import Dataset
@@ -15,6 +14,11 @@ LOGGER = get_logger("INFO")
 
 
 class GenerateBenchmarkPipeline(metaflow.FlowSpec):
+    """A pipeline to create a synthetically generated benchmark using LLM and deploy it to Argilla.
+    
+    NOTE: Extracting and processing data directly from the database using DuckDB is considered. Right now, the process is done out of
+    this pipeline. The process involves avoiding duplicates with the training dataset and the existing benchmark.
+    """
 
     features = ["original", "reference", "lang", "code"]
 
@@ -48,6 +52,7 @@ class GenerateBenchmarkPipeline(metaflow.FlowSpec):
 
     @metaflow.step
     def start(self):
+        """Load the benchmark dataset and validate its features."""
         self.benchmark_data = Dataset.from_parquet(self.benchmark_path)
         LOGGER.info(f"Load benchmark as a dataset: {self.benchmark_data}")
         # Check if all features are in the dataset
@@ -58,7 +63,8 @@ class GenerateBenchmarkPipeline(metaflow.FlowSpec):
 
     @metaflow.step
     def generate_synthetic_corrections(self):
-        """"""
+        """Using a foundational LLM, usually closed-source such as Gemini or OpenAI, generate the correction of 
+        lists of ingredients extracted from the Open Food Facts database."""
         spellcheck = Spellcheck(
             model=OpenAIChatCompletion(
                 prompt_template=Prompt.spellcheck_prompt_template,
@@ -68,13 +74,15 @@ class GenerateBenchmarkPipeline(metaflow.FlowSpec):
         )
 
         def process_fn(element: Dict) -> Dict:
-            """_summary_
+            """Fill the dataset with references, corresponding to corrections, generated with the LLM.
+            Since the dataset can be composed of an existing benchmark complemented with new examples, we ensure to generate corrections
+            only for new data.   
 
             Args:
-                element (Dict): _description_
+                element (Dict): Dictionnary element during the dataset mapping.
 
             Returns:
-                Dict: _description_
+                Dict: Processed dataset element.
             """
             if not element["reference"]:
                 element["reference"] = spellcheck.correct(element["original"]) #TODO: OpenAI processing (tqdm) not showing
@@ -82,18 +90,21 @@ class GenerateBenchmarkPipeline(metaflow.FlowSpec):
 
         self.processed_benchmark = self.benchmark_data.map(
             process_fn, 
-            batched=False,
+            batched=False, # Really important to set it as false since the process function doesn't consider lists but singular texts. 
         )
         self.next(self.push_to_argilla)
 
     @metaflow.step
     def push_to_argilla(self):
-        """"""
+        """Once the dataset created, deploy to Argilla."""
         BenchmarkArgilla(
             originals=self.processed_benchmark["original"],
             references=self.processed_benchmark["reference"],
             metadata=[
-                {"lang": element["lang"], "code": element["code"]} 
+                {
+                    "lang": element["lang"], 
+                    "code": element["code"],
+                } 
                 for element in self.processed_benchmark
             ]
         ).deploy(
@@ -104,6 +115,7 @@ class GenerateBenchmarkPipeline(metaflow.FlowSpec):
 
     @metaflow.step
     def end(self):
+        """Pipeline finished."""
         LOGGER.info("Pipeline finished succesfully.")
 
 
