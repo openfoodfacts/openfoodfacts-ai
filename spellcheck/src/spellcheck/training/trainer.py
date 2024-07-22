@@ -1,7 +1,17 @@
 """Notes: Use HFArgumentParser in script"""
 import os
 from abc import ABC, abstractmethod
-from typing import Optional, Mapping, List, Union, Any, Iterable
+from typing import (
+    Optional, 
+    Mapping, 
+    List, 
+    Union, 
+    Any, 
+    Iterable, 
+    Tuple,
+    Type, 
+    Dict
+)
 from functools import partial
 from tqdm import tqdm
 
@@ -20,7 +30,15 @@ from peft import AutoPeftModelForCausalLM
 import comet_ml
 
 from spellcheck.utils import get_logger
-from spellcheck.evaluation.evaluator import Evaluator
+from spellcheck.evaluation.evaluator import SpellcheckEvaluator
+from spellcheck.training.configs import (
+    DataProcessingConfig,
+    SavingConfig,
+    ModelConfig,
+    InferenceConfig,
+    EvaluationDataFeatures,
+    EvaluationConfig,
+)
 
 
 LOGGER = get_logger()
@@ -30,19 +48,6 @@ LOGGER = get_logger()
 class Datasets:
     training_dataset: Dataset
     evaluation_dataset: Optional[Dataset]
-
-
-@dataclass
-class ProcessingFeatures:
-    text_feature: str
-    label_feature: str
-
-
-@dataclass
-class EvaluationFeatures:
-    text: str
-    label: str
-    prediction: str
 
 
 class DataProcessor(ABC, BaseModel):
@@ -63,15 +68,14 @@ class DataProcessor(ABC, BaseModel):
         """Processing function used within the Dataset.map() method from the 'datasets' library.
         
         The control the behavior of this function, one should create a new class that inherates from DataProcessor and build
-        its own _procesd_fn(). The latest is then used in the process() method from the base model.
+        its own _processed_fn(). The latest is then used in the process() method from the base model.
         """
         raise NotImplementedError
     
     def process(
         self, 
         datasets: Datasets, 
-        training_processing_features: ProcessingFeatures,
-        evaluation_processing_features: Optional[ProcessingFeatures] = None,
+        data_processing_features: DataProcessingConfig,
     ) -> Datasets:
         """Using the process function associated with the class, performs processing of the 
         provided training and evaluation datasets.
@@ -89,17 +93,17 @@ class DataProcessor(ABC, BaseModel):
         # Training dataset
         processed_training_dataset = self._map_dataset(
             dataset=datasets.training_dataset,
-            text_feature=training_processing_features.text_feature,
-            label_feature=training_processing_features.label_feature,
+            text_feature=data_processing_features.train_text_feature,
+            label_feature=data_processing_features.train_label_feature,
         )
         # Evaluation dataset
-        if not datasets.evaluation_dataset and evaluation_processing_features:
+        if not datasets.evaluation_dataset and data_processing_features.eval_text_feature or data_processing_features.eval_label_feature:
             raise ValueError(f"Evaluation processing features provided but no evaluation dataset was provided. Datasets dataclass currently provided: {datasets}")
         elif datasets.evaluation_dataset:
             processed_evaluation_dataset = self._map_dataset(
                 dataset=datasets.evaluation_dataset,
-                text_feature=evaluation_processing_features.text_feature,
-                label_feature=evaluation_processing_features.label_feature,
+                text_feature=data_processing_features.eval_text_feature,
+                label_feature=data_processing_features.eval_label_feature,
             )
             return Datasets(
                 training_dataset=processed_training_dataset,
@@ -172,6 +176,7 @@ class SFTDataProcessor(DataProcessor):
     
 
 class SavingProcessor(ABC, BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     def save(self, trainer: Trainer):
         raise NotImplementedError
@@ -180,9 +185,7 @@ class SavingProcessor(ABC, BaseModel):
 class LoRASavingProcessor(SavingProcessor):
 
     output_dir: str
-    merge_weights: bool = True
-    max_shard_size: str = "2GB"
-    torch_dtype: torch.dtype = torch.float16
+    saving_config: SavingConfig
     
     def save(self, trainer: Trainer):
         """Check these links to know more about saving LoRA adapters after training: 
@@ -193,7 +196,7 @@ class LoRASavingProcessor(SavingProcessor):
         trainer.tokenizer.save_pretrained(self.output_dir)
         LOGGER.info(f"Saving model and adapters in {self.output_dir}")
 
-        if self.merge_weights:
+        if self.saving_config.merge_weights:
             # Save adapters only
             trainer.model.save_pretrained(self.output_dir)
             # clear memory
@@ -203,10 +206,11 @@ class LoRASavingProcessor(SavingProcessor):
 
             # Load PEFT model in fp16. It uses the saved LoRA adapters and load the pretrained model for the HF hub.
             LOGGER.info("Load PEFT model.")
+            torch_dtype = torch.float16 if self.saving_config.f16 else torch.float32
             model = AutoPeftModelForCausalLM.from_pretrained(
                 self.output_dir,
                 low_cpu_mem_usage=True,
-                torch_dtype=self.torch_dtype,
+                torch_dtype=torch_dtype,
                 trust_remote_code=True,  # Required because PEFT load pretrained model before merging adapters
             )
             model = model.merge_and_unload()
@@ -214,21 +218,32 @@ class LoRASavingProcessor(SavingProcessor):
             model.save_pretrained(
                 self.output_dir, 
                 safe_serialization=True, 
-                max_shard_size=self.max_shard_size
+                max_shard_size=self.saving_config.max_shard_size
             )
             LOGGER.info("Model merged and saved succesfully.")
+            del model
+
+            # Remove adapters from the directory
+            try:
+                os.remove(os.path.join(self.output_dir, "adapter_config.json"))
+                os.remove(os.path.join(self.output_dir, "adapter_model.safetensors"))
+            except Exception as e:
+                LOGGER.warning(f"Something went wrong with trying to remove adapters files for the training directory. Error: {e}")
 
         else:
             # Save adapters only
-            trainer.model.save_pretrained(self.output_dir, safe_serialization=True) 
+            trainer.model.save_pretrained(self.output_dir) 
 
 
-class Inference(ABC, BaseModel):
+class InferenceProcessor(ABC, BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     tokenizer: PreTrainedTokenizer
     model: PreTrainedModel
+    inference_config: InferenceConfig
     data_processor: Optional[DataProcessor] = None
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
 
     @abstractmethod
     def inference(self):
@@ -237,10 +252,10 @@ class Inference(ABC, BaseModel):
     @classmethod
     def load_pretrained(
         cls, 
-        model_dir: str, 
-        torch_dtype: torch.dtype, 
-        attn_implementation: str = "flash_attention_2",
-        **load_kwargs
+        model_dir: str,
+        model_conf: ModelConfig,
+        data_processor: DataProcessor,
+        inference_config: InferenceConfig
     ) -> None:
         """"""
         # Prepare the tokenizer
@@ -248,50 +263,46 @@ class Inference(ABC, BaseModel):
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.pad_token_id = tokenizer.eos_token_id
 
+        torch_dtype = torch.bfloat16 if model_conf.bf16 else torch.float32
         model = AutoModelForCausalLM.from_pretrained(
             model_dir,
-            device_map="auto",
-            attn_implementation="flash_attention_2",
+            device_map=model_conf.device_map,
+            attn_implementation=model_conf.attn_implementation,
             torch_dtype=torch_dtype,
             trust_remote_code=True,
-            **load_kwargs
         )
         return cls(
             tokenizer=tokenizer,
             model=model,
+            data_processor=data_processor,
+            inference_config=inference_config
         )
     
-    @classmethod
-    def set_data_processor(cls, data_processor: DataProcessor):
-        """"""
-        cls.data_processor = data_processor
-
     def _batch_process(self, lst: Iterable, batch_size: int = 1):
         """"""
         for i in range(0, len(lst), batch_size):
             yield lst[i : i + batch_size]
 
-class TextGenerationInference(Inference):
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    max_new_tokens = 1024
+class TextGenerationInference(InferenceProcessor):
+
+    inference_config: InferenceConfig
 
     def inference(
         self, 
         texts: Iterable[str], 
-        batch_size: int = 1,
     ) -> Iterable[str]:
         """"""
         predictions = []
         processed_texts = self.data_processor.process_texts(texts)
 
-        if batch_size > 1:
-            processed_texts = self._batch_process(processed_texts, batch_size=batch_size)
+        if self.inference_config.batch_size > 1:
+            processed_texts = self._batch_process(processed_texts, batch_size=self.inference_config.batch_size)
         
         for text_batch in tqdm(
             processed_texts, 
             total=len(texts), 
-            desc="Prediction" if batch_size == 1 else f"Prediction in batch: batch_size = {batch_size}"
+            desc="Prediction" if self.inference_config.batch_size == 1 else f"Prediction in batch: batch_size = {self.inference_config.batch_size == 1}"
         ):
             encodings = self.tokenizer(
                 text_batch, 
@@ -303,7 +314,7 @@ class TextGenerationInference(Inference):
             pred_encodings = self.model.generate(
                 **encodings,
                 do_sample=False,
-                max_new_tokens=self.max_new_tokens,
+                max_new_tokens=self.inference_config.max_new_tokens,
             )
             # Decode, remove instruction and strip text
             prediction_batch = self._post_process(
@@ -324,28 +335,44 @@ class TextGenerationInference(Inference):
 
 
 class EvaluationProcessor(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    evaluator: Evaluator
-    inference: Inference
+    evaluator_type: Type[SpellcheckEvaluator]
+    inference_processor: InferenceProcessor
     evaluation_dataset: Dataset
-    evaluation_features: EvaluationFeatures
-    save_predictions_path : Optional[str] # Can be an S3 uri
+    evaluation_features: EvaluationDataFeatures
+    evaluation_config: EvaluationConfig
 
-    def evaluate(self) -> None:
-        """_summary_
+    def model_post_init(self):
+        """Prepare evaluator. Pydantic method."""
+        orginals, _ = self._prepare_data()
+        self.evaluator = self.evaluator_type(originals=orginals)
+
+    def evaluate(self) -> Dict[str, float]:
         """
-        LOGGER.info("Start evaluation.")
-        # Load fine-tuned model
-        LOGGER.info("Start evaluating model on benchmark.")
-        originals = self.evaluation_dataset[self.evaluation_features.text]
-        references = self.evaluation_dataset[self.evaluation_features.label]
-        predictions = self.inference(texts=originals)
+        """
+        # Load texts
+        originals, references = self._prepare_data()
+        # Predictions
+        predictions = self.inference_processor.inference(texts=originals)
+        # Evaluation
         metrics = self.evaluator.evaluate(predictions=predictions, references=references)
         LOGGER.info(f"Evaluation metrics: {metrics}")
-        # Save evaluation in S3
-        prediction_dataset = self.evaluation_dataset.add_column(name="prediction", column=predictions)
-        LOGGER.info(f"S3 URI where predictions on evaluation are sent to: {self.save_predictions_path}")
-        prediction_dataset.save_to_disk(self.save_predictions_path)
+        # Save predictions
+        prediction_dataset = self.evaluation_dataset.add_column(
+            name="prediction", 
+            column=predictions
+        )
+        if self.evaluation_config.save_predictions_path:
+            LOGGER.info(f"Predictions are saved in: {self.evaluation_config.save_predictions_path}")
+            prediction_dataset.save_to_disk(self.evaluation_config.save_predictions_path)
+        return metrics
+    
+    def _prepare_data(self) -> Tuple[Iterable[str], Iterable[str]]:
+        """"""
+        originals = self.evaluation_dataset[self.evaluation_features.eval_text_feature]
+        references = self.evaluation_dataset[self.evaluation_features.eval_label_feature]
+        return originals, references
 
 
 class ExperimentLogger(ABC, BaseModel):
@@ -357,6 +384,7 @@ class ExperimentLogger(ABC, BaseModel):
     
 
 class CometExperimentLogger(ExperimentLogger):
+    """"""
     
     experiment: comet_ml.Experiment
     workspace: str = os.getenv("COMET_WORKSPACE_NAME")
@@ -402,20 +430,3 @@ class CometExperimentLogger(ExperimentLogger):
 
     def _log_tags(self, tags: List[str]) -> None:
         self.experiment.add_tags(tags)
-
-
-class Training(BaseModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-    trainer: Trainer #NOTE: Everything relative to data is already in Trainer
-    saving_processor: SavingProcessor
-    evaluator: Evaluator
-    exp_logging_processor: ExperimentLogger
-    inference: Inference
-
-    def train(self):
-        """"""
-        LOGGER.info("Start training.")
-        self.trainer.train()
-        LOGGER.info("Start saving.")
-        self.saving_processor.save(trainer=self.trainer)
-        return True
