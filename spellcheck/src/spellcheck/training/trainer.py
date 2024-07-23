@@ -16,7 +16,7 @@ from functools import partial
 from tqdm import tqdm
 
 import torch
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, ConfigDict
 from pydantic.dataclasses import dataclass
 from datasets import Dataset
 from transformers import (
@@ -33,11 +33,14 @@ from spellcheck.utils import get_logger
 from spellcheck.evaluation.evaluator import SpellcheckEvaluator
 from spellcheck.training.configs import (
     DataProcessingConfig,
+    SFTDataProcessingConfig,
     SavingConfig,
     ModelConfig,
     InferenceConfig,
+    TrainingDataFeatures,
     EvaluationDataFeatures,
     EvaluationConfig,
+
 )
 
 
@@ -47,7 +50,7 @@ LOGGER = get_logger()
 @dataclass(config=ConfigDict(arbitrary_types_allowed=True))
 class Datasets:
     training_dataset: Dataset
-    evaluation_dataset: Optional[Dataset]
+    evaluation_dataset: Optional[Dataset] = None
 
 
 class DataProcessor(ABC, BaseModel):
@@ -56,7 +59,7 @@ class DataProcessor(ABC, BaseModel):
     The class is designed to inherite the data processing job adapated to the training algorithm, such as SFT, DPO, Instruction-tuning, and so on...
     """
 
-    batched: bool = Field(default=False)
+    data_processsing_config: DataProcessingConfig
     
     @abstractmethod
     def _process_fn(
@@ -72,10 +75,11 @@ class DataProcessor(ABC, BaseModel):
         """
         raise NotImplementedError
     
-    def process(
+    def process_datasets(
         self, 
-        datasets: Datasets, 
-        data_processing_features: DataProcessingConfig,
+        datasets: Datasets,
+        training_data_features: TrainingDataFeatures,
+        evaluation_data_features: Optional[EvaluationDataFeatures]  
     ) -> Datasets:
         """Using the process function associated with the class, performs processing of the 
         provided training and evaluation datasets.
@@ -93,17 +97,17 @@ class DataProcessor(ABC, BaseModel):
         # Training dataset
         processed_training_dataset = self._map_dataset(
             dataset=datasets.training_dataset,
-            text_feature=data_processing_features.train_text_feature,
-            label_feature=data_processing_features.train_label_feature,
+            text_feature=training_data_features.train_text_feature,
+            label_feature=training_data_features.train_label_feature,
         )
         # Evaluation dataset
-        if not datasets.evaluation_dataset and data_processing_features.eval_text_feature or data_processing_features.eval_label_feature:
-            raise ValueError(f"Evaluation processing features provided but no evaluation dataset was provided. Datasets dataclass currently provided: {datasets}")
+        if not datasets.evaluation_dataset and evaluation_data_features:
+            LOGGER.warning(f"Evaluation processing features provided but no evaluation dataset was provided. Datasets dataclass currently provided: {datasets}")
         elif datasets.evaluation_dataset:
             processed_evaluation_dataset = self._map_dataset(
                 dataset=datasets.evaluation_dataset,
-                text_feature=data_processing_features.eval_text_feature,
-                label_feature=data_processing_features.eval_label_feature,
+                text_feature=evaluation_data_features.eval_text_feature,
+                label_feature=evaluation_data_features.eval_label_feature,
             )
             return Datasets(
                 training_dataset=processed_training_dataset,
@@ -127,7 +131,7 @@ class DataProcessor(ABC, BaseModel):
                 text_feature=text_feature,
                 label_feature=label_feature,
             ),
-            batched=self.batched,
+            batched=self.data_processsing_config.batched,
             remove_columns=dataset.column_names,
         )
     
@@ -140,7 +144,7 @@ class SFTDataProcessor(DataProcessor):
     """Data processing engine for Supervised Fine Tuning training.
     """
 
-    instruction_template: str
+    data_processsing_config: SFTDataProcessingConfig
 
     def _process_fn(
         self,
@@ -168,7 +172,7 @@ class SFTDataProcessor(DataProcessor):
         """Prepare instruction based on the instruction-template. 
         This function is primordial for the training step, but also during inference.
         """
-        return self.instruction_template.format(text)
+        return self.data_processsing_config.instruction_template.format(text)
 
     def process_texts(self, texts: Iterable[str]) -> Iterable[str]:
         """"""
@@ -178,7 +182,7 @@ class SFTDataProcessor(DataProcessor):
 class SavingProcessor(ABC, BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    def save(self, trainer: Trainer):
+    def save_trainer(self, trainer: Trainer):
         raise NotImplementedError
     
 
@@ -187,7 +191,7 @@ class LoRASavingProcessor(SavingProcessor):
     output_dir: str
     saving_config: SavingConfig
     
-    def save(self, trainer: Trainer):
+    def save_trainer(self, trainer: Trainer):
         """Check these links to know more about saving LoRA adapters after training: 
             * https://www.philschmid.de/fine-tune-llms-in-2024-with-trl
             * https://github.com/philschmid/llm-sagemaker-sample/blob/main/scripts/run_qlora.py
@@ -243,7 +247,7 @@ class InferenceProcessor(ABC, BaseModel):
     inference_config: InferenceConfig
     data_processor: Optional[DataProcessor] = None
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
     @abstractmethod
     def inference(self):

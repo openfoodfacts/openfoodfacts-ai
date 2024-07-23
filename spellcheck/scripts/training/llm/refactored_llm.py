@@ -18,7 +18,7 @@ from trl import SFTTrainer, SFTConfig
 
 from spellcheck.utils import get_logger
 from spellcheck.training.configs import (
-    DataProcessingConfig,
+    SFTDataProcessingConfig,
     ModelConfig,
     DataConfig,
     SavingConfig,
@@ -34,7 +34,6 @@ from spellcheck.training.trainer import (
     TextGenerationInference,
     CometExperimentLogger,
     EvaluationProcessor,
-    TextGenerationInference,
 )
 from spellcheck.training.utils import CustomCometCallback
 from spellcheck.evaluation.evaluator import SpellcheckEvaluator
@@ -58,9 +57,9 @@ def main():
     LOGGER.info("Parse information from CLI using Argparser.")
     parser = HfArgumentParser([
         SFTConfig,
-        BitsAndBytesConfig,
-        LoraConfig,
-        DataProcessingConfig,
+        # BitsAndBytesConfig,
+        # LoraConfig,
+        SFTDataProcessingConfig,
         TrainingDataFeatures,
         EvaluationDataFeatures,
         ModelConfig,
@@ -69,11 +68,10 @@ def main():
         InferenceConfig,
         EvaluationConfig,
     ])
-    LOGGER.info(f"Parsed dataclasses: {parser.parse_args_into_dataclasses()}")
     (
         sft_config, 
-        quantization_config, 
-        lora_config, 
+        # quantization_config, 
+        # lora_config, 
         data_processing_config,
         training_data_features,
         evaluation_data_features,
@@ -83,6 +81,26 @@ def main():
         inference_config,
         evaluation_config,
     ) = parser.parse_args_into_dataclasses()
+
+    #NOTE: Bug with LoraConfig and HFArgumentParser (Only `Union[X, NoneType]` (i.e., `Optional[X]`) is allowed for `Union` because the argument parser only supports one type per argument. Problem encountered in field 'init_lora_weights'.)
+    # We instantiate LoraConfig "manually"
+    lora_config = LoraConfig(
+        lora_alpha=8,
+        lora_dropout=0.05,
+        r=16,
+        bias="none",
+        target_modules="all-linear",
+        task_type="CAUSAL_LM",
+    )
+
+    #TODO:
+    torch_dtype = torch.bfloat16
+    quantization_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_use_double_quant=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch_dtype,
+    )
 
     # Sagemaker environment variables: https://github.com/aws/sagemaker-training-toolkit/blob/master/ENVIRONMENT_VARIABLES.md
     OUTPUT_DIR = os.getenv("SM_MODEL_DIR")
@@ -118,15 +136,16 @@ def main():
     ######################
     LOGGER.info("Start pre-processing datasets.")
     data_processor = SFTDataProcessor(
-        batched=False,
-        instruction_template="###Correct the list of ingredients:\n{}\n\n###Correcton:\n" #TODO
+        data_processsing_config=data_processing_config,
     )
-    processed_datasets = data_processor.process(
+    processed_datasets = data_processor.process_datasets(
         datasets=datasets,
-        data_processing_config=data_processing_config
+        training_data_features=training_data_features,
+        evaluation_data_features=evaluation_data_features
     )
-    LOGGER.info(f"Processed training dataset: {processed_datasets.training_dataset}")
-    LOGGER.info(f"Processed evaluation dataset: {processed_datasets.evaluation_dataset if processed_datasets.evaluation_dataset else "No evaluation dataset provided."}")
+    LOGGER.info(f"Processed training dataset: {processed_datasets.training_dataset}.")
+    if processed_datasets.evaluation_dataset:
+        LOGGER.info(f"Processed evaluation dataset: {processed_datasets.evaluation_dataset}.")
 
     ######################
     # MODEL PREPARATION
@@ -140,7 +159,7 @@ def main():
     tokenizer.pad_token_id = tokenizer.eos_token_id
 
     LOGGER.info("Start preparing the model.")
-    torch_dtype = torch.bfloat16 if model_config.bf16 else torch.float32 # bf16 required by Flash Attention
+    torch_dtype = torch.bfloat16 if model_config.model_bf16 else torch.float32 # bf16 required by Flash Attention
     model = AutoModelForCausalLM.from_pretrained(
         model_config.pretrained_model_name,
         device_map=model_config.device_map,
@@ -149,7 +168,7 @@ def main():
         quantization_config=quantization_config,
         trust_remote_code=True,
     )
-    LOGGER.info("Model prepared succesfull for training.")
+    LOGGER.info("Model prepared succesfully for training.")
 
     ######################
     # TRAIN
@@ -176,7 +195,7 @@ def main():
         output_dir=OUTPUT_DIR,
         saving_config=saving_config,
     )
-    saving_processor.save(trainer=trainer)
+    saving_processor.save_trainer(trainer=trainer)
     LOGGER.info(f"Model saved at: {saving_processor.output_dir}")
 
     ######################
@@ -213,7 +232,7 @@ def main():
         }
     )
 
-    LOGGER.info("End of the training job")
+    LOGGER.info("End of the training job.")
 
 if __name__ == "__main__":
     main()
