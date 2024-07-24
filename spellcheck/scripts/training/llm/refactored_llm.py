@@ -15,6 +15,7 @@ from transformers import (
 )
 from peft import LoraConfig
 from trl import SFTTrainer, SFTConfig
+import comet_ml
 
 from spellcheck.utils import get_logger
 from spellcheck.training.configs import (
@@ -25,7 +26,6 @@ from spellcheck.training.configs import (
     InferenceConfig,
     TrainingDataFeatures,
     EvaluationDataFeatures,
-    EvaluationConfig,
 )
 from spellcheck.training.trainer import (
     Datasets,
@@ -66,7 +66,6 @@ def main():
         DataConfig,
         SavingConfig,
         InferenceConfig,
-        EvaluationConfig,
     ])
     (
         sft_config, 
@@ -79,7 +78,6 @@ def main():
         data_config, 
         saving_config, 
         inference_config,
-        evaluation_config,
     ) = parser.parse_args_into_dataclasses()
 
     #NOTE: Bug with LoraConfig and HFArgumentParser (Only `Union[X, NoneType]` (i.e., `Optional[X]`) is allowed for `Union` because the argument parser only supports one type per argument. Problem encountered in field 'init_lora_weights'.)
@@ -93,8 +91,8 @@ def main():
         task_type="CAUSAL_LM",
     )
 
-    #TODO:
-    torch_dtype = torch.bfloat16
+    torch_dtype = torch.bfloat16 if sft_config.bf16 else torch.float32
+
     quantization_config = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_use_double_quant=True,
@@ -109,8 +107,9 @@ def main():
     # Where the model artifact is store. Can be compressed (model.tar.gz) or decompressed (model/)
     S3_MODEL_URI = os.path.join(os.getenv("S3_MODEL_URI"), "output/model/")
 
-    # CometML tags. JSON Serialized as a string because List is not serializable 
-    EXPERIMENT_TAGS = os.getenv("EXPERIMENT_TAGS").split(",")
+    #Comet experiment
+    EXPERIMENT_KEY = os.getenv("COMET_EXPERIMENT_KEY")
+    experiment = comet_ml.ExistingExperiment(previous_experiment=EXPERIMENT_KEY)
 
     ######################
     # LOAD DATA
@@ -159,7 +158,6 @@ def main():
     tokenizer.pad_token_id = tokenizer.eos_token_id
 
     LOGGER.info("Start preparing the model.")
-    torch_dtype = torch.bfloat16 if model_config.model_bf16 else torch.float32 # bf16 required by Flash Attention
     model = AutoModelForCausalLM.from_pretrained(
         model_config.pretrained_model_name,
         device_map=model_config.device_map,
@@ -174,6 +172,7 @@ def main():
     # TRAIN
     ######################
     LOGGER.info("Start training.")
+    # Since we parse config using Argument 
     trainer = SFTTrainer(
         model=model,
         args=sft_config,
@@ -203,7 +202,7 @@ def main():
     ######################
     LOGGER.info("Start evaluation.")
     inference_processor = TextGenerationInference.load_pretrained(
-        model_dir=OUTPUT_DIR,
+        model_dir=sft_config.output_dir,
         model_config=model_config,
         data_processor=data_processor,
         inference_config=inference_config,
@@ -211,24 +210,26 @@ def main():
     evaluation_processor = EvaluationProcessor(
         evaluator_type=SpellcheckEvaluator,
         inference_processor=inference_processor,
-        evaluation_dataset=Datasets.evaluation_dataset,
+        evaluation_dataset=datasets.evaluation_dataset,
         evaluation_features=evaluation_data_features,
-        evaluation_config=evaluation_config,
     )
-    metrics = evaluation_processor.evaluate()
+    s3_evaluation_path = os.path.join(os.getenv("S3_EVALUATION_URI"), "evaluation-" + SM_JOB_NAME)
+    metrics = evaluation_processor.evaluate(
+        save_predictions_path=s3_evaluation_path,
+    )
     LOGGER.info(f"Evaluation metrics: {metrics}")
+    LOGGER.info(f"Predictions saved at: {s3_evaluation_path}")
 
     ######################
     # EXPERIMENTATION LOGGING
     ######################
     LOGGER.info("Start logging additional metrics and parameters to the experiment tracker.")
-    experiment_logger = CometExperimentLogger.load_experiment()
+    experiment_logger = CometExperimentLogger(experiment=experiment)
     experiment_logger.log(
-        tags=EXPERIMENT_TAGS,
         metrics=metrics,
         model_uri=S3_MODEL_URI,
         parameters={
-            "training_job_name": SM_JOB_NAME
+            "training_job_name": SM_JOB_NAME,
         }
     )
 

@@ -10,18 +10,18 @@ class DataProcessingConfig:
 class SFTDataProcessingConfig(DataProcessingConfig):
     instruction_template: str = "###Correct the list of ingredients:\n{}\n\n###Correcton:\n" #TODO: add jinja instruction
 
+
 @dataclass
 class ModelConfig:
     pretrained_model_name: str
-    model_bf16: bool = field(default=False)
     device_map: str = field(default="auto")
     attn_implementation: str = field(default="flash_attention_2")
 
 
 @dataclass
 class DataConfig:
-    training_data: str = field(default="openfoofacts/spellcheck-dataset")
-    evaluation_data: str = field(default="openfoodfacts/spelcheck-benchmark")
+    training_data: str = field(default="openfoodfacts/spellcheck-dataset")
+    evaluation_data: str = field(default="openfoodfacts/spellcheck-benchmark")
     train_split: str = field(default="train")
     eval_split: str = field(default="train")
     train_data_version: str = field(default="v0.0")
@@ -31,15 +31,15 @@ class DataConfig:
 
 
 @dataclass
-class TrainingConfig:
-    output_dir: str = field(default="model_dir")
-
-
-@dataclass
 class SavingConfig:
+    """Saving configuration.
+
+    Args:
+        merge_weights: Whether to merge the adapter and model weights with.
+        max_shard_size: Maximum shard size.
+    """
     merge_weights: bool = field(default=False)
     max_shard_size: str = field(default="2GB")
-    f16: bool = field(default=True)
 
 
 @dataclass
@@ -58,9 +58,3 @@ class TrainingDataFeatures:
 class EvaluationDataFeatures:
     eval_text_feature: str = field(default="text")
     eval_label_feature: str = field(default="label")
-
-@dataclass
-class EvaluationConfig:
-    save_predictions_path: Optional[str] = field(default=None)
-
-
