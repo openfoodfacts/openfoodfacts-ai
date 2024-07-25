@@ -241,11 +241,9 @@ class LoRASavingProcessor(SavingProcessor):
             * https://github.com/philschmid/llm-sagemaker-sample/blob/main/scripts/run_qlora.py
 
         Args:
-            trainer (Trainer): Trainer instance.
+            trainer (Trainer): Trainer instance after training.
         """
-        LOGGER.info(f"Saving tokenizer in {self.output_dir}")
         trainer.tokenizer.save_pretrained(self.output_dir)
-        LOGGER.info(f"Saving model and adapters in {self.output_dir}")
 
         if self.saving_config.merge_weights:
             # Save adapters only
@@ -257,7 +255,7 @@ class LoRASavingProcessor(SavingProcessor):
 
             # Load PEFT model in fp16. It uses the saved LoRA adapters and load the pretrained model for the HF hub.
             LOGGER.info("Load PEFT model.")
-            torch_dtype = torch.bfloat16
+            torch_dtype = torch.bfloat16 #TODO: add bf16 to arguments
             model = AutoPeftModelForCausalLM.from_pretrained(
                 self.output_dir,
                 low_cpu_mem_usage=True,
@@ -274,7 +272,7 @@ class LoRASavingProcessor(SavingProcessor):
             LOGGER.info("Model merged and saved succesfully.")
             del model
 
-            # Remove adapters from the directory
+            # Remove adapters from the directory. The reason being the model.from_pretrained() method will load adapters instead of the merged model.  
             try:
                 os.remove(os.path.join(self.output_dir, "adapter_config.json"))
                 os.remove(os.path.join(self.output_dir, "adapter_model.safetensors"))
@@ -329,7 +327,7 @@ class InferenceProcessor(ABC, BaseModel):
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.pad_token_id = tokenizer.eos_token_id
 
-        torch_dtype = torch.bfloat16 #TODO
+        torch_dtype = torch.bfloat16 #: add bfloat16 to arguments
         model = AutoModelForCausalLM.from_pretrained(
             model_dir,
             device_map=model_config.device_map,
@@ -486,14 +484,16 @@ class CometExperimentLogger(ExperimentLogger):
         metrics: Optional[Mapping] = None, 
         parameters: Optional[Mapping] = None, 
         model_uri: Optional[str] = None,
+        model_name: str = "model",
         tags: Optional[List[str]] = None
     ) -> None:
-        """Log information in experiment tracker.
+        """Log data in experiment tracker.
 
         Args:
             metrics (Optional[Mapping], optional): Metrics. Defaults to None.
             parameters (Optional[Mapping], optional): Any information that is not a metric. Defaults to None.
             model_uri (Optional[str], optional): Model artifact path (S3). Defaults to None.
+            model_name (str, optional): Model artifact name. Defaults to "model".
             tags (Optional[List[str]], optional): Experiment tags. Defaults to None.
         """
         if metrics:
@@ -501,19 +501,19 @@ class CometExperimentLogger(ExperimentLogger):
         if parameters:
             self._log_parameters(parameters)
         if model_uri:
-            self._log_model(model_uri)
+            self._log_model(model_uri, model_name)
         if tags:
             self._log_tags(tags)
 
-    def _log_metrics(self, **kwargs) -> None:
-        self.experiment.log_metrics(kwargs)
+    def _log_metrics(self, metrics: Dict[str, Any]) -> None:
+        self.experiment.log_metrics(metrics)
 
-    def _log_parameters(self, **kwargs) -> None:
-        self.experiment.log_parameters(kwargs)
+    def _log_parameters(self, parameters: Dict[str, Any]) -> None:
+        self.experiment.log_parameters(parameters)
 
-    def _log_model(self, model_uri: str, artifact_name: str = "model") -> None:
+    def _log_model(self, model_uri: str, model_name: str) -> None:
         self.experiment.log_remote_model(
-            artifact_name, model_uri, sync_mode=False
+            model_name, model_uri, sync_mode=False
         )
 
     def _log_tags(self, tags: List[str]) -> None:

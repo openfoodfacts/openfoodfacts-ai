@@ -21,13 +21,13 @@ class ModelConfig:
 @dataclass
 class DataConfig:
     training_data: str = field(default="openfoodfacts/spellcheck-dataset")
-    evaluation_data: str = field(default="openfoodfacts/spellcheck-benchmark")
+    evaluation_data: Optional[str] = field(default=None)
     train_split: str = field(default="train")
     eval_split: str = field(default="train")
-    train_data_version: str = field(default="v0.0")
-    eval_data_version: str = field(default="v0.0")
+    train_data_version: Optional[str] = field(default=None)
+    eval_data_version: Optional[str] = field(default=None)
     train_data_revision: Optional[str] = field(default=None)
-    eval_data_revision: str = field(default=None)
+    eval_data_revision: Optional[str] = field(default=None)
 
 
 @dataclass

@@ -36,6 +36,7 @@ class TrainingPipeline(metaflow.FlowSpec):
         """Load all parameters from config file used during training. 
         """
         from omegaconf import OmegaConf
+        LOGGER.info(f"Configuration file used: {self.training_conf_path}")
         self.training_conf = OmegaConf.load(self.training_conf_path)
         self.hyperparameters = OmegaConf.to_container(self.training_conf.hyperparameters, resolve=True) # Transform DictConfig to Dict
         LOGGER.info(f"Configs: {self.training_conf}")
@@ -51,7 +52,7 @@ class TrainingPipeline(metaflow.FlowSpec):
         from sagemaker.huggingface import HuggingFace
 
         # Create experiment in CometML and log information before starting the training job
-        experiment = comet_ml.Experiment(project_name="test")
+        experiment = comet_ml.Experiment()
         experiment.add_tags(list(self.training_conf.additional_conf.comet_ml_tags))
         experiment.log_parameter("metaflow_run_id", metaflow.current.run_id)
         self.experiment_key = experiment.get_key()
@@ -59,21 +60,21 @@ class TrainingPipeline(metaflow.FlowSpec):
 
         # Prepare Sagemaker estimator
         estimator = HuggingFace(
-            role= os.getenv("SAGEMAKER_ROLE"),                    # Iam role used in training job to access AWS ressources, e.g. S3
-            hyperparameters= self.hyperparameters,                      # the hyperparameters used for the training job
-            environment={                                                     # environment variables used during training 
-                "COMET_PROJECT_NAME": "test",                   # comet project name
-                "COMET_API_KEY": os.getenv("COMET_API_KEY"),
-                "COMET_EXPERIMENT_KEY": self.experiment_key,     
-                "HF_TOKEN": os.getenv("HF_TOKEN"),                                       # required by some models, such as llama-3 or Mistral
-                "S3_MODEL_URI": self.training_conf.estimator.output_path,                # the uri where the model artifact is stored is actually not in the SM_TRAINING_JOB environment variables. Let's add it.
-                "S3_EVALUATION_URI": self.training_conf.additional_conf.s3_evaluation_uri,           
+            role= os.getenv("SAGEMAKER_ROLE"),                                              # Iam role used in training job to access AWS ressources, e.g. S3
+            hyperparameters= self.hyperparameters,                                          # hyperparameters used for the training job
+            environment={                                                                   # environment variables used during training 
+                "COMET_PROJECT_NAME": os.getenv("COMET_PROJECT_NAME"),                      # comet project name
+                "COMET_API_KEY": os.getenv("COMET_API_KEY"),   
+                "COMET_EXPERIMENT_KEY": self.experiment_key,        
+                "HF_TOKEN": os.getenv("HF_TOKEN"),                                          # required by some models, such as llama-3 or Mistral
+                "S3_MODEL_URI": self.training_conf.estimator.output_path,                   # the uri where the model artifact is stored is actually not in the SM_TRAINING_JOB environment variables. Let's add it.
+                "S3_EVALUATION_URI": self.training_conf.additional_conf.s3_evaluation_uri,  # s3 uri where evaluation prediction are stored        
             },
             **self.training_conf.estimator,                                        
         )
 
         # Run training job
-        estimator.fit(wait=True) # Wait for the pipeline. No need for inputs since data doesn't come from S3.
+        estimator.fit(wait=True, inputs={"model": self.training_conf.additional_conf.pretrained_mode_uri}) # Wait for the pipeline. No need for inputs since data doesn't come from S3.
         
         # Log Sagemaker training information into metaflow after training job
         self.sagemaker_training_job_id = estimator.latest_training_job.job_name

@@ -21,7 +21,6 @@ class CustomCometCallback(CometCallback):
             self._log_assets = True
         if state.is_world_process_zero:
             comet_mode = os.getenv("COMET_MODE", "ONLINE").upper()
-            experiment = None
             experiment_kwargs = {"project_name": os.getenv("COMET_PROJECT_NAME", "huggingface")}
             if comet_mode == "ONLINE":
                 ### MODIFICATION
