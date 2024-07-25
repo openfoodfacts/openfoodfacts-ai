@@ -1,5 +1,5 @@
 estimator: 
-  entry_point: "refactored_llm.py"                                              # train script  
+  entry_point: "pretraining_llm.py"                                              # train script  
   source_dir: "scripts/training/llm/"                                           # directory containing training script and requirements requirements.
   dependencies: 
     - "src/"                                                                    # Additional local library
@@ -13,29 +13,17 @@ estimator:
   py_version: "py310"                                                           # python version used in the training job
   disable_output_compression: true                                              # not compress output to save training time and cost
   volume_size: 300                                                              # the size of the EBS volume in GB
-
-additional_conf:
-  s3_evaluation_uri: "s3://open-food-facts-robotoff/spellcheck/evaluation_output/"
-
+  
 hyperparameters:
   # Data
-  training_data: "openfoodfacts/spellcheck-dataset"
-  evaluation_data: "openfoodfacts/spellcheck-benchmark"
-  train_split: "train+test"
-  eval_split: "train"
-  train_text_feature: "original"
-  train_label_feature: "reference"
-  eval_text_feature: "original"
-  eval_label_feature: "reference"
-  train_data_revision: "v5"
-  eval_data_revision: "v8"
+  training_data: "openfoodfacts/spellcheck-corpus"
+  train_split: "train"
 
   # Trainer
   output_dir: "/opt/ml/model"
-  pretrained_model_name: "/opt/ml/input/data/model/" 
-  num_train_epochs: 3
+  pretrained_model_name: "mistralai/Mistral-7B-v0.3" 
+  num_train_epochs: 1
   per_device_train_batch_size: 4
-  per_device_eval_batch_size: 4
   learning_rate: 0.0002                                            # Paper https://arxiv.org/pdf/2210.11416
   warmup_steps: 0
   warmup_ratio: 0.1
@@ -44,30 +32,19 @@ hyperparameters:
   seed: 42
   optim: "adamw_torch_fused"                             # The optimizer to use: adamw_hf, adamw_torch, adamw_torch_fused, adamw_apex_fused, adamw_anyprecision or adafactor.
   lr_scheduler_type: "cosine"
-  gradient_accumulation_steps: 2
+  gradient_accumulation_steps: 8
   bf16: true
   tf32: true
   fp16: false
-  logging_steps : 5
-  evaluation_strategy: "steps"
-  save_strategy: "steps"
-  eval_steps: 20  # Careful, need to be a multiple of eval-steps: 500 by default
+  logging_steps : 1
   save_total_limit: 1
   report_to: "none" # Important to avoid superposition of Trainer callback and our custom callback
   max_seq_length: 2048
   packing: true
-  dataset_text_field: "text"
+  dataset_text_field: "ingredients_text"
   # add_special_tokens: true  # Add bos token and other special token from the tokenizer
   # append_concat_token: true  # If true, appends eos_token_id at the end of each sample being packed.
 
   # Saving
   merge_weights: true
   max_shard_size: "2GB"
-
-  # Inference
-  max_new_token: 1024
-  batch_size: 1
-
-  #Data processing
-  batched: false
-  # instruction_template
