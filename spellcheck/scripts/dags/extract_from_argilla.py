@@ -62,7 +62,7 @@ class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
         name="local_path",
         type=str,
         required=True,
-        help="Local path to store the argilla dataset."
+        help="Local path to store the argilla dataset during the pipeline process."
     )
 
     deploy_to_hf = metaflow.Parameter(

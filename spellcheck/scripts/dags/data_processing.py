@@ -3,13 +3,11 @@ from typing import Mapping
 from metaflow import FlowSpec, Parameter, step, current
 from datasets import load_dataset
 
-from spellcheck.utils import get_logger, get_repo_dir
+from spellcheck.utils import get_logger
 from spellcheck.processing import DataProcessor
 
 
 LOGGER = get_logger("INFO")
-# REPO_DIR = get_repo_dir()
-
 
 class DataProcessing(FlowSpec):
     """Processing pipeline to modify the Spellcheck training dataset algorithmically.
@@ -97,10 +95,6 @@ class DataProcessing(FlowSpec):
     @step
     def end(self):
         """End of the process."""
-        # self.processed_dataset.to_parquet(
-        #     REPO_DIR / 
-        #     ("data/dataset/processed_dataset_" + self.dataset_version + ".parquet")
-        # )
         self.processed_dataset.train_test_split(
             test_size=self.dataset_test_size,
             seed=42,

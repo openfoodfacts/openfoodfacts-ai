@@ -30,11 +30,11 @@ hyperparameters:
   train_data_revision: "v5"
   eval_data_revision: "v8"
 
-  # Trainer
+  # TrainingArguments
   output_dir: "/opt/ml/model"
-  pretrained_model_name: "/opt/ml/input/data/model/" 
-  num_train_epochs: 3
-  per_device_train_batch_size: 4
+  pretrained_model_name: "mistralai/Mistral-7B-v0.3" 
+  num_train_epochs: 0.01
+  per_device_train_batch_size: 8
   per_device_eval_batch_size: 4
   learning_rate: 0.0002                                            # Paper https://arxiv.org/pdf/2210.11416
   warmup_steps: 0
@@ -44,17 +44,19 @@ hyperparameters:
   seed: 42
   optim: "adamw_torch_fused"                             # The optimizer to use: adamw_hf, adamw_torch, adamw_torch_fused, adamw_apex_fused, adamw_anyprecision or adafactor.
   lr_scheduler_type: "cosine"
-  gradient_accumulation_steps: 2
+  gradient_accumulation_steps: 4
   bf16: true
   tf32: true
   fp16: false
   logging_steps : 5
   evaluation_strategy: "steps"
   save_strategy: "steps"
-  eval_steps: 20  # Careful, need to be a multiple of eval-steps: 500 by default
+  eval_steps: 10  # Careful, need to be a multiple of eval-steps: 500 by default
   save_total_limit: 1
   report_to: "none" # Important to avoid superposition of Trainer callback and our custom callback
-  max_seq_length: 2048
+  
+  # SFTConfig
+  max_seq_length: 1024
   packing: true
   dataset_text_field: "text"
   # add_special_tokens: true  # Add bos token and other special token from the tokenizer
