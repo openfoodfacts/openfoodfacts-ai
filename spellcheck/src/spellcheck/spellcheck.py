@@ -4,9 +4,6 @@ import logging
 from spellcheck.model import BaseModel
 
 
-LOGGER = logging.getLogger(__name__)
-
-
 class Spellcheck:
     """Spellcheck module to correct typos and errors in lists of ingredients.
     
