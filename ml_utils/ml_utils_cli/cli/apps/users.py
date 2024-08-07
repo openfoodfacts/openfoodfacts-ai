@@ -10,7 +10,7 @@ app = typer.Typer()
 
 
 @app.command()
-def list_user(
+def list(
     api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
     label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
 ):
@@ -24,7 +24,7 @@ def list_user(
 
 
 @app.command()
-def delete_user(
+def delete(
     user_id: int,
     api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
     label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
