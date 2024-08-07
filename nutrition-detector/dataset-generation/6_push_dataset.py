@@ -183,15 +183,7 @@ def get_tasks(
     """Yield tasks (annotations) from Label Studio."""
 
     ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
-
-    filter_items = [
-        {
-            "filter": "filter:tasks:completed_at",
-            "operator": "empty",
-            "type": "Datetime",
-            "value": False,
-        }
-    ]
+    filter_items = []
 
     if batch_ids is not None:
         filter_items.append(
@@ -204,14 +196,18 @@ def get_tasks(
         )
     yield from ls.tasks.list(
         project=project_id,
-        query={
-            "filters": {
-                "conjunction": "and",
-                "items": filter_items,
+        query=(
+            {
+                "filters": {
+                    "conjunction": "and",
+                    "items": filter_items,
+                }
             }
-        },
-        # This view contains all samples
-        view=61,
+            if filter_items
+            else None
+        ),
+        # This view contains all annotated samples
+        view=88,
         fields="all",
     )
 
@@ -240,7 +236,10 @@ def push_dataset(
     ] = "main",
     test_split_count: Annotated[
         int, typer.Option(help="Number of samples in test split")
-    ] = 180,
+    ] = 200,
+    only_checked: Annotated[
+        bool, typer.Option(help="Include only checked tasks", show_default=False)
+    ] = False,
 ):
     logger.info("Fetching tasks from Label Studio, project %s", project_id)
     if batch_ids:
@@ -260,7 +259,7 @@ def push_dataset(
                 desc="tasks",
             )
         ):
-            sample = create_sample(task)
+            sample = create_sample(task, only_checked=only_checked)
             if sample:
                 logger.debug("Sample: %s", sample)
                 created += 1
@@ -309,9 +308,9 @@ def push_dataset(
     dataset = datasets.Dataset.from_generator(
         functools.partial(sample_generator, tmp_dir), features=features
     )
-    dataset = dataset.train_test_split(test_size=test_split_count, shuffle=False)
-
-    # dataset.save_to_disk("datasets/nutrient-detection-layout")
+    dataset = dataset.train_test_split(
+        test_size=test_split_count, shuffle=False, seed=42
+    )
     logger.info(
         "Pushing dataset to Hugging Face Hub under openfoodfacts/nutrient-detection-layout, revision %s",
         revision,

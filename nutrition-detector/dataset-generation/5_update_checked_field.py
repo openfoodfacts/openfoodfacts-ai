@@ -10,9 +10,9 @@ LABEL_STUDIO_URL = "https://annotate.openfoodfacts.org"
 
 
 def update_checked_field(
-    project_id: int,
-    view_id: int,
     api_key: Annotated[str, typer.Argument(envvar="LABEL_STUDIO_API_KEY")],
+    project_id: int = 42,
+    view_id: int = 64,
 ):
     ls = Client(url=LABEL_STUDIO_URL, api_key=api_key)
     ls.check_connection()
