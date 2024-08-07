@@ -348,7 +348,7 @@ def main():
         id2label = dict(enumerate(label_list))
         label2id = {v: k for k, v in enumerate(label_list)}
     else:
-        label_list = get_label_list(datasets["train"][label_column_name])
+        label_list = get_label_list(dataset["train"][label_column_name])
         id2label = dict(enumerate(label_list))
         label2id = {v: k for k, v in enumerate(label_list)}
     num_labels = len(label_list)
@@ -453,9 +453,9 @@ def main():
             )
 
     if training_args.do_predict:
-        if "test" not in datasets:
+        if "test" not in dataset:
             raise ValueError("--do_predict requires a test dataset")
-        predict_dataset = datasets["test"]
+        predict_dataset = dataset["test"]
         if data_args.max_predict_samples is not None:
             max_predict_samples = min(
                 len(predict_dataset), data_args.max_predict_samples

@@ -1,5 +1,5 @@
 transformers==4.40.2
-torch==2.2.0
+# torch==2.2.0
 datasets==2.19.0
 accelerate==0.29.3
 Pillow==10.3.0
