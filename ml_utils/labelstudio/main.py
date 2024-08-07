@@ -71,9 +71,8 @@ def convert_object_detection_dataset(
 ):
     """Convert object detection dataset from Hugging Face Datasets to Label
     Studio format, and save it to a JSON file."""
-    from datasets import load_dataset
-
     from cli.sample import format_object_detection_sample_from_hf
+    from datasets import load_dataset
 
     logger.info("Loading dataset: %s", repo_id)
     ds = load_dataset(repo_id)
@@ -129,13 +128,12 @@ def export(
 ):
     """Export Label Studio annotation, either to Hugging Face Datasets or
     local files (ultralytics format)."""
-    from label_studio_sdk.client import LabelStudio
-
     from cli.export import (
         export_from_hf_to_ultralytics,
         export_from_ls_to_ultralytics,
         export_to_hf,
     )
+    from label_studio_sdk.client import LabelStudio
 
     if (to == ExportDestination.hf or from_ == ExportSource.hf) and repo_id is None:
         raise typer.BadParameter("Repository ID is required for export/import with HF")
@@ -240,9 +238,8 @@ def create_dataset_file(
     from urllib.parse import urlparse
 
     import tqdm
-    from openfoodfacts.utils import get_image_from_url
-
     from cli.sample import format_object_detection_sample_to_ls
+    from openfoodfacts.utils import get_image_from_url
 
     logger.info("Loading dataset: %s", input_file)
 
@@ -284,9 +281,8 @@ def predict_object(
     ],
     threshold: float = 0.5,
 ):
-    from openfoodfacts.utils import get_image_from_url
-
     from cli.triton.object_detection import ObjectDetectionModelRegistry
+    from openfoodfacts.utils import get_image_from_url
 
     model = ObjectDetectionModelRegistry.get(model_name)
     image = get_image_from_url(image_url)
@@ -314,11 +310,10 @@ def add_prediction(
     for an object detection model running on Triton Inference Server."""
 
     import tqdm
-    from label_studio_sdk.client import LabelStudio
-    from openfoodfacts.utils import get_image_from_url
-
     from cli.sample import format_annotation_results_from_triton
     from cli.triton.object_detection import ObjectDetectionModelRegistry
+    from label_studio_sdk.client import LabelStudio
+    from openfoodfacts.utils import get_image_from_url
 
     ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
     model = ObjectDetectionModelRegistry.load(model_name)
