@@ -4,15 +4,14 @@ from pathlib import Path
 from typing import Annotated, Optional
 
 import typer
+from cli.apps import users as user_app
+from cli.config import LABEL_STUDIO_DEFAULT_URL
 from openfoodfacts.images import extract_barcode_from_url, extract_source_from_url
 from openfoodfacts.utils import get_logger
 
 app = typer.Typer()
 
 logger = get_logger()
-
-
-LABEL_STUDIO_DEFAULT_URL = "https://annotate.openfoodfacts.org"
 
 
 @app.command()
@@ -419,36 +418,6 @@ def annotate_from_prediction(
             )
 
 
-# Label Studio user management
-
-
-@app.command()
-def list_user(
-    api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
-    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
-):
-    """List all users in Label Studio."""
-    from label_studio_sdk.client import LabelStudio
-
-    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
-
-    for user in ls.users.list():
-        print(f"{user.id:02d}: {user.email}")
-
-
-@app.command()
-def delete_user(
-    user_id: int,
-    api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
-    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
-):
-    """Delete a user from Label Studio."""
-    from label_studio_sdk.client import LabelStudio
-
-    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
-    ls.users.delete(user_id)
-
-
 # Temporary scripts
 
 
@@ -513,6 +482,8 @@ def skip_rotated_images(
         elif orientation == "up":
             logger.debug("Keeping annotation for task: %s", task_id)
 
+
+app.add_typer(user_app.app, name="users")
 
 if __name__ == "__main__":
     app()
