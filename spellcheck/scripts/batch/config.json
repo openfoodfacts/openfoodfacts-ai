@@ -9,7 +9,9 @@
             {
               "container": {
                 "imageUri": "europe-west9-docker.pkg.dev/robotoff/gcf-artifacts/spellcheck-batch-vllm",
-                "entrypoint": "",
+                "commands": [
+                  "--quantization", ""
+                ],
                 "volumes": []
               }
             }
@@ -28,10 +30,10 @@
             {
                 "installGpuDrivers": true,
                 "policy": {
-                    "machineType": "g2-standard-8",
+                    "machineType": "a2-highgpu-1g",
                     "accelerators": [
                         {
-                            "type": "nvidia-l4",
+                            "type": "nvidia-tesla-a100",
                             "count": "1"
                         }
                     ]

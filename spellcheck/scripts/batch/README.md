@@ -9,6 +9,8 @@
 * 1000 products processed: 1:30min (g2-instance-with 8) (overall batch job: 3:25min)
     * L4: g2-instance-8 hourly cost: $0.896306 -> ~ 0.05$ to process batch of 1000
     * A100: a2-highgpu-1g: $3.748064
+* A100/Cuda doesn't support FP8
+* A100 has less availability than L4: need to wait for batch job (10+ min)
 
 ## Links
 
