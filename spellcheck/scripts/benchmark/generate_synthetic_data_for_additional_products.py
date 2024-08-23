@@ -7,7 +7,7 @@ from spellcheck.prompt import SystemPrompt, Prompt
 from spellcheck.utils import get_repo_dir, get_logger
 
 
-LOGGER = get_logger()
+LOGGER = get_logger("INFO")
 
 REPO_DIR = get_repo_dir()
 ADDITIONAL_PRODUCTS_PATH = REPO_DIR / "data/benchmark/additional_products/extracted_additional_products.parquet"

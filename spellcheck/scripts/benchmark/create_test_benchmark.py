@@ -12,7 +12,7 @@ from spellcheck.model import OpenAIChatCompletion, GeminiModel
 from spellcheck.utils import get_logger, get_repo_dir
 
 
-LOGGER = get_logger()
+LOGGER = get_logger("INFO")
 
 REPO_DIR = get_repo_dir()
 LABELED_DATA_PATH = REPO_DIR / "data/labeled/corrected_list_of_ingredients.txt"

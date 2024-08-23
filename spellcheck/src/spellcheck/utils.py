@@ -1,8 +1,9 @@
 import difflib
 import os
+import sys
 from pathlib import Path
 import logging
-from typing import Mapping, Iterable, Literal
+from typing import Mapping, Iterable, Literal, Optional
 import json
 import time
 
@@ -14,20 +15,23 @@ def get_repo_dir():
     return Path(os.path.dirname(__file__)).parent.parent
 
 
-def get_logger(level: str = "INFO") -> logging.Logger:
+def get_logger(level: Optional[str] = None) -> logging.Logger:
     """Return LOGGER
 
     Args:
-        level (str, optional): Logging level. Defaults to "INFO".
+        level (str, optional): Logging level.
 
     Returns:
         logging.Logger: Logger
     """
-    logging.basicConfig(
-        level=logging.getLevelName(level),
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    )
-    return logging.getLogger(__name__)
+    logger = logging.getLogger(__name__)
+    if level:
+        logging.basicConfig(
+            level=logging.getLevelName(level),
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            stream=sys.stdout,
+        )
+    return logger
 
 
 def show_diff(

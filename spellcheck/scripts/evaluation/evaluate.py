@@ -9,9 +9,15 @@ from dotenv import load_dotenv
 
 from spellcheck.utils import get_repo_dir, get_logger
 from spellcheck.spellcheck import Spellcheck
-from spellcheck.model import AnthropicChatCompletion, OpenAIChatCompletion, RulesBasedModel, GeminiModel
+from spellcheck.model import (
+    AnthropicChatCompletion, 
+    OpenAIChatCompletion, 
+    RulesBasedModel, 
+    GeminiModel, 
+    LLMInferenceEndpoint,
+)
 from spellcheck.prompt import SystemPrompt, Prompt
-from spellcheck.argilla_modules import BenchmarkEvaluationArgilla, IngredientsCompleteEvaluationArgilla
+from spellcheck.argilla.deployment import BenchmarkEvaluationArgilla, IngredientsCompleteEvaluationArgilla
 from spellcheck.evaluation.evaluation import Evaluate, import_benchmark, import_ingredients_complete
 
 
@@ -22,9 +28,9 @@ INGREDIENTS_COMPLETE_DATA_PATH = REPO_DIR / "data/database/ingredients_complete.
 # Metrics
 METRICS_PATH = REPO_DIR / "data/evaluation/metrics.jsonl"
 
-MODEL_NAME = "gemini-1.0-pro-002"
-BENCHMARK_VERSION = "v5"
-PROMPT_VERSION = "v6"
+MODEL_NAME = "gpt-4o-2024-05-13"
+BENCHMARK_VERSION = "v7.3"
+PROMPT_VERSION = "v7"
 INGREDIENTS_COMPLETE_VERSION = "v1"
 
 # Predictions JSONL paths to study the results
@@ -48,17 +54,17 @@ WAIT = 0
 ARGILLA_BENCHMARK_DATASET_NAME = f"Evaluation-{MODEL_NAME}-benchmark-{BENCHMARK_VERSION}-prompt-{PROMPT_VERSION}".replace(".", "") 
 ARGILLA_INGREDIENTS_COMPLETE_DATASET_NAME = f"Evaluation-{MODEL_NAME}-ingredients-complete-{INGREDIENTS_COMPLETE_VERSION}-prompt-{PROMPT_VERSION}".replace(".", "")
 
-LOGGER = get_logger()
+LOGGER = get_logger("INFO")
 
 load_dotenv()
 
 
 def main():
     spellcheck=Spellcheck(
-        model=GeminiModel(
-            prompt_template=Prompt.claude_spellcheck_prompt_template, #If Claude, use custom prompt template
+        model=OpenAIChatCompletion(
+            prompt_template=Prompt.spellcheck_prompt_template, #If Claude, use custom prompt template
             system_prompt=SystemPrompt.spellcheck_system_prompt,
-            model_name=MODEL_NAME
+            model_name=MODEL_NAME,
         )
     )
 
@@ -89,27 +95,27 @@ def main():
         dataset_name=ARGILLA_BENCHMARK_DATASET_NAME)
     
 
-    ####################### Evaluate on Ingredient complete dataset
-    originals, references, metadata = import_ingredients_complete(path=INGREDIENTS_COMPLETE_DATA_PATH)
-    evaluation = Evaluate(
-        model_name=MODEL_NAME,
-        metrics_path=METRICS_PATH,
-        benchmark_version=INGREDIENTS_COMPLETE_VERSION,
-        prompt_version=PROMPT_VERSION,
-        predictions_path=PREDICTION_INGREDIENTS_COMPLETE_PATH
-    )
-    evaluation.run_evaluation(
-        originals=originals,
-        references=references,
-        spellcheck=spellcheck,
-        metadata=metadata,
-        wait=WAIT
-    )
-    IngredientsCompleteEvaluationArgilla.from_jsonl(
-        path=PREDICTION_INGREDIENTS_COMPLETE_PATH
-    ).deploy(
-        dataset_name=ARGILLA_INGREDIENTS_COMPLETE_DATASET_NAME
-    )
+    # ####################### Evaluate on Ingredient complete dataset
+    # originals, references, metadata = import_ingredients_complete(path=INGREDIENTS_COMPLETE_DATA_PATH)
+    # evaluation = Evaluate(
+    #     model_name=MODEL_NAME,
+    #     metrics_path=METRICS_PATH,
+    #     benchmark_version=INGREDIENTS_COMPLETE_VERSION,
+    #     prompt_version=PROMPT_VERSION,
+    #     predictions_path=PREDICTION_INGREDIENTS_COMPLETE_PATH
+    # )
+    # evaluation.run_evaluation(
+    #     originals=originals,
+    #     references=references,
+    #     spellcheck=spellcheck,
+    #     metadata=metadata,
+    #     wait=WAIT
+    # )
+    # IngredientsCompleteEvaluationArgilla.from_jsonl(
+    #     path=PREDICTION_INGREDIENTS_COMPLETE_PATH
+    # ).deploy(
+    #     dataset_name=ARGILLA_INGREDIENTS_COMPLETE_DATASET_NAME
+    # )
 
 
 if __name__ == "__main__":

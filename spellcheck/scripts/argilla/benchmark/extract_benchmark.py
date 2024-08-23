@@ -12,7 +12,7 @@ from spellcheck.config import ArgillaConfig
 
 load_dotenv()
 
-LOGGER = get_logger()
+LOGGER = get_logger("INFO")
 
 REPO_DIR = get_repo_dir()
 ARGILLA_DATASET_NAME = "benchmark_v4"

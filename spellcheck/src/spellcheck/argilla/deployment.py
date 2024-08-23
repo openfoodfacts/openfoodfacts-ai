@@ -183,6 +183,22 @@ class BenchmarkEvaluationArgilla(ArgillaModule):
         """
         return [show_diff(reference, prediction, color="red") for reference, prediction in zip(self.references, self.predictions)]
     
+    @classmethod
+    def from_dataset(
+        cls, 
+        path: str, 
+        original_feature: str = "original",
+        reference_feature: str = "reference",
+        prediction_feature: str = "prediction"
+    ) -> None:
+        dataset = datasets.load_from_disk(path)
+        return cls(
+            originals=dataset[original_feature],
+            references=dataset[reference_feature],
+            predictions=dataset[prediction_feature],
+            metadata=[{"lang": lang} for lang in dataset["lang"]]
+        )
+    
 
 class IngredientsCompleteEvaluationArgilla(ArgillaModule):
     """Prepare Ingredients-Complete dataset for False Positives verification.
@@ -321,16 +337,11 @@ class BenchmarkArgilla(ArgillaModule):
     def _prepare_dataset(self) -> rg.FeedbackDataset:
         dataset = rg.FeedbackDataset(
             fields=[
+                rg.TextField(name="code", title="Code"),
                 rg.TextField(name="original", title="Original"),
             ],
             questions=[
                 rg.TextQuestion(name="reference", title="Correct the prediction.", use_markdown=True),
-                rg.LabelQuestion(
-                    name="is_truncated",
-                    title="Is the list of ingredients truncated?",
-                    labels=["YES","NO"],
-                    required=False
-                )
             ],
             metadata_properties=[
                 rg.TermsMetadataProperty(name="lang", title="Language"),
@@ -344,6 +355,7 @@ class BenchmarkArgilla(ArgillaModule):
             record = rg.FeedbackRecord(
                 fields={
                     "original": original,
+                    "code": metadata["code"] if metadata["code"] else "Code not available."
                 },
                 suggestions=[
                     rg.SuggestionSchema(
