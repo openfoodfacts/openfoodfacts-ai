@@ -2,6 +2,8 @@
 This file was adapted from https://github.com/huggingface/transformers/blob/v4.34.1/src/transformers/pipelines/token_classification.py
 to allow proper aggregation of entities in the TokenClassificationPipeline, for the XLM-RoBERTa model
 with a custom pre-tokenizer (addition of Punctuation()), for the ingredient detection model.
+
+All significant differences from the original file are marked with the comment "DIFF-ORIGINAL".
 """
 
 import types
@@ -301,6 +303,7 @@ class TokenClassificationPipeline(ChunkPipeline):
                 model_inputs["offset_mapping"] = offset_mapping
             model_inputs["sentence"] = sentence if i == 0 else None
             model_inputs["is_last"] = i == num_chunks - 1
+            # DIFF-ORIGINAL: we need word_ids to compute subwords
             model_inputs["word_ids"] = inputs.word_ids(i)
 
             yield model_inputs
@@ -311,7 +314,7 @@ class TokenClassificationPipeline(ChunkPipeline):
         offset_mapping = model_inputs.pop("offset_mapping", None)
         sentence = model_inputs.pop("sentence")
         is_last = model_inputs.pop("is_last")
-        word_ids = model_inputs.pop("word_ids")
+        word_ids = model_inputs.pop("word_ids")  # DIFF-ORIGINAL
         if self.framework == "tf":
             logits = self.model(**model_inputs)[0]
         else:
@@ -324,7 +327,7 @@ class TokenClassificationPipeline(ChunkPipeline):
             "offset_mapping": offset_mapping,
             "sentence": sentence,
             "is_last": is_last,
-            "word_ids": word_ids,
+            "word_ids": word_ids,  # DIFF-ORIGINAL
             **model_inputs,
         }
 
@@ -347,7 +350,7 @@ class TokenClassificationPipeline(ChunkPipeline):
                 else None
             )
             special_tokens_mask = model_outputs["special_tokens_mask"][0].numpy()
-            word_ids = model_outputs["word_ids"]
+            word_ids = model_outputs["word_ids"]  # DIFF-ORIGINAL
 
             maxes = np.max(logits, axis=-1, keepdims=True)
             shifted_exp = np.exp(logits - maxes)
@@ -362,13 +365,13 @@ class TokenClassificationPipeline(ChunkPipeline):
             pre_entities = self.gather_pre_entities(
                 sentence,
                 input_ids,
-                word_ids,
+                word_ids,  # DIFF-ORIGINAL
                 scores,
                 offset_mapping,
                 special_tokens_mask,
             )
             grouped_entities = self.aggregate(
-                pre_entities, aggregation_strategy, sentence
+                pre_entities, aggregation_strategy, sentence  # DIFF-ORIGINAL
             )
             # Filter anything that is in self.ignore_labels
             entities = [
@@ -410,20 +413,20 @@ class TokenClassificationPipeline(ChunkPipeline):
         self,
         sentence: str,
         input_ids: np.ndarray,
-        word_ids: list[Optional[int]],
+        word_ids: list[Optional[int]],  # DIFF-ORIGINAL
         scores: np.ndarray,
         offset_mapping: Optional[List[Tuple[int, int]]],
         special_tokens_mask: np.ndarray,
     ) -> List[dict]:
         """Fuse various numpy arrays into dicts with all the information needed for aggregation"""
         pre_entities = []
-        previous_word_id = None
+        previous_word_id = None  # DIFF-ORIGINAL
         for idx, token_scores in enumerate(scores):
-            # idx may be out of bounds if the input_ids are padded
-            word_id = word_ids[idx] if idx < len(word_ids) else None
+            # DIFF-ORIGINAL: idx may be out of bounds if the input_ids are padded
+            word_id = word_ids[idx] if idx < len(word_ids) else None  # DIFF-ORIGINAL
             # Filter special_tokens
             if special_tokens_mask[idx]:
-                previous_word_id = word_id
+                previous_word_id = word_id  # DIFF-ORIGINAL
                 continue
 
             word = self.tokenizer.convert_ids_to_tokens(int(input_ids[idx]))
@@ -434,7 +437,9 @@ class TokenClassificationPipeline(ChunkPipeline):
                         start_ind = start_ind.item()
                         end_ind = end_ind.item()
                 word_ref = sentence[start_ind:end_ind]
-                is_subword = word_id == previous_word_id
+                is_subword = word_id == previous_word_id  # DIFF-ORIGINAL
+                # DIFF-ORIGINAL: we removed here fallback heuristic used for
+                # subword detection
 
                 if int(input_ids[idx]) == self.tokenizer.unk_token_id:
                     word = word_ref
@@ -444,7 +449,7 @@ class TokenClassificationPipeline(ChunkPipeline):
                 end_ind = None
                 is_subword = False
 
-            previous_word_id = word_id
+            previous_word_id = word_id  # DIFF-ORIGINAL
             pre_entity = {
                 "word": word,
                 "scores": token_scores,
@@ -460,7 +465,7 @@ class TokenClassificationPipeline(ChunkPipeline):
         self,
         pre_entities: List[dict],
         aggregation_strategy: AggregationStrategy,
-        sentence: str,
+        sentence: str,  # DIFF-ORIGINAL
     ) -> List[dict]:
         if aggregation_strategy in {
             AggregationStrategy.NONE,
@@ -484,7 +489,7 @@ class TokenClassificationPipeline(ChunkPipeline):
 
         if aggregation_strategy == AggregationStrategy.NONE:
             return entities
-        return self.group_entities(entities, sentence)
+        return self.group_entities(entities, sentence)  # DIFF-ORIGINAL
 
     def aggregate_word(
         self, entities: List[dict], aggregation_strategy: AggregationStrategy
@@ -554,7 +559,9 @@ class TokenClassificationPipeline(ChunkPipeline):
             word_entities.append(self.aggregate_word(word_group, aggregation_strategy))
         return word_entities
 
-    def group_sub_entities(self, entities: List[dict], sentence: str) -> dict:
+    def group_sub_entities(
+        self, entities: List[dict], sentence: str  # DIFF-ORIGINAL
+    ) -> dict:
         """
         Group together the adjacent tokens with the same entity predicted.
 
@@ -565,12 +572,13 @@ class TokenClassificationPipeline(ChunkPipeline):
         # Get the first entity in the entity group
         entity = entities[0]["entity"].split("-")[-1]
         scores = np.nanmean([entity["score"] for entity in entities])
+        # DIFF-ORIGINAL
         start = entities[0]["start"]
         end = entities[-1]["end"]
         entity_group = {
             "entity_group": entity,
             "score": np.mean(scores),
-            "word": sentence[start:end],
+            "word": sentence[start:end],  # DIFF-ORIGINAL
             "start": start,
             "end": end,
         }
@@ -590,7 +598,9 @@ class TokenClassificationPipeline(ChunkPipeline):
             tag = entity_name
         return bi, tag
 
-    def group_entities(self, entities: List[dict], sentence: str) -> List[dict]:
+    def group_entities(
+        self, entities: List[dict], sentence: str  # DIFF-ORIGINAL
+    ) -> List[dict]:
         """
         Find and group together the adjacent tokens with the same entity predicted.
 
@@ -621,12 +631,16 @@ class TokenClassificationPipeline(ChunkPipeline):
                 # If the current entity is different from the previous entity
                 # aggregate the disaggregated entity group
                 entity_groups.append(
-                    self.group_sub_entities(entity_group_disagg, sentence)
+                    self.group_sub_entities(
+                        entity_group_disagg, sentence
+                    )  # DIFF-ORIGINAL
                 )
                 entity_group_disagg = [entity]
         if entity_group_disagg:
             # it's the last entity, add it to the entity groups
-            entity_groups.append(self.group_sub_entities(entity_group_disagg, sentence))
+            entity_groups.append(
+                self.group_sub_entities(entity_group_disagg, sentence)  # DIFF-ORIGINAL
+            )
 
         return entity_groups
 
