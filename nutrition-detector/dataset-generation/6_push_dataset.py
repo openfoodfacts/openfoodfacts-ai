@@ -271,43 +271,43 @@ def push_dataset(
                 with (tmp_dir / f"{i:04d}.pkl").open("wb") as f:
                     pickle.dump(sample, f)
 
-    logger.info("Generated %s samples", created)
+        logger.info("Generated %s samples", created)
 
-    if not created:
-        logger.error("No valid samples found, exiting")
-        raise typer.Exit(code=1)
+        if not created:
+            logger.error("No valid samples found, exiting")
+            raise typer.Exit(code=1)
 
-    all_ner_tags = ["O"]
-    for ner_tag in ner_tag_set:
-        all_ner_tags.extend([f"B-{ner_tag}", f"I-{ner_tag}"])
+        all_ner_tags = ["O"]
+        for ner_tag in ner_tag_set:
+            all_ner_tags.extend([f"B-{ner_tag}", f"I-{ner_tag}"])
 
-    logger.info("NER tags: %s", all_ner_tags)
-    features = datasets.Features(
-        {
-            "ner_tags": datasets.Sequence(
-                datasets.features.ClassLabel(names=all_ner_tags)
-            ),
-            "tokens": datasets.Sequence(datasets.Value("string")),
-            "bboxes": datasets.Sequence(datasets.Sequence(datasets.Value("int64"))),
-            "image": datasets.features.Image(),
-            "meta": {
-                "barcode": datasets.Value("string"),
-                "image_id": datasets.Value("string"),
-                "image_url": datasets.Value("string"),
-                "ocr_url": datasets.Value("string"),
-                "batch": datasets.Value("string"),
-                "label_studio_id": datasets.Value("int64"),
-                "checked": datasets.Value("bool"),
-                "usda_table": datasets.Value("bool"),
-                "nutrition_text": datasets.Value("bool"),
-                "no_nutrition_table": datasets.Value("bool"),
-                "comment": datasets.Value("string"),
-            },
-        }
-    )
-    dataset = datasets.Dataset.from_generator(
-        functools.partial(sample_generator, tmp_dir), features=features
-    )
+        logger.info("NER tags: %s", all_ner_tags)
+        features = datasets.Features(
+            {
+                "ner_tags": datasets.Sequence(
+                    datasets.features.ClassLabel(names=all_ner_tags)
+                ),
+                "tokens": datasets.Sequence(datasets.Value("string")),
+                "bboxes": datasets.Sequence(datasets.Sequence(datasets.Value("int64"))),
+                "image": datasets.features.Image(),
+                "meta": {
+                    "barcode": datasets.Value("string"),
+                    "image_id": datasets.Value("string"),
+                    "image_url": datasets.Value("string"),
+                    "ocr_url": datasets.Value("string"),
+                    "batch": datasets.Value("string"),
+                    "label_studio_id": datasets.Value("int64"),
+                    "checked": datasets.Value("bool"),
+                    "usda_table": datasets.Value("bool"),
+                    "nutrition_text": datasets.Value("bool"),
+                    "no_nutrition_table": datasets.Value("bool"),
+                    "comment": datasets.Value("string"),
+                },
+            }
+        )
+        dataset = datasets.Dataset.from_generator(
+            functools.partial(sample_generator, tmp_dir), features=features
+        )
     dataset = dataset.train_test_split(
         test_size=test_split_count, shuffle=False, seed=42
     )
