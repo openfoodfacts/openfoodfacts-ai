@@ -14,6 +14,7 @@ from label_studio_sdk import Task
 from label_studio_sdk.client import LabelStudio
 from openfoodfacts.images import extract_barcode_from_url
 from openfoodfacts.utils import get_image_from_url, get_logger
+from PIL import Image
 
 logger = get_logger()
 
@@ -65,7 +66,7 @@ def create_sample(task: Task, only_checked: bool = False) -> Optional[dict]:
     current_bbox_id = None
     tokens = []
     bboxes = []
-    ner_tags = []
+    ner_tags: list[str] = []
     for result in annotation_results:
         result_value = result["value"]
         if result["from_name"] in ("transcription", "label"):
@@ -159,7 +160,7 @@ def create_sample(task: Task, only_checked: bool = False) -> Optional[dict]:
         )
         return None
 
-    image = get_image_from_url(image_url, error_raise=False)
+    image: Image.Image | None = get_image_from_url(image_url, error_raise=False)
 
     if image is None:
         logger.info("Cannot load image from %s, skipping", image_url)
@@ -178,7 +179,10 @@ def create_sample(task: Task, only_checked: bool = False) -> Optional[dict]:
 
 
 def get_tasks(
-    label_studio_url: str, api_key: str, project_id: int, batch_ids: list[int] = None
+    label_studio_url: str,
+    api_key: str,
+    project_id: int,
+    batch_ids: list[int] | None = None,
 ) -> Iterator[dict]:
     """Yield tasks (annotations) from Label Studio."""
 
@@ -243,11 +247,11 @@ def push_dataset(
 ):
     logger.info("Fetching tasks from Label Studio, project %s", project_id)
     if batch_ids:
-        batch_ids = list(map(int, batch_ids.split(",")))
-        logger.info("Fetching tasks for batches %s", batch_ids)
+        batch_ids_int = list(map(int, batch_ids.split(",")))
+        logger.info("Fetching tasks for batches %s", batch_ids_int)
 
     created = 0
-    ner_tag_set = set()
+    ner_tag_set: set[str] = set()
 
     with tempfile.TemporaryDirectory() as tmp_dir_str:
         tmp_dir = Path(tmp_dir_str)
@@ -255,7 +259,7 @@ def push_dataset(
 
         for i, task in enumerate(
             tqdm.tqdm(
-                get_tasks(label_studio_url, api_key, project_id, batch_ids),
+                get_tasks(label_studio_url, api_key, project_id, batch_ids_int),
                 desc="tasks",
             )
         ):
