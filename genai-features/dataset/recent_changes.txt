@@ -1,0 +1,1 @@
+http://static.openfoodfacts.org/data/openfoodfacts_recent_changes.jsonl.gz
