@@ -9,6 +9,8 @@ from openfoodfacts.utils import get_logger
 
 from ..config import LABEL_STUDIO_DEFAULT_URL
 from ..types import ExportDestination, ExportSource, TaskType
+from ..annotate import MODEL_NAME, LABELS
+
 
 app = typer.Typer()
 
@@ -240,3 +242,24 @@ def create_dataset_file(
                 image_id, url, image.width, image.height, extra_meta
             )
             f.write(json.dumps(label_studio_sample) + "\n")
+
+
+@app.command()
+def create_dataset_file_from_yolo(
+    images_dir: Annotated[Path, typer.Option(exists=True)],
+    output_file: Annotated[Path, typer.Option(exists=False)],
+    model_name: str = MODEL_NAME,
+    labels: list[str] = LABELS,
+):
+    """Create a Label Studio object detection dataset file from a list of
+    images."""
+    from cli.annotate import format_object_detection_sample_from_yolo
+    samples = format_object_detection_sample_from_yolo(
+        images_dir=images_dir, 
+        model_name=model_name,
+        labels=labels,
+    )
+    logger.info("Saving samples to %s", output_file)
+    with output_file.open("wt") as f:
+        for sample in samples:
+            f.write(json.dumps(sample) + "\n")
