@@ -11,14 +11,16 @@ LABEL_STUDIO_URL = "https://annotate.openfoodfacts.org"
 
 
 def create_project(
-    api_key: Annotated[str, typer.Argument(envvar="LABEL_STUDIO_API_KEY")]
+    api_key: Annotated[str, typer.Argument(envvar="LABEL_STUDIO_API_KEY")],
+    label_config_path: Path = typer.Argument(
+        file_okay=True, dir_okay=False, exists=True
+    ),
+    title: str = typer.Option(help="Project title"),
 ):
     ls = LabelStudio(base_url=LABEL_STUDIO_URL, api_key=api_key)
-    label_config = Path("./label_config.xml").read_text()
+    label_config = Path(label_config_path).read_text()
 
-    project = ls.projects.create(
-        title="Nutrition table token annotation", label_config=label_config
-    )
+    project = ls.projects.create(title=title, label_config=label_config)
     logger.info(f"Project created: {project}")
 
 
