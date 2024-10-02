@@ -121,7 +121,11 @@ def pre_annotate_with_yolo(
     conf: float = 0.1,
     max_det: int = 1,
 ) -> Iterator[Iterable[Results]]:
-    """https://docs.ultralytics.com/modes/predict/#working-with-results"""
+    """To fasten the annotation, we leveraged Yolo-World and its capacity to predict object using natural language.
+
+    
+    
+    https://docs.ultralytics.com/modes/predict/#working-with-results"""
     model = YOLO(model_name)
     model.set_classes(labels)
     # Transform image_paths into batch

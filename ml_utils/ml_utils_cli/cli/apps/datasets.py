@@ -254,8 +254,9 @@ def create_dataset_file_from_yolo(
     labels: list[str] = LABELS,
     batch_size: int = 20,
 ):
-    """Create a Label Studio object detection dataset file from a list of
-    images."""
+    """Create a Label Studio object detection dataset file from a list of images.
+    Add pre-annotations using YOLO model (such as Yolo-World).
+    """
     from cli.annotate import format_object_detection_sample_from_yolo
     model_name = os.path.join(models_dir, model_name)
     samples = format_object_detection_sample_from_yolo(
