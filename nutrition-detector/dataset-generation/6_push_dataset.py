@@ -14,6 +14,7 @@ from label_studio_sdk import Task
 from label_studio_sdk.client import LabelStudio
 from openfoodfacts.images import extract_barcode_from_url
 from openfoodfacts.utils import get_image_from_url, get_logger
+from PIL import Image
 
 logger = get_logger()
 
@@ -65,7 +66,7 @@ def create_sample(task: Task, only_checked: bool = False) -> Optional[dict]:
     current_bbox_id = None
     tokens = []
     bboxes = []
-    ner_tags = []
+    ner_tags: list[str] = []
     for result in annotation_results:
         result_value = result["value"]
         if result["from_name"] in ("transcription", "label"):
@@ -159,7 +160,7 @@ def create_sample(task: Task, only_checked: bool = False) -> Optional[dict]:
         )
         return None
 
-    image = get_image_from_url(image_url, error_raise=False)
+    image: Image.Image | None = get_image_from_url(image_url, error_raise=False)
 
     if image is None:
         logger.info("Cannot load image from %s, skipping", image_url)
@@ -178,7 +179,10 @@ def create_sample(task: Task, only_checked: bool = False) -> Optional[dict]:
 
 
 def get_tasks(
-    label_studio_url: str, api_key: str, project_id: int, batch_ids: list[int] = None
+    label_studio_url: str,
+    api_key: str,
+    project_id: int,
+    batch_ids: list[int] | None = None,
 ) -> Iterator[dict]:
     """Yield tasks (annotations) from Label Studio."""
 
@@ -243,11 +247,11 @@ def push_dataset(
 ):
     logger.info("Fetching tasks from Label Studio, project %s", project_id)
     if batch_ids:
-        batch_ids = list(map(int, batch_ids.split(",")))
-        logger.info("Fetching tasks for batches %s", batch_ids)
+        batch_ids_int = list(map(int, batch_ids.split(",")))
+        logger.info("Fetching tasks for batches %s", batch_ids_int)
 
     created = 0
-    ner_tag_set = set()
+    ner_tag_set: set[str] = set()
 
     with tempfile.TemporaryDirectory() as tmp_dir_str:
         tmp_dir = Path(tmp_dir_str)
@@ -255,7 +259,7 @@ def push_dataset(
 
         for i, task in enumerate(
             tqdm.tqdm(
-                get_tasks(label_studio_url, api_key, project_id, batch_ids),
+                get_tasks(label_studio_url, api_key, project_id, batch_ids_int),
                 desc="tasks",
             )
         ):
@@ -271,43 +275,43 @@ def push_dataset(
                 with (tmp_dir / f"{i:04d}.pkl").open("wb") as f:
                     pickle.dump(sample, f)
 
-    logger.info("Generated %s samples", created)
+        logger.info("Generated %s samples", created)
 
-    if not created:
-        logger.error("No valid samples found, exiting")
-        raise typer.Exit(code=1)
+        if not created:
+            logger.error("No valid samples found, exiting")
+            raise typer.Exit(code=1)
 
-    all_ner_tags = ["O"]
-    for ner_tag in ner_tag_set:
-        all_ner_tags.extend([f"B-{ner_tag}", f"I-{ner_tag}"])
+        all_ner_tags = ["O"]
+        for ner_tag in ner_tag_set:
+            all_ner_tags.extend([f"B-{ner_tag}", f"I-{ner_tag}"])
 
-    logger.info("NER tags: %s", all_ner_tags)
-    features = datasets.Features(
-        {
-            "ner_tags": datasets.Sequence(
-                datasets.features.ClassLabel(names=all_ner_tags)
-            ),
-            "tokens": datasets.Sequence(datasets.Value("string")),
-            "bboxes": datasets.Sequence(datasets.Sequence(datasets.Value("int64"))),
-            "image": datasets.features.Image(),
-            "meta": {
-                "barcode": datasets.Value("string"),
-                "image_id": datasets.Value("string"),
-                "image_url": datasets.Value("string"),
-                "ocr_url": datasets.Value("string"),
-                "batch": datasets.Value("string"),
-                "label_studio_id": datasets.Value("int64"),
-                "checked": datasets.Value("bool"),
-                "usda_table": datasets.Value("bool"),
-                "nutrition_text": datasets.Value("bool"),
-                "no_nutrition_table": datasets.Value("bool"),
-                "comment": datasets.Value("string"),
-            },
-        }
-    )
-    dataset = datasets.Dataset.from_generator(
-        functools.partial(sample_generator, tmp_dir), features=features
-    )
+        logger.info("NER tags: %s", all_ner_tags)
+        features = datasets.Features(
+            {
+                "ner_tags": datasets.Sequence(
+                    datasets.features.ClassLabel(names=all_ner_tags)
+                ),
+                "tokens": datasets.Sequence(datasets.Value("string")),
+                "bboxes": datasets.Sequence(datasets.Sequence(datasets.Value("int64"))),
+                "image": datasets.features.Image(),
+                "meta": {
+                    "barcode": datasets.Value("string"),
+                    "image_id": datasets.Value("string"),
+                    "image_url": datasets.Value("string"),
+                    "ocr_url": datasets.Value("string"),
+                    "batch": datasets.Value("string"),
+                    "label_studio_id": datasets.Value("int64"),
+                    "checked": datasets.Value("bool"),
+                    "usda_table": datasets.Value("bool"),
+                    "nutrition_text": datasets.Value("bool"),
+                    "no_nutrition_table": datasets.Value("bool"),
+                    "comment": datasets.Value("string"),
+                },
+            }
+        )
+        dataset = datasets.Dataset.from_generator(
+            functools.partial(sample_generator, tmp_dir), features=features
+        )
     dataset = dataset.train_test_split(
         test_size=test_split_count, shuffle=False, seed=42
     )
