@@ -8,7 +8,7 @@ from cv2 import dnn
 import tflite_runtime.interpreter as tflite
 
 
-MODEL_PATH = "models/best_float16.tflite"
+MODEL_PATH = "models/yolov8n_float16.tflite"
 DETECTION_THRESHOLD = 0.8
 NMS_THRESHOLD = 0.45
 
