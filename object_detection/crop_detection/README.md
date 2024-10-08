@@ -41,7 +41,7 @@ This command load the float16.tflite version of the Yolov8n from the [Crop-Detec
 We use Tensorflow Lite to perform the crop-detection inference on image. After `make init`, you can use the CLI to run the model on your computer: 
 
 ```bash
-python cli/inference_yolo_tflite.py --help    
+python -m cli --help    
 ```
 
 ## Model training

@@ -24,7 +24,8 @@ def parse():
         description="""Detect product boundary box. 
     Return a dictionnary with the score and the box relative coordinates (between [0, 1]).
     If --save-path is indicated, save the cropped image to the specified path.
-    """
+    """,
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
         "--image-path",
@@ -200,7 +201,3 @@ def save_detected_object(
     ymax = int(ymax * height)
     image = image.crop((xmin, ymin, xmax, ymax))
     image.save(output_path)
-
-
-if __name__ == "__main__":
-    main()
