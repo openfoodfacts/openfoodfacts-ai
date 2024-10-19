@@ -72,12 +72,13 @@ def export_from_ls_to_ultralytics(
 
     data_dir = output_dir / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
-
+    
+    # NOTE: before, all images were sent to val, the last split
+    label_dir = data_dir / "labels"
+    images_dir = data_dir / "images"
     for split in ["train", "val"]:
-        split_labels_dir = data_dir / "labels" / split
-        split_labels_dir.mkdir(parents=True, exist_ok=True)
-        split_images_dir = data_dir / "images" / split
-        split_images_dir.mkdir(parents=True, exist_ok=True)
+        (label_dir / split).mkdir(parents=True, exist_ok=True)
+        (images_dir / split).mkdir(parents=True, exist_ok=True)
 
     for task in tqdm.tqdm(
         ls.tasks.list(project=project_id, fields="all"),
@@ -92,8 +93,11 @@ def export_from_ls_to_ultralytics(
             continue
 
         annotation = task.annotations[0]
-        image_id = task.data["image_id"]
+        if annotation["was_cancelled"] is True:
+            logger.debug("Annotation was cancelled, skipping")
+            continue
 
+        image_id = task.data["image_id"]
         image_url = task.data["image_url"]
         download_output = download_image(image_url, return_bytes=True)
         if download_output is None:
@@ -102,10 +106,10 @@ def export_from_ls_to_ultralytics(
 
         _, image_bytes = download_output
 
-        with (split_images_dir / f"{image_id}.jpg").open("wb") as f:
+        with (images_dir / split / f"{image_id}.jpg").open("wb") as f:
             f.write(image_bytes)
 
-        with (split_labels_dir / f"{image_id}.txt").open("w") as f:
+        with (label_dir / split / f"{image_id}.txt").open("w") as f:
             for annotation_result in annotation["result"]:
                 if annotation_result["type"] != "rectanglelabels":
                     raise ValueError(

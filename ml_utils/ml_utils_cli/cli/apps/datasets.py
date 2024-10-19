@@ -1,3 +1,4 @@
+import os
 import json
 import random
 import shutil
@@ -9,6 +10,8 @@ from openfoodfacts.utils import get_logger
 
 from ..config import LABEL_STUDIO_DEFAULT_URL
 from ..types import ExportDestination, ExportSource, TaskType
+from ..annotate import MODEL_NAME, LABELS
+
 
 app = typer.Typer()
 
@@ -176,9 +179,9 @@ def export(
         raise typer.BadParameter("Output directory is required for Ultralytics export")
 
     if from_ == ExportSource.ls:
+        ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
+        category_names_list = category_names.split(",")
         if to == ExportDestination.hf:
-            ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
-            category_names_list = category_names.split(",")
             export_to_hf(ls, repo_id, category_names_list, project_id)
         elif to == ExportDestination.ultralytics:
             export_from_ls_to_ultralytics(
@@ -240,3 +243,29 @@ def create_dataset_file(
                 image_id, url, image.width, image.height, extra_meta
             )
             f.write(json.dumps(label_studio_sample) + "\n")
+
+
+@app.command()
+def create_dataset_file_from_yolo(
+    images_dir: Annotated[Path, typer.Option(exists=True)],
+    output_file: Annotated[Path, typer.Option(exists=False)],
+    model_name: str = MODEL_NAME,
+    models_dir: str = "models", 
+    labels: list[str] = LABELS,
+    batch_size: int = 20,
+):
+    """Create a Label Studio object detection dataset file from a list of images.
+    Add pre-annotations using YOLO model (such as Yolo-World).
+    """
+    from cli.annotate import format_object_detection_sample_from_yolo
+    model_name = os.path.join(models_dir, model_name)
+    samples = format_object_detection_sample_from_yolo(
+        images_dir=images_dir, 
+        model_name=model_name,
+        labels=labels,
+        batch_size=batch_size,
+    )
+    logger.info("Saving samples to %s", output_file)
+    with output_file.open("wt") as f:
+        for sample in samples:
+            f.write(json.dumps(sample) + "\n")
