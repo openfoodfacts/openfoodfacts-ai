@@ -1,14 +1,16 @@
-name: Add bugs to relevant GitHub Projects
+name: Add issues to relevant GitHub Projects
 
 on:
   issues:
     types:
+      - labeled
       - opened
-      - labelled
+      - transferred
+      - edited
 
 jobs:
   add-to-project:
-    name: Add issue to project
+    name: Add issues to relevant GitHub Projects
     runs-on: ubuntu-latest
     steps:
       - uses: actions/add-to-project@main
