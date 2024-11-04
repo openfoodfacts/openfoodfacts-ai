@@ -1,15 +1,17 @@
 import functools
 import logging
 import pickle
+import random
 import tempfile
+import typing
 from pathlib import Path
 
 import datasets
 import tqdm
+from cli.sample import HF_DS_FEATURES, format_object_detection_sample_to_hf
 from label_studio_sdk.client import LabelStudio
 from openfoodfacts.images import download_image
-
-from cli.sample import HF_DS_FEATURES, format_object_detection_sample_to_hf
+from PIL import Image
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +23,7 @@ def _pickle_sample_generator(dir: Path):
             yield pickle.load(f)
 
 
-def export_to_hf(
+def export_from_ls_to_hf(
     ls: LabelStudio,
     repo_id: str,
     category_names: list[str],
@@ -61,6 +63,7 @@ def export_from_ls_to_ultralytics(
     output_dir: Path,
     category_names: list[str],
     project_id: int,
+    train_ratio: float = 0.8,
 ):
     """Export annotations from a Label Studio project to the Ultralytics
     format.
@@ -72,7 +75,8 @@ def export_from_ls_to_ultralytics(
 
     data_dir = output_dir / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
-    
+    split_warning_displayed = False
+
     # NOTE: before, all images were sent to val, the last split
     label_dir = data_dir / "labels"
     images_dir = data_dir / "images"
@@ -84,7 +88,20 @@ def export_from_ls_to_ultralytics(
         ls.tasks.list(project=project_id, fields="all"),
         desc="tasks",
     ):
-        split = task.data["split"]
+        split = task.data.get("split")
+
+        if split is None:
+            if not split_warning_displayed:
+                logger.warning(
+                    "Split information not found, assigning randomly. "
+                    "To avoid this, set the `split` field in the task data."
+                )
+                split_warning_displayed = True
+            split = "train" if random.random() < train_ratio else "val"
+
+        elif split not in ["train", "val"]:
+            raise ValueError("Invalid split name: %s", split)
+
         if len(task.annotations) > 1:
             logger.warning("More than one annotation found, skipping")
             continue
@@ -97,44 +114,62 @@ def export_from_ls_to_ultralytics(
             logger.debug("Annotation was cancelled, skipping")
             continue
 
+        if "image_id" not in task.data:
+            raise ValueError(
+                "`image_id` field not found in task data. "
+                "Make sure the task data contains the `image_id` "
+                "field, which should be a unique identifier for the image."
+            )
+        if "image_url" not in task.data:
+            raise ValueError(
+                "`image_url` field not found in task data. "
+                "Make sure the task data contains the `image_url` "
+                "field, which should be the URL of the image."
+            )
         image_id = task.data["image_id"]
         image_url = task.data["image_url"]
-        download_output = download_image(image_url, return_bytes=True)
-        if download_output is None:
-            logger.error("Failed to download image: %s", image_url)
-            continue
 
-        _, image_bytes = download_output
-
-        with (images_dir / split / f"{image_id}.jpg").open("wb") as f:
-            f.write(image_bytes)
-
+        has_valid_annotation = False
         with (label_dir / split / f"{image_id}.txt").open("w") as f:
+            if not any(
+                annotation_result["type"] == "rectanglelabels"
+                for annotation_result in annotation["result"]
+            ):
+                continue
+
             for annotation_result in annotation["result"]:
-                if annotation_result["type"] != "rectanglelabels":
-                    raise ValueError(
-                        "Invalid annotation type: %s" % annotation_result["type"]
-                    )
+                if annotation_result["type"] == "rectanglelabels":
+                    value = annotation_result["value"]
+                    x_min = value["x"] / 100
+                    y_min = value["y"] / 100
+                    width = value["width"] / 100
+                    height = value["height"] / 100
+                    category_name = value["rectanglelabels"][0]
+                    category_id = category_names.index(category_name)
 
-                value = annotation_result["value"]
-                x_min = value["x"] / 100
-                y_min = value["y"] / 100
-                width = value["width"] / 100
-                height = value["height"] / 100
-                category_name = value["rectanglelabels"][0]
-                category_id = category_names.index(category_name)
+                    # Save the labels in the Ultralytics format:
+                    # - one label per line
+                    # - each line is a list of 5 elements:
+                    #   - category_id
+                    #   - x_center
+                    #   - y_center
+                    #   - width
+                    #   - height
+                    x_center = x_min + width / 2
+                    y_center = y_min + height / 2
+                    f.write(f"{category_id} {x_center} {y_center} {width} {height}\n")
+                    has_valid_annotation = True
 
-                # Save the labels in the Ultralytics format:
-                # - one label per line
-                # - each line is a list of 5 elements:
-                #   - category_id
-                #   - x_center
-                #   - y_center
-                #   - width
-                #   - height
-                x_center = x_min + width / 2
-                y_center = y_min + height / 2
-                f.write(f"{category_id} {x_center} {y_center} {width} {height}\n")
+        if has_valid_annotation:
+            download_output = download_image(image_url, return_bytes=True)
+            if download_output is None:
+                logger.error("Failed to download image: %s", image_url)
+                continue
+
+            _, image_bytes = typing.cast(tuple[Image.Image, bytes], download_output)
+
+            with (images_dir / split / f"{image_id}.jpg").open("wb") as f:
+                f.write(image_bytes)
 
     with (output_dir / "data.yaml").open("w") as f:
         f.write("path: data\n")

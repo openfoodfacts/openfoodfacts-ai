@@ -289,3 +289,51 @@ def add_prediction(
                     task=task.id,
                     result=label_studio_result,
                 )
+
+
+@app.command()
+def create_dataset_file(
+    input_file: Annotated[
+        Path,
+        typer.Option(help="Path to a list of image URLs", exists=True),
+    ],
+    output_file: Annotated[
+        Path, typer.Option(help="Path to the output JSON file", exists=False)
+    ],
+):
+    """Create a Label Studio object detection dataset file from a list of
+    image URLs."""
+    from urllib.parse import urlparse
+
+    import tqdm
+    from cli.sample import format_object_detection_sample_to_ls
+    from openfoodfacts.images import extract_barcode_from_url, extract_source_from_url
+    from openfoodfacts.utils import get_image_from_url
+
+    logger.info("Loading dataset: %s", input_file)
+
+    with output_file.open("wt") as f:
+        for line in tqdm.tqdm(input_file.open("rt"), desc="images"):
+            url = line.strip()
+            if not url:
+                continue
+
+            extra_meta = {}
+            image_id = Path(urlparse(url).path).stem
+            if ".openfoodfacts.org" in url:
+                barcode = extract_barcode_from_url(url)
+                extra_meta["barcode"] = barcode
+                off_image_id = Path(extract_source_from_url(url)).stem
+                extra_meta["off_image_id"] = off_image_id
+                image_id = f"{barcode}-{off_image_id}"
+
+            image = get_image_from_url(url, error_raise=False)
+
+            if image is None:
+                logger.warning("Failed to load image: %s", url)
+                continue
+
+            label_studio_sample = format_object_detection_sample_to_ls(
+                image_id, url, image.width, image.height, extra_meta
+            )
+            f.write(json.dumps(label_studio_sample) + "\n")
