@@ -7,7 +7,7 @@ from cli.apps import users as user_app
 from cli.config import LABEL_STUDIO_DEFAULT_URL
 from openfoodfacts.utils import get_logger
 
-app = typer.Typer()
+app = typer.Typer(pretty_exceptions_show_locals=False)
 
 logger = get_logger()
 
