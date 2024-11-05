@@ -5,8 +5,6 @@ import string
 import datasets
 from openfoodfacts.images import download_image
 
-from cli.triton.object_detection import ObjectDetectionResult
-
 logger = logging.getLogger(__name__)
 
 
@@ -20,51 +18,6 @@ def format_annotation_results_from_hf(
         bbox = objects["bbox"][i]
         # category_id = objects["category_id"][i]
         category_name = objects["category_name"][i]
-        # These are relative coordinates (between 0.0 and 1.0)
-        y_min, x_min, y_max, x_max = bbox
-        # Make sure the coordinates are within the image boundaries,
-        # and convert them to percentages
-        y_min = min(max(0, y_min), 1.0) * 100
-        x_min = min(max(0, x_min), 1.0) * 100
-        y_max = min(max(0, y_max), 1.0) * 100
-        x_max = min(max(0, x_max), 1.0) * 100
-        x = x_min
-        y = y_min
-        width = x_max - x_min
-        height = y_max - y_min
-
-        id_ = "".join(random.choices(string.ascii_letters + string.digits, k=10))
-        annotation_results.append(
-            {
-                "id": id_,
-                "type": "rectanglelabels",
-                "from_name": "label",
-                "to_name": "image",
-                "original_width": image_width,
-                "original_height": image_height,
-                "image_rotation": 0,
-                "value": {
-                    "rotation": 0,
-                    "x": x,
-                    "y": y,
-                    "width": width,
-                    "height": height,
-                    "rectanglelabels": [category_name],
-                },
-            },
-        )
-    return annotation_results
-
-
-def format_annotation_results_from_triton(
-    objects: list[ObjectDetectionResult], image_width: int, image_height: int
-):
-    """Format annotation results from a Triton object detection model into
-    Label Studio format."""
-    annotation_results = []
-    for object_ in objects:
-        bbox = object_.bounding_box
-        category_name = object_.label
         # These are relative coordinates (between 0.0 and 1.0)
         y_min, x_min, y_max, x_max = bbox
         # Make sure the coordinates are within the image boundaries,

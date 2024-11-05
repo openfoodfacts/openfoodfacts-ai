@@ -5,3 +5,4 @@ more_itertools==10.3.0
 datasets==2.20.0
 tritonclient==2.46.0
 imagehash==4.3.1
+ultralytics
