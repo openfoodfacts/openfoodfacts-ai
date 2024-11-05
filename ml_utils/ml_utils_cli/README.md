@@ -35,14 +35,25 @@ git clone git@github.com:openfoodfacts/openfoodfacts-ai.git
 ```bash
 python3 -m pip install -r requirements.txt
 ```
+or if you are using conda:
+```bash
+pip install -r requirements.txt
+```
 
 We assume in the following that you have installed the CLI in a virtual environment, and defined the following alias in your shell configuration file (e.g. `.bashrc` or `.zshrc`):
 
 ```bash
 alias ml-cli='${VIRTUALENV_DIR}/bin/python3 ${PROJECT_PATH}/main.py'
 ```
+or if you are using conda:
+```bash
+alias ml-cli='${CONDA_PREFIX}/bin/python3 ${PROJECT_PATH}/main.py'
+``` 
 
-with `${VIRTUALENV_DIR}` the path to the virtual environment where you installed the CLI and `${PROJECT_PATH}` the path to the root of the project.
+with `${VIRTUALENV_DIR}` the path to the virtual environment where you installed the CLI and `${PROJECT_PATH}` the path to the root of the project, for example:
+```azure
+${PROJECT_PATH} = /home/user/openfoodfacts-ai/ml_utils/ml_utils_cli
+```
 
 ## Usage
 
