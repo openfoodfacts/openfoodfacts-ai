@@ -73,7 +73,7 @@ Once you have a Label Studio instance running, you can create a project with the
 ml-cli projects create --title my_project --api-key API_KEY --config-file label_config.xml
 ```
 
-where `API_KEY` is the API key of the Label Studio instance, and `label_config.xml` is the configuration file of the project.
+where `API_KEY` is the API key of the Label Studio instance (API key is available at Account page), and `label_config.xml` is the configuration file of the project.
 
 #### Create a dataset file
 
