@@ -20,6 +20,18 @@ Python 3.9 or higher is required to run this CLI.
 You need to install the CLI manually for now, there is no project published on Pypi.
 To do so:
 
+We recommend to install the CLI in a virtual environment. First, create a virtual environment using conda:
+```bash
+conda create -n ml-cli python=3.12
+conda activate ml-cli
+```
+
+Then, clone the repository and install the requirements:
+
+```bash
+git clone git@github.com:openfoodfacts/openfoodfacts-ai.git
+```
+
 ```bash
 python3 -m pip install -r requirements.txt
 ```
