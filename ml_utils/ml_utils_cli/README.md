@@ -51,7 +51,7 @@ alias ml-cli='${CONDA_PREFIX}/bin/python3 ${PROJECT_PATH}/main.py'
 ``` 
 
 with `${VIRTUALENV_DIR}` the path to the virtual environment where you installed the CLI and `${PROJECT_PATH}` the path to the root of the project, for example:
-```azure
+```bash
 ${PROJECT_PATH} = /home/user/openfoodfacts-ai/ml_utils/ml_utils_cli
 ```
 
@@ -63,7 +63,7 @@ To create a Label Studio project, you need to have a Label Studio instance runni
 
 By default, the CLI will use Open Food Facts Label Studio instance, but you can change the URL by setting the `--label-studio-url` CLI option.
 
-For all the commands that interact with Label Studio, you need to provide an API key using the `--api-key` CLI option. You can get an API key by logging in to the Label Studio instance and going to the settings page.
+For all the commands that interact with Label Studio, you need to provide an API key using the `--api-key` CLI option. You can get an API key by logging in to the Label Studio instance and going to the Account & Settings page.
 
 #### Create a project
 
