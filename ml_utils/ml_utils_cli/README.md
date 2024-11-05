@@ -100,7 +100,8 @@ where `PROJECT_ID` is the ID of the project you created.
 To accelerate annotation, you can pre-annotate the images with an object detection model. We support two pre-annotation backends:
 
 - Triton: you need to have a Triton server running with a model that supports object detection. The object detection model is expected to be a yolo-v8 model. You can set the URL of the Triton server with the `--triton-url` CLI option.
-- Ultralytics: you can use the Yolo-World model from Ultralytics, Ultralytics should be installed in the same virtualenv.
+
+- Ultralytics: you can use the [Yolo-World model from Ultralytics](https://github.com/ultralytics/ultralytics), Ultralytics should be installed in the same virtualenv.
 
 To pre-annotate the data with Triton, use the following command:
 
