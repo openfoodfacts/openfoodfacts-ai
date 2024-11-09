@@ -38,7 +38,6 @@ TO_MOVE = {
 }
 
 
-
 TO_REMOVE = {
     "packaging_fr_barquette-et-film-plastique-a-jeter",
     "packaging_fr_pensez-au-tri-!",

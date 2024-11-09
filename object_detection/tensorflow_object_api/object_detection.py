@@ -107,8 +107,8 @@ class ObjectDetectionModel:
         self.categories = label_map_util.convert_label_map_to_categories(
             label_map, max_num_classes=1000
         )
-        self.category_index: CategoryIndex = (
-            label_map_util.create_category_index(self.categories)
+        self.category_index: CategoryIndex = label_map_util.create_category_index(
+            self.categories
         )
 
     @classmethod
@@ -282,7 +282,7 @@ def iter_images_batch(
     current_dim = None
     batch: List[Tuple[str, str]] = []
 
-    for (width, height, barcode, image_id) in iter_image_dimensions(file_path):
+    for width, height, barcode, image_id in iter_image_dimensions(file_path):
         key = (barcode, image_id)
 
         if key in seen_set:
@@ -362,7 +362,8 @@ def parse_args():
     parser.add_argument("data_path", type=pathlib.Path)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument(
-        "--invalid-path", type=pathlib.Path,
+        "--invalid-path",
+        type=pathlib.Path,
     )
     return parser.parse_args()
 

@@ -16,14 +16,13 @@ ARGILLA_WORKSPACE_NAME = "spellcheck"
 
 
 if __name__ == "__main__":
-    
+
     TrainingDataArgilla.from_dataset(
         hf_repo="openfoodfacts/spellcheck-dataset",
         split="train+test",
         original_feature="text",
         reference_feature="label",
     ).deploy(
-        dataset_name=ARGILLA_DATASET_NAME, 
+        dataset_name=ARGILLA_DATASET_NAME,
         workspace_name=ARGILLA_WORKSPACE_NAME,
     )
-    

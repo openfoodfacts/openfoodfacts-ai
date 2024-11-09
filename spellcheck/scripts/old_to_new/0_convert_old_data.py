@@ -1,5 +1,6 @@
 """Extract the old data prepared by Lucain W and save it as a json file for future work.
 """
+
 import os
 from pathlib import Path
 from typing import Iterator, Mapping, List
@@ -46,14 +47,14 @@ def postprocess_texts(
     original_texts: Iterator[str],
     reference_texts: Iterator[str],
     unaccepted_string: str = "NOT_VALID",
-    lang: str = "fr"
+    lang: str = "fr",
 ) -> List[Mapping]:
-    """Map original and reference texts. Remove 
+    """Map original and reference texts. Remove
 
     Args:
         original_texts (Iterator[str]): Before Spellchecking
         reference_texts (Iterator[str]): After Spellchecking
-        unaccepted_string (str, optional): Some `After spellcheck` data were considered as not valid. 
+        unaccepted_string (str, optional): Some `After spellcheck` data were considered as not valid.
     We remove them. Defaults to "NOT_VALID".
         lang (str, optional): Langue. Defaults to "fr".
 
@@ -84,7 +85,7 @@ def main():
     convert_old_data(
         original_path=ORIGINAL_DATA_PATH,
         reference_path=REFERENCE_DATA_PATH,
-        save_path=OUTPUT_DATA_PATH
+        save_path=OUTPUT_DATA_PATH,
     )
 
 

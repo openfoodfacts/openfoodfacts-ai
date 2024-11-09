@@ -22,6 +22,7 @@ servers (ask on Slack channel #robotoff for details).
 > Found 795609 fr texts out of 2481313 lines (32.1%)
 > Took 0.6s to write 795609 lines to output (1261237.4 lines/s).
 """
+
 import itertools
 import json
 import multiprocessing

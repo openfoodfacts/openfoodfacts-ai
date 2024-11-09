@@ -3,7 +3,7 @@ import json
 from dotenv import load_dotenv
 
 import torch
-from datasets import(
+from datasets import (
     load_dataset,
     disable_caching,
 )
@@ -55,32 +55,34 @@ def main():
     # SETUP
     ######################
     LOGGER.info("Parse information from CLI using Argparser.")
-    parser = HfArgumentParser([
-        SFTConfig,
-        # BitsAndBytesConfig,
-        # LoraConfig,
-        SFTDataProcessingConfig,
-        TrainingDataFeatures,
-        EvaluationDataFeatures,
-        ModelConfig,
-        DataConfig,
-        SavingConfig,
-        InferenceConfig,
-    ])
+    parser = HfArgumentParser(
+        [
+            SFTConfig,
+            # BitsAndBytesConfig,
+            # LoraConfig,
+            SFTDataProcessingConfig,
+            TrainingDataFeatures,
+            EvaluationDataFeatures,
+            ModelConfig,
+            DataConfig,
+            SavingConfig,
+            InferenceConfig,
+        ]
+    )
     (
-        sft_config, 
-        # quantization_config, 
-        # lora_config, 
+        sft_config,
+        # quantization_config,
+        # lora_config,
         data_processing_config,
         training_data_features,
         evaluation_data_features,
-        model_config, 
-        data_config, 
-        saving_config, 
+        model_config,
+        data_config,
+        saving_config,
         inference_config,
     ) = parser.parse_args_into_dataclasses()
 
-    #NOTE: Bug with LoraConfig and HFArgumentParser (Only `Union[X, NoneType]` (i.e., `Optional[X]`) is allowed for `Union` because the argument parser only supports one type per argument. Problem encountered in field 'init_lora_weights'.)
+    # NOTE: Bug with LoraConfig and HFArgumentParser (Only `Union[X, NoneType]` (i.e., `Optional[X]`) is allowed for `Union` because the argument parser only supports one type per argument. Problem encountered in field 'init_lora_weights'.)
     # We instantiate LoraConfig "manually"
     lora_config = LoraConfig(
         lora_alpha=16,
@@ -103,7 +105,7 @@ def main():
     # Sagemaker environment variables: https://github.com/aws/sagemaker-training-toolkit/blob/master/ENVIRONMENT_VARIABLES.md
     OUTPUT_DIR = os.getenv("SM_MODEL_DIR")
 
-    #Comet experiment. Will be used in the CometCallback during the training
+    # Comet experiment. Will be used in the CometCallback during the training
     EXPERIMENT_KEY = os.getenv("COMET_EXPERIMENT_KEY")
     experiment = comet_ml.ExistingExperiment(previous_experiment=EXPERIMENT_KEY)
 
@@ -112,7 +114,7 @@ def main():
     ######################
     LOGGER.info("Load datasets.")
     training_dataset = load_dataset(
-        path=data_config.training_data, 
+        path=data_config.training_data,
         split=data_config.train_split,
         revision=data_config.train_data_revision,
     )
@@ -125,8 +127,7 @@ def main():
             revision=data_config.eval_data_revision,
         )
     datasets = Datasets(
-        training_dataset=training_dataset,
-        evaluation_dataset=evaluation_dataset
+        training_dataset=training_dataset, evaluation_dataset=evaluation_dataset
     )
     LOGGER.info(f"Training dataset: {datasets.training_dataset}")
     LOGGER.info(f"Evaluation dataset: {datasets.evaluation_dataset}")
@@ -141,11 +142,13 @@ def main():
     processed_datasets = data_processor.process_datasets(
         datasets=datasets,
         training_data_features=training_data_features,
-        evaluation_data_features=evaluation_data_features
+        evaluation_data_features=evaluation_data_features,
     )
     LOGGER.info(f"Processed training dataset: {processed_datasets.training_dataset}.")
     if processed_datasets.evaluation_dataset:
-        LOGGER.info(f"Processed evaluation dataset: {processed_datasets.evaluation_dataset}.")
+        LOGGER.info(
+            f"Processed evaluation dataset: {processed_datasets.evaluation_dataset}."
+        )
 
     ######################
     # MODEL PREPARATION
@@ -174,7 +177,7 @@ def main():
     # TRAIN
     ######################
     LOGGER.info("Start training.")
-    # Since we parse config using Argument 
+    # Since we parse config using Argument
     trainer = SFTTrainer(
         model=model,
         args=sft_config,
@@ -187,7 +190,7 @@ def main():
     # Thus we modified the callback to track experimentation on existing experiment
     trainer.add_callback(CustomCometCallback)
     trainer.train()
-    
+
     ######################
     # SAVING
     ######################
@@ -223,6 +226,7 @@ def main():
     # LOGGER.info(f"Predictions saved at: {s3_evaluation_path}")
 
     LOGGER.info("End of the training job.")
+
 
 if __name__ == "__main__":
     main()

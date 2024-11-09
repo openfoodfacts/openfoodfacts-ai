@@ -118,9 +118,7 @@ def annotate(item: dict, existing_annotation: Optional[dict] = None):
             f"action='{existing_annotation['action']}', "
             f"updated_offsets={existing_annotation['updated_offsets']}"
         )
-    marked_text = generate_highlighted_text(
-        item["text"], [list(x) for x in offsets]
-    )
+    marked_text = generate_highlighted_text(item["text"], [list(x) for x in offsets])
     marked_text_highlighted = marked_text.replace("<b>", "[red]").replace(
         "</b>", "[/red]"
     )

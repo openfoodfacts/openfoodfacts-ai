@@ -13,8 +13,8 @@ from spellcheck.model import OpenAIChatCompletion
 
 LOGGER = logging.getLogger(__name__)
 logging.basicConfig(
-        level=logging.getLevelName("INFO"),
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    level=logging.getLevelName("INFO"),
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 
 URL = "https://world.openfoodfacts.org/data-quality-warning/en:ingredients-50-percent-unknown.json?page_size={}"
@@ -145,9 +145,9 @@ if __name__ == "__main__":
     spellcheck = Spellcheck(
         model=OpenAIChatCompletion(
             prompt_template=Prompt.spellcheck_prompt_template,
-            system_prompt=SystemPrompt.spellcheck_system_prompt
+            system_prompt=SystemPrompt.spellcheck_system_prompt,
         )
-    )    
+    )
     prepare_benchmark(
         benchmark_version=BENCHMARK_VERSION,
         save_path=BENCHMARK_PATH,

@@ -11,11 +11,7 @@ class DataProcessor:
     """Class methods to process datasets for the Spellcheck."""
 
     @classmethod
-    def align_oe(
-        cls,
-        references: Iterable[str], 
-        texts: Iterable[str]
-    ) -> Iterable[str]:
+    def align_oe(cls, references: Iterable[str], texts: Iterable[str]) -> Iterable[str]:
         """Align "oe" - "œ character between the reference text and the target.
 
         Examples:
@@ -27,11 +23,8 @@ class DataProcessor:
             references (Iterable[str]): Text references.
             text (Iterable[str]): Texts to align with references.
         """
-        return [
-            cls._align_oe(ref, text)
-            for ref, text in zip(references, texts)
-        ]
-    
+        return [cls._align_oe(ref, text) for ref, text in zip(references, texts)]
+
     def _align_oe(reference: str, text: str) -> str:
         """
         Args:
@@ -41,8 +34,8 @@ class DataProcessor:
         Returns:
             str: Text with identical oe.
         """
-        pattern = re.compile(r"oe|œ") # OR
-        
+        pattern = re.compile(r"oe|œ")  # OR
+
         ref_matches = pattern.finditer(reference)
         text_matches = pattern.finditer(text)
 
@@ -65,11 +58,11 @@ class DataProcessor:
             ref_match = matches_dict.get(match.span())
             # Match.group() return the match as a string
             # Possibility a oe was not found in the reference, leading to dict.get()= None
-            if ref_match and ref_match != match.group(): 
-                return ref_match # Reference
+            if ref_match and ref_match != match.group():
+                return ref_match  # Reference
             else:
                 return match.group()
-        
+
         modified_text = pattern.sub(replace_match, text)
         return modified_text
 
@@ -136,7 +129,10 @@ class DataProcessor:
             # Compose the new match with the space between group 1 and group 3
             text_whitespace = match.group(2)
             ref_whitespace = matches_dict.get(match.span())
-            if ref_whitespace in ["", " "] and text_whitespace in ["", " "]:  # Could be empty string "" or whitespace " "
+            if ref_whitespace in ["", " "] and text_whitespace in [
+                "",
+                " ",
+            ]:  # Could be empty string "" or whitespace " "
                 return match.group(1) + ref_whitespace + match.group(3)
             else:
                 LOGGER.debug(

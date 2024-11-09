@@ -4,11 +4,13 @@ import h5py
 import pathlib
 from more_itertools import chunked
 
+
 class NumpyArrayEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         return json.JSONEncoder.default(self, obj)
+
 
 def get_embedding(embeddings_path: pathlib.Path, batch_size: int, nb_embeddings: int):
     """
@@ -35,7 +37,9 @@ def get_embedding(embeddings_path: pathlib.Path, batch_size: int, nb_embeddings:
         embedding_dset = f["embedding"]
         external_id_dset = f["external_id"]
 
-        for slicing in chunked(range(min(len(embedding_dset), nb_embeddings)), batch_size):
+        for slicing in chunked(
+            range(min(len(embedding_dset), nb_embeddings)), batch_size
+        ):
             slicing = np.array(slicing)
             mask = external_id_dset[slicing] == 0
 
@@ -48,12 +52,13 @@ def get_embedding(embeddings_path: pathlib.Path, batch_size: int, nb_embeddings:
                 external_id_dset[slicing][mask],
             )
 
+
 def save_data(file_name: str, data: dict):
-    with open(file_name, 'w') as f:
-        json.dump(data,f,cls=NumpyArrayEncoder)
+    with open(file_name, "w") as f:
+        json.dump(data, f, cls=NumpyArrayEncoder)
+
 
 def load_data(file_name: str):
-    with open(file_name, 'r') as f:
+    with open(file_name, "r") as f:
         data = json.load(f)
     return data
-

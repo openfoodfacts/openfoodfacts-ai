@@ -1,17 +1,7 @@
 import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import (
-    Optional, 
-    Mapping, 
-    List, 
-    Union, 
-    Any, 
-    Iterable, 
-    Tuple,
-    Type, 
-    Dict
-)
+from typing import Optional, Mapping, List, Union, Any, Iterable, Tuple, Type, Dict
 from functools import partial
 from tqdm import tqdm
 
@@ -46,29 +36,29 @@ LOGGER = get_logger()
 
 @dataclass
 class Datasets:
-    """Dataclass to store training and evaluation datasets, raw or processed. 
-    """
+    """Dataclass to store training and evaluation datasets, raw or processed."""
+
     training_dataset: Dataset
     evaluation_dataset: Optional[Dataset] = None
 
 
 class DataProcessor(ABC, BaseModel):
     """Processing class to transform datasets for the model training and evaluation.
-    
+
     The class is designed to inherite the data processing job adapted to the training algorithm, such as SFT, DPO, Instruction-tuning, and so on...
     """
 
     data_processsing_config: DataProcessingConfig
-    
+
     @abstractmethod
     def _process_fn(
-        self, 
+        self,
         element: Mapping[str, Union[Any, List]],
         text_feature: str,
         label_feature: str,
     ) -> Mapping[str, Union[Any, List]]:
         """Processing function used within the Dataset.map() method from the 'datasets' library.
-        
+
         The control the behavior of this function, one should create a new class that inherates from DataProcessor and build
         its own _process_fn() method. The latest is then used in the process() method from the base model.
 
@@ -81,12 +71,12 @@ class DataProcessor(ABC, BaseModel):
             Mapping[str, Union[Any, List]]: Processed elements.
         """
         raise NotImplementedError
-    
+
     def process_datasets(
-        self, 
+        self,
         datasets: Datasets,
         training_data_features: TrainingDataFeatures,
-        evaluation_data_features: Optional[EvaluationDataFeatures] = None
+        evaluation_data_features: Optional[EvaluationDataFeatures] = None,
     ) -> Datasets:
         """Performs datasets processing.
 
@@ -106,7 +96,9 @@ class DataProcessor(ABC, BaseModel):
         )
         # Evaluation dataset
         if not datasets.evaluation_dataset and evaluation_data_features:
-            LOGGER.warning(f"Evaluation processing features provided but no evaluation dataset was provided. Datasets dataclass currently provided: {datasets}")
+            LOGGER.warning(
+                f"Evaluation processing features provided but no evaluation dataset was provided. Datasets dataclass currently provided: {datasets}"
+            )
         elif datasets.evaluation_dataset:
             processed_evaluation_dataset = self._map_dataset(
                 dataset=datasets.evaluation_dataset,
@@ -115,18 +107,13 @@ class DataProcessor(ABC, BaseModel):
             )
             return Datasets(
                 training_dataset=processed_training_dataset,
-                evaluation_dataset=processed_evaluation_dataset
+                evaluation_dataset=processed_evaluation_dataset,
             )
         # If only train dataset
-        return Datasets(
-            training_dataset=processed_training_dataset
-        )
-    
+        return Datasets(training_dataset=processed_training_dataset)
+
     def _map_dataset(
-        self,
-        dataset: Dataset, 
-        text_feature: str, 
-        label_feature: str
+        self, dataset: Dataset, text_feature: str, label_feature: str
     ) -> Dataset:
         """Method using map() method from the datasets library with additional arguments.
 
@@ -147,39 +134,38 @@ class DataProcessor(ABC, BaseModel):
             batched=self.data_processsing_config.batched,
             remove_columns=dataset.column_names,
         )
-    
+
     @abstractmethod
     def process_texts(self, texts: Iterable[str]) -> Iterable[str]:
         """Text processing abstract method  used during inference.
 
         Args:
-            texts (Iterable[str]): Batch of texts to process. 
+            texts (Iterable[str]): Batch of texts to process.
 
         Returns:
             Iterable[str]: Processed texts.
         """
         raise NotImplementedError
-            
+
 
 class SFTDataProcessor(DataProcessor):
-    """Data processing engine for Supervised Fine Tuning training.
-    """
+    """Data processing engine for Supervised Fine Tuning training."""
 
     data_processsing_config: SFTDataProcessingConfig
 
     def _process_fn(
         self,
-        element: Mapping[str, Union[Any, List]], 
-        text_feature: str, 
-        label_feature: str
+        element: Mapping[str, Union[Any, List]],
+        text_feature: str,
+        label_feature: str,
     ) -> Mapping[str, Union[Any, List]]:
         """Prepare data for Instruction fine-tuning using the SFT Trainer.
-        
+
         The latest expects the feature column 'text'.
         The text input and label are concatenated into one instruction-prompt using the 'instruction_template'.
 
         Args:
-            element (Dict[str, Union[Any, List]]): Element during dataset mapping. 
+            element (Dict[str, Union[Any, List]]): Element during dataset mapping.
             text_feature (str): Text column name in the dataset.
             label_feature (str): Label column name in the dataset
 
@@ -190,9 +176,9 @@ class SFTDataProcessor(DataProcessor):
         return {"text": instruction + element[label_feature]}
 
     def _prepare_instruction(self, text: str) -> str:
-        """Prepare instruction based on the instruction-template. 
+        """Prepare instruction based on the instruction-template.
         This function is primordial for the training step, but also during inference.
-        
+
         Args:
             text (str): Text to process.
 
@@ -205,23 +191,23 @@ class SFTDataProcessor(DataProcessor):
         """Text processing method for SFTDataProcessor used during inference.
 
         Args:
-            texts (Iterable[str]): Batch of texts to process. 
+            texts (Iterable[str]): Batch of texts to process.
 
         Returns:
             Iterable[str]: Processed texts.
         """
         return [self._prepare_instruction(text) for text in texts]
-    
+
 
 class SavingProcessor(ABC, BaseModel):
-    """Saving processor abstract class after training.
-    """
+    """Saving processor abstract class after training."""
+
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @abstractmethod
     def save_trainer(self, trainer: Trainer):
         raise NotImplementedError
-    
+
 
 class LoRASavingProcessor(SavingProcessor):
     """Saving processor for QLoRA training. Save adapters with our without the model.
@@ -230,13 +216,14 @@ class LoRASavingProcessor(SavingProcessor):
         output_dir (str): Directory to save the model.
         saving_config (SavingConfig): Saving configuration.
     """
+
     output_dir: str
     saving_config: SavingConfig
-    
+
     def save_trainer(self, trainer: Trainer) -> None:
         """Use trainer instance after training to save tokenizer and fine-tuned model.
-        
-        Check these links to know more about saving LoRA adapters after training: 
+
+        Check these links to know more about saving LoRA adapters after training:
             * https://www.philschmid.de/fine-tune-llms-in-2024-with-trl
             * https://github.com/philschmid/llm-sagemaker-sample/blob/main/scripts/run_qlora.py
 
@@ -255,7 +242,7 @@ class LoRASavingProcessor(SavingProcessor):
 
             # Load PEFT model in fp16. It uses the saved LoRA adapters and load the pretrained model for the HF hub.
             LOGGER.info("Load PEFT model.")
-            torch_dtype = torch.bfloat16 #TODO: add bf16 to arguments
+            torch_dtype = torch.bfloat16  # TODO: add bf16 to arguments
             model = AutoPeftModelForCausalLM.from_pretrained(
                 self.output_dir,
                 low_cpu_mem_usage=True,
@@ -265,23 +252,25 @@ class LoRASavingProcessor(SavingProcessor):
             model = model.merge_and_unload()
             # Save merged model
             model.save_pretrained(
-                self.output_dir, 
-                safe_serialization=True, 
-                max_shard_size=self.saving_config.max_shard_size
+                self.output_dir,
+                safe_serialization=True,
+                max_shard_size=self.saving_config.max_shard_size,
             )
             LOGGER.info("Model merged and saved succesfully.")
             del model
 
-            # Remove adapters from the directory. The reason being the model.from_pretrained() method will load adapters instead of the merged model.  
+            # Remove adapters from the directory. The reason being the model.from_pretrained() method will load adapters instead of the merged model.
             try:
                 os.remove(os.path.join(self.output_dir, "adapter_config.json"))
                 os.remove(os.path.join(self.output_dir, "adapter_model.safetensors"))
             except Exception as e:
-                LOGGER.warning(f"Something went wrong with trying to remove adapters files for the training directory. Error: {e}")
+                LOGGER.warning(
+                    f"Something went wrong with trying to remove adapters files for the training directory. Error: {e}"
+                )
 
         else:
             # Save adapters only
-            trainer.model.save_pretrained(self.output_dir) 
+            trainer.model.save_pretrained(self.output_dir)
 
 
 class InferenceProcessor(ABC, BaseModel):
@@ -294,6 +283,7 @@ class InferenceProcessor(ABC, BaseModel):
         data_processor (Optional[DataProcessor]): Data processor instance.
         device (str): Device to use for inference.
     """
+
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     tokenizer: PreTrainedTokenizerBase
@@ -308,13 +298,13 @@ class InferenceProcessor(ABC, BaseModel):
 
     @classmethod
     def load_pretrained(
-        cls, 
+        cls,
         model_dir: str,
         model_config: ModelConfig,
         data_processor: DataProcessor,
-        inference_config: InferenceConfig
+        inference_config: InferenceConfig,
     ) -> None:
-        """Class method to load model and tokenizer for inference. 
+        """Class method to load model and tokenizer for inference.
 
         Args:
             model_dir (str): Model directory.
@@ -327,7 +317,7 @@ class InferenceProcessor(ABC, BaseModel):
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.pad_token_id = tokenizer.eos_token_id
 
-        torch_dtype = torch.bfloat16 #: add bfloat16 to arguments
+        torch_dtype = torch.bfloat16  #: add bfloat16 to arguments
         model = AutoModelForCausalLM.from_pretrained(
             model_dir,
             device_map=model_config.device_map,
@@ -339,12 +329,12 @@ class InferenceProcessor(ABC, BaseModel):
             tokenizer=tokenizer,
             model=model,
             data_processor=data_processor,
-            inference_config=inference_config
+            inference_config=inference_config,
         )
-    
+
     def _batch_process(self, lst: Iterable, batch_size: int = 1):
         """Batch inputs.
-        
+
         Args:
             lst (Iterable): List of inputs.
         """
@@ -353,35 +343,40 @@ class InferenceProcessor(ABC, BaseModel):
 
 
 class TextGenerationInference(InferenceProcessor):
-    """Inference for Text Generation models.
-    """
+    """Inference for Text Generation models."""
 
     def inference(
-        self, 
-        texts: Iterable[str], 
+        self,
+        texts: Iterable[str],
     ) -> Iterable[str]:
         """Perform text generation.
-        
+
         Args:
             texts (Iterable[str]): Batch of texts to process."""
         predictions = []
         processed_texts = self.data_processor.process_texts(texts)
 
         if self.inference_config.batch_size > 1:
-            processed_texts = self._batch_process(processed_texts, batch_size=self.inference_config.batch_size)
-        
+            processed_texts = self._batch_process(
+                processed_texts, batch_size=self.inference_config.batch_size
+            )
+
         for text_batch in tqdm(
-            processed_texts, 
-            total=len(texts), 
-            desc="Prediction" if self.inference_config.batch_size == 1 else f"Prediction in batch: batch_size = {self.inference_config.batch_size == 1}"
+            processed_texts,
+            total=len(texts),
+            desc=(
+                "Prediction"
+                if self.inference_config.batch_size == 1
+                else f"Prediction in batch: batch_size = {self.inference_config.batch_size == 1}"
+            ),
         ):
             encodings = self.tokenizer(
-                text_batch, 
-                add_special_tokens=True, 
+                text_batch,
+                add_special_tokens=True,
                 return_tensors="pt",
-                padding="longest", # In batch, required padding strategy between 
+                padding="longest",  # In batch, required padding strategy between
             )
-            encodings = {k: v.to(self.device) for k,v in encodings.items()}
+            encodings = {k: v.to(self.device) for k, v in encodings.items()}
             pred_encodings = self.model.generate(
                 **encodings,
                 do_sample=False,
@@ -395,14 +390,13 @@ class TextGenerationInference(InferenceProcessor):
             predictions.extend(prediction_batch)
         return predictions
 
-    def _post_process(
-            self, 
-            encodings: Mapping, 
-            text_batch: Iterable[str]
-        ) -> List[str]:
+    def _post_process(self, encodings: Mapping, text_batch: Iterable[str]) -> List[str]:
         """"""
-        predictions = self.tokenizer.batch_decode(encodings, skip_special_tokens=True)        
-        return [prediction[len(text):].strip() for prediction, text in zip(predictions, text_batch)]
+        predictions = self.tokenizer.batch_decode(encodings, skip_special_tokens=True)
+        return [
+            prediction[len(text) :].strip()
+            for prediction, text in zip(predictions, text_batch)
+        ]
 
 
 class EvaluationProcessor(BaseModel):
@@ -417,75 +411,81 @@ class EvaluationProcessor(BaseModel):
     evaluator: Optional[SpellcheckEvaluator] = Field(default=None, init=False)
 
     def model_post_init(self, __context: Any):
-        """Prepare evaluator during post_init: 
+        """Prepare evaluator during post_init:
         https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel.model_post_init
         """
         orginals, _ = self._prepare_data()
         self.evaluator = self.evaluator_type(originals=orginals)
-    
+
     def evaluate(self, save_predictions_path: Optional[str]) -> Dict[str, float]:
-        """
-        """
+        """ """
         # Load texts
         originals, references = self._prepare_data()
         # Predictions
         predictions = self.inference_processor.inference(texts=originals)
         # Evaluation
-        metrics = self.evaluator.evaluate(predictions=predictions, references=references)
+        metrics = self.evaluator.evaluate(
+            predictions=predictions, references=references
+        )
         LOGGER.info(f"Evaluation metrics: {metrics}")
         # Save predictions
         prediction_dataset = self.evaluation_dataset.add_column(
-            name="prediction", 
-            column=predictions
+            name="prediction", column=predictions
         )
         if save_predictions_path:
             LOGGER.info(f"Predictions are saved in: {save_predictions_path}")
             prediction_dataset.save_to_disk(save_predictions_path)
         return metrics
-    
+
     def _prepare_data(self) -> Tuple[Iterable[str], Iterable[str]]:
         """"""
         originals = self.evaluation_dataset[self.evaluation_features.eval_text_feature]
-        references = self.evaluation_dataset[self.evaluation_features.eval_label_feature]
+        references = self.evaluation_dataset[
+            self.evaluation_features.eval_label_feature
+        ]
         return originals, references
 
 
 class ExperimentLogger(ABC, BaseModel):
     """Class to log experiment information on experiment tracker."""
+
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     @abstractmethod
-    
     def log(self):
         """Log method."""
         raise NotImplementedError
-    
+
 
 class CometExperimentLogger(ExperimentLogger):
     """CometML Experiment Tracker class"""
-    
+
     experiment: comet_ml.Experiment
     workspace: str = os.getenv("COMET_WORKSPACE_NAME")
     project_name: str = os.getenv("COMET_PROJECT_NAME")
     api_key: str = os.getenv("COMET_API_KEY")
-    
+
     @classmethod
     def load_experiment(cls):
         global_experiment = comet_ml.get_global_experiment()
-        experiment = global_experiment if global_experiment else comet_ml.Experiment(
-            api_key=cls.api_key,
-            project_name=cls.project_name,
-            workspace=cls.workspace,
+        experiment = (
+            global_experiment
+            if global_experiment
+            else comet_ml.Experiment(
+                api_key=cls.api_key,
+                project_name=cls.project_name,
+                workspace=cls.workspace,
+            )
         )
         return cls(experiment=experiment)
 
     def log(
-        self, 
-        metrics: Optional[Mapping] = None, 
-        parameters: Optional[Mapping] = None, 
+        self,
+        metrics: Optional[Mapping] = None,
+        parameters: Optional[Mapping] = None,
         model_uri: Optional[str] = None,
         model_name: str = "model",
-        tags: Optional[List[str]] = None
+        tags: Optional[List[str]] = None,
     ) -> None:
         """Log data in experiment tracker.
 
@@ -512,9 +512,7 @@ class CometExperimentLogger(ExperimentLogger):
         self.experiment.log_parameters(parameters)
 
     def _log_model(self, model_uri: str, model_name: str) -> None:
-        self.experiment.log_remote_model(
-            model_name, model_uri, sync_mode=False
-        )
+        self.experiment.log_remote_model(model_name, model_uri, sync_mode=False)
 
     def _log_tags(self, tags: List[str]) -> None:
         self.experiment.add_tags(tags)

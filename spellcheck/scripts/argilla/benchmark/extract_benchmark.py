@@ -26,18 +26,18 @@ def main():
         name=ARGILLA_DATASET_NAME,
         workspace=ARGILLA_WORKSPACE_NAME,
         postprocess_map_fn=postprocessing_map_fn,
-        postprocess_filter_fn=postprocessing_filter_fn
+        postprocess_filter_fn=postprocessing_filter_fn,
     )
     dataset.to_parquet(BENCHMARK_PATH)
 
 
 def extract_dataset(
-        name: str, 
-        workspace: str, 
-        postprocess_map_fn: Callable = None, 
-        postprocess_filter_fn: Callable = None
-    ) -> Dataset:
-    """Extract the annotated dataset from the deployed Argilla. 
+    name: str,
+    workspace: str,
+    postprocess_map_fn: Callable = None,
+    postprocess_filter_fn: Callable = None,
+) -> Dataset:
+    """Extract the annotated dataset from the deployed Argilla.
 
     Args:
         name (str): Argilla dataset
@@ -53,15 +53,17 @@ def extract_dataset(
     LOGGER.info(f"Dataset: {hf_dataset}")
     if postprocess_map_fn:
         return postprocess_dataset(
-            dataset=hf_dataset, 
+            dataset=hf_dataset,
             map_function=postprocess_map_fn,
-            filter_fn=postprocess_filter_fn
+            filter_fn=postprocess_filter_fn,
         )
     return hf_dataset
 
 
-def postprocess_dataset(dataset: Dataset, map_function: Callable, filter_fn: Callable) -> Dataset:
-    """Post-processing the dataset. 
+def postprocess_dataset(
+    dataset: Dataset, map_function: Callable, filter_fn: Callable
+) -> Dataset:
+    """Post-processing the dataset.
 
     Args:
         dataset (Dataset): Exported dataset from Argilla
@@ -80,7 +82,7 @@ def postprocessing_map_fn(element: Mapping) -> Mapping:
     """Mapping unction applied to the dataset.
 
     Args:
-        element (Mapping): 
+        element (Mapping):
             One row of the extracted dataset before processing:
 
             ```
@@ -88,8 +90,8 @@ def postprocessing_map_fn(element: Mapping) -> Mapping:
             'original': 'Ananas, Ananassaft, Säuerungs - mittel: Citronensäure'
             'reference': [
                 {
-                'user_id': 'dfb71753-1187-45e1-8006-629bef2b49e0', 
-                'value': 'Ananas, Ananassaft, Säuerungsmittel: Citronensäure', 
+                'user_id': 'dfb71753-1187-45e1-8006-629bef2b49e0',
+                'value': 'Ananas, Ananassaft, Säuerungsmittel: Citronensäure',
                 'status': 'submitted'
                 }
             ]
@@ -101,11 +103,15 @@ def postprocessing_map_fn(element: Mapping) -> Mapping:
             'external_id': None
             'metadata': '{"lang": "de", "data_origin": "labeled_data"}'
             ```
-            
+
     Returns:
         Mapping: Post-processed element
     """
-    reference = element["reference"][0]["value"] if element["reference"] else element["reference-suggestion"]
+    reference = (
+        element["reference"][0]["value"]
+        if element["reference"]
+        else element["reference-suggestion"]
+    )
     postprocessed_reference = remove_markdown(reference)
     lang = json.loads(element["metadata"]).get("lang")
     data_origin = json.loads(element["metadata"]).get("data_origin")
@@ -114,24 +120,28 @@ def postprocessing_map_fn(element: Mapping) -> Mapping:
         "reference": postprocessed_reference,
         "lang": lang,
         "data_origin": data_origin,
-        "is_truncated": 0 if not element["is_truncated"] or element["is_truncated"][0]["value"] == "NO" else 1
+        "is_truncated": (
+            0
+            if not element["is_truncated"]
+            or element["is_truncated"][0]["value"] == "NO"
+            else 1
+        ),
     }
-    
+
 
 def postprocessing_filter_fn(
-        element: Mapping, 
-        status: Literal["submitted", "discarded", "draft"] = "submitted"
-    ) -> bool:
+    element: Mapping, status: Literal["submitted", "discarded", "draft"] = "submitted"
+) -> bool:
     """Filter dataset depending on annotation status.
 
     Args:
-        element (Mapping): 
-            One row of the extracted dataset before processing 
+        element (Mapping):
+            One row of the extracted dataset before processing
             (One would notice that this data was 'discarded' by the annotator)
 
             ```
             'url': 'https://world.openfoodfacts.org/product/5942262001416'
-            'original': 'water:snow' 
+            'original': 'water:snow'
             'reference': [{'user_id': 'dfb71753-1187-45e1-8006-629bef2b49e0', 'value': 'water:snow', 'status': 'discarded'}]
             'reference-suggestion': 'water:snow'
             'reference-suggestion-metadata': {'type': None, 'score': None, 'agent': None}
@@ -153,9 +163,8 @@ def postprocessing_filter_fn(
 
 
 def remove_markdown(
-    text: str, 
-    deleted_element: str = ArgillaConfig.deleted_element
-)->  str:
+    text: str, deleted_element: str = ArgillaConfig.deleted_element
+) -> str:
     """Markdowns were added to the text in Argilla to highlight the difference with the original text. They are removed during
     the dataset extraction.
 
@@ -165,9 +174,13 @@ def remove_markdown(
 
     Returns:
         str: Post-processed text
-    """ 
-    text = re.sub("<mark(?:\s\w+[^>]*)?>" + deleted_element + "<\/mark>", "", text) # <mark>#</mark> - <mark style=ba...>#</mark> if an element was deleted
-    text = re.sub("<\/?mark(?:\s\w+[^>]*)?>", "", text) # <mark style=ba...> - <mark> - </mark>
+    """
+    text = re.sub(
+        "<mark(?:\s\w+[^>]*)?>" + deleted_element + "<\/mark>", "", text
+    )  # <mark>#</mark> - <mark style=ba...>#</mark> if an element was deleted
+    text = re.sub(
+        "<\/?mark(?:\s\w+[^>]*)?>", "", text
+    )  # <mark style=ba...> - <mark> - </mark>
     return text
 
 

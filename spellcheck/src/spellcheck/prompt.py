@@ -1,5 +1,7 @@
 """Prompts for LLMs"""
+
 from dataclasses import dataclass
+
 
 @dataclass
 class SystemPrompt:
@@ -45,6 +47,7 @@ Cacao*, azúcar de coco* (30%), manteca de cacao, frambuesa deshidratada (1 %), 
 ### Corrected list of ingredients:
 Cacao*, azúcar de coco* (30%), manteca de cacao, frambuesa deshidratada (1 %), açai deshidratado* (0,5 % )
 """
+
 
 @dataclass
 class Prompt:

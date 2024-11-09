@@ -144,7 +144,7 @@ StringIntLabelMapItem = _reflection.GeneratedProtocolMessageType(
     (_message.Message,),
     dict(
         DESCRIPTOR=_STRINGINTLABELMAPITEM,
-        __module__="robotoff.ml.object_detection.utils.string_int_label_map_pb2"
+        __module__="robotoff.ml.object_detection.utils.string_int_label_map_pb2",
         # @@protoc_insertion_point(class_scope:object_detection.protos.StringIntLabelMapItem)
     ),
 )
@@ -155,7 +155,7 @@ StringIntLabelMap = _reflection.GeneratedProtocolMessageType(
     (_message.Message,),
     dict(
         DESCRIPTOR=_STRINGINTLABELMAP,
-        __module__="robotoff.ml.object_detection.utils.string_int_label_map_pb2"
+        __module__="robotoff.ml.object_detection.utils.string_int_label_map_pb2",
         # @@protoc_insertion_point(class_scope:object_detection.protos.StringIntLabelMap)
     ),
 )

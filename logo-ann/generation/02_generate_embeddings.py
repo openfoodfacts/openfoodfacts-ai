@@ -30,7 +30,6 @@ def build_model(model_type: str):
 
 
 def get_output_dim(model_type: str):
-
     """Return the embeddings size according to the model used."""
 
     if model_type == "clip-vit-base-patch16" or model_type == "clip-vit-base-patch32":
@@ -57,17 +56,16 @@ def generate_embeddings_iter(
     min_confidence: float = 0.5,
     processor: Any = None,
 ):
-
     """Inputs:
     - model: name of the specific model used
     - file_path: path of the hdf5 file containing the data of all the logos
-    - batch-size: size of each batche of logos embedded at the same time 
+    - batch-size: size of each batche of logos embedded at the same time
     - device: hardware used to compute the embeddings
-    - seen_set: set of every logo already embedded in 
+    - seen_set: set of every logo already embedded in
     - min-confidence: minimum of confidence allowed for a logo to be accepted as one
 
     Yield the following outputs:
-    - embeddings: embeddings of every logo of the yielded batch 
+    - embeddings: embeddings of every logo of the yielded batch
     - external_id: id of the logo
     """
 
@@ -76,7 +74,7 @@ def generate_embeddings_iter(
         confidence_dset = f["confidence"]
         external_id_dset = f["external_id"]
 
-        embeddings_test=[]
+        embeddings_test = []
 
         for slicing in chunked(range(len(image_dset)), batch_size):
             slicing = np.array(
@@ -98,41 +96,55 @@ def generate_embeddings_iter(
                 if int(external_id) in seen_set:
                     mask[i] = 0
 
-            if np.all(~mask):  # if we only have zeros at this step, we have a batch only with empty data or already seen logos
+            if np.all(
+                ~mask
+            ):  # if we only have zeros at this step, we have a batch only with empty data or already seen logos
                 continue
 
             images = image_dset[slicing][mask]
 
-
             with torch.no_grad():
                 # Preprocess the images to put them into the model
-                inputs = processor(images=[PIL.Image.fromarray(images[i], mode="RGB").to_device(device) for i in range(min(batch_size,len(images)))],
-                                    return_tensors="pt", 
-                                    padding=True).pixel_values
+                inputs = processor(
+                    images=[
+                        PIL.Image.fromarray(images[i], mode="RGB").to_device(device)
+                        for i in range(min(batch_size, len(images)))
+                    ],
+                    return_tensors="pt",
+                    padding=True,
+                ).pixel_values
                 # Passing logos through the model
                 # We don't have text to pass to the model so we use a (1,1) attention mask
-                # and use (BOS, EOS) as input for text. 
-                outputs = model(**{'pixel_values':inputs,
-                                    'attention_mask':torch.from_numpy(np.ones((len(images),2), dtype=int)), 
-                                    'input_ids':torch.from_numpy(np.ones((len(images),2),dtype=int)*[49406,49407])})
+                # and use (BOS, EOS) as input for text.
+                outputs = model(
+                    **{
+                        "pixel_values": inputs,
+                        "attention_mask": torch.from_numpy(
+                            np.ones((len(images), 2), dtype=int)
+                        ),
+                        "input_ids": torch.from_numpy(
+                            np.ones((len(images), 2), dtype=int) * [49406, 49407]
+                        ),
+                    }
+                )
                 # Getting logo embeddings out of the outputs
                 embeddings = outputs.image_embeds.detach().numpy()
                 if np.any(np.isnan(embeddings)):  # checking values are not NaN
                     print("A NaN value was detected, avoiding the loop")
                     continue
- 
+
             yield (embeddings, external_ids[mask])
+
 
 def generate_embedding_from_hdf5(
     data_gen: Iterable, output_path: pathlib.Path, output_dim: int, count: int
 ):
-
     """Save the embedding and the external id of each logo (data in data_gen) in an hdf5 file (the output_path).
 
     - data_gen: yielded embeddings and external ids of each logo from generate_embeddings_iter
     - output_path: path of the output hdf5 file
     - output_dim: dimension of the embeddings (depends on the computer vision model used)
-    - count: amount of embeddings you want to save 
+    - count: amount of embeddings you want to save
     """
 
     file_exists = output_path.is_file()
@@ -153,7 +165,7 @@ def generate_embedding_from_hdf5(
 
         print("Offset: {}".format(offset))
 
-        for (embeddings_batch, external_id_batch) in data_gen:
+        for embeddings_batch, external_id_batch in data_gen:
             slicing = slice(offset, offset + len(embeddings_batch))
             embedding_dset[slicing] = embeddings_batch
             external_id_dset[slicing] = external_id_batch

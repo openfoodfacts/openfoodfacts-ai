@@ -9,29 +9,29 @@ from spellcheck.processing import DataProcessor
 
 LOGGER = get_logger("INFO")
 
+
 class DataProcessing(FlowSpec):
-    """Processing pipeline to modify the Spellcheck training dataset algorithmically.
-    """
+    """Processing pipeline to modify the Spellcheck training dataset algorithmically."""
 
     dataset_hf_repo = Parameter(
         name="dataset_hf_repo",
         default="openfoodfacts/spellcheck-dataset",
         type=str,
-        help="Dataset id stored in the Hugging Face OFF repository."
+        help="Dataset id stored in the Hugging Face OFF repository.",
     )
 
     dataset_revision = Parameter(
         name="dataset_revision",
         default="v3",
         type=str,
-        help="Dataset revision indicating the version for processing. Default to v3."
+        help="Dataset revision indicating the version for processing. Default to v3.",
     )
 
     dataset_version = Parameter(
         name="dataset_version",
         type=str,
         required=True,
-        help="New processed dataset version."
+        help="New processed dataset version.",
     )
 
     dataset_split = Parameter(
@@ -47,15 +47,17 @@ class DataProcessing(FlowSpec):
         type=float,
         required=False,
         default=0.1,
-        help="Dataset test split size used during push_to_hub."
+        help="Dataset test split size used during push_to_hub.",
     )
 
     @step
     def start(self):
         """Load dataset"""
         if self.dataset_split not in ["train", "test", "train+test"]:
-            raise ValueError("Invalid value for dataset_split. Should be 'train', 'test', or 'train+test'.")
-        
+            raise ValueError(
+                "Invalid value for dataset_split. Should be 'train', 'test', or 'train+test'."
+            )
+
         self.dataset = load_dataset(
             self.dataset_hf_repo,
             revision=self.dataset_revision,
@@ -63,7 +65,7 @@ class DataProcessing(FlowSpec):
         )
         LOGGER.info(f"Dataset loaded:\n{self.dataset}")
         self.next(self.process)
-    
+
     @step
     def process(self):
         """Process dataset."""
@@ -78,12 +80,10 @@ class DataProcessing(FlowSpec):
                 (Mapping): Processed batch.
             """
             processed_labels = DataProcessor.align_oe(
-                references=sample["text"],
-                texts=sample["label"]
+                references=sample["text"], texts=sample["label"]
             )
             processed_labels = DataProcessor.align_whitespace_percentage(
-                references=sample["text"],
-                texts=processed_labels
+                references=sample["text"], texts=processed_labels
             )
             sample["label"] = processed_labels
             return sample
@@ -101,7 +101,8 @@ class DataProcessing(FlowSpec):
         ).push_to_hub(
             repo_id=self.dataset_hf_repo,
             commit_message=self.dataset_version,
-            commit_description="Metaflow run id:" + current.run_id, # Store Metaflow run id for traceability
+            commit_description="Metaflow run id:"
+            + current.run_id,  # Store Metaflow run id for traceability
         )
         LOGGER.info("Data processing finished succesfully.")
 
