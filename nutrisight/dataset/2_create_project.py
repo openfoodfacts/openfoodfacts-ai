@@ -7,7 +7,7 @@ from openfoodfacts.utils import get_logger
 
 logger = get_logger()
 
-LABEL_STUDIO_URL = "https://annotate.openfoodfacts.org"
+LABEL_STUDIO_DEFAULT_URL = "https://annotate.openfoodfacts.org"
 
 
 def create_project(
@@ -16,8 +16,9 @@ def create_project(
         file_okay=True, dir_okay=False, exists=True
     ),
     title: str = typer.Option(help="Project title"),
+    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
 ):
-    ls = LabelStudio(base_url=LABEL_STUDIO_URL, api_key=api_key)
+    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
     label_config = Path(label_config_path).read_text()
 
     project = ls.projects.create(title=title, label_config=label_config)

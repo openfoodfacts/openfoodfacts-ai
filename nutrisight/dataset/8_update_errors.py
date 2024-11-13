@@ -7,15 +7,16 @@ from openfoodfacts.utils import get_logger
 
 logger = get_logger(level="DEBUG")
 
-LABEL_STUDIO_URL = "https://annotate.openfoodfacts.org"
+LABEL_STUDIO_DEFAULT_URL = "https://annotate.openfoodfacts.org"
 
 
 def update_checked_field(
     api_key: Annotated[str, typer.Argument(envvar="LABEL_STUDIO_API_KEY")],
     project_id: int = 42,
     view_id: int = 62,
+    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
 ):
-    ls = Client(url=LABEL_STUDIO_URL, api_key=api_key)
+    ls = Client(url=label_studio_url, api_key=api_key)
     ls.check_connection()
 
     project = ls.get_project(project_id)

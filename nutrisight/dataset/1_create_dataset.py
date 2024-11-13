@@ -2,6 +2,7 @@ import json
 import random
 import re
 import string
+import typing
 from collections import defaultdict
 from typing import Iterator, Optional
 
@@ -17,12 +18,17 @@ from ratelimit import limits, sleep_and_retry
 
 logger = get_logger()
 
+# We use Redis to save the state of the dataset generation
 client = redis.Redis(host="localhost", port=6379, db=0)
 
 
 def create_annotation_results(
-    word_text: str, pre_annotation: str, vertices: list[tuple[int, int]], width, height
-):
+    word_text: str,
+    pre_annotation: str,
+    vertices: list[tuple[int, int]],
+    width: int,
+    height: int,
+) -> list[dict]:
     x_min = min(v[0] for v in vertices) * 100
     x_max = max(v[0] for v in vertices) * 100
     y_min = min(v[1] for v in vertices) * 100
@@ -196,12 +202,12 @@ def format_sample(product: dict, min_threshold: Optional[int] = None):
         ocr_url = generate_json_ocr_url(barcode, image_id=image_id)
 
         try:
-            ocr_result = OCRResult.from_url(ocr_url)
+            ocr_result = typing.cast(OCRResult, OCRResult.from_url(ocr_url))
         except openfoodfacts.ocr.OCRResultGenerationException as e:
             logger.info(f"Error generating OCR result: {e}")
             continue
 
-        if not ocr_result.full_text_annotation:
+        if ocr_result.full_text_annotation is None:
             continue
 
         words = [

@@ -7,14 +7,15 @@ import typer
 from label_studio_sdk.client import LabelStudio
 from more_itertools import chunked
 
-LABEL_STUDIO_URL = "https://annotate.openfoodfacts.org"
+LABEL_STUDIO_DEFAULT_URL = "https://annotate.openfoodfacts.org"
 
 
 def upload_dataset(
     api_key: Annotated[str, typer.Argument(envvar="LABEL_STUDIO_API_KEY")],
     project_id: int = 42,
+    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
 ):
-    ls = LabelStudio(base_url=LABEL_STUDIO_URL, api_key=api_key)
+    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
 
     with Path("./dataset.jsonl").open() as f:
         for batch in chunked(tqdm.tqdm(map(json.loads, f), desc="tasks"), 25):

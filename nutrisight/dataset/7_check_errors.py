@@ -10,6 +10,8 @@ from openfoodfacts.utils import get_logger
 
 logger = get_logger()
 
+LABEL_STUDIO_DEFAULT_URL = "https://annotate.openfoodfacts.org"
+
 
 def is_bounding_box_modified(word_annotation: dict, word_prediction: dict):
     if word_annotation.keys() != word_prediction.keys():
@@ -146,9 +148,7 @@ def check_errors(
     # Label Studio instance
     project_id: Annotated[int, typer.Option(..., help="Label Studio project ID")] = 42,
     batch_ids: Optional[list[int]] = None,
-    label_studio_url: Annotated[
-        str, typer.Option()
-    ] = "https://annotate.openfoodfacts.org",
+    label_studio_url: Annotated[str, typer.Option()] = LABEL_STUDIO_DEFAULT_URL,
 ):
     logger.info("Fetching tasks from Label Studio, project %s", project_id)
     tasks = get_tasks(label_studio_url, api_key, project_id, batch_ids)
@@ -158,7 +158,4 @@ def check_errors(
 
 
 if __name__ == "__main__":
-    # typer.run(check_errors)
-    import os
-
-    check_errors(os.environ["LABEL_STUDIO_API_KEY"])
+    typer.run(check_errors)
