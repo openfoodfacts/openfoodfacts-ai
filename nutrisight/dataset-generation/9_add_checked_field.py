@@ -7,7 +7,7 @@ from openfoodfacts.utils import get_logger
 
 logger = get_logger(level="DEBUG")
 
-LABEL_STUDIO_URL = "https://annotate.openfoodfacts.org"
+LABEL_STUDIO_DEFAULT_URL = "https://annotate.openfoodfacts.org"
 
 
 def add_checked_field(

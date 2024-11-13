@@ -41,7 +41,7 @@ def run(
 
         if "prepared-values" in issues:
             print(
-                f"https://annotate.openfoodfacts.org/projects/42/data?tab=61&task={task.id}"
+                f"{LABEL_STUDIO_URL}/projects/{project_id}/data?tab={view_id}&task={task.id}"
             )
 
 

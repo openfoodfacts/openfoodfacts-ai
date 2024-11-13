@@ -3,7 +3,6 @@ from typing import Annotated
 
 import tqdm
 import typer
-from label_studio_sdk import Client
 from label_studio_sdk.client import LabelStudio
 from openfoodfacts.utils import get_logger
 
