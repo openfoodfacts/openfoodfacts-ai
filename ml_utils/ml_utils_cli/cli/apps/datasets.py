@@ -161,9 +161,9 @@ def export(
     error_raise: Annotated[
         bool,
         typer.Option(
-            help="Raise an error for testing purposes"
+            help="Raise an error if an image download fails, only for Ultralytics"
         ),
-    ] = False,
+    ] = True,
 ):
     """Export Label Studio annotation, either to Hugging Face Datasets or
     local files (ultralytics format)."""
