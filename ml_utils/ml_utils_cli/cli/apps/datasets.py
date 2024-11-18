@@ -158,6 +158,12 @@ def export(
             "provided (typically, if the source is Label Studio)"
         ),
     ] = 0.8,
+    raise_error: Annotated[
+        bool,
+        typer.Option(
+            help="Raise an error for testing purposes"
+        ),
+    ] = False,
 ):
     """Export Label Studio annotation, either to Hugging Face Datasets or
     local files (ultralytics format)."""
@@ -204,6 +210,7 @@ def export(
                 label_names_list,
                 typing.cast(int, project_id),
                 train_ratio=train_ratio,
+                raise_error=raise_error,
             )
 
     elif from_ == ExportSource.hf:
@@ -212,6 +219,7 @@ def export(
                 typing.cast(str, repo_id),
                 typing.cast(Path, output_dir),
                 download_images=download_images,
+                raise_error=raise_error,
             )
         else:
             raise typer.BadParameter("Unsupported export format")

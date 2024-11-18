@@ -64,6 +64,7 @@ def export_from_ls_to_ultralytics(
     category_names: list[str],
     project_id: int,
     train_ratio: float = 0.8,
+    error_raise: bool = True,
 ):
     """Export annotations from a Label Studio project to the Ultralytics
     format.
@@ -161,7 +162,7 @@ def export_from_ls_to_ultralytics(
                     has_valid_annotation = True
 
         if has_valid_annotation:
-            download_output = download_image(image_url, return_bytes=True)
+            download_output = download_image(image_url, return_bytes=True, error_raise=error_raise)
             if download_output is None:
                 logger.error("Failed to download image: %s", image_url)
                 continue
@@ -182,7 +183,9 @@ def export_from_ls_to_ultralytics(
 
 
 def export_from_hf_to_ultralytics(
-    repo_id: str, output_dir: Path, download_images: bool = True
+        repo_id: str, output_dir: Path,
+        download_images: bool = True,
+        error_raise: bool = True,
 ):
     """Export annotations from a Hugging Face dataset project to the
     Ultralytics format.
@@ -207,7 +210,7 @@ def export_from_hf_to_ultralytics(
             image_url = sample["meta"]["image_url"]
 
             if download_images:
-                download_output = download_image(image_url, return_bytes=True)
+                download_output = download_image(image_url, return_bytes=True, error_raise=error_raise)
                 if download_output is None:
                     logger.error("Failed to download image: %s", image_url)
                     continue
