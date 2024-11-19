@@ -8,7 +8,7 @@ project_id=56
 project_path="/Users/baslad01/PycharmProjects/openfoodfacts-ai/ml_utils/ml_utils_cli"
 
 
-model_name="${data_path}/model/train7/weights/best.pt"
+model_name="${data_path}/model/train10/weights/best.pt"
 
 alias ml-cli='${CONDA_PREFIX}/bin/python3 ${project_path}/main.py'
 
