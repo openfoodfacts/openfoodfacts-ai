@@ -22,7 +22,9 @@ prediction_dir = Path(artifact.download())
 
 
 predictions = {}
-with gzip.open(prediction_dir / f"{SPLIT_NAME}_predictions_agg_first.jsonl.gz", "rt") as f:
+with gzip.open(
+    prediction_dir / f"{SPLIT_NAME}_predictions_agg_first.jsonl.gz", "rt"
+) as f:
     for line in f:
         item = json.loads(line)
         id_ = item["meta"]["id"]
@@ -48,7 +50,9 @@ for key in gold.keys():
     gold_markup = generate_highlighted_text(
         gold_sample["text"], gold_offsets, html_escape=True, mark_token="mark"
     )
-    predicted_offsets = [[entity["start"], entity["end"]] for entity in predict_sample["entities"]]
+    predicted_offsets = [
+        [entity["start"], entity["end"]] for entity in predict_sample["entities"]
+    ]
 
     predict_markup = generate_highlighted_text(
         predict_sample["text"],
@@ -67,7 +71,12 @@ for key in gold.keys():
             if is_manually_annotated
             else automatically_annotated_html_list
         )
-        predicted_offset_html = "</br>".join([f"\"{predict_sample['text'][start:end]}\" [{start}:{end}]" for start, end in predicted_offsets])
+        predicted_offset_html = "</br>".join(
+            [
+                f"\"{predict_sample['text'][start:end]}\" [{start}:{end}]"
+                for start, end in predicted_offsets
+            ]
+        )
         html_list.append(
             f"<p>ID: {key}</br><b>Gold</b>:</br>{gold_markup}</br><b>Predicted</b>:</br>{predicted_offset_html}</br>{predict_markup}<p>"
         )

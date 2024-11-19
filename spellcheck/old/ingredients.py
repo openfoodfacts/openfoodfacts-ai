@@ -6,6 +6,7 @@ https://github.com/openfoodfacts/robotoff/blob/4edbc715d81e84f234cc284222697632c
 /!\ /!\ /!\
 
 """
+
 import re
 from dataclasses import dataclass, field
 from typing import Iterable, List, Set, Tuple, Dict

@@ -1,8 +1,8 @@
-#----------------------------LUCAIN SCRIPT FOR TAXONOMY & PNNS----------------------------
+# ----------------------------LUCAIN SCRIPT FOR TAXONOMY & PNNS----------------------------
 
 import json
 
-#if not installed : pip install python-Levenshtein
+# if not installed : pip install python-Levenshtein
 from Levenshtein import distance as levenshtein_distance
 from robotoff.taxonomy import get_taxonomy
 

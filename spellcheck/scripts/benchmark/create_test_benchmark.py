@@ -28,24 +28,21 @@ def main():
         model=GeminiModel(
             prompt_template=Prompt.claude_spellcheck_prompt_template,
             system_prompt=SystemPrompt.spellcheck_system_prompt,
-            model_name=MODEL_NAME
+            model_name=MODEL_NAME,
         )
     )
     prepare_test_benchmark(
         labeled_data_path=LABELED_DATA_PATH,
         spellcheck=spellcheck,
         save_path=BENCHMARK_PATH,
-        wait=WAIT
+        wait=WAIT,
     )
 
 
 def prepare_test_benchmark(
-    labeled_data_path: Path, 
-    spellcheck: Spellcheck, 
-    save_path: Path,
-    wait: int = 0
+    labeled_data_path: Path, spellcheck: Spellcheck, save_path: Path, wait: int = 0
 ) -> None:
-    """Preparation of the test benchmark using labeled data. 
+    """Preparation of the test benchmark using labeled data.
     This step helps us prompt engineering GPT-3.5/GPT-4 to later augmentte our data.
 
     Args:
@@ -60,14 +57,11 @@ def prepare_test_benchmark(
             {
                 "original": original,
                 "reference": reference,
-                "openai_prediction": spellcheck.correct(original)
+                "openai_prediction": spellcheck.correct(original),
             }
         )
         time.sleep(wait)
-    save_data(
-        data={"data": output_data},
-        save_path=save_path
-    )
+    save_data(data={"data": output_data}, save_path=save_path)
     LOGGER.info("Test benchmark created and saved.")
 
 

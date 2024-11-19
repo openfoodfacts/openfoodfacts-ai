@@ -34,10 +34,7 @@ def parse():
         help="Path to the image to be processed.",
     )
     parser.add_argument(
-        "--model-path", 
-        type=str, 
-        default=MODEL_PATH, 
-        help="Path to the .tflite model."
+        "--model-path", type=str, default=MODEL_PATH, help="Path to the .tflite model."
     )
     parser.add_argument(
         "--threshold",
@@ -46,10 +43,10 @@ def parse():
         help="Detection score threshold.",
     )
     parser.add_argument(
-        "--nms-threshold", 
-        type=float, 
+        "--nms-threshold",
+        type=float,
         default=NMS_THRESHOLD,
-        help="Non-Maximum Suppression threshold."
+        help="Non-Maximum Suppression threshold.",
     )
     parser.add_argument(
         "--debug",
@@ -58,10 +55,7 @@ def parse():
         help="Set debug mode.",
     )
     parser.add_argument(
-        "--save-path", 
-        type=str, 
-        required=False, 
-        help="Path to save the cropped image."
+        "--save-path", type=str, required=False, help="Path to save the cropped image."
     )
     return parser.parse_args()
 

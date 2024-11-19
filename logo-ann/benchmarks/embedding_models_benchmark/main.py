@@ -113,14 +113,14 @@ def generate_embeddings_clip(
 def pairwise_squared_euclidian_distance_numpy(A: np.ndarray) -> np.ndarray:
     assert len(A.shape) == 2
     dot_product = np.dot(A[:, None, :], A[None, :, :].swapaxes(1, 2)).squeeze()
-    squared_sum = np.sum(A ** 2.0, axis=1, keepdims=True)
+    squared_sum = np.sum(A**2.0, axis=1, keepdims=True)
     return squared_sum + squared_sum.transpose() - 2 * dot_product
 
 
 def pairwise_squared_euclidian_distance(A: np.ndarray) -> torch.Tensor:
     assert len(A.shape) == 2
     dot_product = torch.matmul(A[:, None, :], A[None, :, :].swapaxes(1, 2)).squeeze()
-    squared_sum = torch.sum(A ** 2.0, axis=1, keepdim=True)
+    squared_sum = torch.sum(A**2.0, axis=1, keepdim=True)
     return squared_sum + squared_sum.T - 2 * dot_product
 
 
@@ -189,11 +189,11 @@ def get_distance_matrix_mask(
     """
     It returns a boolean matrix of shape size*size.
 
-    mask[n,m] = False If we want to keep this logo for the 
-    computation of the closest neighbours. 
+    mask[n,m] = False If we want to keep this logo for the
+    computation of the closest neighbours.
 
-    The idea is to keep at max max_label_count logos per label and not to take 
-    into account the embedding itself when computeing the closest neighbours. 
+    The idea is to keep at max max_label_count logos per label and not to take
+    into account the embedding itself when computeing the closest neighbours.
     """
     mask = np.ones((size, size), dtype=bool)
 

@@ -35,10 +35,10 @@ def get_logger(level: Optional[str] = None) -> logging.Logger:
 
 
 def show_diff(
-    original_text: str, 
+    original_text: str,
     corrected_text: str,
     color: Literal["yellow", "orange", "red"] = "yellow",
-    deleted_element: str = ArgillaConfig.deleted_element
+    deleted_element: str = ArgillaConfig.deleted_element,
 ) -> str:
     """Unify operations between two compared strings
     seqm is a difflib.SequenceMatcher instance whose a & b are strings
@@ -58,20 +58,32 @@ def show_diff(
     html_color = ArgillaConfig.html_colors[color]
     # Check if the process was not done
     if "<mark>" not in corrected_text:
-        seqm = difflib.SequenceMatcher(None, original_text, corrected_text) 
-        output= []
+        seqm = difflib.SequenceMatcher(None, original_text, corrected_text)
+        output = []
         for opcode, a0, a1, b0, b1 in seqm.get_opcodes():
-            if opcode == 'equal':
+            if opcode == "equal":
                 output.append(seqm.a[a0:a1])
-            elif opcode == 'insert':
-                output.append(f"<mark style=background-color:{html_color}>" + seqm.b[b0:b1] + "</mark>")
-            elif opcode == 'delete':
-                output.append(f"<mark style=background-color:{html_color}>" + deleted_element + "</mark>")
-            elif opcode == 'replace':
-                output.append(f"<mark style=background-color:{html_color}>" + seqm.b[b0:b1] + "</mark>")
+            elif opcode == "insert":
+                output.append(
+                    f"<mark style=background-color:{html_color}>"
+                    + seqm.b[b0:b1]
+                    + "</mark>"
+                )
+            elif opcode == "delete":
+                output.append(
+                    f"<mark style=background-color:{html_color}>"
+                    + deleted_element
+                    + "</mark>"
+                )
+            elif opcode == "replace":
+                output.append(
+                    f"<mark style=background-color:{html_color}>"
+                    + seqm.b[b0:b1]
+                    + "</mark>"
+                )
             else:
                 raise RuntimeError("unexpected opcode")
-        return ''.join(output)
+        return "".join(output)
     else:
         return corrected_text
 
@@ -94,11 +106,15 @@ def load_jsonl(path: Path) -> Iterable[Mapping]:
 
 def timer(fn):
     """Decorator to track function duration."""
+
     def wrapper(*args, **kwargs):
         logger = get_logger()
         timestamp = time.time()
         logger.info(f"Start {fn.__name__}.")
         output = fn(*args, **kwargs)
-        logger.info(f"The function {fn.__name__} took {round(time.time() - timestamp)} to finish.")
+        logger.info(
+            f"The function {fn.__name__} took {round(time.time() - timestamp)} to finish."
+        )
         return output
+
     return wrapper

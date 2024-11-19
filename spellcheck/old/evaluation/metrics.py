@@ -156,16 +156,21 @@ def per_item_ingredients_metrics(original: str, correct: str, prediction: str):
     predicted_count = len(predicted_ingredients)
 
     correct_predicted_count = _matching_tokens_count(
-        correct_ingredients, predicted_ingredients,
+        correct_ingredients,
+        predicted_ingredients,
     )
     original_correct_count = _matching_tokens_count(
-        original_ingredients, correct_ingredients,
+        original_ingredients,
+        correct_ingredients,
     )
     original_predicted_count = _matching_tokens_count(
-        original_ingredients, predicted_ingredients,
+        original_ingredients,
+        predicted_ingredients,
     )
     original_correct_predicted_count = _matching_tokens_count(
-        original_ingredients, predicted_ingredients, correct_ingredients,
+        original_ingredients,
+        predicted_ingredients,
+        correct_ingredients,
     )
 
     precision_num = correct_predicted_count - original_correct_predicted_count
