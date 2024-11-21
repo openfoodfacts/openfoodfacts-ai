@@ -14,4 +14,4 @@ alias ml-cli='${CONDA_PREFIX}/bin/python3 ${project_path}/main.py'
 
 #ml-cli --help
 # Preanotate the data
-ml-cli projects add-prediction --project-id ${project_id} --model-name ${model_name} --backend ultralytics --labels 'product' --labels 'price tag' --label-mapping '{"price tag": "price-tag"}' --api-key ${LABEL_STUDIO_KEY}
+ml-cli projects add-prediction --no-error-raise --project-id ${project_id} --model-name ${model_name} --backend ultralytics --labels 'product' --labels 'price tag' --label-mapping '{"price tag": "price-tag"}' --api-key ${LABEL_STUDIO_KEY}
