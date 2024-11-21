@@ -50,7 +50,10 @@ def query_items(limit):
     return [item for item in query]
 
 
-session = SessionState.get(cursor=0, corrected_items=load_dataset(FR_TEST_SET_PATH),)
+session = SessionState.get(
+    cursor=0,
+    corrected_items=load_dataset(FR_TEST_SET_PATH),
+)
 
 # Select an item to label/correct
 items_to_label = query_items(limit=10000)

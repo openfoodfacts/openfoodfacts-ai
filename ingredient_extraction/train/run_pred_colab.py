@@ -29,22 +29,22 @@ classifier = pipeline(
 )
 
 for split_name in ("test", "train"):
-        split_ds = dataset[split_name]
-        texts = split_ds["text"]
-        aggregated_outputs = classifier(texts, batch_size=16)
-        full_output = (
-            {
-                "text": split_ds[i]["text"],
-                "meta": split_ds[i]["meta"],
-                "entities": entities,
-            }
-            for i, entities in enumerate(aggregated_outputs)
-        )
-        prediction_file_path = Path(f"{split_name}_predictions_agg.jsonl.gz")
-        with gzip.open(prediction_file_path, "wb") as f:
-            f.write(
-                b"\n".join(
-                    orjson.dumps(item, option=orjson.OPT_SERIALIZE_NUMPY)
-                    for item in full_output
-                )
+    split_ds = dataset[split_name]
+    texts = split_ds["text"]
+    aggregated_outputs = classifier(texts, batch_size=16)
+    full_output = (
+        {
+            "text": split_ds[i]["text"],
+            "meta": split_ds[i]["meta"],
+            "entities": entities,
+        }
+        for i, entities in enumerate(aggregated_outputs)
+    )
+    prediction_file_path = Path(f"{split_name}_predictions_agg.jsonl.gz")
+    with gzip.open(prediction_file_path, "wb") as f:
+        f.write(
+            b"\n".join(
+                orjson.dumps(item, option=orjson.OPT_SERIALIZE_NUMPY)
+                for item in full_output
             )
+        )

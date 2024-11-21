@@ -11,28 +11,28 @@ class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
         name="status",
         help="Which status to extract from Argilla. Can be 'submitted', 'pending', 'draft', 'discarded'",
         default="submitted",
-        multiple=True # In the CLI: ... --status submitted --status pending
+        multiple=True,  # In the CLI: ... --status submitted --status pending
     )
 
     dataset_hf_repo = metaflow.Parameter(
         name="dataset_hf_repo",
         required=True,
         type=str,
-        help="Hugging Face dataset repo id."
+        help="Hugging Face dataset repo id.",
     )
 
     dataset_revision = metaflow.Parameter(
         name="dataset_revision",
         type=str,
         required=True,
-        help="Uploaded dataset branch. Each branch is a revision containing the different version of the dataset."
+        help="Uploaded dataset branch. Each branch is a revision containing the different version of the dataset.",
     )
 
     dataset_version = metaflow.Parameter(
         name="dataset_version",
         type=str,
         required=True,
-        help="New version of the dataset as a commit in the main and revision branch."
+        help="New version of the dataset as a commit in the main and revision branch.",
     )
 
     dataset_test_size = metaflow.Parameter(
@@ -40,14 +40,14 @@ class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
         type=float,
         required=False,
         default=0,
-        help="Dataset test split size used during push_to_hub. If 0, the entire dataset is labeled under 'train', meaning there is no split."
+        help="Dataset test split size used during push_to_hub. If 0, the entire dataset is labeled under 'train', meaning there is no split.",
     )
 
     argilla_dataset_name = metaflow.Parameter(
         name="argilla_dataset_name",
         type=str,
         required=True,
-        help="Dataset to extract from Argilla."
+        help="Dataset to extract from Argilla.",
     )
 
     argilla_workspace_name = metaflow.Parameter(
@@ -55,14 +55,14 @@ class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
         type=str,
         required=False,
         default="spellcheck",
-        help="Argilla workspace name. Default to 'spellcheck'."
+        help="Argilla workspace name. Default to 'spellcheck'.",
     )
 
     argilla_dataset_local_path = metaflow.Parameter(
         name="local_path",
         type=str,
         required=True,
-        help="Local path to store the argilla dataset during the pipeline process."
+        help="Local path to store the argilla dataset during the pipeline process.",
     )
 
     deploy_to_hf = metaflow.Parameter(
@@ -70,7 +70,7 @@ class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
         type=bool,
         required=False,
         default=False,
-        help="Whether to push to dataset to HuggingFace."
+        help="Whether to push to dataset to HuggingFace.",
     )
 
     additional_commit_info = metaflow.Parameter(
@@ -78,7 +78,7 @@ class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
         type=str,
         required=False,
         default="",
-        help="Whether to add a commit description to the commit."
+        help="Whether to add a commit description to the commit.",
     )
 
     @metaflow.step
@@ -88,8 +88,7 @@ class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
 
     @metaflow.step
     def extract_from_argilla(self):
-        """Argilla extraction step. Takes the status as input the user wants to extract.
-        """
+        """Argilla extraction step. Takes the status as input the user wants to extract."""
         print("Start extraction from Argilla.")
         argilla_dataset = SpellcheckExtraction(
             dataset_name=self.argilla_dataset_name,
@@ -105,21 +104,24 @@ class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
     @metaflow.step
     def push_to_hf(self):
         """Conditional step.
-        
+
         Push the extracted dataset to a HuggingFace dataset repo.
         This step takes the version of the dataset as a commit, the revision as a branch where to push the commit.
         By default, any modification is pushed to the main branch along the revision branch.
         """
         if self.deploy_to_hf:
-            print(f"Start deploying to HuggingFace. \
+            print(
+                f"Start deploying to HuggingFace. \
                         Repo_id: {self.dataset_hf_repo} - \
                             Revision: {self.dataset_revision} - \
                                 Data version: {self.dataset_version}"
             )
             dataset = Dataset.from_parquet(self.argilla_dataset_local_path)
             commit_description = (
-                "metaflow run id: " + metaflow.current.run_id 
-                + "\n\n" + self.additional_commit_info
+                "metaflow run id: "
+                + metaflow.current.run_id
+                + "\n\n"
+                + self.additional_commit_info
             )
 
             # Check if test_size applied
@@ -132,7 +134,7 @@ class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
                 revision="main",
                 commit_message=self.dataset_version,
                 commit_description=commit_description,
-            )            
+            )
             # Push to revision branch
             dataset.push_to_hub(
                 repo_id=self.dataset_hf_repo,
@@ -142,7 +144,7 @@ class SpellcheckExtractionFromArgillaPipeline(metaflow.FlowSpec):
             )
         else:
             print(f"No deployment to HF. Condition is {self.deploy_to_hf}")
-            
+
         self.next(self.end)
 
     @metaflow.step

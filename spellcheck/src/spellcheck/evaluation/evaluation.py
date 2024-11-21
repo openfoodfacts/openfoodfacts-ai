@@ -1,4 +1,5 @@
 """Evaluation module."""
+
 from pathlib import Path
 from typing import Iterable, Mapping, Tuple
 import time
@@ -17,12 +18,11 @@ LOGGER = get_logger("INFO")
 
 
 def import_benchmark(
-    path: Path, 
-    start_from: int = 0
+    path: Path, start_from: int = 0
 ) -> Tuple[Iterable[str], Iterable[str], Iterable[Mapping]]:
     """Load benchmark.
-    It is possible a previous evaluation didn't go through the entire benchmark for many reasons. 
-    In this case, the evaluation is restarted from a specific index instead of starting from the beginning. 
+    It is possible a previous evaluation didn't go through the entire benchmark for many reasons.
+    In this case, the evaluation is restarted from a specific index instead of starting from the beginning.
 
     Args:
         path (Path): Benchmark as a parquet file
@@ -31,7 +31,9 @@ def import_benchmark(
         Tuple[Iterable[str], Iterable[str], Iterable[Mapping]]: Text and Metadata from the benchmark
     """
     if path.suffix != ".parquet":
-        raise ValueError(f"Wrong file format. Parquet required. Instead {path.suffix} provided")
+        raise ValueError(
+            f"Wrong file format. Parquet required. Instead {path.suffix} provided"
+        )
     # Benchmark
     df = pd.read_parquet(path)
     # In case the begininning of the benchmark was already processed
@@ -44,8 +46,7 @@ def import_benchmark(
 
 
 def import_ingredients_complete(
-    path: Path,
-    start_from: int = 0
+    path: Path, start_from: int = 0
 ) -> Tuple[Iterable[str], Iterable[str], Iterable[Mapping]]:
     """Load Ingredients complete dataset to evaluate Spellcheck on False Positives.
 
@@ -58,14 +59,20 @@ def import_ingredients_complete(
     In this case, References are considered identical to Originals
     """
     if path.suffix != ".parquet":
-        raise ValueError(f"Wrong file format. Parquet required. Instead {path.suffix} provided")
+        raise ValueError(
+            f"Wrong file format. Parquet required. Instead {path.suffix} provided"
+        )
     df = pd.read_parquet(path)
     df = df.iloc[start_from:]
     LOGGER.info(f"Data features: {df.columns}")
     LOGGER.info(f"Data length: {len(df)}")
     originals = df["ingredients_text"].to_list()
-    references = originals.copy() # Reference =  Original, which means the original is considered as perfect (no error to correct)
-    metadata = [{"lang": lang, "code": code} for lang, code in zip(df["lang"], df["code"])]
+    references = (
+        originals.copy()
+    )  # Reference =  Original, which means the original is considered as perfect (no error to correct)
+    metadata = [
+        {"lang": lang, "code": code} for lang, code in zip(df["lang"], df["code"])
+    ]
     return originals, references, metadata
 
 
@@ -79,6 +86,7 @@ class Evaluate:
         benchmark_version (str): Version of the benchmark.
         predictions_path (Path): Path where all predictions against the benchmark are stored for further analysis.
     """
+
     def __init__(
         self,
         model_name: str,
@@ -92,17 +100,17 @@ class Evaluate:
         self.benchmark_version = benchmark_version
         self.prompt_version = prompt_version
         self.predictions_path = predictions_path
-        
+
     def run_evaluation(
         self,
         originals: Iterable[str],
         references: Iterable[str],
         spellcheck: Spellcheck,
         metadata: Iterable[Mapping],
-        wait: int = None
+        wait: int = None,
     ) -> None:
         """Run the Spellcheck module against the benchmark and store the predictions in predictions_path as a JSONL.
-        Addding predictions in a JSONL file prevents API request failures to erase the processed data. 
+        Addding predictions in a JSONL file prevents API request failures to erase the processed data.
 
         Args:
             originals (Iterable[str]): ists of ingredients as seen on the website.
@@ -115,10 +123,10 @@ class Evaluate:
         LOGGER.info(f"Appending {str(self.predictions_path)} file.")
         with open(self.predictions_path, "a") as file:
             for original, reference, md in tqdm(
-                    zip(originals, references, metadata),
-                    desc="Evaluation against benchmark",
-                    total=len(originals)
-                ):
+                zip(originals, references, metadata),
+                desc="Evaluation against benchmark",
+                total=len(originals),
+            ):
                 timestamp = time.time()
                 prediction = spellcheck.correct(original)
                 md["latency"] = time.time() - timestamp
@@ -126,25 +134,26 @@ class Evaluate:
                     "original": original,
                     "reference": reference,
                     "prediction": prediction,
-                    "metadata": md
+                    "metadata": md,
                 }
-                json.dump(output, file, ensure_ascii=False) # Ensure ascii for accents
+                json.dump(output, file, ensure_ascii=False)  # Ensure ascii for accents
                 file.write("\n")
-                file.flush() # Immediatly write the line into the file
-                # In case Requests Per Minute are limited 
+                file.flush()  # Immediatly write the line into the file
+                # In case Requests Per Minute are limited
                 if wait:
                     time.sleep(wait)
 
     def compute_metrics(self) -> None:
-        """From the predictions JSONL containing the Spellcheck predictions, compute the metrics using the evaluation module. 
-        """
+        """From the predictions JSONL containing the Spellcheck predictions, compute the metrics using the evaluation module."""
         with open(self.predictions_path, "r") as file:
             lines = file.readlines()
             elements = [json.loads(line) for line in lines]
         originals = [element["original"] for element in elements]
         references = [element["reference"] for element in elements]
         predictions = [element["prediction"] for element in elements]
-        evaluator = SpellcheckEvaluator(originals=originals) #TODO Remove the module call from the function 
+        evaluator = SpellcheckEvaluator(
+            originals=originals
+        )  # TODO Remove the module call from the function
         metrics = evaluator.evaluate(predictions, references)
         metrics_output = {
             "metrics": metrics,
@@ -152,8 +161,8 @@ class Evaluate:
             "date": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
             "benchmark_version": self.benchmark_version,
             "prompt_version": self.prompt_version,
-            "benchmark_size": len(predictions)
+            "benchmark_size": len(predictions),
         }
         with open(self.metrics_path, "a") as file:
             json.dump(metrics_output, file, indent=4)
-            file.write("\n")   
+            file.write("\n")

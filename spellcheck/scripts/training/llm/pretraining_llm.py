@@ -3,7 +3,7 @@ import json
 from dotenv import load_dotenv
 
 import torch
-from datasets import(
+from datasets import (
     load_dataset,
     disable_caching,
 )
@@ -47,24 +47,26 @@ def main():
     # SETUP
     ######################
     LOGGER.info("Parse information from CLI using Argparser.")
-    parser = HfArgumentParser([
-        SFTConfig,
-        # BitsAndBytesConfig,
-        # LoraConfig,
-        ModelConfig,
-        DataConfig,
-        SavingConfig,
-    ])
+    parser = HfArgumentParser(
+        [
+            SFTConfig,
+            # BitsAndBytesConfig,
+            # LoraConfig,
+            ModelConfig,
+            DataConfig,
+            SavingConfig,
+        ]
+    )
     (
-        sft_config, 
-        # quantization_config, 
-        # lora_config, 
-        model_config, 
-        data_config, 
-        saving_config, 
+        sft_config,
+        # quantization_config,
+        # lora_config,
+        model_config,
+        data_config,
+        saving_config,
     ) = parser.parse_args_into_dataclasses()
 
-    #NOTE: Bug with LoraConfig and HFArgumentParser (Only `Union[X, NoneType]` (i.e., `Optional[X]`) is allowed for `Union` because the argument parser only supports one type per argument. Problem encountered in field 'init_lora_weights'.)
+    # NOTE: Bug with LoraConfig and HFArgumentParser (Only `Union[X, NoneType]` (i.e., `Optional[X]`) is allowed for `Union` because the argument parser only supports one type per argument. Problem encountered in field 'init_lora_weights'.)
     # We instantiate LoraConfig "manually"
     lora_config = LoraConfig(
         lora_alpha=8,
@@ -86,21 +88,27 @@ def main():
 
     # Sagemaker environment variables: https://github.com/aws/sagemaker-training-toolkit/blob/master/ENVIRONMENT_VARIABLES.md
     OUTPUT_DIR = os.getenv("SM_MODEL_DIR")
-    SM_TRAINING_ENV = json.loads(os.getenv("SM_TRAINING_ENV"))  # Need to be deserialized
+    SM_TRAINING_ENV = json.loads(
+        os.getenv("SM_TRAINING_ENV")
+    )  # Need to be deserialized
     SM_JOB_NAME = SM_TRAINING_ENV["job_name"]
     # Where the model artifact is store. Can be compressed (model.tar.gz) or decompressed (model/)
     S3_MODEL_URI = os.path.join(os.getenv("S3_MODEL_URI"), "output/model/")
 
-    #Comet experiment
+    # Comet experiment
     EXPERIMENT_KEY = os.getenv("COMET_EXPERIMENT_KEY")
-    experiment = comet_ml.ExistingExperiment(previous_experiment=EXPERIMENT_KEY) if EXPERIMENT_KEY else comet_ml.Experiment()
+    experiment = (
+        comet_ml.ExistingExperiment(previous_experiment=EXPERIMENT_KEY)
+        if EXPERIMENT_KEY
+        else comet_ml.Experiment()
+    )
 
     ######################
     # LOAD DATA
     ######################
     LOGGER.info("Load datasets.")
     training_dataset = load_dataset(
-        path=data_config.training_data, 
+        path=data_config.training_data,
         split=data_config.train_split,
         revision=data_config.train_data_revision,
     )
@@ -135,7 +143,7 @@ def main():
     # TRAIN
     ######################
     LOGGER.info("Start training.")
-    # Since we parse config using Argument 
+    # Since we parse config using Argument
     trainer = SFTTrainer(
         model=model,
         args=sft_config,
@@ -147,7 +155,7 @@ def main():
     # Thus we modified the callback to track experimentation on existing experiment
     trainer.add_callback(CustomCometCallback)
     trainer.train()
-    
+
     ######################
     # SAVING
     ######################
@@ -162,17 +170,20 @@ def main():
     ######################
     # EXPERIMENTATION LOGGING
     ######################
-    LOGGER.info("Start logging additional metrics and parameters to the experiment tracker.")
+    LOGGER.info(
+        "Start logging additional metrics and parameters to the experiment tracker."
+    )
     experiment_logger = CometExperimentLogger(experiment=experiment)
     experiment_logger.log(
         model_uri=S3_MODEL_URI,
         model_name="pretrained_model",
         parameters={
             "pretraining_job_name": SM_JOB_NAME,
-        }
+        },
     )
 
     LOGGER.info("End of the training job.")
+
 
 if __name__ == "__main__":
     main()

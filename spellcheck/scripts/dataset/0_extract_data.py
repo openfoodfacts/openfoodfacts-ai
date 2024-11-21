@@ -19,7 +19,7 @@ FEATURE_NAMES = [
     "ingredients_text",
     "unknown_ingredients_n",
     "known_ingredients_n",
-    "ingredients_n"
+    "ingredients_n",
 ]
 DTYPES_MAPPING = {
     "ingredients_n": pl.Int16,
@@ -36,7 +36,7 @@ def main():
 
     if not DATA_PATH.is_file():
         raise ValueError(f"Data path is not valid: {str(DATA_PATH)}")
-    
+
     # Load benchmark and dataset to remove duplicates
     benchmark_df = pl.read_parquet(BENCHMARK_PATH)
     previous_dataset = load_dataset(HF_DATASET_ID, split="train+test")
@@ -55,8 +55,9 @@ def main():
     LOGGER.info(f"The extracted dataset contains {len(df)} rows.")
     df.write_parquet(OUTPUT_DATA_PATH)
 
+
 @timer
-def extract_data(    
+def extract_data(
     df: pl.LazyFrame,
     percentage_unknown_range: Tuple[float, float],
     keep_features: List[str],
@@ -68,7 +69,7 @@ def extract_data(
 ) -> pl.DataFrame:
     """Extracts products from the JSONL database based on their percentage unknown range.
 
-    Notes: 
+    Notes:
         Take around 8 minutes to run.
 
     Args:
@@ -89,11 +90,26 @@ def extract_data(
     output_df = (
         df.select(pl.col(*keep_features))
         .drop_nulls()
-        .with_columns((pl.col("unknown_ingredients_n") / pl.col("ingredients_n")).alias("fraction"))
-        .filter((pl.col("fraction") >= percentage_min) & (pl.col("fraction") <= percentage_max))
-        .unique(subset=["ingredients_text",]) # Remove duplicates within the dataset
-        .filter(~pl.col("ingredients_text").is_in(benchmark_df["original"])) # Remove duplicates with Benchmark
-        .filter(~pl.col("ingredients_text").is_in(previous_dataset["text"])) # Remove duplicates with previous dataset
+        .with_columns(
+            (pl.col("unknown_ingredients_n") / pl.col("ingredients_n")).alias(
+                "fraction"
+            )
+        )
+        .filter(
+            (pl.col("fraction") >= percentage_min)
+            & (pl.col("fraction") <= percentage_max)
+        )
+        .unique(
+            subset=[
+                "ingredients_text",
+            ]
+        )  # Remove duplicates within the dataset
+        .filter(
+            ~pl.col("ingredients_text").is_in(benchmark_df["original"])
+        )  # Remove duplicates with Benchmark
+        .filter(
+            ~pl.col("ingredients_text").is_in(previous_dataset["text"])
+        )  # Remove duplicates with previous dataset
         .collect(streaming=True)
         .sample(n=dataset_size, shuffle=True, seed=seed)
         .cast(dtype_output_mapping)

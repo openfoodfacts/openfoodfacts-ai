@@ -1,5 +1,10 @@
 from datasets import load_dataset
-from transformers import AutoModelForTokenClassification, AutoTokenizer, pipeline, TokenClassificationPipeline
+from transformers import (
+    AutoModelForTokenClassification,
+    AutoTokenizer,
+    pipeline,
+    TokenClassificationPipeline,
+)
 import wandb
 
 ARTIFACT_NAME = (

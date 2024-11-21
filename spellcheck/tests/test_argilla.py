@@ -7,7 +7,7 @@ from spellcheck.argilla.deployment import (
     BenchmarkArgilla,
     BenchmarkEvaluationArgilla,
     IngredientsCompleteEvaluationArgilla,
-    TrainingDataArgilla
+    TrainingDataArgilla,
 )
 from spellcheck.argilla.extraction import SpellcheckExtraction
 
@@ -16,15 +16,21 @@ ORIGINALS = ["text1", "text2", "text3"]
 REFERENCES = ["text1", "text", "text3"]
 PREDICTIONS = ["text1", "text2", "text"]
 METADATA = [
-    {"lang": "fr", "code": 123456789}, 
-    {"lang": "en", "code": 123456789}, 
-    {"lang": "es", "code": 123456789}
+    {"lang": "fr", "code": 123456789},
+    {"lang": "en", "code": 123456789},
+    {"lang": "es", "code": 123456789},
 ]
 
 ARGILLA_EXTRACTION_EXAMPLE_1 = {
     "url": "https://world.openfoodfacts.org/product/5942262001416",
     "original": "water:snow",
-    "reference": [{"user_id": "dfb71753-1187-45e1-8006-629bef2b49e0", "value": "water:snow", "status": "discarded"}],
+    "reference": [
+        {
+            "user_id": "dfb71753-1187-45e1-8006-629bef2b49e0",
+            "value": "water:snow",
+            "status": "discarded",
+        }
+    ],
     "reference-suggestion": "water:snow",
     "reference-suggestion-metadata": {"type": None, "score": None, "agent": None},
     "is_truncated": [],
@@ -50,14 +56,20 @@ ARGILLA_EXTRACTION_EXAMPLE_3 = {
     "original": "Ananas, Ananassaft, Säuerungs - mittel: Citronensäure",
     "reference": [
         {
-        "user_id": "dfb71753-1187-45e1-8006-629bef2b49e0", 
-        "value": "Ananas, Ananassaft, Säuerungsmittel: Citronensäure", 
-        "status": "submitted"
+            "user_id": "dfb71753-1187-45e1-8006-629bef2b49e0",
+            "value": "Ananas, Ananassaft, Säuerungsmittel: Citronensäure",
+            "status": "submitted",
         }
     ],
     "reference-suggestion": "Ananas, Ananassaft, Säuerungsmittel: Citronensäure",
     "reference-suggestion-metadata": {"type": None, "score": None, "agent": None},
-    "is_truncated": [{"user_id": "dfb71753-1187-45e1-8006-629bef2b49e0", "value": "NO", "status": "submitted"}],
+    "is_truncated": [
+        {
+            "user_id": "dfb71753-1187-45e1-8006-629bef2b49e0",
+            "value": "NO",
+            "status": "submitted",
+        }
+    ],
     "is_truncated-suggestion": None,
     "is_truncated-suggestion-metadata": {"type": None, "score": None, "agent": None},
     "external_id": None,
@@ -71,7 +83,7 @@ def modules() -> Iterable[ArgillaModule]:
         BenchmarkArgilla(ORIGINALS, REFERENCES, METADATA),
         BenchmarkEvaluationArgilla(ORIGINALS, REFERENCES, PREDICTIONS, METADATA),
         IngredientsCompleteEvaluationArgilla(ORIGINALS, PREDICTIONS, METADATA),
-        TrainingDataArgilla(ORIGINALS, REFERENCES, METADATA)
+        TrainingDataArgilla(ORIGINALS, REFERENCES, METADATA),
     ]
 
 
@@ -79,7 +91,7 @@ def modules() -> Iterable[ArgillaModule]:
 def evaluation_modules() -> Iterable[ArgillaModule]:
     return [
         BenchmarkEvaluationArgilla(ORIGINALS, REFERENCES, PREDICTIONS, METADATA),
-        IngredientsCompleteEvaluationArgilla(ORIGINALS, PREDICTIONS, METADATA)
+        IngredientsCompleteEvaluationArgilla(ORIGINALS, PREDICTIONS, METADATA),
     ]
 
 
@@ -104,26 +116,16 @@ def test_evaluation_highlights(evaluation_modules: Iterable[ArgillaModule]):
 @pytest.mark.parametrize(
     "inputs, expected",
     [
-        (
-            (ARGILLA_EXTRACTION_EXAMPLE_1, ["submitted"]),
-            False
-        ),
-        (
-            (ARGILLA_EXTRACTION_EXAMPLE_2, ["submitted", "pending"]),
-            True
-        ),
-        (
-            (ARGILLA_EXTRACTION_EXAMPLE_3, ["submitted"]),
-            True
-        )
-    ]
+        ((ARGILLA_EXTRACTION_EXAMPLE_1, ["submitted"]), False),
+        ((ARGILLA_EXTRACTION_EXAMPLE_2, ["submitted", "pending"]), True),
+        ((ARGILLA_EXTRACTION_EXAMPLE_3, ["submitted"]), True),
+    ],
 )
 def test_argilla_spellcheck_extraction_filter(inputs, expected):
     """Test Argilla dataset extraction filtering."""
     element, status = inputs
     is_kept = SpellcheckExtraction(
-        dataset_name="test_dataset",
-        extracted_status=status
+        dataset_name="test_dataset", extracted_status=status
     )._filter_fn(element)
     assert is_kept == expected
 
@@ -139,7 +141,7 @@ def test_argilla_spellcheck_extraction_filter(inputs, expected):
                 "lang": "de",
                 "data_origin": "labeled_data",
                 "is_truncated": 0,
-            }
+            },
         ),
         (
             ARGILLA_EXTRACTION_EXAMPLE_2,
@@ -149,15 +151,14 @@ def test_argilla_spellcheck_extraction_filter(inputs, expected):
                 "lang": "ro",
                 "data_origin": "50-percent-unknown",
                 "is_truncated": 0,
-            }
+            },
         ),
-    ]
+    ],
 )
 def test_argilla_spellcheck_extraction_map(inputs, expected):
     """Test Argilla dataset extraction mapping."""
     element = inputs
     extracted = SpellcheckExtraction(
-        dataset_name="test_dataset",
-        extracted_status=["submitted"]
+        dataset_name="test_dataset", extracted_status=["submitted"]
     )._map_fn(element)
     assert extracted == expected

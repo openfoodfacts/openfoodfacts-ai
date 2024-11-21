@@ -207,6 +207,12 @@ def add_prediction(
             help="Launch in dry run mode, without uploading annotations to Label Studio"
         ),
     ] = False,
+    error_raise: Annotated[
+            bool,
+            typer.Option(
+                help="Raise an error if image download fails"
+            ),
+        ] = True,
 ):
     """Add predictions as pre-annotations to Label Studio tasks,
     for an object detection model running on Triton Inference Server."""
@@ -245,7 +251,10 @@ def add_prediction(
             threshold = 0.1
 
         model = YOLO(model_name)
-        model.set_classes(labels)
+        if hasattr(model, "set_classes"):
+            model.set_classes(labels)
+        else:
+            logger.warning("The model does not support setting classes directly.")
     elif backend == PredictorBackend.triton:
         if triton_uri is None:
             raise typer.BadParameter("Triton URI is required for Triton backend")
@@ -262,7 +271,7 @@ def add_prediction(
             image_url = task.data["image_url"]
             image = typing.cast(
                 Image.Image,
-                get_image_from_url(image_url, error_raise=True),
+                get_image_from_url(image_url, error_raise=error_raise),
             )
             if backend == PredictorBackend.ultralytics:
                 results = model.predict(

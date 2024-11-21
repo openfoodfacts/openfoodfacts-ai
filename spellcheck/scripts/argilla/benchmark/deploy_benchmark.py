@@ -11,6 +11,5 @@ ARGILLA_WORKSPACE_NAME = "spellcheck"
 if __name__ == "__main__":
 
     BenchmarkArgilla.from_parquet(path=BENCHMARK_PATH).deploy(
-        dataset_name=ARGILLA_DATASET_NAME, 
-        workspace_name=ARGILLA_WORKSPACE_NAME
+        dataset_name=ARGILLA_DATASET_NAME, workspace_name=ARGILLA_WORKSPACE_NAME
     )

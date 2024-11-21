@@ -8,7 +8,9 @@ class DataProcessingConfig:
 
 
 class SFTDataProcessingConfig(DataProcessingConfig):
-    instruction_template: str = "###Correct the list of ingredients:\n{}\n\n###Correcton:\n" #TODO: add jinja instruction
+    instruction_template: str = (
+        "###Correct the list of ingredients:\n{}\n\n###Correcton:\n"  # TODO: add jinja instruction
+    )
 
 
 @dataclass
@@ -38,6 +40,7 @@ class SavingConfig:
         merge_weights: Whether to merge the adapter and model weights with.
         max_shard_size: Maximum shard size.
     """
+
     merge_weights: bool = field(default=False)
     max_shard_size: str = field(default="2GB")
 

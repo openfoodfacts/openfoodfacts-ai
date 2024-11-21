@@ -23,7 +23,7 @@ LOGGER = get_logger("INFO")
 
 
 def main():
-    
+
     df = pd.read_parquet(DATA_PATH)
     existing_codes = (
         pd.read_json(SYNTHETIC_DATA_PATH, lines=True)["code"].to_list()
@@ -34,7 +34,7 @@ def main():
         model=OpenAIChatCompletion(
             prompt_template=Prompt.spellcheck_prompt_template,
             system_prompt=SystemPrompt.spellcheck_system_prompt,
-            model_name=MODEL_NAME
+            model_name=MODEL_NAME,
         )
     )
     generate_synthetic_data(
@@ -43,7 +43,7 @@ def main():
         existing_codes=existing_codes,
         spellcheck=spellcheck,
         original_text_feature="ingredients_text",
-        synthetic_feature = 'corrected_text'
+        synthetic_feature="corrected_text",
     )
 
 
@@ -53,14 +53,14 @@ def generate_synthetic_data(
     existing_codes: List,
     spellcheck: Spellcheck,
     original_text_feature: str,
-    synthetic_feature: str
+    synthetic_feature: str,
 ) -> None:
     """Generate synthetic data for text-based features using a spellcheck.
 
     Notes:
     - This function appends synthetic data to an existing file specified by output_data_path.
     - Each row in the DataFrame is processed, and if the code is not in the list of existing codes, the text in the original_text_feature column is corrected using the spellcheck and appended to the output file along with other data.
-    
+
     Parameters:
     - df (pd.DataFrame): Input DataFrame containing the original data.
     - output_data_path (Path): Path to save the synthetic data.
@@ -77,9 +77,11 @@ def generate_synthetic_data(
                 LOGGER.info("Product was already generated. Pass.")
             else:
                 row[synthetic_feature] = spellcheck.correct(row[original_text_feature])
-                json.dump(row.to_dict(), file, ensure_ascii=False) # Ensure ascii for accents
+                json.dump(
+                    row.to_dict(), file, ensure_ascii=False
+                )  # Ensure ascii for accents
                 file.write("\n")
-                file.flush() # Immediatly write the line into the file
+                file.flush()  # Immediatly write the line into the file
     LOGGER.info("Synthetic generation finished.")
 
 

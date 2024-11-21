@@ -10,15 +10,22 @@ from dotenv import load_dotenv
 from spellcheck.utils import get_repo_dir, get_logger
 from spellcheck.spellcheck import Spellcheck
 from spellcheck.model import (
-    AnthropicChatCompletion, 
-    OpenAIChatCompletion, 
-    RulesBasedModel, 
-    GeminiModel, 
+    AnthropicChatCompletion,
+    OpenAIChatCompletion,
+    RulesBasedModel,
+    GeminiModel,
     LLMInferenceEndpoint,
 )
 from spellcheck.prompt import SystemPrompt, Prompt
-from spellcheck.argilla.deployment import BenchmarkEvaluationArgilla, IngredientsCompleteEvaluationArgilla
-from spellcheck.evaluation.evaluation import Evaluate, import_benchmark, import_ingredients_complete
+from spellcheck.argilla.deployment import (
+    BenchmarkEvaluationArgilla,
+    IngredientsCompleteEvaluationArgilla,
+)
+from spellcheck.evaluation.evaluation import (
+    Evaluate,
+    import_benchmark,
+    import_ingredients_complete,
+)
 
 
 REPO_DIR = get_repo_dir()
@@ -34,25 +41,41 @@ PROMPT_VERSION = "v7"
 INGREDIENTS_COMPLETE_VERSION = "v1"
 
 # Predictions JSONL paths to study the results
-PREDICTIONS_EVALUATION_PATH = REPO_DIR / "data/evaluation/" / (
-    MODEL_NAME 
-    + "-benchmark-" + BENCHMARK_VERSION 
-    + "-prompt-" + PROMPT_VERSION 
-    + ".jsonl"
+PREDICTIONS_EVALUATION_PATH = (
+    REPO_DIR
+    / "data/evaluation/"
+    / (
+        MODEL_NAME
+        + "-benchmark-"
+        + BENCHMARK_VERSION
+        + "-prompt-"
+        + PROMPT_VERSION
+        + ".jsonl"
+    )
 )
-PREDICTION_INGREDIENTS_COMPLETE_PATH = REPO_DIR / "data/evaluation" / (
-    MODEL_NAME
-    + "-ingredients-complete-data-" + INGREDIENTS_COMPLETE_VERSION
-    + "-prompt-" + PROMPT_VERSION
-    + ".jsonl"
+PREDICTION_INGREDIENTS_COMPLETE_PATH = (
+    REPO_DIR
+    / "data/evaluation"
+    / (
+        MODEL_NAME
+        + "-ingredients-complete-data-"
+        + INGREDIENTS_COMPLETE_VERSION
+        + "-prompt-"
+        + PROMPT_VERSION
+        + ".jsonl"
+    )
 )
 
-START = 0 # To restart the run
+START = 0  # To restart the run
 WAIT = 0
 
 # Replace for gpt3.5 => "." not accepted by Argilla
-ARGILLA_BENCHMARK_DATASET_NAME = f"Evaluation-{MODEL_NAME}-benchmark-{BENCHMARK_VERSION}-prompt-{PROMPT_VERSION}".replace(".", "") 
-ARGILLA_INGREDIENTS_COMPLETE_DATASET_NAME = f"Evaluation-{MODEL_NAME}-ingredients-complete-{INGREDIENTS_COMPLETE_VERSION}-prompt-{PROMPT_VERSION}".replace(".", "")
+ARGILLA_BENCHMARK_DATASET_NAME = f"Evaluation-{MODEL_NAME}-benchmark-{BENCHMARK_VERSION}-prompt-{PROMPT_VERSION}".replace(
+    ".", ""
+)
+ARGILLA_INGREDIENTS_COMPLETE_DATASET_NAME = f"Evaluation-{MODEL_NAME}-ingredients-complete-{INGREDIENTS_COMPLETE_VERSION}-prompt-{PROMPT_VERSION}".replace(
+    ".", ""
+)
 
 LOGGER = get_logger("INFO")
 
@@ -60,9 +83,9 @@ load_dotenv()
 
 
 def main():
-    spellcheck=Spellcheck(
+    spellcheck = Spellcheck(
         model=OpenAIChatCompletion(
-            prompt_template=Prompt.spellcheck_prompt_template, #If Claude, use custom prompt template
+            prompt_template=Prompt.spellcheck_prompt_template,  # If Claude, use custom prompt template
             system_prompt=SystemPrompt.spellcheck_system_prompt,
             model_name=MODEL_NAME,
         )
@@ -70,8 +93,7 @@ def main():
 
     ####################### Evaluate on benchmark
     originals, references, metadata = import_benchmark(
-        path=BENCHMARK_PATH,
-        start_from=START
+        path=BENCHMARK_PATH, start_from=START
     )
     evaluation = Evaluate(
         model_name=MODEL_NAME,
@@ -85,15 +107,13 @@ def main():
         references=references,
         metadata=metadata,
         spellcheck=spellcheck,
-        wait=WAIT
+        wait=WAIT,
     )
     evaluation.compute_metrics()
     # Human evaluation
-    BenchmarkEvaluationArgilla.from_jsonl(
-        path=PREDICTIONS_EVALUATION_PATH
-    ).deploy(
-        dataset_name=ARGILLA_BENCHMARK_DATASET_NAME)
-    
+    BenchmarkEvaluationArgilla.from_jsonl(path=PREDICTIONS_EVALUATION_PATH).deploy(
+        dataset_name=ARGILLA_BENCHMARK_DATASET_NAME
+    )
 
     # ####################### Evaluate on Ingredient complete dataset
     # originals, references, metadata = import_ingredients_complete(path=INGREDIENTS_COMPLETE_DATA_PATH)
