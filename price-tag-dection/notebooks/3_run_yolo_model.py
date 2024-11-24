@@ -2,6 +2,7 @@
 from ultralytics import YOLO
 import os
 #%%
+test_specific = False
 data_path = f"{os.path.expanduser('~')}/data_dump/openfoodfacts/yolo"
 
 # Load a model
@@ -26,14 +27,15 @@ train_results = model.train(
 
 # Evaluate model performance on the validation set
 metrics = model.val()
-#%%
-# Perform object detection on an image
 
-image_test_list = [f"{data_path}/test/4xXuBb8u3E.jpg", f"{data_path}/test/test_image.jpg"]
+if test_specific:
+    #%%
+    # Perform object detection on an image
+    image_test_list = [f"{data_path}/test/4xXuBb8u3E.jpg", f"{data_path}/test/test_image.jpg"]
 
-results = model.predict(image_test_list, conf=0.1, save=True, project=f"{data_path}/test")  # or with a list of image paths
-# results[0].show()
-#%%
-# Export model
-path = model.export(format="onnx") 
+    results = model.predict(image_test_list, conf=0.1, save=True, project=f"{data_path}/test")  # or with a list of image paths
+    # results[0].show()
+    #%%
+    # Export model
+    path = model.export(format="onnx")
 #%%
