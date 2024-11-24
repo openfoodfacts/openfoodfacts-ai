@@ -1,20 +1,26 @@
 #%%
 from ultralytics import YOLO
+import os
 #%%
-data_path = "~/data_dump/openfoodfacts/yolo"
+data_path = f"{os.path.expanduser('~')}/data_dump/openfoodfacts/yolo"
 
 # Load a model
 model = YOLO(f"{data_path}/yolo11n.pt")
+
+# Get the CPU count
+cpu_count = os.cpu_count()
+print(f"CPU count: {cpu_count}")
 
 # Train the model
 train_results = model.train(
     data=f"{data_path}/data.yaml",  # path to dataset YAML
     epochs=1000,  # number of training epochs
-    patience=20,  # early stopping patience
+    patience=100,  # early stopping patience
     dropout=0.1,  # dropout probability
     imgsz=640,  # training image size
     plots=True,  # create plots
     device="cpu",  # device to run on, i.e. device=0 or device=0,1,2,3 or device=cpu
+    workers=cpu_count,  # number of data loading workers
     project=f"{data_path}/model",  # save training results to project/name
 )
 
