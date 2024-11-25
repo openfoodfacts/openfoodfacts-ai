@@ -6,7 +6,7 @@ test_specific = False
 data_path = f"{os.path.expanduser('~')}/data_dump/openfoodfacts/yolo"
 
 # Load a model
-model = YOLO(f"{data_path}/yolo11n.pt")
+model = YOLO(f"{data_path}/yolo11x.pt")
 
 # Get the CPU count
 cpu_count = os.cpu_count()
@@ -16,7 +16,7 @@ print(f"CPU count: {cpu_count}")
 train_results = model.train(
     data=f"{data_path}/data.yaml",  # path to dataset YAML
     epochs=1000,  # number of training epochs
-    patience=100,  # early stopping patience
+    patience=20,  # early stopping patience
     dropout=0.1,  # dropout probability
     imgsz=640,  # training image size
     plots=True,  # create plots
