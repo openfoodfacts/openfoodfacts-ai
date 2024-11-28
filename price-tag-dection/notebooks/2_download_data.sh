@@ -13,7 +13,7 @@ fi
 
 #alias ml-cli='${CONDA_PREFIX}/bin/python3 ${project_path}/main.py'
 # Export the data using the command line
-${CONDA_PREFIX}/bin/python3 ${project_path}/main.py datasets export --project-id ${project_id} --from ls --to ultralytics --output-dir ${data_path} --label-names 'product,price-tag' --api-key ${LABEL_STUDIO_KEY}
+${CONDA_PREFIX}/bin/python3 ${project_path}/main.py datasets export --project-id ${project_id} --from ls --to ultralytics --output-dir ${data_path} --label-names 'price-tag' --api-key ${LABEL_STUDIO_KEY}
 
 # Update the path data in data.yaml
 sed -i "s|path: data|path: ${data_path}/data|1" "${data_path}/data.yaml"
