@@ -213,6 +213,10 @@ def add_prediction(
                 help="Raise an error if image download fails"
             ),
         ] = True,
+    model_version: Annotated[
+        Optional[str],
+        typer.Option(help="Model version to use for the prediction"),
+    ] = None,
 ):
     """Add predictions as pre-annotations to Label Studio tasks,
     for an object detection model running on Triton Inference Server."""
@@ -297,6 +301,7 @@ def add_prediction(
                 ls.predictions.create(
                     task=task.id,
                     result=label_studio_result,
+                    model_version=model_version,
                 )
 
 

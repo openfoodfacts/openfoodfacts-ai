@@ -3,13 +3,12 @@ from typing import Annotated
 
 import tqdm
 import typer
-from label_studio_sdk import Client
 from label_studio_sdk.client import LabelStudio
 from openfoodfacts.utils import get_logger
 
 logger = get_logger()
 
-LABEL_STUDIO_URL = "https://annotate.openfoodfacts.org"
+LABEL_STUDIO_DEFAULT_URL = "https://annotate.openfoodfacts.org"
 
 
 def assign_batch_to_samples(
@@ -17,6 +16,7 @@ def assign_batch_to_samples(
     project_id: int = 42,
     start_batch_id: int = 1,
     batch_size: int = 100,
+    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
 ):
     """Assign a batch (an integer starting from 1) to samples in the label
     studio project.
@@ -24,7 +24,7 @@ def assign_batch_to_samples(
     All samples are fetched, sorted randomly and a unique batch number is
     assigned to each sample.
     """
-    ls = LabelStudio(base_url=LABEL_STUDIO_URL, api_key=api_key)
+    ls = LabelStudio(base_url=label_studio_url, api_key=api_key)
     tasks = list(ls.tasks.list(project=project_id, include="data,id", page_size=500))
     logger.info(f"Found {len(tasks)} tasks in the project")
     # get tasks without batch ID
