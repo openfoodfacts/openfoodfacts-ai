@@ -1,7 +1,7 @@
 def fix_label(
-    api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
-    project_id: Annotated[int, typer.Option(help="Label Studio project ID")],
-    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
+    api_key: str,
+    project_id: int,
+    label_studio_url: str,
 ):
     import tqdm
     from label_studio_sdk.client import LabelStudio
@@ -44,11 +44,10 @@ def fix_label(
                 ls.annotations.update(annotation["id"], result=annotation["result"])
 
 
-
 def select_price_tag_images(
-    api_key: Annotated[str, typer.Option(envvar="LABEL_STUDIO_API_KEY")],
-    project_id: Annotated[int, typer.Option(help="Label Studio project ID")],
-    label_studio_url: str = LABEL_STUDIO_DEFAULT_URL,
+    api_key: str,
+    project_id: int,
+    label_studio_url: str,
 ):
     import typing
     from pathlib import Path
