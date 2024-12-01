@@ -8,10 +8,11 @@ project_id=56
 project_path="/Users/baslad01/PycharmProjects/openfoodfacts-ai/ml_utils/ml_utils_cli"
 
 
-model_name="${data_path}/model/train10/weights/best.pt"
+#model_name="${data_path}/model/train10/weights/best.pt"
+model_name="${data_path}/server/best1.pt"
 
 alias ml-cli='${CONDA_PREFIX}/bin/python3 ${project_path}/main.py'
 
 #ml-cli --help
 # Preanotate the data
-ml-cli projects add-prediction --no-error-raise --project-id ${project_id} --model-name ${model_name} --backend ultralytics --labels 'price tag' --label-mapping '{"price tag": "price-tag"}' --api-key ${LABEL_STUDIO_KEY}
+ml-cli projects add-prediction --no-error-raise --project-id ${project_id} --model-name ${model_name} --model-version 'v3' --backend ultralytics --labels 'price tag' --label-mapping '{"price tag": "price-tag"}' --api-key ${LABEL_STUDIO_KEY}
