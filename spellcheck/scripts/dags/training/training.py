@@ -12,7 +12,6 @@ LOGGER = get_logger("INFO")
 
 load_dotenv()
 
-
 class TrainingPipeline(metaflow.FlowSpec):
     """Spellcheck training pipeline.
     Model can either be trained locally, or on the cloud.
@@ -70,7 +69,7 @@ class TrainingPipeline(metaflow.FlowSpec):
         )
         self.experiment_key = experiment.get_key()
         experiment.end()
-        self.next(self.train)
+        self.next(self.log_training_config)
 
     @metaflow.step
     def train(self):
@@ -78,9 +77,8 @@ class TrainingPipeline(metaflow.FlowSpec):
 
         Use Sagemaker Training Job to package and run the training script in production.
         """
-        from sagemaker.huggingface import HuggingFace
-        from omegaconf import OmegaConf
         import comet_ml
+        from omegaconf import OmegaConf
 
         LOGGER.info(f"Configuration file used: {self.training_conf_path}")
         self.training_conf = OmegaConf.load(self.training_conf_path)
@@ -102,6 +100,16 @@ class TrainingPipeline(metaflow.FlowSpec):
         )
         # Save config as code
         experiment.log_code(file_name=self.training_conf_path)
+
+        self.next(self.train)
+
+    @metaflow.step
+    def train(self):
+        """Training step.
+        
+        Use Sagemaker Training Job to package and run the training script in production.
+        """
+        from sagemaker.huggingface import HuggingFace
 
         # Prepare Sagemaker estimator
         estimator = HuggingFace(

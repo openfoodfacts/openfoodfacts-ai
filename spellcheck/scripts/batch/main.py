@@ -1,6 +1,8 @@
 import argparse
 import tempfile
 import logging
+import sys
+import requests
 from typing import List
 
 import pandas as pd
@@ -12,6 +14,7 @@ LOGGER = logging.getLogger(__name__)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout)],
 )
 
 FEATURES_VALIDATION = ["code", "text"]
@@ -113,6 +116,10 @@ def main():
         upload_gcs(
             temp_file_name, bucket_name=args.data_bucket, suffix=args.post_data_suffix
         )
+    
+    LOGGER.info("Request Robotoff API batch import endpoint.")
+    run_robotoff_endpoint_batch_import()
+
     LOGGER.info("Batch processing job completed.")
 
 

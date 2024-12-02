@@ -29,7 +29,7 @@ def get_logger(level: Optional[str] = None) -> logging.Logger:
         logging.basicConfig(
             level=logging.getLevelName(level),
             format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-            stream=sys.stdout,
+            handlers=[logging.StreamHandler(sys.stdout)],
         )
     return logger
 

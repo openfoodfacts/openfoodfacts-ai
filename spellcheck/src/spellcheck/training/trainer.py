@@ -137,7 +137,7 @@ class DataProcessor(ABC, BaseModel):
 
     @abstractmethod
     def process_texts(self, texts: Iterable[str]) -> Iterable[str]:
-        """Text processing abstract method  used during inference.
+        """Text processing abstract method used during inference.
 
         Args:
             texts (Iterable[str]): Batch of texts to process.
