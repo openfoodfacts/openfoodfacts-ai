@@ -16,7 +16,7 @@ print(f"CPU count: {cpu_count}")
 train_results = model.train(
     data=f"{data_path}/data.yaml",  # path to dataset YAML
     epochs=1000,  # number of training epochs
-    patience=20,  # early stopping patience
+    patience=40,  # early stopping patience
     batch=-1,  # batch size
     dropout=0.1,  # dropout probability
     imgsz=640,  # training image size
