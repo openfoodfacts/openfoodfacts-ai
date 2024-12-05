@@ -1,6 +1,6 @@
-export ip_vm=54-209-201-47
-ssh -i "~/.ssh/linsight.pem" ec2-user@ec2-$ip_vm.compute-1.amazonaws.com
+export vm=basla01@34.79.123.28
+ssh -i "~/.ssh/id_rsa" $vm
 
 bash << EOF
-rsync -avzhP --stats -e "ssh -i ~/.ssh/linsight.pem" --exclude={'data','.git','images','serve'}  ~/PycharmProjects/openfoodfacts-ai ec2-user@ec2-$ip_vm.compute-1.amazonaws.com:~/
+rsync -avzhP --stats -e "ssh -i ~/.ssh/id_rsa" --exclude={'data','.git','images','serve'}  ~/PycharmProjects/openfoodfacts-ai $vm:~/
 EOF

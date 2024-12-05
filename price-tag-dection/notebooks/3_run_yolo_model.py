@@ -21,8 +21,8 @@ train_results = model.train(
     dropout=0.1,  # dropout probability
     imgsz=640,  # training image size
     plots=True,  # create plots
-    device="cpu",  # device to run on, i.e. device=0 or device=0,1,2,3 or device=cpu
-    workers=cpu_count,  # number of data loading workers
+    device=0,  # device to run on, i.e. device=0 or device=0,1,2,3 or device=cpu
+    # workers=cpu_count,  # number of data loading workers
     project=f"{data_path}/model",  # save training results to project/name
 )
 
