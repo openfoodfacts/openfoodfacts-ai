@@ -8,8 +8,10 @@ The models used in this project are based on the YOLO (You Only Look Once) archi
 
 ## Model Tested
 
-| Base Model | Resolution |
-|------------|------------|
-| YOLO11n    | 640x640    |
-| YOLO11x    |  640x640   |
-| YOLO11x    | 960x960  |
+| Base Model | Resolution | mAP val |
+|------------|------------|---------|
+| YOLO11n    | 640x640    | 0.78*   |
+| YOLO11x    | 640x640    | 0.74    |
+| YOLO11x    | 960x960    | 0.76    |
+
+* This was trained on a dataset with fewer fruits and vegetables pictures, so the mAP is higher.
