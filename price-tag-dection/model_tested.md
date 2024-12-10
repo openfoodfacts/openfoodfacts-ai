@@ -14,4 +14,4 @@ The models used in this project are based on the YOLO (You Only Look Once) archi
 | YOLO11x    | 640x640    | 0.74    |
 | YOLO11x    | 960x960    | 0.76    |
 
-* This was trained on a dataset with fewer fruits and vegetables pictures, so the mAP is higher.
+\* This was trained on a dataset with fewer fruits and vegetables pictures, so the mAP is higher.
