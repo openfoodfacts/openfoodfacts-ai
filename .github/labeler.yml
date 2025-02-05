@@ -28,3 +28,5 @@ logo-ann:
 student projects:
 - ai-emlyon/**/*
 
+language identification:
+- language_identification/**/*

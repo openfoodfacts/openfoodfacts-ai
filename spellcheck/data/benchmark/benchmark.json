@@ -1,0 +1,1587 @@
+{
+  "version": "1.0.0",
+  "data": [
+    {
+      "ingredients_text": "Ananas, Ananassaft, Säuerungs - mittel: Citronensäure",
+      "reference": "Ananas, Ananassaft, Säuerungsmittel: Citronensäure",
+      "lang": "de",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "_Cacahuetes_ con cáscara tostado. _Trazas de frutos de cáscara_.",
+      "reference": "_Cacahuetes_ con cáscara tostado. Trazas de frutos de cáscara.",
+      "lang": "es",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "Vollmilchschokolade (Zucker, Vollmilchpulver, Kakaobutter, Kakaomasse, Buttermilchpulver, Milchzucker, Emulgator Lecithine (Soja), Vanilleextrakt), Palmfett, Zucker, Buttermilchpulver, Weizen - mehl, gemahlene Haselnüsse (7,8%), getrockneter Glukosesirup, Butterreinfett (2,5%), Weizenstârke, Kakaomasse, Emulgator Leci - thine (Soja), Sahnepulver, Kakaobutter, Backtriebmittel Natrium - hydrogencarbonati Salz, Vanilleextrakt. Kann auch Anteile von Mandel, Erdnuss, anderen Nüssen und Ei enthalten.",
+      "reference": "Vollmilchschokolade (Zucker, Vollmilchpulver, Kakaobutter, Kakaomasse, Buttermilchpulver, Milchzucker, Emulgator Lecithine (Soja), Vanilleextrakt), Palmfett, Zucker, Buttermilchpulver, Weizenmehl, gemahlene Haselnüsse (7,8%), getrockneter Glukosesirup, Butterreinfett (2,5%), Weizenstârke, Kakaomasse, Emulgator Lecithine (Soja), Sahnepulver, Kakaobutter, Backtriebmittel Natriumhydrogencarbonati Salz, Vanilleextrakt. Kann auch Anteile von Mandel, Erdnuss, anderen Nüssen und Ei enthalten.",
+      "lang": "de",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "24.36% chocolat noir 63% origine non UE (cacao, sucre, beurre de cacao, émulsifiant léci - thine de colza, vanille bourbon gousse), œuf, farine de blé, beurre, sucre, miel, sucre perlé, levure chimique, zeste de citron.",
+      "reference": "24.36% chocolat noir 63% origine non UE (cacao, sucre, beurre de cacao, émulsifiant lécithine de colza, vanille bourbon gousse), œuf, farine de blé, beurre, sucre, miel, sucre perlé, levure chimique, zeste de citron.",
+      "lang": "fr",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "cacao maigre en Sucre poudre 20% - émulsifiant : léci - thines de tournesol - carbo - nate de magnésium - carbo - nate de calcium - arôme - vita - mines : C, E, niacine (83), B6, acide pantothénique (B5), thiamine (BI), acide folique (B9). Traces de lait et de soja. Les informations en gras sont desti - nées aux personnes Intolérantes ou allergiques.",
+      "reference": "cacao maigre en Sucre poudre 20% - émulsifiant : lécithines de tournesol - carbonate de magnésium - carbonate de calcium - arôme - vitamines : C, E, niacine (83), B6, acide pantothénique (B5), thiamine (BI), acide folique (B9). Traces de lait et de soja. Les informations en gras sont destinées aux personnes Intolérantes ou allergiques.",
+      "lang": "fr",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "33% pinda's, 13% rozijnen, boter (melk), 8,7% chocoladestukjes (suiker, cacao - massa, cacaoboter, dextrose, emulgator: leci - thinen (zonnebloem)), 8,6% gedroogde vijgen, volkoren speltmeel (tarwe), honing, rijstcrispies (rijstemeel, tarwebloem, suiker, roggemout, zout), havervlokken, rijstmeel, eipoeder*. *van scharreleieren. Droge cacaobestanddelen in choco - lade:",
+      "reference": "33% pinda's, 13% rozijnen, boter (melk), 8,7% chocoladestukjes (suiker, cacaomassa, cacaoboter, dextrose, emulgator: lecithinen (zonnebloem)), 8,6% gedroogde vijgen, volkoren speltmeel (tarwe), honing, rijstcrispies (rijstemeel, tarwebloem, suiker, roggemout, zout), havervlokken, rijstmeel, eipoeder*. *van scharreleieren. Droge cacaobestanddelen in chocolade:",
+      "lang": "du",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "Sucre, pâte de cacao, beurre de cacao, émulsifiant: léci - thines (soja). Peut contenir des traces de lait. Chocolat noir: cacao: 50% minimum. À conserver à l'abri de la chaleur et de l'humidité. Élaboré en France.",
+      "reference": "Sucre, pâte de cacao, beurre de cacao, émulsifiant: lécithines (soja). Peut contenir des traces de lait. Chocolat noir: cacao: 50% minimum. À conserver à l'abri de la chaleur et de l'humidité. Élaboré en France.",
+      "lang": "fr",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "Zucker, Vollmilchpulver (16%), Kakaobutter, Rosinen (12,5%), Haselnüsse, Kakaomasse, Buttermilchpulver, Milchzucker, Jamaica Rum (2,5%), Emulgator Leci - thine (Soja), Aromen. Kann auch Anteile von Mandel, Erdnuss und anderen Nüssen enthalten.",
+      "reference": "Zucker, Vollmilchpulver (16%), Kakaobutter, Rosinen (12,5%), Haselnüsse, Kakaomasse, Buttermilchpulver, Milchzucker, Jamaica Rum (2,5%), Emulgator Lecithine (Soja), Aromen. Kann auch Anteile von Mandel, Erdnuss und anderen Nüssen enthalten.",
+      "lang": "de",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "Zucker, Vollmilchpulver, pflanzliche Fette (Palmkern, Palm), Kakaobutter, Kakaomasse, Glukosesirup, stark entöltes Kakaopulver 1,9%, Weizenmehl, Wasser, Feuchthaltemittel (Glycerin), Emulgator (Leci - thine (Soja)), Kokosöl, Speisesalz, Buttermilchpulver, Milchzucker, Verdickungsmittel (Carrageen), Säureregulator (Natriumcitrate), natür - liches Aroma, Säuerungsmittel (Milchsäure, Citronensäure), natürliches Vanillearoma, Bourbon-Vanilleextrakt, Backtriebmittel (Ammonium - hydrogencarbonat, Natriumhydrogencarbonat, Kaliumcarbonate). Kann Spuren von Schalenfrüchten enthalten.",
+      "reference": "Zucker, Vollmilchpulver, pflanzliche Fette (Palmkern, Palm), Kakaobutter, Kakaomasse, Glukosesirup, stark entöltes Kakaopulver 1,9%, Weizenmehl, Wasser, Feuchthaltemittel (Glycerin), Emulgator (Lecithine (Soja)), Kokosöl, Speisesalz, Buttermilchpulver, Milchzucker, Verdickungsmittel (Carrageen), Säureregulator (Natriumcitrate), natürliches Aroma, Säuerungsmittel (Milchsäure, Citronensäure), natürliches Vanillearoma, Bourbon-Vanilleextrakt, Backtriebmittel (Ammoniumhydrogencarbonat, Natriumhydrogencarbonat, Kaliumcarbonate). Kann Spuren von Schalenfrüchten enthalten.",
+      "lang": "de",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "Weizenmehl 23 %, Glukose-Fruktose-Sirup, Vollei 12 %, Zucker, Rapsöl, Schokolade 6 % [Kakaomasse, Zucker, fettarmes Kakaopulver, Emulgator (Sojaleci - thine)], Stabilisator (Glycerin), Weizenstärke, Süssmolkenpulver (aus Milch), Magermilchpulver 1,2 %, Vollmilchpulver 0,8 %, Backtriebmit - tel (Diphosphate, Kaliumcarbonate), Glukosesirup, Emulgatoren (E472b, E475, Sojalecithine), fettarmes Kakaopulver, Speisesalz, natürliches Aroma. Kann Nüsse enthalten.",
+      "reference": "Weizenmehl 23%, Glukose-Fruktose-Sirup, Vollei 12%, Zucker, Rapsöl, Schokolade 6% [Kakaomasse, Zucker, fettarmes Kakaopulver, Emulgator (Sojalecithine)], Stabilisator (Glycerin), Weizenstärke, Süssmolkenpulver (aus Milch), Magermilchpulver 1,2%, Vollmilchpulver 0,8%, Backtriebmittel (Diphosphate, Kaliumcarbonate), Glukosesirup, Emulgatoren (E472b, E475, Sojalecithine), fettarmes Kakaopulver, Speisesalz, natürliches Aroma. Kann Nüsse enthalten.",
+      "lang": "de",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "BASIL (50%), EXTRA VIRGIN OLIVE OIL (32%), PARMIGIANO REGGIANO PDO CHEESE (5%) (Milk), PINE NUTS (4%), Bamboo Fibre, Sugar, Garlic, PECORINO ROMANO PDO CHEESE (196) (Milk), Salt, Acidity Regulator: Lactic Acid, Garlic Powder, Antioxidant: Ascorbic Acid. Amounts energy 714k",
+      "reference": "BASIL (50%), EXTRA VIRGIN OLIVE OIL (32%), PARMIGIANO REGGIANO PDO CHEESE (5%) (Milk), PINE NUTS (4%), Bamboo Fibre, Sugar, Garlic, PECORINO ROMANO PDO CHEESE (1%) (Milk), Salt, Acidity Regulator: Lactic Acid, Garlic Powder, Antioxidant: Ascorbic Acid. Amounts energy 714k",
+      "lang": "en",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "O Ingrédients/Ingrediënten Flocons d'avoine* 30%, chocolat au lait* 25% [sucre*, beurre de cacao*, poudre de lait entier&quot;, pâte de cacao&quot;, émulsifiant : lécithines (tournesol)&quot;], sucre Foux de canne“, graisse de palme* # 12%, farine de blé complet* 9%, sirop de sucre inverti*, poudre à lever: carbonates de sodium, sel, sirop de sucre brut&quot;, arôme naturel de vanille*. en &quot;biologique. Peut contenir des traces de fruits à coque, d'arachides, de graines de sésame et d'œuf.",
+      "reference": "Ingrédients/Ingrediënten : Flocons d'avoine* 30%, chocolat au lait* 25% [sucre*, beurre de cacao*, poudre de lait entier*, pâte de cacao*, émulsifiant : lécithine (tournesol)*], sucre roux de canne*, graisse de palme* 12%, farine de blé complet* 9%, sirop de sucre inverti*, poudre à lever: carbonates de sodium, sel, sirop de sucre brut*, arôme naturel de vanille*. En * biologique. Peut contenir des traces de fruits à coque, d'arachides, de graines de sésame et d'œuf.",
+      "lang": "fr",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "cacao maigre en Sucre poudre 147 - émulsifiant : léci - thines de tournesol - carbo - nate de magnésium - carbo - nate de calcium - arôme - vita - mines : C, E, niacine (83), B6, acide pantothénique (B5), thiamine (BI), acide folique (B9). Traces de lait et de soja. Les informations en gras sont desti - nées aux personnes Intolérantes ou allergiques.",
+      "reference": "cacao maigre en Sucre poudre 20% - émulsifiant : lécithines de tournesol - carbonate de magnésium - carbonate de calcium - arôme - vitamines : C, E, niacine (83), B6, acide pantothénique (B5), thiamine (BI), acide folique (B9). Traces de lait et de soja. Les informations en gras sont destinées aux personnes Intolérantes ou allergiques.",
+      "lang": "fr",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "Rapeseed Oil, Water, White Wine Vinegar, Sugar, WHITE WINE (5%) (Contains Sulphites), DUON MUSTARD (396) (Water, Yellow Mustard Flour, Spirit Vinegar, Salt), Cornflour, Garlic Purée, Salt, Chives, Parsley Black Pepper, Preservative: Potassium Sorbate.",
+      "reference": "Rapeseed Oil, Water, White Wine Vinegar, Sugar, WHITE WINE (5%) (Contains Sulphites), DUON MUSTARD (3%) (Water, Yellow Mustard Flour, Spirit Vinegar, Salt), Cornflour, Garlic Purée, Salt, Chives, Parsley Black Pepper, Preservative: Potassium Sorbate.",
+      "lang": "en",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "Κάθετη μονάδα παραγωγής και επεξεργασίας Συστατικά: Πολτός ελληνικού φυστικιού (70%), υδρογονωμένο φοινικέλαιο, ζάχαρη, καραμέλα (396 , κομμάτια ψημένου ελληνικού φυστικιού (2%) , αρωματικές ύλες, αλάτι. Διατηρείται σε δροσερό και σκιερό μέρος. Η παρουσία λαδιού στην επιφάνεια είναι φυσικό φαινόμενο. Ανα κατέψτε καλά Πριν από κάθε χρήση. Παράγεται και συσκευάζεται στην Ελλάδα από : Χρήστος Αγριανίδης. φυστικιού . Αμμουδιά Σερρν.",
+      "reference": "Κάθετη μονάδα παραγωγής και επεξεργασίας Συστατικά: Πολτός ελληνικού φυστικιού (70%), υδρογονωμένο φοινικέλαιο, ζάχαρη, καραμέλα (3%) , κομμάτια ψημένου ελληνικού φυστικιού (2%) , αρωματικές ύλες, αλάτι. Διατηρείται σε δροσερό και σκιερό μέρος. Η παρουσία λαδιού στην επιφάνεια είναι φυσικό φαινόμενο. Ανα κατέψτε καλά Πριν από κάθε χρήση. Παράγεται και συσκευάζεται στην Ελλάδα από : Χρήστος Αγριανίδης. φυστικιού . Αμμουδιά Σερρν.",
+      "lang": "gr",
+      "origin": "labeled_data"
+    },
+    {
+      "ingredients_text": "Crabe(Portunus spp : chair 69% et pattes 31% de E640-E631-E627, eau, sel, sucre, E640, E631, E627, acidifiant : E330, antioxydants : disulfite de sodium E335",
+      "reference": "Crabe (Portunus spp : chair 69% et pattes 31% de E640-E631-E627, eau, sel, sucre, E640, E631, E627, acidifiant : E330, antioxydants : disulfite de sodium E335",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Saumon atlantique* (Salmo salar) élevé au Royaume-Uni (Ecosse), Norvège ou Irlande** 97 %, sel 3 %. *Ingrédient issu de l'agriculture biologique. **Pays d'élevage : voir sur la face avant de l'emballage.",
+      "reference": "Saumon atlantique* (Salmo salar) élevé au Royaume-Uni (Écosse), Norvège ou Irlande** 97%, sel 3%. *Ingrédient issu de l'agriculture biologique. **Pays d'élevage : voir sur la face avant de l'emballage.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Quinoa blanc* (38%), poivrons rouges*(12%), raisins secs réhydratés*(12%) (raisins secs*, eau, huile de tournesol*), pois chiches germés*, graines de tournesol*, huile de colza*, graines de courge*, vinaigre de cidre*, bouillon légumes* (sel de mer, glucose DE 29*, amidon de maïs*, carotte*, panais*, poireau*, livèche*, chou vert*, oignons*, tomate*, persil*, huile de tournesol*, ail*, curry*(coriandre*, curcuma*, fenouil*, oignon*, fenugrec*, cumin*, gingembre*, paprika*, ail*, piment*), curcuma* ), sel, persil*, épices Tandoori*(tomates*, coriandre*, citron*, fenugrec*, oignons*, ail*, laurier*, épices*). * : Produits issus de l'agriculture biologique.",
+      "reference": "Quinoa blanc* (38%), poivrons rouges* (12%), raisins secs réhydratés* (12%) (raisins secs*, eau, huile de tournesol*), pois chiches germés*, graines de tournesol*, huile de colza*, graines de courge*, vinaigre de cidre*, bouillon légumes* (sel de mer, glucose DE 29*, amidon de maïs*, carotte*, panais*, poireau*, livèche*, chou vert*, oignons*, tomate*, persil*, huile de tournesol*, ail*, curry*(coriandre*, curcuma*, fenouil*, oignon*, fenugrec*, cumin*, gingembre*, paprika*, ail*, piment*), curcuma* ), sel, persil*, épices Tandoori*(tomates*, coriandre*, citron*, fenugrec*, oignons*, ail*, laurier*, épices*). * : Produits issus de l'agriculture biologique.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pâte de cacao, sucre, beurre de cacao, cacao maigre en poudre, émulsifiant : lécithine, arôme vanille",
+      "reference": "Pâte de cacao, sucre, beurre de cacao, cacao maigre en poudre, émulsifiant : lécithine, arôme vanille.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "huile de colza, jaune d'oeuf, vinaigre, eau, moutarde 4.0% (vinaigre, graines de moutarde, eau, sel, épices), piments rouges 2.1%, sel, purée de tomates, oignon, sucre, épaississant : gomme xanthane, arômes, poivron, colorant: caroténoides mélangés, antioxydant: E385",
+      "reference": "huile de colza, jaune d’œuf, vinaigre, eau, moutarde 4,0% (vinaigre, graines de moutarde, eau, sel, épices), piments rouges 2,1%, sel, purée de tomates, oignon, sucre, épaississant : gomme xanthane, arômes, poivron, colorant: caroténoïdes mélangés, antioxydant: E385",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Jambon de porc, sel, fond de porc (eau, os de porc, viande de porc, plantes aromatiques, épices), bouillon de légumes (eau, gél_erj carotte, jus concentré de oignon, poireau), dextrose de maïs, antioxydant : ascorbate de sodium, conservateur nitrite de sodium. Une allergie ? Plus d'infos sur : www.fleurymichon.fr",
+      "reference": "Jambon de porc, sel, fond de porc (eau, os de porc, viande de porc, plantes aromatiques, épices), bouillon de légumes (eau, céleri, carotte, jus concentré de oignon, poireau), dextrose de maïs, antioxydant : ascorbate de sodium, conservateur nitrite de sodium. Une allergie ? Plus d'infos sur : www.fleurymichon.fr",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Mande de porc* (26%), eau, viande séparée mécaniquement de porc*, viande séparee mecaniquement de couenne de porc*, gras de porc*t plasma de porc, sel, O lactose (lait?, proteines de lait, dextrose, .stabllisaots polyphospha es; acidifiant consewateurs : ascorbate de sodium, nitrite de sodium; moutarde'* Origine : Francet Tees éventuelles de ÒVPDIÉNTEN: Vad?ls/ees* (26%) water, varkennv?rd% varGsvet*, varkensplasma, zout, lactose u}dk), melkeWitten, dextrose, stabilisatoren: polyfosfaten; v?dingszuur òumacetaat; aroma, conserveermiddelen: natfiumascorbaatf natriumnitfieÇ paprikaextractl karmijn. Eventuele van mosterd. *Oorsprong : Oo?prong : UE ' SREDIENTES: carne de (26%), âgua, came separada mecanicamentede 'Atco* came separada mecanicamente de Peru* * courato de porco*, gordura de plasma do sangue de porco, sal .lëcto(e (leite?t protein,as do leite' ascorbat0 de s6dio nitrifo de sédio; corantes: extrato de pimentâ0t Pode conter Vestigiosde mostarda. * Origem : Françat * *Origem : UE,",
+      "reference": "Viande de porc* (26%), eau, viande séparée mécaniquement de porc*, viande séparée mécaniquement de couenne de porc*, gras de porc*, plasma de porc, sel, lactose (lait), protéines de lait, dextrose, stabilisants : polyphosphate, acidifiant conservateurs : ascorbate de sodium, nitrite de sodium; moutarde* Origine : France. Traces éventuelles de ÒVPDIÉNTEN: Vad?ls/ees* (26%) water, varkennv?rd% varGsvet*, varkensplasma, zout, lactose u}dk), melkeWitten, dextrose, stabilisatoren: polyfosfaten; v?dingszuur òumacetaat; aroma, conserveermiddelen: natfiumascorbaatf natriumnitfieÇ paprikaextractl karmijn. Eventuele van mosterd. *Oorsprong : Oo?prong : UE ' SREDIENTES: carne de (26%), âgua, came separada mecanicamentede 'Atco* came separada mecanicamente de Peru* * courato de porco*, gordura de plasma do sangue de porco, sal .lëcto(e (leite?t protein,as do leite' ascorbat0 de s6dio nitrifo de sédio; corantes: extrato de pimentâ0t Pode conter Vestigiosde mostarda. * Origem : Françat * *Origem : UE,",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de blé, sucre, beurre frais 12%, oeufs entiers frais, crème fraîche 3,5%, sel, arômes naturels, gluten de blé, levure, eau de vie, émulsifiants (Mono et diglycérides d'acides gras, Stéaroyl-2-lactylate de sodium), protéines de lait, levure désactivée, colorant (béta carotène Traces éventuelles de fruits à coque.",
+      "reference": "Farine de blé, sucre, beurre frais 12%, œufs entiers frais, crème fraîche 3,5%, sel, arômes naturels, gluten de blé, levure, eau de vie, émulsifiants (Mono et diglycérides d'acides gras, Stéaroyl-2-lactylate de sodium), protéines de lait, levure désactivée, colorant (béta carotène). Traces éventuelles de fruits à coque.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "fruits confits 33%, (papayes 16%, saccharose, corracteur d'acidité: acide citrique, conservateur: sorbate de potassium, colorant: E150a, carmin de cochenille, E133), cerise rouge 10%o (bigarreaux, sirop de glucose-fructose, saccharose, correcteur d'acidité: acide citrique, sulfites, colorant: E127), raisins secs 6%, écorces d'orange 1%)), farine de blé, oeufs, beurre, sucre, Lait, rhum, stabilisant: sorbitol, sirop de sucre inverti, poudre à Lever: diphosphate et carbonate de sodium, cnservateur: sorbate de potassium, sel, épaississant: gomme de xanthane PEUT CONTENIR: gluten et fruits à coque",
+      "reference": "fruits confits 33%, (papayes 16%, saccharose, correcteur d'acidité: acide citrique, conservateur: sorbate de potassium, colorant: E150a, carmin de cochenille, E133), cerise rouge 10% (bigarreaux, sirop de glucose-fructose, saccharose, correcteur d'acidité: acide citrique, sulfites, colorant: E127), raisins secs 6%, écorces d'orange 1%)), farine de blé, œufs, beurre, sucre, Lait, rhum, stabilisant: sorbitol, sirop de sucre inverti, poudre à Lever: diphosphate et carbonate de sodium, conservateur: sorbate de potassium, sel, épaississant: gomme de xanthane PEUT CONTENIR: gluten et fruits à coque",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Fraises 45 %, sucre, pommes 15 %, gélifiant : pectines, jus de citron concentré.",
+      "reference": "Fraises 45%, sucre, pommes 15%, gélifiant : pectines, jus de citron concentré.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de BLE, eau, ernmental (LAIT) 19%, margarine (huiles ct matières grasses végétales (palme, colza), eau, émulsifiants : EOI, acidifiant : E320), levure, sel, GLUTEN de BLE, levain de BLE, herbes de Provence, érnuj%ifiant F471, farine de BLE malté, agent de traitement de la farine [300",
+      "reference": "Farine de BLÉ, eau, emmental (LAIT) 19%, margarine (huiles et matières grasses végétales (palme, colza), eau, émulsifiants, acidifiant : E320), levure, sel, GLUTEN de BLÉ, levain de BLÉ, herbes de Provence, émulsifiant E471, farine de BLÉ malté, agent de traitement de la farine",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "UNO Jus de melon, ananas, raisin blanc et citron Inge dients: 40% jus de melon, 30% jus d'ananas, 27%jusde raisin blanc, 3% jus de citron.",
+      "reference": "UNO Jus de melon, ananas, raisin blanc et citron Ingrédients: 40% jus de melon, 30% jus d'ananas, 27% jus de raisin blanc, 3% jus de citron.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "sucre, beurre de cacao, pâte de cacao, lait écrémé en poudre, lait entier en poudre, huile de coco, noisettes moulues 4.0 %, cacao en poudre, crispies de céréales 1.8 % (farine de riz, semoule de maïs, farine de sarrasin, farine de riz complet, sucre, huile de tournesol. sel de cuisine), beurre fondu, émulsifiant: lécithine de soja, arômes. Peut contenir des amandes, des œufs, du gluten et des traces d'autres fruits à coque (noix). Cacao: 34 % minimum dans le chocolat",
+      "reference": "sucre, beurre de cacao, pâte de cacao, lait écrémé en poudre, lait entier en poudre, huile de coco, noisettes moulues 4,0%, cacao en poudre, crispies de céréales 1,8% (farine de riz, semoule de maïs, farine de sarrasin, farine de riz complet, sucre, huile de tournesol. sel de cuisine), beurre fondu, émulsifiant: lécithine de soja, arômes. Peut contenir des amandes, des œufs, du gluten et des traces d'autres fruits à coque (noix). Cacao: 34% minimum dans le chocolat",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Riz blanc et rouge précuits 51 % (riz blanc, eau, riz rouge, huile de colza, sel), saumon Atlantique 23 %, eau, _crème_ fraîche 4.2 %, vin blanc 2.3 %, beurre demi-sel 1.8 %, échalotes 1.5 %, vinaigre de vin blanc, jus de citron, amidon modifié de maïs, fécule de manioc, sel, épaississants : gomme xanthane et gomme guar, arômes naturels, protéines de _lait_, poivre, extrait de curcuma, colorant : extrait de paprika.",
+      "reference": "Riz blanc et rouge précuits 51% (riz blanc, eau, riz rouge, huile de colza, sel), saumon Atlantique 23%, eau, _crème_ fraîche 4,2%, vin blanc 2,3%, beurre demi-sel 1,8%, échalotes 1,5%, vinaigre de vin blanc, jus de citron, amidon modifié de maïs, fécule de manioc, sel, épaississants : gomme xanthane et gomme guar, arômes naturels, protéines de _lait_, poivre, extrait de curcuma, colorant : extrait de paprika.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Eau, sucre, jus de pomme à bAse de concentré, jus de fraise à base de concentré, jus de framboise à base de concentré,",
+      "reference": "Eau, sucre, jus de pomme à base de concentré, jus de fraise à base de concentré, jus de framboise à base de concentré,",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "farine de blé, hui!e d'olive vierge extra 22%, concentré de tomates 'italiennes 7%, sel de mer, origan 0,5%, poudre à lever (bicarbonate d'ammonium). Peut contenir des traces de : œufs, beurre (lait) soja, fruits ses à coque.",
+      "reference": "farine de blé, hui!e d'olive vierge extra 22%, concentré de tomates italiennes 7%, sel de mer, origan 0,5%, poudre à lever (bicarbonate d'ammonium). Peut contenir des traces de : œufs, beurre (lait) soja, fruits ses à coque.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "AINS: iLK, SOY NGDİENTS: SIROP DE MAÏS, SUCRE, LAIT ÉCRÉMÉ -HUILE DE PALME MODIFIÉE, EAU, LACTOSÉRUM ENP OURE, SEL, AROMES ARTIFICIELS ET NATURELS DE SOJA, HUILE DE SOJA HYDROGÉNÉE, GEL DE 0, GOMME DE CELLULOSE. NTIENT LAIT, SOJA WARNING: For children und er 4, cut caramels into",
+      "reference": "INGRÉDIENTS: SIROP DE MAÏS, SUCRE, LAIT ÉCRÉMÉ, HUILE DE PALME MODIFIÉE, EAU, LACTOSÉRUM EN POUDRE, SEL, ARÔMES ARTIFICIELS ET NATURELS DE SOJA, HUILE DE SOJA HYDROGÉNÉE, GEL DE CELLULOSE, GOMME DE CELLULOSE. CONTIENT LAIT, SOJA",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Eau, épaule de porc 25.6%, saucisse fumée 17.1% [viande de porc 16.6%, sel, épices et plantes aromatiques (poivre, coriandre, muscade, carvi), dextrose, conservateur: nitrite de sodium, antioxydant: ascorbate de sodium, boyau naturel de porc], lentilles vertes 14%, carottes 8.5%, oignons 4.5%, sel, extraits de légumes déshydratés (poireau, carotte), arômes naturels, épices et plantes aromatiques (ail, clou de girofle, thym, laurier), antioxydants: acide ascorbique et ascorbate de sodium, conservateur: nitrite de sodium, épaississants: gomme xanthane et gomme guar. Peut contenir des traces de gluten, crustacés, œufs, poissons, soja, lait, fruits à coques, céleri, moutarde, mollusques.",
+      "reference": "Eau, épaule de porc 25,6%, saucisse fumée 17,1% [viande de porc 16,6%, sel, épices et plantes aromatiques (poivre, coriandre, muscade, carvi), dextrose, conservateur: nitrite de sodium, antioxydant: ascorbate de sodium, boyau naturel de porc], lentilles vertes 14%, carottes 8,5%, oignons 4,5%, sel, extraits de légumes déshydratés (poireau, carotte), arômes naturels, épices et plantes aromatiques (ail, clou de girofle, thym, laurier), antioxydants: acide ascorbique et ascorbate de sodium, conservateur: nitrite de sodium, épaississants: gomme xanthane et gomme guar. Peut contenir des traces de gluten, crustacés, œufs, poissons, soja, lait, fruits à coques, céleri, moutarde, mollusques.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Eau œufs entiers, sucre, farine de blé, sirop de gfucose-fructose, beurre concentré (506) (contient du lait), lait en poudre, pâte de cacao, odifié de manioc, cacao maigre en poudre, beurre de bres végétales, poudre de cacao, émulsifiant : lécithine de el, gélifiant : pectine arômes. Dont chocolat 8%. races éventuelles de fruits à coques. nballage avec un sachet absorbeur d'oxygène : ne pas consommer rapidement aprè.souverture. consommer jusqu'au : voir? liledessus de l'emballage",
+      "reference": "Eau, œufs entiers, sucre, farine de blé, sirop de glucose-fructose, beurre concentré (5%) (contient du lait), lait en poudre, pâte de cacao, amidon modifié de manioc, cacao maigre en poudre, beurre de cacao, fibres végétales, poudre de cacao, émulsifiant : lécithine de sel, gélifiant : pectine arômes. Dont chocolat 8%. traces éventuelles de fruits à coques. emballage avec un sachet absorbeur d'oxygène : ne pas consommer rapidement après ouverture. consommer jusqu'au : voir sur le dessus de l'emballage.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Échalotes 37 %, sucre, vin rouge (_sulfites_), framboises 9 %, vinaigre de vin (_sulfites_), amidon de maïs modifié, sel, poivre.",
+      "reference": "Échalotes 37%, sucre, vin rouge (_sulfites_), framboises 9%, vinaigre de vin (_sulfites_), amidon de maïs modifié, sel, poivre.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Sucre, _amandes_ et _noisettes_ en proportions variables 30 %, miel, sirop de glucose, blancs d'_oeufs_, gaufrettes (fécules de pommes de terre, eau, huile végétale (palme)), arômes.",
+      "reference": "Sucre, _amandes_ et _noisettes_ en proportions variables 30%, miel, sirop de glucose, blancs d'_œufs_, gaufrettes (fécules de pommes de terre, eau, huile végétale (palme)), arômes.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Lait entier (homogénéisé, pasteurisé (( Suisse))), quetsches 8 % ( Turquie, Suisse), sucre de canne brut 6.6% ( Amérique centrale et Amérique du Sud), protéines lactiques, miel 2 % ( Bulgarie), féculé de manioc, concentré de jus de citron , Tous les ingrédients agricoles sont issus de la production biologique.",
+      "reference": "Lait entier (homogénéisé, pasteurisé (( Suisse))), quetsches 8% (Turquie, Suisse), sucre de canne brut 6,6% ( Amérique centrale et Amérique du Sud), protéines lactiques, miel 2% ( Bulgarie), fécule de manioc, concentré de jus de citron. Tous les ingrédients agricoles sont issus de la production biologique.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "GRAINS ENTIERS (FARINE DE BLE ENTIER, FLOCONS D'AVOINE), FARINE DE BLÉ, HUILE DE CANOLA, SUCRE, CASSONADE, INULINE (RACINE DE CHICORÉE), SEL, LAIT ÉCRÉMÉ EN POUDRE, BICARBONATE DE SOUDE, POUDRE A PATE, AROME NATUREL, LÉCITHINE DE SOYA",
+      "reference": "GRAINS ENTIERS (FARINE DE BLÉ ENTIER, FLOCONS D'AVOINE), FARINE DE BLÉ, HUILE DE CANOLA, SUCRE, CASSONADE, INULINE (RACINE DE CHICORÉE), SEL, LAIT ÉCRÉMÉ EN POUDRE, BICARBONATE DE SOUDE, POUDRE A PÂTE, ARÔME NATUREL, LÉCITHINE DE SOYA",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Eau - sucre - acidifiant : acide citrique - extraits de thé 1,2glL - jus de mangue à base de concentré 0,1% ? correcteur d'acidité : citrate de sodium ? arôme ? antioxydant . acide ascorbique ? arôme naturel.",
+      "reference": "Eau - sucre - acidifiant : acide citrique - extraits de thé 1,2g/L - jus de mangue à base de concentré 0,1% - correcteur d'acidité : citrate de sodium - arôme - antioxydant : acide ascorbique - arôme naturel.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de blé, sucre, huile de tournesol, e_gf liquide pasteurisé, (glycérine, sorbitol), pâte de cacao, beurre de cacao, poudre à lever (carbonate acide de sodium, diphosphate disodique), sel, stabilisant E 415, arômes, conservateur E 200, acidifiant E 330 et émulsifiant: lécithine de soja.",
+      "reference": "Farine de blé, sucre, huile de tournesol, œuf liquide pasteurisé, (glycérine, sorbitol), pâte de cacao, beurre de cacao, poudre à lever (carbonate acide de sodium, diphosphate disodique), sel, stabilisant E 415, arômes, conservateur E 200, acidifiant E 330 et émulsifiant: lécithine de soja.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "chocolat noir (masse de cacao, sucre, beurre de cacao, extait de vanille), sucre, sirop de glucose, arôme naturel, substance aromatisante naturelle: menthol. Cacao 73% min dans le chocolat",
+      "reference": "chocolat noir (masse de cacao, sucre, beurre de cacao, extrait de vanille), sucre, sirop de glucose, arôme naturel, substance aromatisante naturelle: menthol. Cacao 73% min dans le chocolat",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Huile de tournesol, eau, jaune d'_œuf_ de poules élevées en plein air 5,2 %, moutarde de Dijon (eau, graines de _moutarde_, vinaigre de cidre, sel), vinaigres, sel, sucre, amidon, jus de citron concentré, épaississant : gomme xanthane, arôme naturel.",
+      "reference": "Huile de tournesol, eau, jaune d'_œuf_ de poules élevées en plein air 5,2%, moutarde de Dijon (eau, graines de _moutarde_, vinaigre de cidre, sel), vinaigres, sel, sucre, amidon, jus de citron concentré, épaississant : gomme xanthane, arôme naturel.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "INGREblENT: Jus d'orange avec pulpe.",
+      "reference": "INGRÉDIENT: Jus d'orange avec pulpe.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Escargots de Bourgogne, eau, sel, thym, laurier, piment, carote. Contient: mollusques",
+      "reference": "Escargots de Bourgogne, eau, sel, thym, laurier, piment, carotte. Contient: mollusques",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pâte (63%) : farine de blé, margarine végétale (graisses et huiles végétales non hydrogénées, eau, émulsifiant: mono et di-glycérides d'acides gras, sel, correcteur d'acidité: acide citrique, arôme, colorant bêta-carotène), eau, levure, sel, sucre, oeufs, bicarbonate de sodium (fécule de maïs, agent levant: bicarbonate de sodium et diphosphate disodique) lait écrémé en poudre. Garniture (31%): fromage feta (40%), fromage mizithra, eau, oeufs, semoule de blé, amidon de maïs modifié, origan (0.1%), poivre blanc. Recouvert de graines de sésame.",
+      "reference": "Pâte (63%) : farine de blé, margarine végétale (graisses et huiles végétales non hydrogénées, eau, émulsifiant: mono et di-glycérides d'acides gras, sel, correcteur d'acidité: acide citrique, arôme, colorant bêta-carotène), eau, levure, sel, sucre, œufs, bicarbonate de sodium (fécule de maïs, agent levant: bicarbonate de sodium et diphosphate disodique) lait écrémé en poudre. Garniture (31%): fromage feta (40%), fromage mizithra, eau, œufs, semoule de blé, amidon de maïs modifié, origan (0,1%), poivre blanc. Recouvert de graines de sésame.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "farine de blé, purée de tomate 21% , jambon cuit fumé 14% (viande de porc, sel nitrité pour saumure sel de cuisine, conservateur: E250] dextrose, sucre, antioxydants: E301 et E392, stabi sants: E450 et E451), mozzarella (fromage) 10%, eau, huile de colza, Edam (fromage) 4,5%, levure, sel de cuisine, sucre, ail, fromage à pâte dure, crèm fraîche, herbes, épices, protéine de blé, amidon de blé, fécule de pommes de terre, amidon de petits pois. Peut contenir: céleri.",
+      "reference": "farine de blé, purée de tomate 21% , jambon cuit fumé 14% (viande de porc, sel nitrité pour saumure sel de cuisine, conservateur: E250] dextrose, sucre, antioxydants: E301 et E392, stabilisants: E450 et E451), mozzarella (fromage) 10%, eau, huile de colza, Edam (fromage) 4,5%, levure, sel de cuisine, sucre, ail, fromage à pâte dure, crème fraîche, herbes, épices, protéine de blé, amidon de blé, fécule de pommes de terre, amidon de petits pois. Peut contenir: céleri.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Curcuma bio 295mg Poivre noir 5mg Pour 1 gélule",
+      "reference": "Curcuma bio 295mg, Poivre noir 5mg, Pour 1 gélule",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Sucre, beurre de cacao, lait entier en poudre, pâte de cacao, beurre laitier concentré, noisettes lactose, matière grasse végétale (palme, palmiste, noix de coco), farine de blé, sirop de glucose et fructose, crème en poudre, yogourt maigre en poudre, lait écrémé en poudre, lait condensé, sucre inverti, émulsifiant (lécithine de soja et de tournesol), fraises, dextrose, poudre de cacao, arômes, extrait de malt d'orge, séré, sel, poudre à lever (bicarbonate de sodium, carbonate acide d'ammonium carbonate de potassium), jus de citron concentré, protéine de lait, arôme naturel de vanille, crème, sirop de sucre caramelse, vanilla. Peut contenir d'autres fruits à coque.",
+      "reference": "Sucre, beurre de cacao, lait entier en poudre, pâte de cacao, beurre laitier concentré, noisettes lactose, matière grasse végétale (palme, palmiste, noix de coco), farine de blé, sirop de glucose et fructose, crème en poudre, yogourt maigre en poudre, lait écrémé en poudre, lait condensé, sucre inverti, émulsifiant (lécithine de soja et de tournesol), fraises, dextrose, poudre de cacao, arômes, extrait de malt d'orge, sel, poudre à lever (bicarbonate de sodium, carbonate acide d'ammonium carbonate de potassium), jus de citron concentré, protéine de lait, arôme naturel de vanille, crème, sirop de sucre caramélisé, vanille. Peut contenir d'autres fruits à coque.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "SESAME COMPLET GRILLE - de protéines 3 273120 027357",
+      "reference": "SÉSAME COMPLET GRILLE - de protéines 3 273120 027357",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de _blé_ 64 % - sucre —_beurre_ 16,3 % (soit 19,5 % de beurre reconstitué)- poudres à lever: carbonates d'ammonium, carbonates de sodium, diphosphates, sel, _lait_ écrémé en poudre.",
+      "reference": "Farine de _blé_ 64% - sucre —_beurre_ 16,3% (soit 19,5% de beurre reconstitué)- poudres à lever: carbonates d'ammonium, carbonates de sodium, diphosphates, sel, _lait_ écrémé en poudre.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Eau de noix de coco 93.9%, Arôme natutel de fruit",
+      "reference": "Eau de noix de coco 93,9%, Arôme naturel de fruit",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pâtes &quot;farfalles&quot; cuites 68% (eau, semoule de _blé_ dur 30%) - sauce au basilic 9,3% (huile d'olive vierge extra, basilic 1,8%, _fromage_ en poudre, pignons de pin, ail, herbes et épices, sel) - filet de poulet traité en salaison rôti 7,4% (filet de poulet 7,1%, dextrose, sel, antioxydant : citrates de sodium) - épinards - huile de colza - condiment balsamique blanc (vinaigre de vin blanc, moût de raisin, conservateur : disulfite de potassium - colorant : caramel au sulfite d'ammonium) - herbes et épices - sel.",
+      "reference": "Pâtes *farfalles* cuites 68% (eau, semoule de _blé_ dur 30%) - sauce au basilic 9,3% (huile d'olive vierge extra, basilic 1,8%, _fromage_ en poudre, pignons de pin, ail, herbes et épices, sel) - filet de poulet traité en salaison rôti 7,4% (filet de poulet 7,1%, dextrose, sel, antioxydant : citrates de sodium) - épinards - huile de colza - condiment balsamique blanc (vinaigre de vin blanc, moût de raisin, conservateur : disulfite de potassium - colorant : caramel au sulfite d'ammonium) - herbes et épices - sel.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Jambon frais de porc, bouillon (eau, couennes de porc, oignons, os de porc, carottes, sle , persil, ail , clou de girofles, poudre laurier, sel, dextrose de mais, aromes naturel antioxydant : isoascorbate de sodium, conservateur : nitrite de sodium",
+      "reference": "Jambon frais de porc, bouillon (eau, couennes de porc, oignons, os de porc, carottes, sel, persil, ail, clou de girofles, poudre laurier, sel, dextrose de mais, arômes naturel antioxydant : isoascorbate de sodium, conservateur : nitrite de sodium",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pommes, sucre, sirop de glucose-fructose, correcteur d'acidité : acide citrique, gélifiant : pectines, cannelle en poudre 0.09%. Préparé avec 75g de fruits pour 100g de produit fini.",
+      "reference": "Pommes, sucre, sirop de glucose-fructose, correcteur d'acidité : acide citrique, gélifiant : pectines, cannelle en poudre 0,09%. Préparé avec 75g de fruits pour 100g de produit fini.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "sirop de glucose-fructose, sucre, farine de _blé_, jus de framboise à base de jus concentré 9%, pâte de cacao, _œuf_ entier liquide 5.5%, stabilisant : sirop de sorbitol, graisse de palme, beurre de cacao, amidon de _blé_, gélifiant : pectine, acidifiant : acide citrique, émulsifiants : mono - et diglycérides d'acides gras, lécithines de _soja_, amidon de tapioca, arômes, poudres à lever : carbonate acide d'ammonium, carbonate acide de sodium, correcteur d'acidité : citrates de sodium, sel.",
+      "reference": "sirop de glucose-fructose, sucre, farine de _blé_, jus de framboise à base de jus concentré 9%, pâte de cacao, _œuf_ entier liquide 5,5%, stabilisant : sirop de sorbitol, graisse de palme, beurre de cacao, amidon de _blé_, gélifiant : pectine, acidifiant : acide citrique, émulsifiants : mono - et diglycérides d'acides gras, lécithines de _soja_, amidon de tapioca, arômes, poudres à lever : carbonate acide d'ammonium, carbonate acide de sodium, correcteur d'acidité : citrates de sodium, sel.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Eau - chapelure (farine de _blé_ 14% - levure - sel) - huiles végétales (tournesol, colza) - protéines de blé déshydratées 12% - farine de _blé_ 7% - blanc d'_œuf_ en poudre - amidon transformé de pomme de terre - arôme naturel - fibres de _blé_ 1.2% - vinaigre - épaississant: methylcellulose - fibre de psyllium.elaboré dans un atelier utilisant poisson, lait, mollusques, céleri, soja.",
+      "reference": "Eau - chapelure (farine de _blé_ 14% - levure - sel) - huiles végétales (tournesol, colza) - protéines de blé déshydratées 12% - farine de _blé_ 7% - blanc d'_œuf_ en poudre - amidon transformé de pomme de terre - arôme naturel - fibres de _blé_ 1,2% - vinaigre - épaississant: méthylcellulose - fibre de psyllium. Élaboré dans un atelier utilisant poisson, lait, mollusques, céleri, soja.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Betteraves rouges 82 %, oignons déshydratés, eau, _moutarde_ à l'ancienne (eau, vinaigre d'alcool, graines de _moutarde_, téguments, sel, acidifiant : E330, arômes, épice), huile de colza, vinaigre d'alcool, pulpe d'ail (_sulfites_), sel, _moutarde_ de Dijon (eau, graines de _moutarde_, vinaigre, sel), arôme, épaississants : E415-E412, conservateur : E202.",
+      "reference": "Betteraves rouges 82%, oignons déshydratés, eau, _moutarde_ à l'ancienne (eau, vinaigre d'alcool, graines de _moutarde_, téguments, sel, acidifiant : E330, arômes, épice), huile de colza, vinaigre d'alcool, pulpe d'ail (_sulfites_), sel, _moutarde_ de Dijon (eau, graines de _moutarde_, vinaigre, sel), arôme, épaississants : E415-E412, conservateur : E202.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "S25 Pastilles de chocolat assorti noir et LAIT Palets de chocolats assortis noir et LAIT. Chocolat noir (cacao Perou 64% minimum , cacao Madagascar 66% minimum) Chocolat LAIT (Cacao Mexique 40% minimum, cacao Costa Rica 38% minimum) Ingredients pâte de cacao, sucre, beurre de cacao, poudre de LAIT entier, emulsifiant: lecithine de SOJA, arôme vanille naturelle.",
+      "reference": "S25 Pastilles de chocolat assorti noir et LAIT Palets de chocolats assortis noir et LAIT. Chocolat noir (cacao Perou 64% minimum , cacao Madagascar 66% minimum) Chocolat LAIT (Cacao Mexique 40% minimum, cacao Costa Rica 38% minimum) Ingrédients : pâte de cacao, sucre, beurre de cacao, poudre de LAIT entier, émulsifiant: lécithine de SOJA, arôme vanille naturelle.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Sucre. Sirop de glucose , crème lait entier, beurreAOP Charentes-p (5,3%). dextrose. fleur de sel de Ré (0,4%)Sel de Ré (04%). émulsifiant : lécithine de soja bicarbonate de soude, vanille naturelle peut contenir des traces de fruits à coques",
+      "reference": "Sucre, sirop de glucose, crème lait entier, beurre AOP Charentes-Poitou (5,3%), dextrose, fleur de sel de Ré (0,4%), Sel de Ré (0,4%), émulsifiant : lécithine de soja, bicarbonate de soude, vanille naturelle. Peut contenir des traces de fruits à coques",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "viande de porc [origine : Francel 89%, eau, acidifiant: E326, sel, dextrose dê blè, conservateurs : E262-E250, condiments et épices (betterave, ail, paprika, muscade), antioxydants E301-E300, extraits naturels d'herbes et d'épices, aromes naturels, colorant: E160c",
+      "reference": "viande de porc [origine : France] 89%, eau, acidifiant: E326, sel, dextrose de blé, conservateurs : E262-E250, condiments et épices (betterave, ail, paprika, muscade), antioxydants E301-E300, extraits naturels d'herbes et d'épices, arômes naturels, colorant: E160c",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "42% huile de colza, eau, vinaigre, amidon 3%, jaunes d'OEUFS pasteurisés, sucre, sel, farine de MOUTARDE, agents épaississants (E415), agents d'acidités (E270), conservateurs (E202), colorant (E160a)",
+      "reference": "42% huile de colza, eau, vinaigre, amidon 3%, jaunes d'ŒUFS pasteurisés, sucre, sel, farine de MOUTARDE, agents épaississants (E415), agents d'acidités (E270), conservateurs (E202), colorant (E160a)",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "38,5% fruits [15% cerises confites (cerises, sirq de glucose-fructose, sucre, jus concentrés de fruits et de végétaux (aronia, carotte, griotte, patate douce, radis, pomme), correcteur d'acidité : acide citrique. Alcool.",
+      "reference": "38,5% fruits [15% cerises confites (cerises, sirop de glucose-fructose, sucre, jus concentrés de fruits et de végétaux (aronia, carotte, griotte, patate douce, radis, pomme), correcteur d'acidité : acide citrique. Alcool.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "GARNITURE 50,9% : mozzarella 23,5%, émincé de bacon cuit fumé 20,2% (viande de por (origine France), sel, dextrose, acidifiant : acide citrique, antioxydant : érythorbate de sodium, conservateu! nitrite de sodium), crème fraîche 16,7%, cheddar 10,6% (dont colorant : rocou), oignons rouges fromag blanc 9,9% (lait, crème fraîche, ferments lactiques, coagulant microbien), eau, sirop dlérable, ciboulett amidon transformé, arôme naturel, sel, poivre. (Pourcentages exprimés sur la garniture). PÂTE 49,1% : farine de blé, eau, huile de colza, levure boulangère, poudre à lever (diphosphate disodiqu bicarbonate de sodium, amidon de blé), sel, sucre. Présence éventuelle de poisson, crustacés, œuf, céleri, moutarde et mollusques.",
+      "reference": "GARNITURE 50,9% : mozzarella 23,5%, émincé de bacon cuit fumé 20,2% (viande de porc (origine France), sel, dextrose, acidifiant : acide citrique, antioxydant : érythorbate de sodium, conservateur nitrite de sodium), crème fraîche 16,7%, cheddar 10,6% (dont colorant : rocou), oignons rouges fromage blanc 9,9% (lait, crème fraîche, ferments lactiques, coagulant microbien), eau, sirop d'érable, ciboulette, amidon transformé, arôme naturel, sel, poivre. (Pourcentages exprimés sur la garniture). PÂTE 49,1% : farine de blé, eau, huile de colza, levure boulangère, poudre à lever (diphosphate disodique bicarbonate de sodium, amidon de blé), sel, sucre. Présence éventuelle de poisson, crustacés, œuf, céleri, moutarde et mollusques.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Amandes * 98 %, mélange au chili* 1.7%, agent d'enrobage : gomme arabique*, huile de tournesol*",
+      "reference": "Amandes * 98%, mélange au chili* 1,7%, agent d'enrobage : gomme arabique*, huile de tournesol*",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Eau - amidon de maïs - fécule de manioc - fécule de pomme de terre - huile de tournesol - fibre de psyllium - farine de maïs - farine de riz - farine de sarrasin 2,7% - sucre - stabilisant : glycérol - blancs d'_œufs_ en poudre - levure - épaississants : gomme xanthane, hydroxypropylméthylcellulose - fibre de bambou - jus de citron - sel - dextrose - conservateur : propionate de calcium.traces de _fruits à coques_ et de _moutarde_.",
+      "reference": "Eau - amidon de maïs - fécule de manioc - fécule de pomme de terre - huile de tournesol - fibre de psyllium - farine de maïs - farine de riz - farine de sarrasin 2,7% - sucre - stabilisant : glycérol - blancs d'_œufs_ en poudre - levure - épaississants : gomme xanthane, hydroxypropylméthylcellulose - fibre de bambou - jus de citron - sel - dextrose - conservateur : propionate de calcium. Traces de _fruits à coques_ et de _moutarde_.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Cuisse de porc entière (France), sel, dextrose, arômes naturels, Antioxygène E316. conservateur E250. Conditionné scUs atmosphère modifiée. Porcs élevés à la graine de",
+      "reference": "Cuisse de porc entière (France), sel, dextrose, arômes naturels, Antioxygène E316. conservateur E250. Conditionné sous atmosphère modifiée. Porcs élevés à la graine de",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "thé noir, pêtales de rose 2%, arôme",
+      "reference": "thé noir, pétales de rose 2%, arôme",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "semoule de blé dur, eau, fromages, ricotta 9%, œuf entier 7%, épinards 6%, huile de colza, préparation de fromage frais, chapelure (farine de froment, levure, sel), œuf entier en poudre, oignons, condiment en poudre, flocons de pommes de terre, sel, gluten de froment, epice.",
+      "reference": "semoule de blé dur, eau, fromages, ricotta 9%, œuf entier 7%, épinards 6%, huile de colza, préparation de fromage frais, chapelure (farine de froment, levure, sel), œuf entier en poudre, oignons, condiment en poudre, flocons de pommes de terre, sel, gluten de froment, épice.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Cerises noires 65%, sucre, gélifiant : pectine de lus de citron concentré, extrait naturel de vanille de Cerises de première qualité dénoyautés l'aiguille». Tolérance : 1 noyau pour 200 cerises",
+      "reference": "Cerises noires 65%, sucre, gélifiant : pectine de jus de citron concentré, extrait naturel de vanille. Cerises de première qualité dénoyautés à l'aiguille. Tolérance : 1 noyau pour 200 cerises",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "sirop de glucose, sucre, demi-crème 10%, lactose, beurre 4.5%, émulsifiant: lécithine de soja, sel de cuisine, arômes.",
+      "reference": "sirop de glucose, sucre, demi-crème 10%, lactose, beurre 4,5%, émulsifiant: lécithine de soja, sel de cuisine, arômes.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Sucre, beurre de cacao, _lait_ entier en poudre, sirop de glucose, pâte de cacao, Cognac 8 %, _lait_ écrémé en poudre, dextrose, émulsifiant: lécithine de _soja_, arôme.",
+      "reference": "Sucre, beurre de cacao, _lait_ entier en poudre, sirop de glucose, pâte de cacao, Cognac 8%, _lait_ écrémé en poudre, dextrose, émulsifiant: lécithine de _soja_, arôme.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Manchons confits de canard 40% (manchons de canard, sel, poivre, conservateur : nitrite de sodium), eau, carotte, pomme de terre, vin blanc doux, oignon, _crème_, amidon modifié de maïs, Armagnac 0.7%, arômes naturels (_blé_, _soja_), graisse de canard, sucre, sel, purée d'échalote, poivre, colorant : E150b.",
+      "reference": "Manchons confits de canard 40% (manchons de canard, sel, poivre, conservateur : nitrite de sodium), eau, carotte, pomme de terre, vin blanc doux, oignon, _crème_, amidon modifié de maïs, Armagnac 0,7%, arômes naturels (_blé_, _soja_), graisse de canard, sucre, sel, purée d'échalote, poivre, colorant : E150b.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Riz cuit 39, 4% (eau, riz, sel), eau, aiguillette de poulet traité en salaison rôti 16,6% (aiguillette de poulet (origine Brésil), eau, sel, dextrose), tomate 5%, purée de tomate double concentrée 4,4%, poivron rouge 3,1 %, poivron vert 3%, poivron jaune 2,7%, oignon préfrit (oignon, huile végétale de tournesol), tomate pelée concassée 1,6% (tomate, jus de tomate), purée d'ail, huile végétale de tournesol, amidon transformé de maïs, sucre, arômes (contient lait), sel, vinaigre de Xérès, basilic, colorant : extrait de paprika, poudre d'oignon, thym, curcUma, piment, poudre de laurier,",
+      "reference": "Riz cuit 39,4% (eau, riz, sel), eau, aiguillette de poulet traité en salaison rôti 16,6% (aiguillette de poulet (origine Brésil), eau, sel, dextrose), tomate 5%, purée de tomate double concentrée 4,4%, poivron rouge 3,1%, poivron vert 3%, poivron jaune 2,7%, oignon préfrit (oignon, huile végétale de tournesol), tomate pelée concassée 1,6% (tomate, jus de tomate), purée d'ail, huile végétale de tournesol, amidon transformé de maïs, sucre, arômes (contient lait), sel, vinaigre de Xérès, basilic, colorant : extrait de paprika, poudre d'oignon, thym, curcuma, piment, poudre de laurier,",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Sucre 40%, lait entier ou écréme 34,4%, poudre de lait écrémé 14 %, huile de palme hydrogénée 7,2 %, lactose 0,01 %,",
+      "reference": "Sucre 40%, lait entier ou écrémé 34,4%, poudre de lait écrémé 14%, huile de palme hydrogénée 7,2%, lactose 0,01%,",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pain de mie brioché aux graines 53,5% (farine de blé, eau, sucre, graines de tournesol 1,6%, huile de colza, oeufs entiers en poudre reconstitués, germes de maïs, graines de pavot 0,95%, levure, graines de millet 0,6% , gluten de blé, jaune d'oeuf en poudre, sel, graines de lin brun 0,4%, conservateur : E282, arôme), jambon cru 13 % (jambon de porc, sel, conservateurs: E252-E250, d'oeuf, épaississants : E415-E412, épice), roquette 2,5%, fromage frais 2,5%, ciboulette, sel, poivres (noir, blanc, vert), colorant E150c. antioxydant : E301), tomate 9,5% , cheddar rouge 7,5% ( lait, sel, ferments lactiques, présure, colorant E160b), beurre 5,5%, sauce au yaourt 5,5% ( eau , huile de colza, yaourt 1,1 % ( lait , ferments lactiques), vinaigre d'alcool, sucre, amidon modifié de maïs, sel, jaune arômes, dextrose, oignon en poudre. Produit élaboré à partir de jambon de porc origine UE. Traces éventueiles de moutarde, poissons et crustacés.",
+      "reference": "Pain de mie brioché aux graines 53,5% (farine de blé, eau, sucre, graines de tournesol 1,6%, huile de colza, œufs entiers en poudre reconstitués, germes de maïs, graines de pavot 0,95%, levure, graines de millet 0,6% , gluten de blé, jaune d’œuf en poudre, sel, graines de lin brun 0,4%, conservateur : E282, arôme), jambon cru 13% (jambon de porc, sel, conservateurs: E252-E250, d’œuf, épaississants : E415-E412, épice), roquette 2,5%, fromage frais 2,5%, ciboulette, sel, poivres (noir, blanc, vert), colorant E150c. antioxydant : E301), tomate 9,5% , cheddar rouge 7,5% ( lait, sel, ferments lactiques, présure, colorant E160b), beurre 5,5%, sauce au yaourt 5,5% ( eau , huile de colza, yaourt 1,1% ( lait , ferments lactiques), vinaigre d'alcool, sucre, amidon modifié de maïs, sel, jaune arômes, dextrose, oignon en poudre. Produit élaboré à partir de jambon de porc origine UE. Traces éventuelles de moutarde, poissons et crustacés.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Eau, sucre, piments rouges 16 %, ail, vinaigre, amidon modifié, sel, stabilisant : E412.",
+      "reference": "Eau, sucre, piments rouges 16%, ail, vinaigre, amidon modifié, sel, stabilisant : E412.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Piment rouge piquant 87 %, ail, coriandre, sel, carvi.",
+      "reference": "Piment rouge piquant 87%, ail, coriandre, sel, carvi.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Amidon de maïs 62 %, œufs 19 %, farine de maïs jaune 10 %, farine de maïs blanc 5,2 %, amidon de riz 2,6 %, amidon de pomme de terre 2,6 %, émulsifiant : E471. Traces de soja.",
+      "reference": "Amidon de maïs 62%, œufs 19%, farine de maïs jaune 10%, farine de maïs blanc 5,2%, amidon de riz 2,6%, amidon de pomme de terre 2,6%, émulsifiant : E471. Traces de soja.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Viande et couenne de porc (Origine ? IIE), Jenlain (1170), gélatine de porc, set, colorant : E 150q, arômes (CEIfRl). sirop de glucose, protéines de blanc d OEUF, oignons rôtis (panés dans farine de BLE)m épices, plantes aromatiques. dextrose, poudre de champignons, : E301, conservateur : Traces éventuelles :",
+      "reference": "Viande et couenne de porc (Origine : UE), Jenlain (11%), gélatine de porc, sel, colorant : E 150A, arômes (CÉLERI). sirop de glucose, protéines de blanc d'ŒUF, oignons rôtis (panés dans farine de BLÉ), épices, plantes aromatiques. dextrose, poudre de champignons, : E301, conservateur : Traces éventuelles :",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de froment (_gluten_), sucre, miel, chocolat 10 % enrobage (pâte de cacao 44 %, sucre 44 %, beurre de cacao 12 %, émulsifiant: lécithine de soja, arôme naturel de vanille)) épices, poudres à lever : carbonate acide d'ammonium , carbonate acide de sodium, blanc d'_œufs_, arômes naturels, humectant E420",
+      "reference": "Farine de froment (_gluten_), sucre, miel, chocolat 10% enrobage (pâte de cacao 44%, sucre 44%, beurre de cacao 12%, émulsifiant : lécithine de soja, arôme naturel de vanille)) épices, poudres à lever : carbonate acide d'ammonium , carbonate acide de sodium, blanc d'_œufs_, arômes naturels, humectant E420",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Viande bovine française 47,6%, protéines de soja réhydratées 24%, eau, oignons frits réhydratés 10% (oignons, huile de tournesol oléique, huile de tournesol), gras de bovin 3,4%, chapelure (dont blé), protéines de soja, arômes (dont soja), sel. Origine France - Elaborés en France,",
+      "reference": "Viande bovine française 47,6%, protéines de soja réhydratées 24%, eau, oignons frits réhydratés 10% (oignons, huile de tournesol oléique, huile de tournesol), gras de bovin 3,4%, chapelure (dont blé), protéines de soja, arômes (dont soja), sel. Origine France - Élaborés en France,",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "2 Steaks à gRilleR INGREDIENT 100% viande de boeuf (origine France).",
+      "reference": "2 Steaks à griller INGRÉDIENT 100% viande de bœuf (origine France).",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Sucre • Masse de cacao • Crème (_Lait_) • _Beurre_ de cacao • Sirop de glucose • Matière grasse butyrique (_Lait_) • Sel de mer • Emulsifiant : Lécithine de _soja_ - Agent d'enrobage : Shellac • Colorant : E171, E172 • Extrait de vanille • Huile de noix de coco.",
+      "reference": "Sucre • Masse de cacao • Crème (_Lait_) • _Beurre_ de cacao • Sirop de glucose • Matière grasse butyrique (_Lait_) • Sel de mer • Émulsifiant : Lécithine de _soja_ - Agent d'enrobage : Shellac • Colorant : E171, E172 • Extrait de vanille • Huile de noix de coco.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "15mg glycérol, 3,2mg menthol, sirop de maltitol, gélatine alimentaire, gélifiant: gomme arabique, huile végétale, édulcorants: aspartame et acésulfame K, extraits de fruits et de plantes colorants, arômes (dont 1,1 mg extrait de sauges, agents d'enrobage: cire d'abeille et cire de carnauba, et autres excipientes.",
+      "reference": "15mg glycérol, 3,2mg menthol, sirop de maltitol, gélatine alimentaire, gélifiant: gomme arabique, huile végétale, édulcorants: aspartame et acésulfame K, extraits de fruits et de plantes colorants, arômes (dont 1,1 mg extrait de sauges, agents d'enrobage: cire d'abeille et cire de carnauba, et autres excipients.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de ble (france) 32.2%, chocolat 25,2% (sucre, pâte de cacao, beurre de cacao, lécithine de soja, arôme naturel de vanille), sucre, huile de colza, noisettes hachées 7.1% , beurre concentré, amidon de ble, blanc d'oeuf, lait entier en poudre, poudres à lever : carbonates de sodium et carbonates d'ammonium, caramel (sucre, eau), colorant : caroténoïdes. traces éventuelles d'autres fruits à coque.",
+      "reference": "Farine de blé (france) 32,2%, chocolat 25,2% (sucre, pâte de cacao, beurre de cacao, lécithine de soja, arôme naturel de vanille), sucre, huile de colza, noisettes hachées 7,1% , beurre concentré, amidon de blé, blanc d’œuf, lait entier en poudre, poudres à lever : carbonates de sodium et carbonates d'ammonium, caramel (sucre, eau), colorant : caroténoïdes. traces éventuelles d'autres fruits à coque.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de froment, beurre concentré reconstitué, 27 % sucre, œufs frais 15 0%, crème de caramel 10 0%, éclats de caramel 10 0%, sirop de sucre .inverti, poudre levante (pyrophosphate et bicarbonate de soude alimentaire, amidon de maïs), sel, arôme artificiel. A consommer de préférence avant le :",
+      "reference": "Farine de froment, beurre concentré reconstitué, 27% sucre, œufs frais 15,0%, crème de caramel 10,0%, éclats de caramel 10,0%, sirop de sucre inverti, poudre levante (pyrophosphate et bicarbonate de soude alimentaire, amidon de maïs), sel, arôme artificiel. A consommer de préférence avant le :",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de mais, huile de tournesol, sucre, farine de riz, pépites de chocolat noir 9% (pate de cacao, sucre, beurré de cacao, émulsifiant: lécithines de soja, arôme naturel de vanille), fécule de pomme de terre, sirop de glucose, fécule de tapioca, chocolat noir 6% (pâte de cacao, sucre, beurre de cacao, émulsifiant : lécithines de _soja_, arôme naturel de vanille), humectant (glycérol), cacao en poudre, arôme, émulsifiant (lécithines de colza), inuline, épaississant (gomme xanthane), sel, poudre à lever (carbonates d'ammonium)",
+      "reference": "Farine de mais, huile de tournesol, sucre, farine de riz, pépites de chocolat noir 9% (pâte de cacao, sucre, beurre de cacao, émulsifiant: lécithines de soja, arôme naturel de vanille), fécule de pomme de terre, sirop de glucose, fécule de tapioca, chocolat noir 6% (pâte de cacao, sucre, beurre de cacao, émulsifiant : lécithines de _soja_, arôme naturel de vanille), humectant (glycérol), cacao en poudre, arôme, émulsifiant (lécithines de colza), inuline, épaississant (gomme xanthane), sel, poudre à lever (carbonates d'ammonium)",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Fruits (oranges douces 46%, oranges amères 6%), sucre de canne, gélifiant: pectines de fruit, acidifiant: acide citrique. Contient des écorces d'orange",
+      "reference": "Fruits (oranges douces 46%, oranges amères 6%), sucre de canne, gélifiant: pectines de fruit, acidifiant: acide citrique. Contient des écorces d'orange.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "eau, jus de pêche à base de concentré 10%, : polydextrose, acidifiant : acide Citrique, arômes, ehoxyméthylcellulose - gomme xanthane, éduldorants Sodium - acésulfame K - sucralose, colorant : lutéine, sorbate de potassium, jus concentré de sureau, stabilisant : estes glycériques de résine de bois. Conseils d'utilisation : Agiter avant emploi. 1 volume de boisson diluée pour 7 à 8 volumes d'eau.",
+      "reference": "eau, jus de pêche à base de concentré 10%, polydextrose, acidifiant : acide citrique, arômes, ehoxyméthylcellulose - gomme xanthane, édulcorants, sodium - acésulfame K - sucralose, colorant : lutéine, sorbate de potassium, jus concentré de sureau, stabilisant : esters glycériques de résine de bois. Conseils d'utilisation : Agiter avant emploi. 1 volume de boisson diluée pour 7 à 8 volumes d'eau.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de _blé_ 51,5 %, chocolat au lait 25 % (sucre de canne, poudre de _lait_ entier, beurre de cacao, pâte de cacao, extrait de vanille), graisse de palme 12,3 %, sucre de canne 11,5 %, poudre de _lait_ écrémé, sirop de glucose-fructose, noix de coco, poudre à lever : carbonates de sodium et carbonates d'ammonium, sel marin, arôme naturel de vanille, _œufs_ en poudre.",
+      "reference": "Farine de _blé_ 51,5%, chocolat au lait 25% (sucre de canne, poudre de _lait_ entier, beurre de cacao, pâte de cacao, extrait de vanille), graisse de palme 12,3%, sucre de canne 11,5%, poudre de _lait_ écrémé, sirop de glucose-fructose, noix de coco, poudre à lever : carbonates de sodium et carbonates d'ammonium, sel marin, arôme naturel de vanille, _œufs_ en poudre.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "farine de _blé_ (_gluten_), beurre frais de baratte (lait) 23%, tomate 9%, poudre de tomate 6%, _oeufs_ frais entiers, sucre, poudre de lait écrémé, sel, poudre à lever (diphosphate disodique, carbonate acide de sodium), paprika doux, poivre, piment d'Espelette 0,1%",
+      "reference": "farine de _blé_ (_gluten_), beurre frais de baratte (lait) 23%, tomate 9%, poudre de tomate 6%, _œufs_ frais entiers, sucre, poudre de lait écrémé, sel, poudre à lever (diphosphate disodique, carbonate acide de sodium), paprika doux, poivre, piment d'Espelette 0,1%",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Avocat 91,9%, poivron rouge 2,2%, jus de citron vert 1,5%, piment Jalapeno, oignon, coriandre, sel, antioxydant : acide ascorbique, cumin, conservateur : sorbate de potassium, poudre d'ail, poivre noir, épaississant : gommę xanthane.",
+      "reference": "Avocat 91,9%, poivron rouge 2,2%, jus de citron vert 1,5%, piment Jalapeno, oignon, coriandre, sel, antioxydant : acide ascorbique, cumin, conservateur : sorbate de potassium, poudre d'ail, poivre noir, épaississant : gomme xanthane.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "sprats (sprattus sprattus) fumés (70%), huile d'olive vierge extra (24.5%), vinaigre d'alcool, zestes de citron (1.9%), sel, arôme naturel.",
+      "reference": "sprats (sprattus sprattus) fumés (70%), huile d'olive vierge extra (24,5%), vinaigre d'alcool, zestes de citron (1,9%), sel, arôme naturel.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Colin d'alaska 41 %, eau, creme fraîche liquide 7,4 %, flocons de pomme de terre déshydratés 7,2 % (pomme de terre, émulsifiant : e471), échalote 3,4 %, lait entier en poudre, huile de tournesol, chapelure (farine de ble, levure, sel), sel, huile d'olive vierge extra, ciboulette, blanc d'oeuf en poudre, ail, poudre de poisson blanc, poivre, curcuma, thym, laurier. traces de céleri, crustacés, fruits à coque, mollusques, moutarde, sésame et soja.",
+      "reference": "Colin d’Alaska 41%, eau, crème fraîche liquide 7,4%, flocons de pomme de terre déshydratés 7,2% (pomme de terre, émulsifiant : e471), échalote 3,4%, lait entier en poudre, huile de tournesol, chapelure (farine de blé, levure, sel), sel, huile d'olive vierge extra, ciboulette, blanc d’œuf en poudre, ail, poudre de poisson blanc, poivre, curcuma, thym, laurier. Traces de céleri, crustacés, fruits à coque, mollusques, moutarde, sésame et soja.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "farine blanche (froment), sucre, fécule de pomme de terre, graisses et huiles végétales (palme, colza), sirop de sucre inverti, sel de cuisine, poudre à lever (E 500), arôme. (gluten)",
+      "reference": "farine blanche (froment), sucre, fécule de pomme de terre, graisses et huiles végétales (palme, colza), sirop de sucre inverti, sel de cuisine, poudre à lever (E500), arôme. (gluten)",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Viande de porc 161 g, viande de boeuf 18 g, sel nitrité (sel de cuisine, conservateur [E 250]), dextrose, épices, sirop de glucose, antioxydants (E 300, E 301). Enveloppe: Boyau collagènique de boeuf.",
+      "reference": "Viande de porc 161 g, viande de bœuf 18 g, sel nitrité (sel de cuisine, conservateur [E 250]), dextrose, épices, sirop de glucose, antioxydants (E 300, E 301). Enveloppe: Boyau collagénique de bœuf.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "pâte de cacao*, sucre de canne brun*, beurre écu Cacao'. 62 % min. Peut contenir des composants de fruitsòcc; lait et de gluten. * issu de culture biologique, consommer de préférence avant fin de: voir impression (l) PEZZETTI Dl CIOCCOLATO DA AGRICOLTURA FONDENTE Ingredienti: pasta di cacao*, burro di cacao*, Cacao: 62 % minimo. Può contenere agrico/tJ( frutta a guscio, latte e cereali con glutine. consumarsi preferibi!mente entro la fine; vedistamP (NI) BIOLOGISCHE CHOCOLADE pUUR, g er05P Puur) Ingrediënten: cacaomassa$, ruwe rietsUiker Q 629%. Kan noten, gluten en",
+      "reference": "pâte de cacao*, sucre de canne brun*, beurre écu Cacao'. 62% min. Peut contenir des composants de fruits à coque, lait et de gluten. * issu de culture biologique, consommer de préférence avant fin de: voir impression (l) PEZZETTI Dl CIOCCOLATO DA AGRICOLTURA FONDENTE Ingredienti: pasta di cacao*, burro di cacao*, Cacao: 62% minimo. Può contenere agrico/tJ( frutta a guscio, latte e cereali con glutine. consumarsi preferibi!mente entro la fine; vedistamP (NI) BIOLOGISCHE CHOCOLADE pUUR, g er05P Puur) Ingrediënten: cacaomassa$, ruwe rietsUiker Q 629%. Kan noten, gluten en",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de _blé_ 50%, beurre* concentré 26%, sucre, amidon de _blé_ , babeurre* en poudre, sel, _oeuf_ entier en poudre, poudres à lever : carbonates de sodium – carbonates d'ammonium. *dont _lait",
+      "reference": "Farine de _blé_ 50%, beurre* concentré 26%, sucre, amidon de _blé_ , babeurre* en poudre, sel, _œuf_ entier en poudre, poudres à lever : carbonates de sodium – carbonates d'ammonium. *dont _lait_",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Sucre, dextrose (25 %), cacao fortement dégraissé (18%), émulsifiant (lécithine de SOJA), sel, arôme (vanilline).",
+      "reference": "Sucre, dextrose (25%), cacao fortement dégraissé (18%), émulsifiant (lécithine de SOJA), sel, arôme (vanilline).",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Eau, lentilles vertes précuites 36 %, _moutarde_ à l'ancienne 3,2 % (eau, graines de _moutarde_, vinaigre d'alcool, sel, vinaigre de vin blanc, sucre, épices), _crème_ fraîche de Normandie, _moutarde_ de Dijon (eau, graines de _moutarde_, vinaigre d'alcool, sel), carotte, oignon, arôme naturel, farine de _blé_, fines herbes 0,5 % (ciboulette, persil, estragon), sucre, sel, poivre.",
+      "reference": "Eau, lentilles vertes précuites 36%, _moutarde_ à l'ancienne 3,2% (eau, graines de _moutarde_, vinaigre d'alcool, sel, vinaigre de vin blanc, sucre, épices), _crème_ fraîche de Normandie, _moutarde_ de Dijon (eau, graines de _moutarde_, vinaigre d'alcool, sel), carotte, oignon, arôme naturel, farine de _blé_, fines herbes 0,5% (ciboulette, persil, estragon), sucre, sel, poivre.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Viande de poulet : 43%, panure : 30% (eau, farine de ble, farine de ble malté, huile de colza, huile de tournesol, levure, dextrose de blé, sel, oignon déshydraté : 1,3%), cheddar fondu : 12% (cheddar: 6%, fromages, eau, beurre, amidons modifiés de maïs et de pomme de terre, protéines de lait, sel émulsifiants : citrates de sodium, lactosérum, arôme, gélifiant : carraghénanes, colorant : rocou), eau, farine de ble et fibres de ble , sel, arômes naturels. huile de tournesol.",
+      "reference": "Viande de poulet : 43%, panure : 30% (eau, farine de blé, farine de blé malté, huile de colza, huile de tournesol, levure, dextrose de blé, sel, oignon déshydraté : 1,3%), cheddar fondu : 12% (cheddar: 6%, fromages, eau, beurre, amidons modifiés de maïs et de pomme de terre, protéines de lait, sel émulsifiants : citrates de sodium, lactosérum, arôme, gélifiant : carraghénanes, colorant : rocou), eau, farine de blé et fibres de blé , sel, arômes naturels. Huile de tournesol.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "produit à base de viande de poulet cuit 36% (avec viande de poulet 97% [ Brésil ], fécule de pomme de terre, sel de cuisine, huile végétale), eau, fruits 15% (pêches, ananas, pommes), concentré d'ananas, lait écrémé en poudre, crème, huile de colza, amidon de riz, vin blanc, curry 1.5% (contient moutarde), sauce de soja (contient blé), condiment en poudre, protéine de lait, lactose, sucre, sel de cuisine, extraits d'épices, jus de citron concentré, épaississant: farine de graines de guar, antioxydant: acide ascorbique et acide citrique.",
+      "reference": "produit à base de viande de poulet cuit 36% (avec viande de poulet 97% [ Brésil ], fécule de pomme de terre, sel de cuisine, huile végétale), eau, fruits 15% (pêches, ananas, pommes), concentré d'ananas, lait écrémé en poudre, crème, huile de colza, amidon de riz, vin blanc, curry 1,5% (contient moutarde), sauce de soja (contient blé), condiment en poudre, protéine de lait, lactose, sucre, sel de cuisine, extraits d'épices, jus de citron concentré, épaississant: farine de graines de guar, antioxydant: acide ascorbique et acide citrique.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Semoule 1/2 complète de blé dur*. *Ingrédient issu de l'Agriculture Biologique Peut contenir des traces d'œuf",
+      "reference": "Semoule 1/2 complète de blé dur*. *Ingrédient issu de l'Agriculture Biologique. Peut contenir des traces d'œuf.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de BLÉ, viande de bœuf 28 % (origine : France), eau, carotte, vermicelle réhydraté (eau, amidon de pois), tomate, oignon, jaune d’_œuf_, sucre, sel, épices, chapelure (BLÉ), plantes aromatiques, colorants : extrait de paprika, caramel ordinaire; sucre caramélisé, huile de tournesol.",
+      "reference": "Farine de BLÉ, viande de bœuf 28% (origine : France), eau, carotte, vermicelle réhydraté (eau, amidon de pois), tomate, oignon, jaune d’_œuf_, sucre, sel, épices, chapelure (BLÉ), plantes aromatiques, colorants : extrait de paprika, caramel ordinaire; sucre caramélisé, huile de tournesol.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pommes (purée et purée concentrée) 71,9%, fraises 20 %, framboises 5 %, bananes 3 %, jus concentré d'acérola,",
+      "reference": "Pommes (purée et purée concentrée) 71,9%, fraises 20%, framboises 5%, bananes 3%, jus concentré d'acérola,",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "75% cacao, sucre, pur beurre de cacao, LÉCITHINE DE SOJA sans OGM.Peut contenir des traces de NOISETTES, ou de LAIT.",
+      "reference": "75% cacao, sucre, pur beurre de cacao, LÉCITHINE DE SOJA sans OGM. Peut contenir des traces de NOISETTES, ou de LAIT.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "100 % semoule de _blé_ dur de qualité supérieure.",
+      "reference": "100% semoule de _blé_ dur de qualité supérieure.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Jambon cuit supérieur découenné dégraissé 4 tr édients : Jambon de porc (origine UE). grop de ucose, arômes. antioxydant : éryttwbate sodium, conservateur : nitrite A conserver entre OOC et +4'C. Condttionné sous atmosphère protectrice.",
+      "reference": "Jambon cuit supérieur découenné dégraissé 4 ingrédients : Jambon de porc (origine UE). sirop de glucose, arômes. antioxydant : érythorbate sodium, conservateur : nitrite A conserver entre 0°C et +4°C. Conditionné sous atmosphère protectrice.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "cacao faible en gras - lait écrémé en poudre - alcool - stabilisants: pectine - conservateurs : sorbate de potassium - arômes) - oeufs frais - sucre - beurre - huile de tournesol - levure naturelle (farine de blé - eau - levure) - sirop de glucose - émulsifiants: mono et diglycérides d'acides gras - alcool - lait écrémé en poudre - sel - arômes.",
+      "reference": "cacao faible en gras - lait écrémé en poudre - alcool - stabilisants: pectine - conservateurs : sorbate de potassium - arômes) - œufs frais - sucre - beurre - huile de tournesol - levure naturelle (farine de blé - eau - levure) - sirop de glucose - émulsifiants: mono et diglycérides d'acides gras - alcool - lait écrémé en poudre - sel - arômes.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "lait entier* - sucre* - crème* 10,2% - œufs frais* 9,5% - jaune d'oeufs frais* 7% - lait écrémé en poudre* - amidon de riz* - arôme naturel de vanille. Lait et crème origine : France, Traces degluten, *Issus de l'agriculture biologique Les informations en gras sont destinées aux personnes allergiques ou intolérantes.",
+      "reference": "lait entier* - sucre* - crème* 10,2% - œufs frais* 9,5% - jaune d’œufs frais* 7% - lait écrémé en poudre* - amidon de riz* - arôme naturel de vanille. Lait et crème origine : France, Traces de gluten, *Issus de l'agriculture biologique. Les informations en gras sont destinées aux personnes allergiques ou intolérantes.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de _blé_, sirop de glucose-fructose, sucre, huiles végétales (palme, colza, tournesol) en proportion variable, fruits des bois (myrtille, mûre) 5 %, sirop de sucre inverti, agent épaississant : pectine, poudres à lever : E450i et E500ii, sel, conservateurs : E202 et E282, arômes, protéine du _lait_, correcteurs d'acidité : E330, E332 et E333, émulsifiants : lécithine de _soja_, lécithine de tournesol et E471, sucre du _lait_, colorant E160a.",
+      "reference": "Farine de _blé_, sirop de glucose-fructose, sucre, huiles végétales (palme, colza, tournesol) en proportion variable, fruits des bois (myrtille, mûre) 5%, sirop de sucre inverti, agent épaississant : pectine, poudres à lever : E450i et E500ii, sel, conservateurs : E202 et E282, arômes, protéine du _lait_, correcteurs d'acidité : E330, E332 et E333, émulsifiants : lécithine de _soja_, lécithine de tournesol et E471, sucre du _lait_, colorant E160a.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "_lait_ entier 64.4% - fruits 10,5% (fraise ou abricot ou poire ou nectarine ou mûre ou cerise) - sucre 9,3% - _crème_ 4,1% - _lait_ concentré à base de poudre de _lait_ écrémé - sirop de glucose-fructose 1,7% - amidon transformé de maïs - épaississants : pectines, gomme guar, gomme xanthane - arômes - colorants : anthocyanes, cochenille, extrait de paprika, lutéine - correcteurs d'acidité : citrates de sodium, acide citrique, citrates de potassium, phosphates de calcium, citrates de calcium - ferments lactiques (contient _lait_). lait et crème origine : france",
+      "reference": "_lait_ entier 64,4% - fruits 10,5% (fraise ou abricot ou poire ou nectarine ou mûre ou cerise) - sucre 9,3% - _crème_ 4,1% - _lait_ concentré à base de poudre de _lait_ écrémé - sirop de glucose-fructose 1,7% - amidon transformé de maïs - épaississants : pectines, gomme guar, gomme xanthane - arômes - colorants : anthocyanes, cochenille, extrait de paprika, lutéine - correcteurs d'acidité : citrates de sodium, acide citrique, citrates de potassium, phosphates de calcium, citrates de calcium - ferments lactiques (contient _lait_). lait et crème origine : France",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Flocons d'épeautre, graines de tournesol, graines de lin, son d'avoine, grainesde courge 11 %, sonde blé,son d'épeautre, farine d'épeautre complet, eau, sel",
+      "reference": "Flocons d'épeautre, graines de tournesol, graines de lin, son d'avoine, graines de courge 11%, son de blé, son d'épeautre, farine d'épeautre complet, eau, sel",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Filet de Limande du Nord 72%, enrobage 28% : eau huiles végétales (tournesol, colza), farine de blé, fécule de pomme de terre, amidon modifié de maïs, gluten de blé, sel, lactose et protéines de lait, arôme, sucre, dextrose, persil déshydraté, colorants : carotène et extraits de et de curcuma, poudre d'œuf entier, épaississants : E461-E412-E415; amidon modifié de tapioca, poudres à lever : E450i?E500ii. Traces possibles de mollusques. (i) Malgré tout le soin apporté à la préparation de nos produits, la présence exceptionnelle d'arêtes n'est jamais exclue.",
+      "reference": "Filet de Limande du Nord 72%, enrobage 28% : eau huiles végétales (tournesol, colza), farine de blé, fécule de pomme de terre, amidon modifié de maïs, gluten de blé, sel, lactose et protéines de lait, arôme, sucre, dextrose, persil déshydraté, colorants : carotène et extraits de et de curcuma, poudre d'œuf entier, épaississants : E461-E412-E415; amidon modifié de tapioca, poudres à lever : E450i-E500ii. Traces possibles de mollusques. (i) Malgré tout le soin apporté à la préparation de nos produits, la présence exceptionnelle d'arêtes n'est jamais exclue.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Sucre (france), oeuf entier (reconstitué à partir de poudre d oeuf), huile de colza, farine de riz, amidon de pomme de terre, stabilisants : glycérol et gomme xanthane, amidon de maïs, poudres à lever : diphosphates et carbonates de sodium, arôme naturel de citron, émulsifiant : mono - et diglycérides d'acides gras, conservateur : sorbate de potassium, sel, colorant : riboflavine. traces éventuelles de soja.",
+      "reference": "Sucre (France), œuf entier (reconstitué à partir de poudre d'œuf), huile de colza, farine de riz, amidon de pomme de terre, stabilisants : glycérol et gomme xanthane, amidon de maïs, poudres à lever : diphosphates et carbonates de sodium, arôme naturel de citron, émulsifiant : mono - et diglycérides d'acides gras, conservateur : sorbate de potassium, sel, colorant : riboflavine. Traces éventuelles de soja.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pommes de terre 96 %, huile de tournesol 4 %, stabilisant : E450, dextrose.",
+      "reference": "Pommes de terre 96%, huile de tournesol 4%, stabilisant : E450, dextrose.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Sucre, _amande_, farine de _blé_, blanc d'_œuf_, Pineau des Charentes 2 %.",
+      "reference": "Sucre, _amande_, farine de _blé_, blanc d'_œuf_, Pineau des Charentes 2%.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "viande de porc (origine: France) sel lactose épices et plantes aromatiques dextrose conservateurs: nitrate de potassium et nitrite de sodium - ferments - boyau naturel de porc. Poudre de fleurage: carbonate de calcium talc. 164 g de viande de porc mis en ceuvre pour 100 g de saucisson sec. Traces possibles de fruits à coque.",
+      "reference": "viande de porc (origine: France) - sel - lactose - épices et plantes aromatiques - dextrose - conservateurs: nitrate de potassium et nitrite de sodium - ferments - boyau naturel de porc. Poudre de fleurage: carbonate de calcium talc. 164 g de viande de porc mis en oeuvre pour 100 g de saucisson sec. Traces possibles de fruits à coque.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Sirop de glucose, sucre, huile de palme, lait écrémé en poudre, mélasses, extrait de réglisse 0.6 %, latine, colorant (E153), émulsifiants (E471, lécithine de tournesol), arômes naturels de menthe, arômes naturels, sel.",
+      "reference": "Sirop de glucose, sucre, huile de palme, lait écrémé en poudre, mélasses, extrait de réglisse 0,6%, latine, colorant (E153), émulsifiants (E471, lécithine de tournesol), arômes naturels de menthe, arômes naturels, sel.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "JAMBON DE PARIS DE QUALITÉ SUPERIEURE ANGRÊDIENTS : Jambon de (origine : sel, dextrose, conservateur : 5e e.odiurn. SARS CLUTEN. INFORMATIONS :",
+      "reference": "JAMBON DE PARIS DE QUALITÉ SUPÉRIEURE INGRÉDIENTS : Jambon de (origine : sel, dextrose, conservateur : nitrite de sodium. SANS GLUTEN. INFORMATIONS :",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Glaçage goût chocolat au lait 23% (sucre, matière grasse de palme et palmiste, lait écrémé en poudre, cacao maigre en poudre, lait entier en poudre, huile de tournesol, émulsifiants : lécithine de tournesol et tristéarate de sorbitane, arôme), sucre, farine de ble, oeufs, huile de colza, dragées colorées au chocolat 5% (sucre, beurre de cacao, lactosérum en poudre (lait), cacao maigre en poudre, poudre de lait entier, amidon de riz, émulsifiant : lécithine de tournesol, agents d enrobage : gomme arabique - cire d'abeille blanche et jaune - cire de carnauba, colorants aux extraits de plantes : raisin - radis - cassis - citron - carthame - spiruline), stabilisants : glycérol et gomme xanthane, amidon modifié de maïs, amidon de maïs, lactosérum en poudre (lait), poudres à lever : diphosphates et carbonate de sodium, amidon de ble (gluten), conservateur : sorbate de potassium, sel, arômes, gluten de ble, enzyme, protéines de lait. traces éventuelles de soja, fruits à coque et arachides",
+      "reference": "Glaçage goût chocolat au lait 23% (sucre, matière grasse de palme et palmiste, lait écrémé en poudre, cacao maigre en poudre, lait entier en poudre, huile de tournesol, émulsifiants : lécithine de tournesol et tristéarate de sorbitane, arôme), sucre, farine de blé, œufs, huile de colza, dragées colorées au chocolat 5% (sucre, beurre de cacao, lactosérum en poudre (lait), cacao maigre en poudre, poudre de lait entier, amidon de riz, émulsifiant : lécithine de tournesol, agents d enrobage : gomme arabique - cire d'abeille blanche et jaune - cire de carnauba, colorants aux extraits de plantes : raisin - radis - cassis - citron - carthame - spiruline), stabilisants : glycérol et gomme xanthane, amidon modifié de maïs, amidon de maïs, lactosérum en poudre (lait), poudres à lever : diphosphates et carbonate de sodium, amidon de blé (gluten), conservateur : sorbate de potassium, sel, arômes, gluten de blé, enzyme, protéines de lait. Traces éventuelles de soja, fruits à coque et arachides",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pâte (65 %) : semoule de _blé_ dur de qualité supérieure, eau, _œufs_ (140g par kg de semoule). Farce (35 %) : préparation de viande de dinde cuite 10,3 % (dinde 9,5 %, eau, fécule de pomme de terre, sel, poivre), chapelure (_blé_, eau, _ricotta_, oignons, huile de tournesol, couscous (_blé_), sel, arôme naturel.",
+      "reference": "Pâte (65%) : semoule de _blé_ dur de qualité supérieure, eau, _œufs_ (140g par kg de semoule). Farce (35%) : préparation de viande de dinde cuite 10,3% (dinde 9,5%, eau, fécule de pomme de terre, sel, poivre), chapelure (_blé_, eau, _ricotta_, oignons, huile de tournesol, couscous (_blé_), sel, arôme naturel.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Semoule de blé dur* réhydratée (semoule de blé dur*/ eau), tomates* 10%, carottes* rouge* huile e tournesol*, oignon*, jus de citron*, vinaigre poivron vert* menthe douce* huile moutarde de (eau, graines de moutarde brune*, vinaigre d'alcool*, sel), : gor,me de xanthane, épices*. *Produit est issu de l'agriculture biologique et certifié par Bureau Veritas C*ation France - FR BIO 10.",
+      "reference": "Semoule de blé dur* réhydratée (semoule de blé dur*/ eau), tomates* 10%, carottes* rouge*, huile de tournesol*, oignon*, jus de citron*, vinaigre, poivron vert*, menthe douce*, huile, moutarde (eau, graines de moutarde brune*, vinaigre d'alcool*, sel) : gomme de xanthane, épices*. *Produit est issu de l'agriculture biologique et certifié par Bureau Veritas Certification France - FR BIO 10.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Eau, fèves de soja* dégraissées chapelure* (farine * blanche de blé* 11,7%, sel, levure, curcuma*), oignons*, huile de* tournesol* désodorisée, blanc d'?uf*, farine blanche de blé* de citron*, amidon de pomme de terre*, préparation d'épices* (oignons*, ail*, panais*, poivre*, macis*), gluten de blé*, sucre de canne* blond, sel, épaississant : gomme guar*. Pourcentages exprimés sur produit fini. Peut contenir des traces de céleri, lait, moutarde, fruits à coque et graines de sésame.",
+      "reference": "Eau, fèves de soja* dégraissées chapelure* (farine * blanche de blé* 11,7%, sel, levure, curcuma*), oignons*, huile de* tournesol* désodorisée, blanc d’œuf*, farine blanche de blé* de citron*, amidon de pomme de terre*, préparation d'épices* (oignons*, ail*, panais*, poivre*, macis*), gluten de blé*, sucre de canne* blond, sel, épaississant : gomme guar*. Pourcentages exprimés sur produit fini. Peut contenir des traces de céleri, lait, moutarde, fruits à coque et graines de sésame.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Palets : Farine de _blé_, _beurre_ pâtissier 27 % (soit 32 % en beurre reconstitué), sucre, _œufs_, blancs d'_œufs_, sel, poudres à lever : diphosphates, carbonates de sodium, malt (_orge_), colorant : E160a. Galettes : Farine de _blé_, sucre, _beurre_ pâtissier 20 % (soit 24 % en beurre reconstitué), _œufs_, sel, poudres à lever : carbonates d'ammonium, carbonates de sodium, diphosphates, malt (_orge_), poudre de _lait_ écrémé, stabilisant : sorbitols, colorants : E150a, E160a, épaississant : gomme arabique.",
+      "reference": "Palets : Farine de _blé_, _beurre_ pâtissier 27% (soit 32% en beurre reconstitué), sucre, _œufs_, blancs d'_œufs_, sel, poudres à lever : diphosphates, carbonates de sodium, malt (_orge_), colorant : E160a. Galettes : Farine de _blé_, sucre, _beurre_ pâtissier 20% (soit 24% en beurre reconstitué), _œufs_, sel, poudres à lever : carbonates d'ammonium, carbonates de sodium, diphosphates, malt (_orge_), poudre de _lait_ écrémé, stabilisant : sorbitols, colorants : E150a, E160a, épaississant : gomme arabique.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "(à la mise en ?uvre) : Lait frais pasteurisé : 41%, viande de dinde origine France : 25%, peaux de poulet, qraisse de canard, Porto modifié (dont arôme naturel), amidon de pomme de terre, sel, moriltes : 1%, protéines de lait, lactosérum, arômes, lactose, poivre, poudre de lait écrémé, acidifiant : lactate de potassium. Boyau naturel de porc. ne ,6009 2009 GRATUITS Service Consommateurs FR CE www.legaulois.ff",
+      "reference": "(à la mise en œuvre) : Lait frais pasteurisé : 41%, viande de dinde origine France : 25%, peaux de poulet, graisse de canard, Porto modifié (dont arôme naturel), amidon de pomme de terre, sel, morilles : 1%, protéines de lait, lactosérum, arômes, lactose, poivre, poudre de lait écrémé, acidifiant : lactate de potassium. Boyau naturel de porc. GRATUITS Service Consommateurs FR CE www.legaulois.ff",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Viande de porc, gras de porc, eau, plasma de porc, sel, antioxydants : E300 - E301, stabilisants : E450, E451, E452, pistaches (0.3%), dextrose, acidifiants : E575, E330, épices, exhausteurs de goût : E621, arômes, conservateur : E250.",
+      "reference": "Viande de porc, gras de porc, eau, plasma de porc, sel, antioxydants : E300 - E301, stabilisants : E450, E451, E452, pistaches (0,3%), dextrose, acidifiants : E575, E330, épices, exhausteurs de goût : E621, arômes, conservateur : E250.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "57 % céréales (farine de _blé_, son de _blé_, farine de _seigle_), sucre, huiles végétales (palme, tournesol), 12,5 % pépites de chocolat [sucre, pâte de cacao, beurre de cacao, émulsifiant (E322, contient du _soja_), arôme naturel (vanille)], amidon de _blé_, poudres à lever E503, E450), 0,7 % _lait_ entier en poudre (= 5,5 % lait entier), sirop de sucre inverti, arôme, émulsifiant (E322, contient du _blé_), _lait_ écrémé en poudre, lactosérum en poudre (contient du _lait_).",
+      "reference": "57% céréales (farine de _blé_, son de _blé_, farine de _seigle_), sucre, huiles végétales (palme, tournesol), 12,5% pépites de chocolat [sucre, pâte de cacao, beurre de cacao, émulsifiant (E322, contient du _soja_), arôme naturel (vanille)], amidon de _blé_, poudres à lever E503, E450), 0,7% _lait_ entier en poudre (= 5,5% lait entier), sirop de sucre inverti, arôme, émulsifiant (E322, contient du _blé_), _lait_ écrémé en poudre, lactosérum en poudre (contient du _lait_).",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Chou 41%, carottes 28%, huile de colza. eau, vinaigre d'alcool, sucre, oignons, MOUTARDE de Dijon [eau, graine de MOUTARDE, vinaigre d'alcool, sel, acidifiant : E330, conservateur : E224], jaune d'OEUF, sel, amidon modifié de maïs. jus concentré de citron, conservateur : E202, épaississant : E415, poivre.",
+      "reference": "Chou 41%, carottes 28%, huile de colza. eau, vinaigre d'alcool, sucre, oignons, MOUTARDE de Dijon [eau, graine de MOUTARDE, vinaigre d'alcool, sel, acidifiant : E330, conservateur : E224], jaune d'ŒUF, sel, amidon modifié de maïs. jus concentré de citron, conservateur : E202, épaississant : E415, poivre.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pure huile de sesame",
+      "reference": "Pure huile de sésame",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "baies de GoJj",
+      "reference": "baies de Goji",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "_Crème_ (35% M.G.), chocolat blanc 25 % [sucre, _lait_ entier en poudre 27,3 %, beurre de cacao 23,6 %, émulsifiant (lécithine de _soja_), arôme naturel de vanille, blanc d’_œuf_ de poule pasteurisé, sucre impalpable (_gluten_), gélatine de porc.",
+      "reference": "_Crème_ (35% M.G.), chocolat blanc 25% [sucre, _lait_ entier en poudre 27,3%, beurre de cacao 23,6%, émulsifiant (lécithine de _soja_), arôme naturel de vanille, blanc d’_œuf_ de poule pasteurisé, sucre impalpable (_gluten_), gélatine de porc.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pommes de terre 72 %, poireaux 19 %, _crème_ 4 %, échalote, _beurre_, sel, amidon de pomme de terre, fond de légumes, extrait de légumes (carotte, poireau, oignon ail), extrait de vin blanc, sel, huile de tournesol, extrait d'épices (thym, laurier, clous de girofle)], poivre blanc, noix de muscade.",
+      "reference": "Pommes de terre 72%, poireaux 19%, _crème_ 4%, échalote, _beurre_, sel, amidon de pomme de terre, fond de légumes, extrait de légumes (carotte, poireau, oignon ail), extrait de vin blanc, sel, huile de tournesol, extrait d'épices (thym, laurier, clous de girofle)], poivre blanc, noix de muscade.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "concassées, concentré de tomates, oignons, huile de tournesol,amidon modifié E1422 sel. sucre, épices, ail,(anhydride sulfureux et sulfites",
+      "reference": "concassées, concentré de tomates, oignons, huile de tournesol, amidon modifié E1422 sel, sucre, épices, ail (anhydride sulfureux et sulfites)",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "_oeufs_ - sucre - chocolat 22% (pâte de cacao - sucre - beurre de cacao - émulsifiant: lécithines de _soja_) - farine de _blé_ - huile de colza - _beurre_.traces de _fruits à coque._",
+      "reference": "_œufs_ - sucre - chocolat 22% (pâte de cacao - sucre - beurre de cacao - émulsifiant: lécithines de _soja_) - farine de _blé_ - huile de colza - _beurre_. Traces de _fruits à coque._",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "JUS DE FRUITS FAIT DE CONCENTRE (EAU, JUS CONCENTRES DE POMME ET QU POIRE ET/OU RAISIN [SULFITES, ACIDE MALIQUE, VITAMINE CET AROME NATUREL.",
+      "reference": "JUS DE FRUITS FAIT DE CONCENTRÉ (EAU, JUS CONCENTRÉS DE POMME ET OU POIRE ET/OU RAISIN [SULFITES, ACIDE MALIQUE, VITAMINE C ET ARÔME NATUREL.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "_Lait_ écrémé, crème (contient _lait_) 26 %, caramel 10 % (sucre, eau, sirop de glucose-fructose de blé et de chicorée, épaississants : pectine, gomme xanthane, amidon modifié de maïs), sucre, amidon modifié de maïs, lactose (contient _lait_), gélifiants : carraghénanes, gomme de guar, protéines de _lait_, gélatine de porc, arômes, émulsifiant : esters lactiques de mono - et diglycérides d'acides gras, colorants : rocou, caramel ordinaire.",
+      "reference": "_Lait_ écrémé, crème (contient _lait_) 26%, caramel 10% (sucre, eau, sirop de glucose-fructose de blé et de chicorée, épaississants : pectine, gomme xanthane, amidon modifié de maïs), sucre, amidon modifié de maïs, lactose (contient _lait_), gélifiants : carraghénanes, gomme de guar, protéines de _lait_, gélatine de porc, arômes, émulsifiant : esters lactiques de mono - et diglycérides d'acides gras, colorants : rocou, caramel ordinaire.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Semoule de ble dur de qualité supérieure, spiruline 2%.",
+      "reference": "Semoule de blé dur de qualité supérieure, spiruline 2%.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Fraise bio 83 0%, sucre bio 17 % Fabrication française",
+      "reference": "Fraise bio 83%, sucre bio 17% Fabrication française",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Eau - alcool - sucre - arôme naturel de réglisse - arôme naturel d'anis étoilé 0.2% - colorant : caramel ordinaire.",
+      "reference": "Eau - alcool - sucre - arôme naturel de réglisse - arôme naturel d'anis étoilé 0,2% - colorant : caramel ordinaire.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Fabriqué à partir de crème issue de lait d'Europe Incrédients : beurre de baratte pasteurisé doux (97%) à 82% de matière grasse, sel fin",
+      "reference": "Fabriqué à partir de crème issue de lait d'Europe Ingrédients : beurre de baratte pasteurisé doux (97%) à 82% de matière grasse, sel fin",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "farine de froment, œufs, lait entier pasteurisé Aprigine: France), sucre, sel, extrait de vanille naturelle Conditi( 35.",
+      "reference": "farine de froment, œufs, lait entier pasteurisé (origine: France), sucre, sel, extrait de vanille naturelle.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pommes de terre déshydratées* 95% - sel de mer - oignon en poudre* 0,4% - noix de muscade* 0,2% - ail* 0,04% - livèche* 0,03% - huile de tournesol* - curcuma* 0,004%. *ingrédients issus de l'agriculture biologique. traces de _céleri_, _gluten_, _moutarde_, _soja_, _oeuf_ et _lait_.",
+      "reference": "Pommes de terre déshydratées* 95% - sel de mer - oignon en poudre* 0,4% - noix de muscade* 0,2% - ail* 0,04% - livèche* 0,03% - huile de tournesol* - curcuma* 0,004%. *ingrédients issus de l'agriculture biologique. Traces de _céleri_, _gluten_, _moutarde_, _soja_, _œuf_ et _lait_.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Farine de _froment_, _beurre_ concentré 22 % (E160a), sucre, _œuf_, poudre de _lait_, sel de Guérande (IGP), poudre à lever (bicarbonate de sodium et bicarbonate d'ammonium).",
+      "reference": "Farine de _froment_, _beurre_ concentré 22% (E160a), sucre, _œuf_, poudre de _lait_, sel de Guérande (IGP), poudre à lever (bicarbonate de sodium et bicarbonate d'ammonium).",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "INGRÉDIFNrs: carottes 493 %, inais 40,4 0%) beurre (lait), pomme duterre, serde Guérande, sucre.",
+      "reference": "INGRÉDIENTS: carottes 49,3%, panais 40,4%, beurre (lait), pomme du terre, sel de Guérande, sucre.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "INGREDIEHTS: INGRÉDIENTS'. JUS DE RAISINS B!OICQQUES,",
+      "reference": "INGRÉDIENTS: INGRÉDIENTS. JUS DE RAISINS BIOLOGIQUES.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "_Lait_ cru de brebis, sel, présure, ferments lactiques, Penicilium roqueforti.",
+      "reference": "_Lait_ cru de brebis, sel, présure, ferments lactiques, Penicillium roqueforti.",
+      "lang": "fr",
+      "origin": "old_data"
+    },
+    {
+      "ingredients_text": "Pour 100ml : Calcium = 549mg / Magnésium = 119mg / Sodium = 14.2mg / Sulfate = 1530mg / Hydrogénocarbonate = 387.3mg / Nitrate = 4.3mg / Résidu sec à 180°C = 2513mg / pH 7.2",
+      "lang": "fr",
+      "code": "7613035974685",
+      "reference": "Pour 100ml : Calcium = 549mg / Magnésium = 119mg / Sodium = 14.2mg / Sulfate = 1530mg / Hydrogénocarbonate = 387.3mg / Nitrate = 4.3mg / Résidu sec à 180°C = 2513mg / pH 7.2",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "281O0 Coke zERO BEBIDA REFRESCANTE AROMATIZADA Con edulcorantes. : agua carbonalada colorantes E-150d, edulcorantes: ciclamato sodico acesulfamo K y aspartamo. acidulante acido fosfórico, aromas naturales. aroma cafeina Corrector de acidez: citratos de sodio. Contiene una fuente de fenilalanin. INFORMACIÓN NUTRICIONAL SPor 100 ml 23221kcal",
+      "lang": "es",
+      "code": "5449000131843",
+      "reference": "281O0 Coke ZERO BEBIDA REFRESCANTE AROMATIZADA Con edulcorantes. : agua carbonatada, colorantes E-150d, edulcorantes: ciclamato sódico, acesulfamo K y aspartamo, acidulante ácido fosfórico, aromas naturales, aroma cafeína, Corrector de acidez: citratos de sodio. Contiene una fuente de fenilalanina. INFORMACIÓN NUTRICIONAL Por 100 ml 23221kcal",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Cartofi deshidratati ulenum vegetale (four-s samer parump) in proporții variate. faina de GRAU. Sama de parum Carne SOIA A se consuma de preferința inamte de vez baza amba mz maltodextrma, emulsifiant (E471), sare, colorant (annatta narbie Po Ambalat in atmosfera protectoare.",
+      "lang": "ro",
+      "code": "5053990101573",
+      "reference": "Cartofi deshidratati, uleiuri vegetale (foursamer parump) in proporții variate, faina de GRAU, sama de parum, Carne SOIA. A se consuma de preferința inainte de: vez baza amba mz maltodextrina, emulsifiant (E471), sare, colorant (annatto narbie Po). Ambalat in atmosfera protectoare.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "calciu, magneziu, sodiu, hidrogenocarbonat, azotat (nitrat)",
+      "lang": "ro",
+      "code": "5942326400131",
+      "reference": "calciu, magneziu, sodiu, hidrogenocarbonat, azotat (nitrat)",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Fettarmer Kefir mild. 1,5 % Fett.",
+      "lang": "de",
+      "code": "4025500186821",
+      "reference": "Fettarmer Kefir mild. 1,5 % Fett.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "the 5 ingredients of our recipe are: italian tomatoes (190 g of tomatoes per 100 g of ketchup), alcohol vinegar (12%), sugar (10%), a little salt (0,9%), a spice extract (0,1%). Tomatoes from sustainable agriculture.",
+      "lang": "en",
+      "code": "8710522922019",
+      "reference": "###Corrected list of ingredients:\nthe 5 ingredients of our recipe are: italian tomatoes (190 g of tomatoes per 100 g of ketchup), alcohol vinegar (12%), sugar (10%), a little salt (0.9%), a spice extract (0.1%). Tomatoes from sustainable agriculture.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "fraises 🍓, sucre, eau 💧, gélifiant : pectines de fruits, jus de citrons 🍋concentré",
+      "lang": "fr",
+      "code": "3045320008401",
+      "reference": "fraises 🍓, sucre, eau 💧, gélifiant : pectines de fruits, jus de citrons 🍋 concentré",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "buckwheat flour*, cane sugar* complete (,lt,2%), sea salt - *from organic farming,",
+      "lang": "en",
+      "code": "3380380047749",
+      "reference": "buckwheat flour*, cane sugar* complete (1%), sea salt - *from organic farming,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Bauturà racoritoare carbogazoasă cu aroma de cata, Ingrediente: apa, zahär, dioxid de carbon, colorant (caramel (ETSod)), acidifiant (acid fosforic), arome, cafeina, Declaratie nytritionala per 100 ml: Valoare energetica 182 kJ/",
+      "lang": "ro",
+      "code": "5949000012086",
+      "reference": "Bautură răcoritoare carbogazoasă cu aromă de catan, Ingrediente: apă, zahăr, dioxid de carbon, colorant (caramel (E150d)), acidifiant (acid fosforic), arome, cafeină, Declaratie nutritionala per 100 ml: Valoare energetică 182 kJ/",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Les 5 ingrédients de notre recette sont : De l'huile de colza 75% Notre moutarde de Dijon 8,8% (eau, graines de MOUTARDE, vinaigre d'alcool, sel) Notre vinaigre de vin blanc 6% Du jaune d'ŒUF origine France 5,5% Une touche de sel 0,6%",
+      "lang": "fr",
+      "code": "8710522920725",
+      "reference": "Les 5 ingrédients de notre recette sont : De l'huile de colza 75% Notre moutarde de Dijon 8,8% (eau, graines de MOUTARDE, vinaigre d'alcool, sel) Notre vinaigre de vin blanc 6% Du jaune d'ŒUF origine France 5,5% Une touche de sel 0,6%",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "LAIT partiellement écrémé à 1 % Mat. Gr. (94,7%), LAIT écrémé concentréou en poudre (5,2%), ferments lactiques (LAIT) LAIT : Origine France",
+      "lang": "fr",
+      "code": "3033490004521",
+      "reference": "LAIT partiellement écrémé à 1 % Mat. Gr. (94,7%), LAIT écrémé concentré ou en poudre (5,2%), ferments lactiques (LAIT) LAIT : Origine France",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Les 5 ingrédients de notre recette sont : de l'huile de colza 75%, notre moutarde de Dijon 8,8% (eau, graines de MOUTARDE, vinaigre d'alcool, sel), notre vinaigre de vin blanc 6%, du jaune d'ŒUF origine France 5,5%, une touche de sel 0,6%.",
+      "lang": "fr",
+      "code": "8710522921500",
+      "reference": "Les 5 ingrédients de notre recette sont : de l'huile de colza 75%, notre moutarde de Dijon 8,8% (eau, graines de MOUTARDE, vinaigre d'alcool, sel), notre vinaigre de vin blanc 6%, du jaune d'ŒUF origine France 5,5%, une touche de sel 0,6%.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Infusion de thé noir 95% (eau, *infusion de the noir** concentr ejus de pêche à base de concentré (0.1%); acidifiants: acide citrique ce de sodium, acide malique; arômes naturels de pêche et thé avec autres artis naturels antioxydant: acide ascorbique édulcorant glycosides de stéviol issus de stévia",
+      "lang": "fr",
+      "code": "5449000295750",
+      "reference": "Infusion de thé noir 95% (eau, *infusion de thé noir* concentré, jus de pêche à base de concentré (0.1%); acidifiants: acide citrique, citrate de sodium, acide malique; arômes naturels de pêche et thé avec autres arômes naturels, antioxydant: acide ascorbique, édulcorant glycosides de stéviol issus de stévia",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "irish butter, 82% fat",
+      "lang": "en",
+      "code": "20613945",
+      "reference": "irish butter, 82% fat",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Roasted peanuts (whole skin on) 100%",
+      "lang": "en",
+      "code": "5014213001049",
+      "reference": "Roasted peanuts (whole skin on) 100%",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Lait frais entier, poudre de lait écrémé, amidon, ferment lactique sélectionné. matière grasse : 2.8%\n\nالمكونات: حليب طري كامل، مسحوق الحليب بدون قشدة،نشا، خميرة حليبية مختارة ، المادة الدهنية 2,8%",
+      "lang": "fr",
+      "code": "6111242100206",
+      "reference": "Lait frais entier, poudre de lait écrémé, amidon, ferment lactique sélectionné, matière grasse : 2.8%\n\nالمكونات: حليب طري كامل، مسحوق الحليب بدون قشدة، نشا، خميرة حليبية مختارة، المادة الدهنية 2,8%",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Lait pasteurise (origine: Franc Fabriqué dans un atelier utilisant do bait da Service Consommateurs/ 0800 Konsumentendienst: ☞ SAINT ALBRAY® FRANCE",
+      "lang": "fr",
+      "code": "3222110030884",
+      "reference": "Lait pasteurisé (origine: France). Fabriqué dans un atelier utilisant du lait. Service Consommateurs/ 0800 Konsumentendienst: ☞ SAINT ALBRAY® FRANCE",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Preparat pudră pe bază de cafea instant, cu zahăr și gust de lapte: NESCAFÉ 3in1 ORIGINAL.\nIngrediente: zahăr (53%), sirop de glucoză, ulei vegetal total hidrogenat din sâmburi de palmier, cafea instant (7,6%), stabilizatori (fosfați de potasiu, citrați de sodiu, polifosfați, trifosfați), amidon, proteine din lapte (0,8%), sare, emulgatori (mono - și digliceride ale acizilor grași, esteri ai acizilor mono - și diacetil tartic cu mono - și digliceridele acizilor grași), arome.",
+      "lang": "ro",
+      "code": "59945383",
+      "reference": "Preparat pudră pe bază de cafea instant, cu zahăr și gust de lapte: NESCAFÉ 3in1 ORIGINAL.\nIngrediente: zahăr (53%), sirop de glucoză, ulei vegetal total hidrogenat din sâmburi de palmier, cafea instant (7,6%), stabilizatori (fosfați de potasiu, citrați de sodiu, polifosfați, trifosfați), amidon, proteine din lapte (0,8%), sare, emulgatori (mono- și digliceride ale acizilor grași, esteri ai acizilor mono- și diacetil tartaric cu mono- și digliceridele acizilor grași), arome.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "eau de source,Potassium Calcium Sulfates Magnesium Sodium Chlorures Nitrates Nitrites Fluor Résidus secs Bicarbonate.",
+      "lang": "fr",
+      "code": "6130234001147",
+      "reference": "eau de source, Potassium, Calcium, Sulfates, Magnesium, Sodium, Chlorures, Nitrates, Nitrites, Fluor, Résidus secs, Bicarbonate.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Jadrá sladkých _mandlí_, slnečnicový olej, jedlá soľ. Môže obsahovať iné orechy a arašidy.",
+      "lang": "sk",
+      "code": "20558123",
+      "reference": "Jadrá sladkých mandlí, slnečnicový olej, jedlá soľ. Môže obsahovať iné orechy a arašidy.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Sucre de canne, sucre de canne caramélisé,",
+      "lang": "fr",
+      "code": "3174660032316",
+      "reference": "Sucre de canne, sucre de canne caramélisé,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Fromage de brebis Lait pasteurisé (origine : France) présure animale",
+      "lang": "fr",
+      "code": "3023260031017",
+      "reference": "Fromage de brebis Lait pasteurisé (origine : France) présure animale",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Sucre, oranges amères, sucre roux de canne, jus de citrons concentré et éventuellement gélifiant : pectine de fruits. Les écorces sont coupées en lamelles.\r\nPréparé avec 28g d'oranges amères pour 100g.",
+      "lang": "fr",
+      "code": "3045320074895",
+      "reference": "Sucre, oranges amères, sucre roux de canne, jus de citrons concentré et éventuellement gélifiant : pectine de fruits. Les écorces sont coupées en lamelles.\nPréparé avec 28g d'oranges amères pour 100g.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Sel de mer, lodure de Sodium: 15 à 20 mg/kg ( exprimés en élément iode), antiagglomérants: carbonates Sel de table iodé de magnésium, E530, E535",
+      "lang": "fr",
+      "code": "3183280021259",
+      "reference": "Sel de mer, iodure de Sodium: 15 à 20 mg/kg ( exprimés en élément iode), antiagglomérants: carbonates Sel de table iodé de magnésium, E530, E535",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Vinaigre de cidre issu de l'agriculture biologique (dont caséine de lait et sulfites).",
+      "lang": "fr",
+      "code": "3564707117395",
+      "reference": "Vinaigre de cidre issu de l'agriculture biologique (dont caséine de lait et sulfites).",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "99,5% sultanas, óleo de algodão,",
+      "lang": "pt",
+      "code": "20003371",
+      "reference": "99,5% sultanas, óleo de algodão,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Thé vert (Mélangé et conditionné en Pologne à partir de thé de Chine).",
+      "lang": "fr",
+      "code": "5055953900292",
+      "reference": "Thé vert (Mélangé et conditionné en Pologne à partir de thé de Chine).",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "biscuits cocoa with a filling of creamy taste of vanilla (29%) - protecting: wheat flour, sugar, palm oil, lean cocoa powder 4,6%, wheat starch syrup, fructose, baking powders (carbonates of potassium, carbonate of ammonium, carbonates of sodium), salt, émuls±s (lécitline, soy lecithin toumesol), flavour (vanillin)",
+      "lang": "en",
+      "code": "7622210018922",
+      "reference": "biscuits cocoa with a filling of creamy taste of vanilla (29%) - protecting: wheat flour, sugar, palm oil, lean cocoa powder 4.6%, wheat starch syrup, fructose, baking powders (carbonates of potassium, carbonate of ammonium, carbonates of sodium), salt, émuls±s (lécithine, soy lecithin toumesol), flavour (vanillin)",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Les 5 ingrédients de notre recette sont : De l'huile de colza 74% Du vinaigre de vin blanc 8% De la moutarde de Dijon 7,2% (eau, graines de MOUTARDE, vinaigre d'alcool, sel) Du jaune d'ŒUF réhydraté origine France 5,1% Une touche de sel 0,7%",
+      "lang": "fr",
+      "code": "8710522924327",
+      "reference": "Les 5 ingrédients de notre recette sont : De l'huile de colza 74% Du vinaigre de vin blanc 8% De la moutarde de Dijon 7,2% (eau, graines de MOUTARDE, vinaigre d'alcool, sel) Du jaune d'ŒUF réhydraté origine France 5,1% Une touche de sel 0,7%",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "pommes pressées (70%), pêche mixée (20%), poire mixée (10%), Vitamine C,",
+      "lang": "fr",
+      "code": "5038862161503",
+      "reference": "pommes pressées (70%), pêche mixée (20%), poire mixée (10%), Vitamine C,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Lait 1,2% de matière grasse, lactase,",
+      "lang": "fr",
+      "code": "3428272110017",
+      "reference": "Lait 1,2% de matière grasse, lactase,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "fäină dietetică - integrală de grâu, apă, drojdie, sare iodată, gluten de grâu, faină de soia (0,6%), maia de grâu,",
+      "lang": "ro",
+      "code": "5941143015740",
+      "reference": "făină dietetică - integrală de grâu, apă, drojdie, sare iodată, gluten de grâu, faină de soia (0,6%), maia de grâu,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "_crème_ fraîche, alcools fins, whiskey, essences naturelles de cacao.",
+      "lang": "en",
+      "code": "5011013100156",
+      "reference": "Crème fraîche, alcools fins, whiskey, essences naturelles de cacao.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Saue favin-5-phosphat (Vitamin B2), Pridait Thiaminmononitrat (Vitamin B1), Fokäne nin (Vitamin B12), Gut verschlossen af Ungeöffnet",
+      "lang": "de",
+      "code": "20289119",
+      "reference": "Saue favin-5-phosphat (Vitamin B2), Pridait Thiaminmononitrat (Vitamin B1), Fokäne nin (Vitamin B12), Gut verschlossen af Ungeöffnet",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "White Tuna(Germon), Water, Salt",
+      "lang": "en",
+      "code": "3263670434910",
+      "reference": "White Tuna (Germon), Water, Salt",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Blé précuit à la vapeur, SANS COLORANT NI CONSERVATEUR ARTIFICIELS** Par portion après préparation (basée sur 62,5g de blé non-cuit) (162g) (%*) Pour 100g de blé cuit",
+      "lang": "fr",
+      "code": "3487400004451",
+      "reference": "Blé précuit à la vapeur, SANS COLORANT NI CONSERVATEURS ARTIFICIELS** Par portion après préparation (basée sur 62,5g de blé non-cuit) (162g) (%*) Pour 100g de blé cuit",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Lait écrémé pasteurisé de brebis (origine : France), crème pasteurisée de brebis (origine : France), ferments lactiques (dont lait).",
+      "lang": "fr",
+      "code": "3280249800600",
+      "reference": "Lait écrémé pasteurisé de brebis (origine : France), crème pasteurisée de brebis (origine : France), ferments lactiques (dont lait).",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Lait partiellement écrémé, ferments lactiques et BB-12° Bifidobacterium.",
+      "lang": "fr",
+      "code": "6130760003769",
+      "reference": "Lait partiellement écrémé, ferments lactiques et BB-12° Bifidobacterium.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "100% semoule de BLÉ dur de qualité supérieure. Peut contenir des traces de soja. Si le numéro de lot contient la lettre N: peut contenir de l'euf.",
+      "lang": "fr",
+      "code": "3038350023001",
+      "reference": "100% semoule de BLÉ dur de qualité supérieure. Peut contenir des traces de soja. Si le numéro de lot contient la lettre N: peut contenir de l'œuf.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "milk, sun, lactic ferments, microbial milk coogulant,",
+      "lang": "en",
+      "code": "3073780918763",
+      "reference": "milk, sun, lactic ferments, microbial milk coagulant,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "2 pommes pressées, 2 oranges pressées (25%), 4 mandarines pressées (20%), un peu de carotte pressée (19%), une lichette de jus de citron (1,5%), un peu d'infusion de gingembre (0,5%) et quelques vitamines (B1, B2, B3, B6 et E)",
+      "lang": "fr",
+      "code": "5038862134330",
+      "reference": "2 pommes pressées, 2 oranges pressées (25%), 4 mandarines pressées (20%), un peu de carotte pressée (19%), une lichette de jus de citron (1,5%), un peu d'infusion de gingembre (0,5%) et quelques vitamines (B1, B2, B3, B6 et E)",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "cream (milk, (eu origin), stabilizing: caragonanes,",
+      "lang": "en",
+      "code": "20954666",
+      "reference": "cream (milk, (EU origin), stabilizing: carrageenans,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Eau minérale naturelle avec adjonction de gaz carbonique - Source RENLAIGUE ÇONSERVATION",
+      "lang": "fr",
+      "code": "3564700655566",
+      "reference": "Eau minérale naturelle avec adjonction de gaz carbonique - Source RENLAIGUE CONSERVATION",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Sugar, Cotswold spring water, elderflowers, fructose citric acid.",
+      "lang": "en",
+      "code": "5021812000656",
+      "reference": "Sugar, Cotswold spring water, elderflowers, fructose, citric acid.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "milk protein 82%, dairy crops",
+      "lang": "en",
+      "code": "4019300170005",
+      "reference": "milk protein 82%, dairy crops",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Water, vegetable oils (rapeseed, sunflower, linseed), plant sterol esters 9% (equivalent to 5.4% plant sterols), coconut fat, salt (0.8%), emulsifier: lecithin, natural flavourings, vitamin A and D. A daily consumption of 1.5-2.4g plant sterols can lower cholesterol by 7-10% in 2-3 weeks. Eat 3 servings of this spread (30g) per day. A 10g serving contains 0.54g plant sterols. Combine with a healthy diet and lifestyle with sufficient fruit and vegetables. Consuming more than 3g plant sterols per day is not recommended. High cholesterol is one of the risk factors for coronary heart disease. You may need to improve more than one risk factor to reduce your overall risk. Not intended for people who do not need to control their blood cholesterol level. Consult your doctor if you are on cholesterol lowering medication. Not suitable for pregnant or breast-feeding women and children under 5 years. ProActiv is a registered trademark. www.heartuk.org.uk HEART UK registered charity 1003904 Vegan 200 CLEAN TUB Recycle LID Recycle FOIL Recycle 8 &quot;719200 255333&quot;&gt; 38 Upfield C Pr Sa Vit Vit Om Om Clin ¹daily Plant ProActiv UK, PO Box 7560 Upfield Sprea Riverside One Quay, Dublin",
+      "lang": "en",
+      "code": "8719200255333",
+      "reference": "Water, vegetable oils (rapeseed, sunflower, linseed), plant sterol esters 9% (equivalent to 5.4% plant sterols), coconut fat, salt (0.8%), emulsifier: lecithin, natural flavourings, vitamin A and D. A daily consumption of 1.5-2.4g plant sterols can lower cholesterol by 7-10% in 2-3 weeks. Eat 3 servings of this spread (30g) per day. A 10g serving contains 0.54g plant sterols. Combine with a healthy diet and lifestyle with sufficient fruit and vegetables. Consuming more than 3g plant sterols per day is not recommended. High cholesterol is one of the risk factors for coronary heart disease. You may need to improve more than one risk factor to reduce your overall risk. Not intended for people who do not need to control their blood cholesterol level. Consult your doctor if you are on cholesterol-lowering medication. Not suitable for pregnant or breastfeeding women and children under 5 years. ProActiv is a registered trademark. www.heartuk.org.uk HEART UK registered charity 1003904 Vegan 200 CLEAN TUB Recycle LID Recycle FOIL Recycle 8 \"719200 255333\" > 38 Upfield C Pr Sa Vit Vit Om Om Clin ¹daily Plant ProActiv UK, PO Box 7560 Upfield Sprea Riverside One Quay, Dublin",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "сметана,млечни ферменти",
+      "lang": "bg",
+      "code": "3228020481167",
+      "reference": "сметана, млечни ферменти",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Foie de _morue_ fumé et son huile naturellement libérée 99%, sel.",
+      "lang": "fr",
+      "code": "3263670052329",
+      "reference": "Foie de morue fumé et son huile naturellement libérée 99%, sel.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Foie de _morue_(Gadus morhua)fumé 99%, sel. \r\nL'huile contenue dans la boîte provient exclusivement du foie de morue, elle est exsudée du foie pendant la fabrication.",
+      "lang": "fr",
+      "code": "3560071197124",
+      "reference": "Foie de morue (Gadus morhua) fumé 99%, sel. \nL'huile contenue dans la boîte provient exclusivement du foie de morue, elle est exsudée du foie pendant la fabrication.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Lait entier pasteurisé issue de l'agriculture biologique, ferments lactiques spécifiques du kéfir.",
+      "lang": "fr",
+      "code": "3442310011746",
+      "reference": "Lait entier pasteurisé issu de l'agriculture biologique, ferments lactiques spécifiques du kéfir.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "făină albă de grau 690, apă, amestec de seminte 18% (floareasoarelui, in, susan alb şi negru mac, chia, mei în proporții variabile), guten din grâu, drojdie, sare iodată, făină fermentată de secară, conservanți (acid sorbic, propionat de calciu), emilsifiant esteri ai acizilor mono și diacetiltartric cu mon si digliceridele acizilor grasi), fäină de malț din orz, antioxidant: acid ascorbic,",
+      "lang": "ro",
+      "code": "5941143026340",
+      "reference": "###Corrected list of ingredients:\nfăină albă de grâu 690, apă, amestec de semințe 18% (floarea-soarelui, in, susan alb și negru, chia, mei în proporții variabile), gluten din grâu, drojdie, sare iodată, făină fermentată de secară, conservanți (acid sorbic, propionat de calciu), emulsifiant esteri ai acizilor mono și diacetiltartric cu mon și digliceridele acizilor grași), făină de malț din orz, antioxidant: acid ascorbic.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Lait demi-écrémé issu de l'agriculture biologique (Origine: France)  S=FR 45.273.001  V = 36.229.001 CE",
+      "lang": "fr",
+      "code": "20841409",
+      "reference": "Lait demi-écrémé issu de l'agriculture biologique (Origine: France)  S=FR 45.273.001  V = 36.229.001 CE",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "sirop de glucose, sucre, dextrose, gélatine, starch, acidifiers: acide citrique, acide malique, flavor, jus de fruits concentrés: pomme, orange, citron, fraises, raspberry, ananas, fruits et plantes concentrés: safflower, spiruline, pomme, kiwi, elderberry, blackcurrant, aronie, citron, grape, mangue, fruit de la passion, elderberry extract, invirti sugar syrup, caramel syrup , acidity correctors: monisodic citrate, sodium acid malate, dyes: curcumin, patented blue v,  vegetable charcoal, vegetable carotenes, lutein, anthocyanins, coating agents: white and yellow beeswax, carnauba wax",
+      "lang": "fr",
+      "code": "3103220033838",
+      "reference": "sirop de glucose, sucre, dextrose, gélatine, starch, acidifiers: acide citrique, acide malique, flavor, jus de fruits concentrés: pomme, orange, citron, fraises, framboise, ananas, fruits et plantes concentrés: safflower, spiruline, pomme, kiwi, elderberry, blackcurrant, aronie, citron, raisin, mangue, fruit de la passion, elderberry extract, inverti sugar syrup, caramel syrup, acidity correctors: monosodic citrate, sodium acid malate, dyes: curcumin, patented blue v, vegetable charcoal, vegetable carotenes, lutein, anthocyanins, coating agents: white and yellow beeswax, carnauba wax",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Cacahuètes, huile de tournesol, Set, Peut contenir des traces de blé, amande, cajou, noix, noisette, noix du Brésil et pistache. فول سوداني مملح المكونات: فول سوداني، زيت عباد الشمس، ملح.",
+      "lang": "fr",
+      "code": "3168930007340",
+      "reference": "Cacahuètes, huile de tournesol, Sel, Peut contenir des traces de blé, amande, cajou, noix, noisette, noix du Brésil et pistache. فول سوداني مملح المكونات: فول سوداني، زيت عباد الشمس، ملح.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Băutură răcoritoare carbogazoasă cu suc de lamaie obtinut din suc concentrat de lămâie (1%), Ingrediente: apă, sirop de fructoză - glucoză, dioxid de catr zahăr, suc de lămâie obținut din suc concentrat de lămâie colorant (caramel cu sulfit de amoniu), aromă, cafeina, acidifiant (acid fosforic), corector de aciditate (citrati de sod conservant (benzoat de sodiu), Declarație nutritional per 100ml: Valoare energetică 188 kJ/",
+      "lang": "ro",
+      "code": "5949000500026",
+      "reference": "Băutură răcoritoare carbogazoasă cu suc de lamaie obținut din suc concentrat de lămâie (1%), Ingrediente: apă, sirop de fructoză - glucoză, dioxid de carbon, zahăr, suc de lămâie obținut din suc concentrat de lămâie, colorant (caramel cu sulfit de amoniu), aromă, cafeină, acidifiant (acid fosforic), corector de aciditate (citrati de sodiu), conservant (benzoat de sodiu), Declarație nutritională per 100ml: Valoare energetică 188 kJ/",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "✔Tonyu* (eau, fèves de soja* sans OGM décortiquées 8%) Sirop d'agave* Arôme naturel de vanille Stabilisants: gomme guar*, gomme xanthane Jus de citron* concentré Sel marin *Ingrédients biologiques,",
+      "lang": "fr",
+      "code": "3229820019611",
+      "reference": "Tonyu* (eau, fèves de soja* sans OGM décortiquées 8%) Sirop d'agave* Arôme naturel de vanille Stabilisants: gomme guar*, gomme xanthane Jus de citron* concentré Sel marin *Ingrédients biologiques,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "tural basmati rice - cooked (98%), rice bran oil, salt",
+      "lang": "en",
+      "code": "5011157888101",
+      "reference": "Natural basmati rice - cooked (98%), rice bran oil, salt",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Natural Basmati Rice - Cooked (98%), Rice Bran Oil, Salt.",
+      "lang": "en",
+      "code": "5011157888132",
+      "reference": "Natural Basmati Rice - Cooked (98%), Rice Bran Oil, Salt.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "_Lactosérum_* de vache, _crème_* pasteurisée de vache, sel, correcteur d'acidité : acide citrique.\r\n*Lactosérum et crème origine UE.",
+      "lang": "fr",
+      "code": "3560070514847",
+      "reference": "_Lactosérum_ de vache, _crème_ pasteurisée de vache, sel, correcteur d'acidité : acide citrique.\n*Lactosérum et crème origine UE.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Lait demi-écrémé stérilisé UHT - produit de montagne.",
+      "lang": "fr",
+      "code": "3270190204374",
+      "reference": "Lait demi-écrémé stérilisé UHT - produit de montagne.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "butter (63%), water, rapeseed oil (13%), total fat content, 65 %, 80% butter and 20% vegetable fat, mixed spreadable fat 65%",
+      "lang": "en",
+      "code": "4001954165803",
+      "reference": "butter (63%), water, rapeseed oil (13%), total fat content, 65%, 80% butter and 20% vegetable fat, mixed spreadable fat 65%",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "wichmischerzeugnis, wärmebehandelt, 4,8% Fett im Milchanteil. Erhöhter Koffeingehalt. Für Kinder und schwangere oder stillende Frauen nicht emgplohlen (Koffeingehalt 35 mg/100ml), Zutaten: 74% Vollmilch, 17% Arabica-Kaffee, 5% Sahne, Zucker, Stablisatoren: Natriumcarbonate, Carrageen",
+      "lang": "de",
+      "code": "20036829",
+      "reference": "wichmischerzeugnis, wärmebehandelt, 4,8% Fett im Milchanteil. Erhöhter Koffeingehalt. Für Kinder und schwangere oder stillende Frauen nicht empfohlen (Koffeingehalt 35 mg/100ml), Zutaten: 74% Vollmilch, 17% Arabica-Kaffee, 5% Sahne, Zucker, Stabilisatoren: Natriumcarbonate, Carrageen",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "corn* - * product stemming from organic farming,",
+      "lang": "en",
+      "code": "3421557910494",
+      "reference": "corn - product stemming from organic farming,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "lait écrémé de chèvre pasteurisé (origine : France), ferments lactiques (_lait_),",
+      "lang": "fr",
+      "code": "3523230026680",
+      "reference": "lait écrémé de chèvre pasteurisé (origine : France), ferments lactiques (lait),",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Thon* LDL albacore (poissons), eau, sel. Non ouvert,",
+      "lang": "fr",
+      "code": "20275693",
+      "reference": "Thon* LDL albacore (poissons), eau, sel. Non ouvert,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "62% ortaggi in proporzione variabile (pastinaca, e dolci, barbabietola rossa), 37% olio di semi di girasole, 1% sale marino",
+      "lang": "it",
+      "code": "4056489530091",
+      "reference": "62% ortaggi in proporzione variabile (pastinaca, sedano, barbabietola rossa), 37% olio di semi di girasole, 1% sale marino",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Orzeszki ziemne (arachidowe) prażone. Produkt może zawierać orzechy, mleko.",
+      "lang": "pl",
+      "code": "5900617038289",
+      "reference": "Orzeszki ziemne (arachidowe) prażone. Produkt może zawierać orzechy, mleko.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "matières grasses margarine végétale [graisses et huiles végétales (palme, tunesal",
+      "lang": "fr",
+      "code": "6174994",
+      "reference": "matières grasses margarine végétale [graisses et huiles végétales (palme, tournesol",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Greek Style Natural Yogurt (Cows' Milk)",
+      "lang": "en",
+      "code": "00277679",
+      "reference": "Greek Style Natural Yogurt (Cows' Milk)",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "BEBIDA DE SOJA UHT SABOR VAINILLA CON CALCIO Y VITAMINAS B2, B12 Y D. CON EDULCORANTE. BEBIDA DE SOJA UHT SABOR BAUNILHA COM CÁLCIO E VITAMINAS B2, B12 ED. CONTEM EDULCORANTE.  E Agua, habas de soja descascarilladas (10%), arbonato de a nellan), edulcorante (calcio), aromas, sal, estabilizante (acesulfamo K) y vitaminas B2, B12 y D. P Agua, sementes de soja sem casca (10%), carbonato de cálcio (cálcio), aromas, sal, estabilizador (goma gelana), edulcorante (acessulfame K) e vitaminas B2, B12 e D. MODO DE EMPLEO/MODO DE PREPARAÇÃO E Agitar antes de su consumo. Se aconseja servir en frío para potenciar el sabor. P Agitar antes de consumir. Aconselha-se servir frio para potenciar o sabo. CONSERVACIÓN/CONSERVAÇÃ0 Mantener en lugar fresco y seco. Una vez abierto el envase, conservar en el frigorífico y consumir antes de 3 días. P Conservar em local fresco e seco. Após abertura, conservar no frigoríficoe consumir no prazo máximo de 3 dias. Esta bebida se elabora a partir de habas de soja no transgénica./Esta bebida foi produzida a partir de sementes de soja não transgénica. ESNELAT S.L. Fabricado por: polloong industrial Erratzu, s/m 20130 Urnieta Gipuzkoa (España/Espanha) Iparlat 1L OÀ",
+      "lang": "es",
+      "code": "8480000679499",
+      "reference": "BEBIDA DE SOJA UHT SABOR VAINILLA CON CALCIO Y VITAMINAS B2, B12 Y D. CON EDULCORANTE. BEBIDA DE SOJA UHT SABOR BAUNILHA COM CÁLCIO E VITAMINAS B2, B12 ED. CONTEM EDULCORANTE.  E Agua, habas de soja descascarilladas (10%), carbonato de anellanas, edulcorante (calcio), aromas, sal, estabilizante (acesulfamo K) y vitaminas B2, B12 y D. P Agua, sementes de soja sem casca (10%), carbonato de cálcio (cálcio), aromas, sal, estabilizador (goma gelana), edulcorante (acessulfame K) e vitaminas B2, B12 e D. MODO DE EMPLEO/MODO DE PREPARAÇÃO E Agitar antes de su consumo. Se aconseja servir en frío para potenciar el sabor. P Agitar antes de consumir. Aconselha-se servir frio para potenciar o sabor. CONSERVACIÓN/CONSERVAÇÃO Mantener en lugar fresco y seco. Una vez abierto el envase, conservar en el frigorífico y consumir antes de 3 días. P Conservar em local fresco e seco. Após abertura, conservar no frigorífico e consumir no prazo máximo de 3 dias. Esta bebida se elabora a partir de habas de soja no transgénica./Esta bebida foi produzida a partir de sementes de soja não transgénica. ESNELAT S.L. Fabricado por: polloong industrial Erratzu, s/m 20130 Urnieta Gipuzkoa (España/Espanha) Iparlat 1L.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "sugar, cocoa mass, cocoa butter, skim milk powder, whole milk powder, milk fat, vegetable oils (non-hydrogenated palm oil, shea butter, illipe butter), emulsifier (soy lecithin), artificial flavour (vanillin), cocoa solids 26% minimum, milk solids 23% minimum, contains vegetable oils in a addition to cocoa butter, contains milk and soy, may contain almonds and hazelnuts, keep in a cool,   dark and dry place, production and best before dates: see packaging in a dd,mm,yyyy format, of ukraine, produced by ,quot,roshen,quot, ukraine c la alc ba la cz, ен k net wt 2,82 oz, (80g) imported by: roshen usa corp, 3 corporate dr, cranbury wt 08512 usa, e-mail saturau, is kuri mybraton ma alburuar 10 vol минималды курамы 26%,   cyt taukskābes:/",
+      "lang": "en",
+      "code": "4823077626227",
+      "reference": "sugar, cocoa mass, cocoa butter, skim milk powder, whole milk powder, milk fat, vegetable oils (non-hydrogenated palm oil, shea butter, illipe butter), emulsifier (soy lecithin), artificial flavour (vanillin), cocoa solids 26% minimum, milk solids 23% minimum, contains vegetable oils in addition to cocoa butter, contains milk and soy, may contain almonds and hazelnuts, keep in a cool, dark and dry place, production and best before dates: see packaging in a dd,mm,yyyy format, of Ukraine, produced by \"Roshen\" Ukraine, net wt 2.82 oz (80g) imported by: Roshen USA Corp, 3 Corporate Dr, Cranbury, NJ 08512 USA, email: saturau, is kuri mybraton ma alburuar 10 vol минималды курамы 26%, cyt taukskābes:/",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "riz brun à grais enfes F 95%, riz impérial noir, riz rouge, le sel de l'Himalaya 19%,",
+      "lang": "fr",
+      "code": "3800233070026",
+      "reference": "riz brun à grains entiers 95%, riz impérial noir, riz rouge, le sel de l'Himalaya 19%,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Carbonated Water, Sugar Acid Citric Acid), Natural Flavourings including Quinine, Sweetener (Sodium Saccharin). Contains Natural Quinine.",
+      "lang": "en",
+      "code": "5449000044808",
+      "reference": "Carbonated Water, Sugar, Acid (Citric Acid), Natural Flavourings including Quinine, Sweetener (Sodium Saccharin). Contains Natural Quinine.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "integrated wheat flour 31,6%, sugar, oatflakes 13,2%, caramelized puffed durum wheat 13,0% (durum wheat, sugar, honey, otio of seeds of airasole), irasotet seed oil chocolate cocoa paste, cocoa urro, cocoa maqro, emulsifier: soial lecithin, lean cocoa 3 toasted hazelnuts 2,5%, leavening agents (ammonium acid carbonate, sd10 acid carbonate), sea salt, flavourings ( milk ) , natural olive extract,",
+      "lang": "en",
+      "code": "8076809522533",
+      "reference": "Integrated wheat flour 31,6%, sugar, oatflakes 13,2%, caramelized puffed durum wheat 13,0% (durum wheat, sugar, honey, extract of seeds of sunflower), sunflower seed oil, chocolate cocoa paste, cocoa butter, cocoa mass, emulsifier: soial lecithin, lean cocoa 3%, toasted hazelnuts 2,5%, leavening agents (ammonium bicarbonate, sodium bicarbonate), sea salt, flavourings (milk), natural olive extract.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Natural Wholegrain Basmati Rice Steamed (89%), Natural Wild Rice Steamed (10%), Rice Bran Oil, Acacia Fibre",
+      "lang": "en",
+      "code": "5011157992662",
+      "reference": "Natural Wholegrain Basmati Rice Steamed (89%), Natural Wild Rice Steamed (10%), Rice Bran Oil, Acacia Fibre",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "izolat proteic din soia nemodificată genetic, sirop de maltitol, ulei de palmier, fulgi de grâu germinat (cereale/gluten), fructoză, fulgi de porumb, sirop de malţ (cereale/gluten), pudră de cacao, seminţe de in, frunze de ceai verde, (2,50% - 1250 mg/baton), arahide prăjite, L-Carnitină tartrat (0,2% - 100 mg/baton), aroma alimentară de ciocolată, carbonat de calciu, vitamina C, oxid de magneziu, oxid de zinc.",
+      "lang": "ro",
+      "code": "5941581000483",
+      "reference": "###Corrected list of ingredients:\nizolat proteic din soia nemodificată genetic, sirop de maltitol, ulei de palmier, fulgi de grâu germinat (cereale/gluten), fructoză, fulgi de porumb, sirop de malţ (cereale/gluten), pudră de cacao, seminţe de in, frunze de ceai verde, (2,50% - 1250 mg/baton), arahide prăjite, L-Carnitină tartrat (0,2% - 100 mg/baton), aroma alimentară de ciocolată, carbonat de calciu, vitamina C, oxid de magneziu, oxid de zinc.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Lait écrémé pasteurisé, crème pasteurisée, ferments lactiques présure. Lait et crème origine France.",
+      "lang": "fr",
+      "code": "3560070778065",
+      "reference": "Lait écrémé pasteurisé, crème pasteurisée, ferments lactiques, présure. Lait et crème origine France.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Argentinian Hi-Oleic Peanuts (99.6%), Sea Salt",
+      "lang": "en",
+      "code": "5060367181274",
+      "reference": "Argentinian Hi-Oleic Peanuts (99.6%), Sea Salt",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Liste des ingrédients:\n\nAbricots 60% (origine : France),🇲🇫 sucre, eau, gélifiant : pectines, jus de citron🍋 concentré",
+      "lang": "fr",
+      "code": "3330720251008",
+      "reference": "Liste des ingrédients:\n\nAbricots 60% (origine : France), sucre, eau, gélifiant : pectines, jus de citron concentré",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "6 Oeufs frais de poules élevées en plein air - Catégorie A",
+      "lang": "fr",
+      "code": "20057206",
+      "reference": "6 Oeufs frais de poules élevées en plein air - Catégorie A",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "assorted flavors (sugar, glucose syrup, concentrated fruit (apple, cherry, raspberry, pineapple, lime, lemon,\nstrawberry, peach, banana, orange, blueberry, blackberry, mango, watermelon, kiwi) (3%), acidifying agents\n(citric acid, malic acid), dyes (beet red, curcumin), aromas,)\n\ncola flavor (sugar, glucose syrup, acidifying agent (citric acid, malt extract (barley), aromas,)\n\nstrawberry cream flavor (sugar, glucose syrup, whey powder, concentrated fruit pulp (apple, cherry, raspberry, pineapple,\nlime, lemon, strawberry peaches banana, orange, blueberry, blackberry, mango, watermelon, kiwi) (3%),\nskim milk powder, inulin, salt, dye (beet red), aroma),\n\n3 in 1 exotic fruit flavor (sugar, glucose syrup, concentrated fruit marrow (apple, cherry, raspberry, pineapple, lime, lemon, strawberry,\npeach, banana, orange, blueberry, blackberry, mango, watermelon, kiwi) (3%), acidifier citric acid,\nmalic acid), flavors, dyes (curcumin, chlorophyll, beet red),)",
+      "lang": "el",
+      "code": "49814521",
+      "reference": "assorted flavors (sugar, glucose syrup, concentrated fruit (apple, cherry, raspberry, pineapple, lime, lemon, strawberry, peach, banana, orange, blueberry, blackberry, mango, watermelon, kiwi) (3%), acidifying agents (citric acid, malic acid), dyes (beet red, curcumin), aromas)\n\ncola flavor (sugar, glucose syrup, acidifying agent (citric acid, malt extract (barley), aromas)\n\nstrawberry cream flavor (sugar, glucose syrup, whey powder, concentrated fruit pulp (apple, cherry, raspberry, pineapple, lime, lemon, strawberry, peaches, banana, orange, blueberry, blackberry, mango, watermelon, kiwi) (3%), skim milk powder, inulin, salt, dye (beet red), aroma)\n\n3 in 1 exotic fruit flavor (sugar, glucose syrup, concentrated fruit marrow (apple, cherry, raspberry, pineapple, lime, lemon, strawberry, peach, banana, orange, blueberry, blackberry, mango, watermelon, kiwi) (3%), acidifier citric acid, malic acid, flavors, dyes (curcumin, chlorophyll, beet red)",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "peajuts, sunflower oil, salt for allergens see ingredients in bold also may contain other nuts, milk, soya, gluten.",
+      "lang": "en",
+      "code": "5000237127322",
+      "reference": "peanuts, sunflower oil, salt. For allergens see ingredients in bold. Also may contain other nuts, milk, soya, gluten.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "extra virgin olive oil (organic of higher grade obtained directly from olives and only by mechanical processes),",
+      "lang": "en",
+      "code": "6191509900855",
+      "reference": "extra virgin olive oil (organic of higher grade obtained directly from olives and only by mechanical processes),",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Zucker,  Traubenzucker, Kräuterextrakt, (Aus Spitzwegerich, Eibisch, Pfefferminze, Thymian'', Salbei, Rauenmantel, Schafgarbe, Bibernelle, Malve, Holunderblūten, Schlüsselblume, Ehrenpreis, Andorn, Caramellzucker, Natūrliches Minzenaroma,",
+      "lang": "de",
+      "code": "7610700603024",
+      "reference": "Zucker, Traubenzucker, Kräuterextrakt, (Aus Spitzwegerich, Eibisch, Pfefferminze, Thymian, Salbei, Frauenmantel, Schafgarbe, Bibernelle, Malve, Holunderblüten, Schlüsselblume, Ehrenpreis, Andorn), Caramellzucker, Natürliches Minzenaroma,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "TOSTADAS SIN GLUTEN TORRADAs SEM GLÚTEN  Harina de arroz, harina de maíz, azúcat, sal, emulgente (lecitina de soja), Puede contener leche y sus derivados. P Farinha de arroz, farinha de milho, açúcat, sal, emulsionante lecitina de soja). Pode conter leite e os seus derivados.",
+      "lang": "es",
+      "code": "8480000828392",
+      "reference": "TOSTADAS SIN GLUTEN TORRADAS SEM GLÚTEN Harina de arroz, harina de maíz, azúcar, sal, emulgente (lecitina de soja), Puede contener leche y sus derivados. Farinha de arroz, farinha de milho, açúcar, sal, emulsionante lecitina de soja). Pode conter leite e os seus derivados.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "strawberries 50%, sugar, cane red sugar, concentrated cirons juice and possibly gelling: fruit pectin, if strawberries do not contain enough,",
+      "lang": "en",
+      "code": "3045320026740",
+      "reference": "strawberries 50%, sugar, cane red sugar, concentrated citrus juice and possibly gelling: fruit pectin, if strawberries do not contain enough,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "water, potato1: 16%, carrot1: 13%, ceer-rave1: 8,5%, onion1: 3,2%, leek1: 2,8%, broccoli1: 2,4%, green bean1: 2,4%, crème fraîche, modified corn starch, salt, sunflower oil, yeast extract, whey (lait), may contain: gluten, mustard, egg, soy, 1lurate from sustainable agriculture, vegetable content1: 48,3%,",
+      "lang": "en",
+      "code": "8714100769362",
+      "reference": "water, potato: 16%, carrot: 13%, celeriac: 8,5%, onion: 3,2%, leek: 2,8%, broccoli: 2,4%, green bean: 2,4%, crème fraîche, modified corn starch, salt, sunflower oil, yeast extract, whey (lait), may contain: gluten, mustard, egg, soy, allurate from sustainable agriculture, vegetable content: 48,3%,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "lapte de vacă pasteurizat, grăsime din lapte, proteine din lapte, fermenți selectionați de iaurt.",
+      "lang": "fr",
+      "code": "5941875900420",
+      "reference": "lapte de vacă pasteurizat, grăsime din lapte, proteine din lapte, fermenti selectionați de iaurt.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Apa (37%), ulei rafinat de floarea soarelui (35%), muştar (apă, oţet, boabe de muştar, zahăr, sare), cremă de usturoi 5% (usturoi, apă, sare, ulei rafinat de floarea soarelui, acidifiant: acid citric, amidon modificat, conservanti: sorbat de potasiu, metabisulfit de potasiu, agent de îngroşare: gumă de xantan), zahăr, otet, amidonuri modificate, sare, granule de usturoi, acidifiant (acid factic), stabilizator (gumă de xantan), conservanţi (sorbat de potasiu, benzoat de sodiu), praf de ou (0,2%), ulei de usturoi, coloranti (beta caroteni), antioxidant (calciu-disodic-EDTA), A se păstra la loc uscat şi răcoros, ferit de razele soarelui şi de înghet, A se consuma, de preferinţă, înainte de data imprimată pe flacon, Unic distribuitor: S,C, UNIVER PRODUCT S,R,L, Baia Mare, str, M, Eminescu nr, 36/A, Tel,/fax: 0262-211037 Produs în Ungaria",
+      "lang": "ro",
+      "code": "5941168001278",
+      "reference": "Apa (37%), ulei rafinat de floarea soarelui (35%), muștar (apă, oțet, boabe de muștar, zahăr, sare), cremă de usturoi 5% (usturoi, apă, sare, ulei rafinat de floarea soarelui, acidifiant: acid citric, amidon modificat, conservanți: sorbat de potasiu, metabisulfit de potasiu, agent de îngroșare: gumă de xantan), zahăr, oțet, amidonuri modificate, sare, granule de usturoi, acidifiant (acid făctic), stabilizator (gumă de xantan), conservanți (sorbat de potasiu, benzoat de sodiu), praf de ou (0,2%), ulei de usturoi, coloranți (beta caroteni), antioxidant (calciu-disodic-EDTA), A se păstra la loc uscat și răcoros, ferit de razele soarelui și de îngheț, A se consuma, de preferință, înainte de data imprimată pe flacon, Unic distribuitor: S.C. UNIVER PRODUCT S.R.L. Baia Mare, str. M. Eminescu nr. 36/A, Tel./fax: 0262-211037 Produs în Ungaria",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Joghurt mild mit 16% Zubereitung mit Schokoladen - stückchen, 5% Fett im Milchanteil, : Joghurt mild, Wasser, Zucker, 2,4% Schokoladenstückchen (Kakaomasse Kakaobutter, Zucker), modifizierte Stärke, natürliches Aroma Rainforest Alliance-zertifiziertM, Auch nach dem Offnen in chtank lagern und innerhalb von 3 Tagen verzehen, net unter  8 °C mindestens haltbar bis: siehe Deckel,",
+      "lang": "de",
+      "code": "4056489110125",
+      "reference": "Joghurt mild mit 16% Zubereitung mit Schokoladenstückchen, 5% Fett im Milchanteil: Joghurt mild, Wasser, Zucker, 2,4% Schokoladenstückchen (Kakaomasse, Kakaobutter, Zucker), modifizierte Stärke, natürliches Aroma Rainforest Alliance-zertifiziert. Auch nach dem Öffnen im Kühlschrank lagern und innerhalb von 3 Tagen verzehren, nicht unter 8 °C mindestens haltbar bis: siehe Deckel.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Édulcorant (isomalt), huiles essentielles de menthe poivrée et menthe, huile essentielle d'euca - lyptus, extrait (0,2%) d'eucalyptus et du mélange de 13 plantes Ricola, menthol, extrait-couleur de spiruline, extrait-couleur de carotte, édulcorant (glycosides de stéviol issus de Stevia).",
+      "lang": "fr",
+      "code": "7610700601396",
+      "reference": "Édulcorant (isomalt), huiles essentielles de menthe poivrée et menthe, huile essentielle d'eucalyptus, extrait (0,2%) d'eucalyptus et du mélange de 13 plantes Ricola, menthol, extrait-couleur de spiruline, extrait-couleur de carotte, édulcorant (glycosides de stéviol issus de Stevia).",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Decaffeinated Soluble Coffee, Decaffeinated Roast and Ground Coffee (5%)",
+      "lang": "en",
+      "code": "8445290044853",
+      "reference": "Decaffeinated Soluble Coffee, Decaffeinated Roast and Ground Coffee (5%)",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "water, fructose-glucose syrup, orange juice concentrate (5% 1 of carbon dioxide, edible acid: citric acid and malic acid, savanyiságot regulator: sodium gluconate, natural flavourings, tisa, we ntrium-cyclamate and sodium-saccharin, antioxidant: ascorbic acid, stabilizer: run, sine name: beta-carotene, quality of preserves (day/month/year): see the bottle neck, not a verb of taking in sunlight! a cool,  dry place to store it! the occurring especially in natural moti also does not affect the quality of the product, ©2019 the coca-cola company, nutrition content per 100 ml 121kj/",
+      "lang": "en",
+      "code": "5449000028938",
+      "reference": "water, fructose-glucose syrup, orange juice concentrate (5%), carbon dioxide, edible acid: citric acid and malic acid, savanyiságot regulator: sodium gluconate, natural flavourings, tisa, we ntrium-cyclamate and sodium-saccharin, antioxidant: ascorbic acid, stabilizer: run, sine name: beta-carotene, quality of preserves (day/month/year): see the bottle neck, not a verb of taking in sunlight! a cool, dry place to store it! the occurring especially in natural moti also does not affect the quality of the product, ©2019 the coca-cola company, nutrition content per 100 ml 121kj/",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "64% făină de grâu, 17% ulei de floarea-soarelui cu conţinut ridicat de acid oleic, zahăr, sirop de glucoză-fructoză, 4% amidon de grâu, 3% tărâţe de grâu, agenți de afânare: carbonați de sodiu, carbonați de amoniu; sare. Poate conține urme de lapte, soia şi muştar.",
+      "lang": "ro",
+      "code": "4056489356042",
+      "reference": "64% făină de grâu, 17% ulei de floarea-soarelui cu conținut ridicat de acid oleic, zahăr, sirop de glucoză-fructoză, 4% amidon de grâu, 3% tărâțe de grâu, agenți de afânare: carbonați de sodiu, carbonați de amoniu; sare. Poate conține urme de lapte, soia și muștar.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Fromage de brebis au lait pasteurisé allégé en matières grasses. Lait origine : France.",
+      "lang": "fr",
+      "code": "3023260020233",
+      "reference": "Fromage de brebis au lait pasteurisé allégé en matières grasses. Lait origine : France.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "semi-milled rice 99,7%,  salt, can contain traces of soy and sesame,",
+      "lang": "en",
+      "code": "8001860252402",
+      "reference": "semi-milled rice 99,7%, salt, can contain traces of soy and sesame,",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "water:snow",
+      "lang": "ro",
+      "code": "5942262001416",
+      "reference": "water:snow",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "Asperges, difiant acide citrique.",
+      "lang": "fr",
+      "code": "20004293",
+      "reference": "Asperges, difiant acide citrique.",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "_Cacahuètes_ (100%) (non épluchées)",
+      "lang": "fr",
+      "code": "5055534301180",
+      "reference": "Cacahuètes (100%) (non épluchées)",
+      "origin": "50-percent-unknown"
+    },
+    {
+      "ingredients_text": "latte parzialmente scremato, fermenti lattici vivi: Lactococcus lactis, Lactococcus cremoris, Bifidobacterium, Lactobacillus acidophilus, Lactobacilus bulgaricus, Streptococcus thermophius.\r\nSenza glutine. Senza conservanti aggiunti.",
+      "lang": "it",
+      "code": "8034066307003",
+      "reference": "latte parzialmente scremato, fermenti lattici vivi: Lactococcus lactis, Lactococcus cremoris, Bifidobacterium, Lactobacillus acidophilus, Lactobacillus bulgaricus, Streptococcus thermophilus.\nSenza glutine. Senza conservanti aggiunti.",
+      "origin": "50-percent-unknown"
+    }
+  ]
+}

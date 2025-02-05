@@ -17,3 +17,9 @@ venv
 
 # Mac
 .DS_Store
+
+# Metaflow (ML)
+.metaflow
+
+# pyenv
+.python-version

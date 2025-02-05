@@ -1,0 +1,9 @@
+<View>
+  <Image name="image" value="$image_url"/>
+  <RectangleLabels name="label" toName="image">
+  <Label value="nutrition-table" background="green"/>
+    <Label value="nutrition-table-small" background="blue"/>
+    <Label value="nutrition-table-small-energy" background="yellow"/>
+    <Label value="nutrition-table-text" background="red"/>
+  </RectangleLabels>
+</View>

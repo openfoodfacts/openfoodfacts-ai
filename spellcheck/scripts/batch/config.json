@@ -1,0 +1,47 @@
+{
+    "name": "projects/robotoff/locations/europe-west9/jobs/spellcheck-batch-vllm",
+    "taskGroups": [
+      {
+        "taskCount": "1",
+        "parallelism": "1",
+        "taskSpec": {
+          "runnables": [
+            {
+              "container": {
+                "imageUri": "europe-west9-docker.pkg.dev/robotoff/gcf-artifacts/spellcheck-batch-vllm",
+                "commands": [
+                  "--quantization", ""
+                ],
+                "volumes": []
+              }
+            }
+          ],
+          "computeResource": {
+              "cpuMilli": 1000,
+              "memoryMib": 32000,
+	            "bootDiskMib": 100000
+          },
+          "volumes": []
+        }
+      }
+    ],
+    "allocationPolicy": {
+        "instances": [
+            {
+                "installGpuDrivers": true,
+                "policy": {
+                    "machineType": "a2-highgpu-1g",
+                    "accelerators": [
+                        {
+                            "type": "nvidia-tesla-a100",
+                            "count": "1"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "logsPolicy": {
+      "destination": "CLOUD_LOGGING"
+  }
+}

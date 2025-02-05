@@ -1,10 +1,9 @@
 import argparse
 from email.policy import default
 import pathlib
-from typing import Iterable, Set
+from typing import Iterable, Set, Any
 
-from efficientnet_pytorch import EfficientNet
-from transformers import CLIPModel, CLIPProcessor
+from transformers import CLIPModel, CLIPImageProcessor
 import h5py
 from more_itertools import chunked
 import numpy as np
@@ -14,8 +13,7 @@ import PIL
 
 from utils import get_offset, get_seen_set
 
-"""
-Returns a hdf5 file containing the embeddings of every logo of the input hdf5 file.
+"""Return a hdf5 file containing the embeddings of every logo of the input hdf5 file.
 
 > > >  python3 02_generate_ebeddings.py data_path output_path (--batch-size n) (--min-confidence m) --model-type str
 
@@ -28,25 +26,17 @@ model-type: name of the specific model used
 
 
 def build_model(model_type: str):
-    return CLIPModel.from_pretrained(f"openai/{model_type}").vision_model
-    # return EfficientNet.from_pretrained(model_type)
+    return CLIPModel.from_pretrained(f"openai/{model_type}")
 
 
 def get_output_dim(model_type: str):
-    """
-    Return the embeddings size according to the model used.
-    """
-    if model_type == "efficientnet-b0":
-        return 1280
-
-    if model_type == "efficientnet-b5":
-        return 2048
+    """Return the embeddings size according to the model used."""
 
     if model_type == "clip-vit-base-patch16" or model_type == "clip-vit-base-patch32":
-        return 768
+        return 512
 
     if model_type == "clip-vit-large-patch14":
-        return 1024
+        return 768
 
     raise ValueError("unknown model type: {}".format(model_type))
 
@@ -64,19 +54,18 @@ def generate_embeddings_iter(
     device: torch.device,
     seen_set: Set[int],
     min_confidence: float = 0.5,
-    processor: any = None,
+    processor: Any = None,
 ):
-    """
-    Inputs:
+    """Inputs:
     - model: name of the specific model used
     - file_path: path of the hdf5 file containing the data of all the logos
-    - batch-size: size of each batche of logos embedded at the same time 
+    - batch-size: size of each batche of logos embedded at the same time
     - device: hardware used to compute the embeddings
-    - seen_set: set of every logo already embedded in 
+    - seen_set: set of every logo already embedded in
     - min-confidence: minimum of confidence allowed for a logo to be accepted as one
 
     Yield the following outputs:
-    - embeddings: embeddings of every logo of the yielded batch 
+    - embeddings: embeddings of every logo of the yielded batch
     - external_id: id of the logo
     """
 
@@ -84,6 +73,8 @@ def generate_embeddings_iter(
         image_dset = f["image"]
         confidence_dset = f["confidence"]
         external_id_dset = f["external_id"]
+
+        embeddings_test = []
 
         for slicing in chunked(range(len(image_dset)), batch_size):
             slicing = np.array(
@@ -105,60 +96,57 @@ def generate_embeddings_iter(
                 if int(external_id) in seen_set:
                     mask[i] = 0
 
-            if np.all(~mask):  # if we only have
+            if np.all(
+                ~mask
+            ):  # if we only have zeros at this step, we have a batch only with empty data or already seen logos
                 continue
 
             images = image_dset[slicing][mask]
-            images = np.moveaxis(images, -1, 1)  # move channel dim to 1st dim
 
-            """### If using efficientnet models :
             with torch.no_grad():
-                torch_images = torch.tensor(images, dtype=torch.float32, device=device)
-                embeddings = model.extract_features(torch_images).cpu().numpy()
-            
-
-            max_embeddings = np.max(embeddings, (-1, -2))
-            yield (
-                max_embeddings,
-                external_ids[mask],
-            )
-            ###
-            """
-
-            ### If using CLIP models :
-            with torch.no_grad():
-                array_to_PIL = lambda x: PIL.Image.fromarray(
-                    x, mode="RGB"
-                )  # convert the np.array to PIL in order to use the CLIProcessor
-                images = processor(
-                    images=[array_to_PIL(images[i]) for i in range(batch_size)],
+                # Preprocess the images to put them into the model
+                inputs = processor(
+                    images=[
+                        PIL.Image.fromarray(images[i], mode="RGB").to_device(device)
+                        for i in range(min(batch_size, len(images)))
+                    ],
                     return_tensors="pt",
-                )[
-                    "pixel_values"
-                ]  # preprocess the images to put them into the model
-                embeddings = (
-                    model(**{"pixel_values": images.to(device)})
-                    .pooler_output.cpu()
-                    .numpy()
-                )  # generate the embeddings
-                if np.any(np.isnan(embeddings)):  # checking that the values are not NaN
+                    padding=True,
+                ).pixel_values
+                # Passing logos through the model
+                # We don't have text to pass to the model so we use a (1,1) attention mask
+                # and use (BOS, EOS) as input for text.
+                outputs = model(
+                    **{
+                        "pixel_values": inputs,
+                        "attention_mask": torch.from_numpy(
+                            np.ones((len(images), 2), dtype=int)
+                        ),
+                        "input_ids": torch.from_numpy(
+                            np.ones((len(images), 2), dtype=int) * [49406, 49407]
+                        ),
+                    }
+                )
+                # Getting logo embeddings out of the outputs
+                embeddings = outputs.image_embeds.detach().numpy()
+                if np.any(np.isnan(embeddings)):  # checking values are not NaN
                     print("A NaN value was detected, avoiding the loop")
                     continue
 
             yield (embeddings, external_ids[mask])
-            ###
 
 
 def generate_embedding_from_hdf5(
     data_gen: Iterable, output_path: pathlib.Path, output_dim: int, count: int
 ):
-    """
-    Save the embedding and the external id of each logo (data in data_gen) in an hdf5 file (the output_path).
+    """Save the embedding and the external id of each logo (data in data_gen) in an hdf5 file (the output_path).
+
     - data_gen: yielded embeddings and external ids of each logo from generate_embeddings_iter
     - output_path: path of the output hdf5 file
     - output_dim: dimension of the embeddings (depends on the computer vision model used)
-    - count: amount of embeddings you want to save 
+    - count: amount of embeddings you want to save
     """
+
     file_exists = output_path.is_file()
 
     with h5py.File(str(output_path), "a") as f:
@@ -177,7 +165,7 @@ def generate_embedding_from_hdf5(
 
         print("Offset: {}".format(offset))
 
-        for (embeddings_batch, external_id_batch) in data_gen:
+        for embeddings_batch, external_id_batch in data_gen:
             slicing = slice(offset, offset + len(embeddings_batch))
             embedding_dset[slicing] = embeddings_batch
             external_id_dset[slicing] = external_id_batch
@@ -190,7 +178,7 @@ def parse_args():
     parser.add_argument("output_path", type=pathlib.Path)
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--min-confidence", type=float, default=0.5)
-    parser.add_argument("--model-type", required=True)
+    parser.add_argument("--model-type", type=str, default="clip-vit-base-patch32")
     return parser.parse_args()
 
 
@@ -202,12 +190,13 @@ if __name__ == "__main__":
         args.model_type.startswith("clip-vit-base-patch")
         and args.model_type[-1].isdigit()
     )
+
     model_type = args.model_type
     model = build_model(model_type)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("Device: {}".format(device))
     model = model.to(device)
-    processor = CLIPProcessor.from_pretrained(f"openai/{model_type}")
+    processor = CLIPImageProcessor()
 
     seen_set = get_seen_set(args.output_path)
     print("Number of seen items: {}".format(len(seen_set)))

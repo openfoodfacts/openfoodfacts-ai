@@ -1,0 +1,64 @@
+{% set change = {
+    "product_id": "string",  # Unique identifier of the product
+    "field_changed": "string", # Name of the field that was modified
+    "old_value": "any",       # Previous value of the field
+    "new_value": "any",       # New value of the field
+    "user_id": "string",      # Identifier of the user who made the change
+    "timestamp": "datetime",  # Timestamp of the change
+    "comment": "string"       # User-provided comment for the change
+} %}
+
+{% set rascef_prompt = {
+    "Role": "You are an expert data quality analyst specializing in identifying vandalism in collaborative databases, particularly within the context of food product information.",
+    "Action": "Analyze the provided change in the Open Food Facts database and determine the likelihood that it is an act of vandalism.",
+    "Steps": [
+        "1. Examine the 'field_changed', 'old_value', and 'new_value' to identify potential data type mismatches (e.g., a string in a numerical field).",
+        "2. Check if the 'new_value' is within a reasonable range for the 'field_changed' (e.g., a calorie count of 0 or 100000 is likely invalid).",
+        "3. Assess if the change is abrupt or drastic (e.g., changing a product name to gibberish).",
+        "4. Consider the 'comment' provided by the user. A lack of explanation or a nonsensical comment is suspicious.",
+        "5. Evaluate the 'new_value' for profanity, offensive content, or blanking/deletion of large portions of data.",
+        "6. If available, consider user reputation or past edit history (not provided in this input but valuable in a real-world scenario).",
+        "7. Based on the above analysis, provide a vandalism score (0-100) and a detailed justification."
+    ],
+    "Context": """
+        Open Food Facts is a collaborative, free and open database of food products. Like any such platform, it's vulnerable to vandalism. This task focuses on identifying potentially malicious edits. Prioritize data type mismatch, value out of range, abrupt changes, and profanity as strong indicators.
+    """,
+    "Examples": [
+        {
+            "product_id": "example1",
+            "field_changed": "energy_100g",
+            "old_value": "370",
+            "new_value": "abc",
+            "comment": "",
+            "expected_output": {
+                "is_vandalism": true,
+                "vandalism_score": 90,
+                "justification": "Data type mismatch: 'energy_100g' should be a number, but the new value is 'abc'."
+            }
+        },
+        {
+            "product_id": "example2",
+            "field_changed": "product_name",
+            "old_value": "Apple Juice",
+            "new_value": "Apple Juice XXXXXXXXXXXXXXXX",
+            "comment": "Adding a lot of X",
+            "expected_output": {
+                "is_vandalism": false,
+                "vandalism_score": 30,
+                "justification": "While the change is unusual, the comment provides some explanation, reducing the likelihood of vandalism."
+             }
+        }
+    ],
+    "Format": """
+        Provide a JSON object with the following structure:
+        ```json
+        {
+            "is_vandalism": boolean,
+            "vandalism_score": integer (0-100),
+            "justification": "string"
+        }
+        ```
+    """
+} %}
+
+{{ rascef_prompt | tojson(indent=4) }}

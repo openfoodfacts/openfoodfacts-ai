@@ -52,7 +52,8 @@ def item_group_func(x):
 def filter_items(items, min_count: int = 0):
     valid_items = [item for item in items if is_valid_item(item)]
     for key, group in itertools.groupby(
-        sorted(valid_items, key=item_group_func), item_group_func,
+        sorted(valid_items, key=item_group_func),
+        item_group_func,
     ):
         group_items = list(group)
         if len(group_items) >= min_count:
@@ -142,7 +143,8 @@ with CACHE_FILE.open("a") as f:
         itertools.groupby(
             sorted(filtered_items, key=operator.itemgetter("source_image")),
             operator.itemgetter("source_image"),
-        ), total=total_groups
+        ),
+        total=total_groups,
     ):
         if source_image in seen_images:
             print(f"Skipping {source_image}")
