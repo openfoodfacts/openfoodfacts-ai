@@ -1,0 +1,15 @@
+[project]
+name = "receipt-extraction"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "llama-index-core>=0.12.2",
+    "llama-index-llms-openai>=0.3.2",
+    "llama-index-multi-modal-llms-openai>=0.3.0",
+    "llama-index-readers-file>=0.4.0",
+    "matplotlib>=3.9.2",
+    "pydantic>=2.9.2",
+    "typer>=0.14.0",
+]

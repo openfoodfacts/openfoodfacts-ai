@@ -1,5 +1,5 @@
 #!/bin/bash
-RUN_NAME='ds-v5-large'
+RUN_NAME='ds-v6-large'
 BASE_MODEL_NAME='microsoft/layoutlmv3-large'
 
 DISABLE_MLFLOW_INTEGRATION="TRUE" WANDB_PROJECT=nutrition-detector WANDB_NAME=$RUN_NAME \
@@ -22,8 +22,10 @@ train.py \
 --save_steps 15 \
 --evaluation_strategy steps \
 --save_strategy steps \
+--evaluation_strategy steps \
 --metric_for_best_model "eval_f1" \
 --learning_rate 1e-5 \
 --push_to_hub \
 --hub_model_id "openfoodfacts/nutrition-extractor" \
---hub_strategy "end"
+--hub_strategy "end" \
+--load_best_model_at_end

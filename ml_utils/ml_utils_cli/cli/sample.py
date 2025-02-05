@@ -121,6 +121,10 @@ def format_object_detection_sample_to_hf(
         return None
 
     annotation = annotations[0]
+    if annotation["was_cancelled"]:
+        logger.debug("Annotation was cancelled, skipping.")
+        return None
+    
     bboxes = []
     bbox_category_ids = []
     bbox_category_names = []
