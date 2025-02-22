@@ -30,3 +30,6 @@ student projects:
 
 language identification:
 - language_identification/**/*
+
+open prices:
+- price-tag-detection/**/*
