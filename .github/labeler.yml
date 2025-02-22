@@ -1,35 +1,62 @@
+# Labeler configuration file
+
+# GitHub Actions
 github_actions:
-- .github/**/*
+  - path: .github/**/*
+    labels: ["github_actions"]
 
-nutrition facts:
-- /nutrition-table-extraction/**/*
-- /GSoC2018/**/*
+# Nutrition Facts
+nutrition_facts:
+  - path: /nutrition-table-extraction/**/*
+    labels: ["nutrition facts"]
+  - path: /GSoC2018/**/*
+    labels: ["nutrition facts"]
 
+# Documentation
 documentation:
-- data-sets.md
-- README.md
+  - path: data-sets.md
+    labels: ["documentation"]
+  - path: README.md
+    labels: ["documentation"]
 
+# Datasets
 datasets:
-- data-sets.md
+  - path: data-sets.md
+    labels: ["datasets"]
 
+# Spellcheck
 spellcheck:
-- spellcheck/**/*
+  - path: spellcheck/**/*
+    labels: ["spellcheck"]
 
-ocr cleaning:
-- ocr_cleaning/**/*
+# OCR Cleaning
+ocr_cleaning:
+  - path: ocr_cleaning/**/*
+    labels: ["ocr cleaning"]
 
-object detection:
-- object_detection/**/*
+# Object Detection
+object_detection:
+  - path: object_detection/**/*
+    labels: ["object detection"]
 
-logo-ann:
-- logo-ann/**/*
-- data4good_logo_detection/**/*
+# Logo Annotation
+logo_ann:
+  - path: logo-ann/**/*
+    labels: ["logo-ann"]
+  - path: data4good_logo_detection/**/*
+    labels: ["logo-ann"]
 
-student projects:
-- ai-emlyon/**/*
+# Student Projects
+student_projects:
+  - path: ai-emlyon/**/*
+    labels: ["student projects"]
 
-language identification:
-- language_identification/**/*
+# Language Identification
+language_identification:
+  - path: language_identification/**/*
+    labels: ["language identification"]
 
-open prices:
-- price-tag-detection/**/*
+# Open Prices
+open_prices:
+  - path: price-tag-detection/**/*
+    labels: ["open prices"]
