@@ -1,70 +1,81 @@
-# Labeler configuration file
+# .github/labeler.yml
 
 # GitHub Actions
 github_actions:
   - paths:
       - .github/**/*
-    labels: ["github_actions"]
+    labels:
+      - github_actions
 
 # Nutrition Facts
 nutrition_facts:
   - paths:
-      - /nutrition-table-extraction/**/*
-      - /GSoC2018/**/*
-    labels: ["nutrition facts"]
+      - nutrition-table-extraction/**/*
+      - GSoC2018/**/*
+    labels:
+      - nutrition_facts
 
 # Documentation
 documentation:
   - paths:
       - data-sets.md
       - README.md
-    labels: ["documentation"]
+    labels:
+      - documentation
 
 # Datasets
 datasets:
   - paths:
       - data-sets.md
-    labels: ["datasets"]
+    labels:
+      - datasets
 
 # Spellcheck
 spellcheck:
   - paths:
       - spellcheck/**/*
-    labels: ["spellcheck"]
+    labels:
+      - spellcheck
 
 # OCR Cleaning
 ocr_cleaning:
   - paths:
       - ocr_cleaning/**/*
-    labels: ["ocr cleaning"]
+    labels:
+      - ocr_cleaning
 
 # Object Detection
 object_detection:
   - paths:
       - object_detection/**/*
-    labels: ["object detection"]
+    labels:
+      - object_detection
 
 # Logo Annotation
 logo_ann:
   - paths:
       - logo-ann/**/*
       - data4good_logo_detection/**/*
-    labels: ["logo-ann"]
+    labels:
+      - logo_ann
 
 # Student Projects
 student_projects:
   - paths:
       - ai-emlyon/**/*
-    labels: ["student projects"]
+    labels:
+      - student_projects
 
 # Language Identification
 language_identification:
   - paths:
       - language_identification/**/*
-    labels: ["language identification"]
+    labels:
+      - language_identification
 
 # Open Prices
 open_prices:
   - paths:
       - price-tag-detection/**/*
-    labels: ["open prices"]
+    labels:
+      - open_prices
