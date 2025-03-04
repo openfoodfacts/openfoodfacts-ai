@@ -1,32 +1,40 @@
 github_actions:
-- .github/**/*
+  - changed-files:
+      - any-glob-to-any-file: .github/**/*
 
 nutrition facts:
-- /nutrition-table-extraction/**/*
-- /GSoC2018/**/*
+  - changed-files:
+      - any-glob-to-any-file:
+          ["/nutrition-table-extraction/**/*", "/GSoC2018/**/*"]
 
 documentation:
-- data-sets.md
-- README.md
+  - changed-files:
+      - any-glob-to-any-file: ["data-sets.md", "README.md"]
 
 datasets:
-- data-sets.md
+  - changed-files:
+      - any-glob-to-any-file: data-sets.md
 
 spellcheck:
-- spellcheck/**/*
+  - changed-files:
+      - any-glob-to-any-file: spellcheck/**/*
 
 ocr cleaning:
-- ocr_cleaning/**/*
+  - changed-files:
+      - any-glob-to-any-file: ocr_cleaning/**/*
 
 object detection:
-- object_detection/**/*
+  - changed-files:
+      - any-glob-to-any-file: object_detection/**/*
 
 logo-ann:
-- logo-ann/**/*
-- data4good_logo_detection/**/*
+  - changed-files:
+      - any-glob-to-any-file: ["logo-ann/**/*", "data4good_logo_detection/**/*"]
 
 student projects:
-- ai-emlyon/**/*
+  - changed-files:
+      - any-glob-to-any-file: ai-emlyon/**/*
 
 language identification:
-- language_identification/**/*
+  - changed-files:
+      - any-glob-to-any-file: language_identification/**/*
