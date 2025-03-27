@@ -51,7 +51,7 @@ Here are different experiments.
 * on-going project @ https://github.com/openfoodfacts/off-category-classification/issues/2
 
 ## Weekly meetings
-- We e-meet Mondays at 17:00 Paris Time (16:00 London Time, 21:30 IST, 08:00 AM PT)
+- We e-meet Tuesdays at 11:00 Paris Time (10:00 London Time, 15:30 IST, 02:00 AM PT)
 - ![Google Meet](https://img.shields.io/badge/Google%20Meet-00897B?logo=google-meet&logoColor=white) Video call link: https://meet.google.com/qvv-grzm-gzb
 - Join by phone: https://tel.meet/qvv-grzm-gzb?pin=9965177492770
 - Add the Event to your Calendar by [adding the Open Food Facts community calendar to your calendar](https://wiki.openfoodfacts.org/Events)
