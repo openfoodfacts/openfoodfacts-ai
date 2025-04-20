@@ -1,0 +1,42 @@
+#%%
+from ultralytics import YOLO
+import os
+#%%
+test_specific = False
+data_path = f"{os.path.expanduser('~')}/data_dump/openfoodfacts/yolo"
+
+# Load a model
+model = YOLO(f"{data_path}/yolo11x.pt")
+
+# Get the CPU count
+cpu_count = os.cpu_count()
+print(f"CPU count: {cpu_count}")
+
+# Train the model
+train_results = model.train(
+    data=f"{data_path}/data.yaml",  # path to dataset YAML
+    epochs=1000,  # number of training epochs
+    patience=30,  # early stopping patience
+    batch=-1,  # batch size
+    dropout=0.1,  # dropout probability
+    imgsz=960,  # training image size
+    plots=True,  # create plots
+    device=0,  # device to run on, i.e. device=0 or device=0,1,2,3 or device=cpu
+    # workers=cpu_count,  # number of data loading workers
+    project=f"{data_path}/model",  # save training results to project/name
+)
+
+# Evaluate model performance on the validation set
+metrics = model.val()
+
+if test_specific:
+    #%%
+    # Perform object detection on an image
+    image_test_list = [f"{data_path}/test/4xXuBb8u3E.jpg", f"{data_path}/test/test_image.jpg"]
+
+    results = model.predict(image_test_list, conf=0.1, save=True, project=f"{data_path}/test")  # or with a list of image paths
+    # results[0].show()
+    #%%
+    # Export model
+    path = model.export(format="onnx")
+#%%
