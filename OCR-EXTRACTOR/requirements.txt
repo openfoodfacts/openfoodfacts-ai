@@ -1,0 +1,7 @@
+
+paddleocr>=2.6.1
+paddlepaddle>=2.4.2
+langdetect>=1.0.9
+google-generativeai>=0.3.2
+opencv-python>=4.9.0.80
+numpy>=1.24.0

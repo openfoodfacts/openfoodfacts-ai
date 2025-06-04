@@ -1,0 +1,93 @@
+tesseract:
+-------------
+Extracted Text:
+Appiicaten tothe Principal for SiekLeave..
+
+ory Poulie schoo.
+
+Sap oecerta sas
+
+Sub: Appa fra acs Leave,
+
+ear aca
+
+Pert ietporgtoya ina
+
+_ atti, net ny son/baughtarvaen
+
+Siefodant of ave at ye schon! wr oot
+_Seatiama ated steel the ran for
+Gaye. shave fhe 9 Supreaed
+
+Sith Saursien
+~ ocr i attaches Ferm eit your ference
+"shape lotinee seth ar rant oaks
+"fe maine by sectors
+ning
+
+
+
+
+
+
+easyeOCR:
+-------------
+Detected text: ~poicatnn (Confidence: 0.14)
+Detected text: Puccida (Confidence: 0.09)
+Detected text: SLLeJvC (Confidence: 0.01)
+Detected text: Tne_Principal, (Confidence: 0.54)
+Detected text: Mon (Confidence: 0.32)
+Detected text: Fuulic (Confidence: 0.46)
+Detected text: ECNOUL (Confidence: 0.15)
+Detected text: Gurjojn; Pacarouir*} (Confidence: 0.01)
+Detected text: DeCcoc (Confidence: 0.00)
+Detected text: ADMEOtUO (Confidence: 0.00)
+Detected text: Ecyn (Confidence: 0.02)
+Detected text: Dcjr (Confidence: 0.16)
+Detected text: NAc_ (Confidence: 0.08)
+Detected text: mculd Iire (Confidence: 0.09)
+Detected text: DLCC (Confidence: 0.46)
+Detected text: YDLC KCL (Confidence: 0.04)
+Detected text: altocticn thetmny (Confidence: 0.14)
+Detected text: Sen[uuahiurdjm6 (Confidence: 0.03)
+Detected text: an aen- (Confidence: 0.01)
+Detected text: cascoefencoler (Confidence: 0.00)
+Detected text: Gino (Confidence: 0.02)
+Detected text: DeccolorTECee (Confidence: 0.00)
+Detected text: n (Confidence: 0.11)
+Detected text: Anneet (Confidence: 0.00)
+Detected text: Wn Tourore (Confidence: 0.14)
+Detected text: mrladical cutijerte Ssudtxco (Confidence: 0.02)
+Detected text: Cecr (Confidence: 0.03)
+Detected text: otozficinni Tin10i  Cuncletcnc; (Confidence: 0.00)
+Detected text: Oedec (Confidence: 0.02)
+Detected text: Trm Ce eeek (Confidence: 0.00)
+Detected text: Jdy44 (Confidence: 0.04)
+Detected text: 4CCCA (Confidence: 0.13)
+Detected text: Knianknc (Confidence: 0.02)
+Detected text: Namc (Confidence: 0.36)
+Detected text: cOre oibnDalan1a (Confidence: 0.02)
+
+
+paddleocr:
+------------
+Detected text: Application.totne Principailfor SickLeave
+Detected text: Mary Public school
+Detected text: The Principal,
+Detected text: Gurgoon.Haryono 22xxx
+Detected text: 18December.2022
+Detected text: SubApplicatico foca sickLeave
+Detected text: Dear sir/Madam
+Detected text: Qttention.that my son/Daughter(Name),
+Detected text: I would like to bring to your kind
+Detected text: a student.of.class x.of your schcolwil.not
+Detected text: days.sbe/he.is.hospitalized and.diognosed
+Detected text: De abiato.attend schcolfar thenext few.
+Detected text: The medicaicertifcate issued.bytre
+Detected text: with Jaundice.
+Detected text: _doctor is_attached.here.with.for ycur refesence
+Detected text: she/ne.wilLatterd achod from.next week
+Detected text: _as.advised.by.doctors.
+Detected text: Thanking you.
+Detected text: (Name
+Detected text: Sianature cfthe parents)
