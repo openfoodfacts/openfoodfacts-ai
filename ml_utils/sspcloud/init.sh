@@ -1,8 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
-IFS=$'\n\t'
-
 # Bash init script for SSP Cloud (https://datalab.sspcloud.fr/), used
 # to set up the environment for a user.
 
@@ -12,7 +9,7 @@ trap 'exec 2>&4 1>&3' 0 1 2 3
 exec 1>log.out 2>&1
 
 # Disable unattended upgrades to avoid lock issues
-sudo systemctl stop unattended-upgrades
+systemctl stop unattended-upgrades
 
 # We save envvar to file for debugging
 env | sort > env_init.out
