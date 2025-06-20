@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -euo pipefail
+IFS=$'\n\t'
+
 # Bash init script for SSP Cloud (https://datalab.sspcloud.fr/), used
 # to set up the environment for a user.
 
@@ -7,9 +10,6 @@
 exec 3>&1 4>&2
 trap 'exec 2>&4 1>&3' 0 1 2 3
 exec 1>log.out 2>&1
-
-# Disable unattended upgrades to avoid lock issues
-systemctl stop unattended-upgrades
 
 # We save envvar to file for debugging
 env | sort > env_init.out
@@ -26,12 +26,6 @@ then
   cd work
 fi
 
-# Install some useful packages
-apt update && apt install -y tmux htop
-
-# This is required for Ultralytics package
-apt install -y ffmpeg libsm6 libxext6
-
 # Clone OpenFoodFacts AI
 git clone --depth=1 https://github.com/openfoodfacts/openfoodfacts-ai.git
 
@@ -47,6 +41,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 if ! grep -q 'export PATH="$HOME/.local/bin:$PATH"' /home/onyxia/.bashrc; then
   echo 'export PATH="$HOME/.local/bin:$PATH"' >> /home/onyxia/.bashrc
 fi
+
+# Install some useful packages
+apt -o DPkg::lock::Timeout=600 update
+apt -o DPkg::lock::Timeout=600 install -y tmux htop
+
+# This is required for Ultralytics package
+apt -o DPkg::lock::Timeout=600 install -y ffmpeg libsm6 libxext6
 
 # Final env (for debugging)
 env | sort > env_final.out
