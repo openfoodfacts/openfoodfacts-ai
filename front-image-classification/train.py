@@ -10,43 +10,13 @@
 
 from pathlib import Path
 
-import albumentations as A
 import cv2
 import numpy as np
 import typer
 import ultralytics
-from albumentations.pytorch.transforms import ToTensorV2
+from ml_commons import get_predict_transform, get_train_transform
 from ultralytics.data.dataset import ClassificationDataset
 from ultralytics.models.yolo.classify import ClassificationTrainer
-
-DEFAULT_MEAN = (0.0, 0.0, 0.0)
-DEFAULT_STD = (1.0, 1.0, 1.0)
-
-
-def get_train_transform(
-    max_size: int, square_symmetry_prob: float = 1.0, coarse_dropout_prob: float = 0.4
-):
-    return A.Compose(
-        [
-            A.LongestMaxSize(max_size=max_size, p=1.0),
-            A.PadIfNeeded(min_height=max_size, min_width=max_size, p=1.0),
-            A.SquareSymmetry(p=square_symmetry_prob),
-            A.CoarseDropout(p=coarse_dropout_prob),
-            A.Normalize(mean=DEFAULT_MEAN, std=DEFAULT_STD, p=1.0),
-            ToTensorV2(p=1.0),
-        ]
-    )
-
-
-def get_predict_transform(max_size: int):
-    return A.Compose(
-        [
-            A.LongestMaxSize(max_size=max_size, p=1.0),
-            A.PadIfNeeded(min_height=max_size, min_width=max_size, p=1.0),
-            A.Normalize(mean=DEFAULT_MEAN, std=DEFAULT_STD, p=1.0),
-            ToTensorV2(p=1.0),
-        ]
-    )
 
 
 class CustomizedDataset(ClassificationDataset):

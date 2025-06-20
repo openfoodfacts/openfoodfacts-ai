@@ -15,6 +15,7 @@ from pathlib import Path
 import duckdb
 import tqdm
 import typer
+
 from openfoodfacts.images import ImageDownloadItem, download_image
 
 app = typer.Typer()
@@ -224,6 +225,33 @@ def train(
 
     model = ultralytics.YOLO(model_name)
     model.train(data=dataset_dir, epochs=epochs, imgsz=imgsz, batch=batch)
+
+
+@app.command()
+def predict(
+    dataset_dir: Path,
+    output_dir: Path,
+    model_path: Path,
+):
+    """Train the image classifier model using Ultralytics."""
+    import ultralytics
+    from ultralytics.models.yolo.classify import ClassificationPredictor
+
+    model = ultralytics.YOLO(model_path)
+    output_dir.mkdir(exist_ok=True, parents=True)
+    for result in model.predict(source=dataset_dir, predictor=ClassificationPredictor):
+        image_path = Path(result.path)
+        top1conf = result.probs.top1conf.item()
+        predicted_class = result.names[result.probs.top1]
+        bucket_id = (top1conf // 0.1) / 10
+        output_path = (
+            output_dir
+            / predicted_class
+            / str(bucket_id)
+            / f"{image_path.stem}_{top1conf}{image_path.suffix}"
+        )
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.symlink_to(image_path)
 
 
 if __name__ == "__main__":
