@@ -2,7 +2,6 @@ import albumentations as A
 import cv2
 import torch
 from albumentations.pytorch.transforms import ToTensorV2
-from PIL import Image
 from ultralytics.models.yolo.classify import ClassificationPredictor
 
 DEFAULT_MEAN = (0.0, 0.0, 0.0)
@@ -55,9 +54,7 @@ class CustomClassificationPredictor(ClassificationPredictor):
         if not isinstance(img, torch.Tensor):
             img = torch.stack(
                 [
-                    self.transforms(
-                        image=Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
-                    )["image"]
+                    self.transforms(image=cv2.cvtColor(im, cv2.COLOR_BGR2RGB))["image"]
                     for im in img
                 ],
                 dim=0,

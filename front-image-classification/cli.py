@@ -15,7 +15,6 @@ from pathlib import Path
 import duckdb
 import tqdm
 import typer
-
 from openfoodfacts.images import ImageDownloadItem, download_image
 
 app = typer.Typer()
@@ -232,26 +231,55 @@ def predict(
     dataset_dir: Path,
     output_dir: Path,
     model_path: Path,
+    group_by_confidence: bool = typer.Option(
+        False,
+        help="Group predictions by confidence level (0.1 buckets).",
+    ),
+    add_prob_suffix: bool = typer.Option(
+        False,
+        help="Add the top1 confidence probability to the output filename.",
+    ),
+    copy_images: bool = typer.Option(
+        False, help="Copy images instead of creating symlinks."
+    ),
 ):
-    """Train the image classifier model using Ultralytics."""
+    """Predict the class of a directory of images using a trained model.
+
+    We use a custom classification predictor so that we can apply custom
+    pre-processing.
+
+    Args:
+        dataset_dir: Directory containing images to classify.
+        output_dir: Directory to save the classification results.
+        model_path: Path to the trained model.
+    """
     import ultralytics
-    from ultralytics.models.yolo.classify import ClassificationPredictor
+
+    from ml_commons import CustomClassificationPredictor
 
     model = ultralytics.YOLO(model_path)
     output_dir.mkdir(exist_ok=True, parents=True)
-    for result in model.predict(source=dataset_dir, predictor=ClassificationPredictor):
+    for result in model.predict(
+        source=dataset_dir, predictor=CustomClassificationPredictor
+    ):
         image_path = Path(result.path)
         top1conf = result.probs.top1conf.item()
         predicted_class = result.names[result.probs.top1]
         bucket_id = (top1conf // 0.1) / 10
-        output_path = (
-            output_dir
-            / predicted_class
-            / str(bucket_id)
-            / f"{image_path.stem}_{top1conf}{image_path.suffix}"
-        )
+        output_path = output_dir / predicted_class
+
+        if group_by_confidence:
+            output_path = output_path / str(bucket_id)
+
+        suffix = f"_{top1conf}" if add_prob_suffix else ""
+        output_path = output_path / f"{image_path.stem}{suffix}{image_path.suffix}"
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.symlink_to(image_path)
+
+        if copy_images:
+            typer.echo(f"Copying {image_path} to {output_path}")
+            output_path.write_bytes(image_path.read_bytes())
+        else:
+            output_path.symlink_to(image_path)
 
 
 if __name__ == "__main__":
