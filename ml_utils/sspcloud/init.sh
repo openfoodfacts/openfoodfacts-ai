@@ -42,12 +42,8 @@ if ! grep -q 'export PATH="$HOME/.local/bin:$PATH"' /home/onyxia/.bashrc; then
   echo 'export PATH="$HOME/.local/bin:$PATH"' >> /home/onyxia/.bashrc
 fi
 
-# Install some useful packages
-apt -o DPkg::lock::Timeout=600 update
-apt -o DPkg::lock::Timeout=600 install -y tmux htop
-
-# This is required for Ultralytics package
-apt -o DPkg::lock::Timeout=600 install -y ffmpeg libsm6 libxext6
+# Download install.sh script
+wget -O install.sh https://raw.githubusercontent.com/openfoodfacts/openfoodfacts-ai/refs/heads/develop/ml_utils/sspcloud/install.sh
 
 # Final env (for debugging)
 env | sort > env_final.out
