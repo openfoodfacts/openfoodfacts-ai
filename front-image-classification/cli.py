@@ -6,6 +6,7 @@
 #   "tqdm",
 #   "Pillow",
 #   "ultralytics",
+#   "albumentations",
 # ]
 # ///
 import random
