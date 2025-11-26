@@ -1,0 +1,13 @@
+[project]
+name = "llm-evals"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "deepdiff>=8.6.1",
+    "openai>=2.8.1",
+    "openfoodfacts>=3.3.0",
+    "pydantic-ai>=1.22.0",
+    "pydantic-evals>=1.22.0",
+]
