@@ -9,9 +9,9 @@ from llm_evals.tasks.food.product_info_extraction.config import (
 from llm_evals.tasks.prices.price_tag_extraction.config import (
     CONFIG as prices_price_tag_extraction_config,
 )
-from llm_evals.types import TaskType
+from llm_evals.types import TaskConfig, TaskType
 
-TASK_CONFIG_MAPPING: dict[TaskType, dict] = {
+TASK_CONFIG_MAPPING: dict[TaskType, TaskConfig] = {
     "food:product_info_extraction": food_product_info_extraction_config,
     "prices:price_tag_extraction": prices_price_tag_extraction_config,
 }

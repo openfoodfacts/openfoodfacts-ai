@@ -12,71 +12,39 @@ app = typer.Typer()
 
 
 @app.command()
-def run_extraction(
-    image_url: str,
-    model: str = DEFAULT_MODEL,
-    openai_url: str | None = None,
+def run_task(
+    image_url: str = typer.Argument(
+        default=..., help="The image URL to run the task on."
+    ),
+    model: str = typer.Option(
+        default=DEFAULT_MODEL, help="The model to use for the task."
+    ),
+    task: TaskType = typer.Option(
+        default="food:product_info_extraction", help="The task to run."
+    ),
 ):
-    from llm_evals.tasks.food.product_info_extraction.schemas import (
-        ProductInfoExtractionResponseModel,
-    )
+    """Run a specific task with the given model on a single image URL.
 
-    if openai_url:
-        # client = openai.Client(base_url=openai_url)
-        # model = client.models.list().data[0].id
-        # image_bytes = requests.get(image_url).content
-        # response = client.chat.completions.create(
-        #     model=model,
-        #     messages=[
-        #         {
-        #             "role": "user",
-        #             "content": [
-        #                 """Extract all relevant information from this product packaging photo.""",
-        #                 base64.b64encode(image_bytes).decode("utf-8"),
-        #             ],
-        #         }
-        #     ],
-        #     response_format={
-        #         "type": "json_schema",
-        #         "json_schema": {
-        #             "name": "ProductInfoExtractionResponseModel",
-        #             "schema": ProductInfoExtractionResponseModel.model_json_schema(),
-        #         },
-        #     },
-        # )
-        # print(response)
-        provider = OpenAIProvider(base_url=openai_url)
-        profile = OpenAIModelProfile(
-            json_schema_transformer=InlineDefsJsonSchemaTransformer,  # Supported by any model class on a plain ModelProfile
-            openai_supports_strict_tool_definition=False,  # Supported by OpenAIModel only, requires OpenAIModelProfile
-            openai_supports_tool_choice_required=True,
-        )
-        model = OpenAIChatModel(
-            model,
-            provider=provider,
-            profile=profile,
-        )
-        agent = Agent(model, output_type=ProductInfoExtractionResponseModel)
-    else:
-        agent = Agent(
-            model,
-            output_type=ProductInfoExtractionResponseModel,
-        )
+    The Agent (model, prompt, output schema) and task function are
+    retrieved from the task configuration.
 
-        result = agent.run_sync(
-            [
-                """Extract all relevant information from this product packaging photo.""",
-                ImageUrl(
-                    image_url,
-                ),
-            ]
-        )
-        print(result.output.model_dump_json(indent=2))
+    Example:
+    python main.py run-task
+    "https://images.openfoodfacts.org/images/products/932/721/500/0085/1.jpg"
+    --model "google-vertex:gemini-2.5-flash-lite"
+    --task "food:product_info_extraction"
+    """
+    import asyncio
 
+    from llm_evals.evaluate import TASK_CONFIG_MAPPING
 
-@app.command()
-def run_multi_image_extraction():
-    pass
+    task_config = TASK_CONFIG_MAPPING[task]
+    task_func = task_config["task"]
+    agent = task_config["agent"]
+
+    with agent.override(model=model):
+        result = asyncio.run(task_func({"image_url": image_url}))
+        print(result)
 
 
 @app.command()
@@ -87,6 +55,15 @@ def evaluate(
     include_expected_output: bool = True,
     include_reasons: bool = True,
 ):
+    """Evaluate a specific task with the given model.
+    The Agent (model, prompt, output schema), Dataset and task function are
+    retrieved from the task configuration.
+
+    Example:
+    python main.py evaluate
+    --model "google-vertex:gemini-2.5-flash-lite"
+    --task "food:product_info_extraction"
+    """
     from llm_evals.evaluate import evaluate_task
 
     evaluate_task(
