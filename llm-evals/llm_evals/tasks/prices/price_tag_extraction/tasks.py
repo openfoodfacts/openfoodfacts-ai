@@ -1,6 +1,7 @@
 import json
 from typing import Any
 
+import aiohttp
 import requests
 from pydantic_ai import Agent, BinaryContent, ImageUrl
 
@@ -34,9 +35,10 @@ async def run(
     ) or image_url.startswith("https://robotoff.openfoodfacts.net/api/v1/images/crop"):
         # Robotoff crop images are not accessible publicly, so we replace them
         # with the original image
-        image_obj = BinaryContent(
-            requests.get(image_url).content, media_type="image/jpeg"
-        )
+        async with aiohttp.ClientSession() as session:
+            async with session.get(image_url) as response:
+                content_bytes = await response.read()
+                image_obj = BinaryContent(content_bytes, media_type="image/jpeg")
     else:
         image_obj = ImageUrl(image_url)
 
