@@ -1,7 +1,7 @@
 from llm_evals.types import TaskConfig
 
 from .datasets import dataset
-from .evaluate import agent, task
+from .tasks import agent, task
 
 CONFIG = TaskConfig(
     agent=agent,
