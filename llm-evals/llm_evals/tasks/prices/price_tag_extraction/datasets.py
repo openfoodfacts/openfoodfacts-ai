@@ -1,27 +1,34 @@
-from pydantic_evals import Case, Dataset
+from pathlib import Path
+from typing import TypedDict
+
+from pydantic_evals import Dataset
 
 from llm_evals.evaluators import IsCorrectJsonSchema, IsJson
 
-from .schemas import DiscountType, ExpectedResult, Label
+from .schemas import ExpectedResult
 
-dataset = Dataset(
-    cases=[
-        # In progress - to be filled with real data
-        Case(
-            inputs={
-                "price_tag_url": "https://prices.openfoodfacts.org/api/v1/price-tags/100"
-            },
-            metadata={"country": "fr"},
-            expected_output=ExpectedResult(
-                type="PRODUCT",
-                product_price_per_unit_with_discount=9.99,
-                product_price_per_unit_without_discount=12.99,
-                product_price_per_unit_discount_type=DiscountType.SALE,
-            ),
-        )
-    ],
-    evaluators=[
-        IsJson(),
-        IsCorrectJsonSchema(pydantic_class=Label),
-    ],
+DATASET_PATH = Path(__file__).parent / "dataset.yaml"
+
+
+class PriceTagExtractionInput(TypedDict):
+    image_url: str
+
+
+class MetaData(TypedDict):
+    price_tag_id: int
+    tags: list[str] | None
+
+
+CUSTOM_EVALUATOR_TYPES = (IsJson, IsCorrectJsonSchema)
+
+
+dataset = Dataset[PriceTagExtractionInput, ExpectedResult, MetaData].from_file(
+    path=DATASET_PATH, custom_evaluator_types=CUSTOM_EVALUATOR_TYPES
 )
+
+
+def save_dataset_to_yaml():
+    dataset.to_file(
+        DATASET_PATH,
+        custom_evaluator_types=CUSTOM_EVALUATOR_TYPES,
+    )

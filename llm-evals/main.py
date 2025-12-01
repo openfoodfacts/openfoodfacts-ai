@@ -1,8 +1,4 @@
 import typer
-from pydantic_ai import Agent, ImageUrl, InlineDefsJsonSchemaTransformer
-from pydantic_ai.models.openai import OpenAIChatModel
-from pydantic_ai.profiles.openai import OpenAIModelProfile
-from pydantic_ai.providers.openai import OpenAIProvider
 
 from llm_evals.types import TaskType
 

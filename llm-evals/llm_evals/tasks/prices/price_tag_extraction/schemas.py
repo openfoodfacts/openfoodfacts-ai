@@ -356,6 +356,13 @@ class Label(BaseModel):
 
 class ExpectedResult(BaseModel):
     type: Literal["PRODUCT", "CATEGORY"]
-    product_price_per_unit_with_discount: float | None = None
-    product_price_per_unit_without_discount: float | None = None
-    product_price_per_unit_discount_type: DiscountType | None = None
+    product_code: str | None = None
+    category_tag: str | None = None
+    labels_tags: list[str] | None = None
+    origins_tags: list[str] | None = None
+    price: float | None = None
+    price_is_discounted: bool | None = None
+    price_without_discount: float | None = None
+    discount_type: DiscountType | None = None
+    price_per: Unit | None = None
+    currency: str | None = None

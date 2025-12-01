@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=dataset_schema.json
+name: null
+cases:
+- name:
+  inputs:
+    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/YVyqbaNLqk.webp&y_min=0.5579268292682927&x_min=0.07588075880758809&y_max=0.7804878048780488&x_max=0.9593495934959351
+  metadata:
+    tags:
+    - country:fr
+    price_tag_id: 127260
+  expected_output:
+    type: PRODUCT
+    product_code: '0276403046840'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 7.14
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name:
+  inputs:
+    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0150/UtNxW1l5m3.webp&y_min=0.33369407057762146&x_min=0.23343971371650696&y_max=0.5154870748519897&x_max=0.4856271743774414
+  metadata:
+    tags:
+    - country:fr
+    price_tag_id: 122445
+  expected_output:
+    type: PRODUCT
+    product_code: '4005808816118'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.75
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+evaluators:
+- IsJson

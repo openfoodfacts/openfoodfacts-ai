@@ -2,7 +2,7 @@ import json
 from dataclasses import dataclass
 
 from pydantic import BaseModel
-from pydantic_evals.evaluators import Evaluator, EvaluatorContext
+from pydantic_evals.evaluators import EvaluationReason, Evaluator, EvaluatorContext
 
 
 @dataclass
@@ -33,7 +33,7 @@ class IsCorrectJsonSchema(Evaluator):
 
     def evaluate(
         self, ctx: EvaluatorContext[object, object, object]
-    ) -> bool | dict[str, bool]:
+    ) -> bool | EvaluationReason:
         output = ctx.output
 
         if not isinstance(output, str):
@@ -47,5 +47,5 @@ class IsCorrectJsonSchema(Evaluator):
         try:
             self.pydantic_class.model_validate(parsed_output)
             return True
-        except Exception:
-            return False
+        except Exception as e:
+            return EvaluationReason(value=False, reason=str(e))
