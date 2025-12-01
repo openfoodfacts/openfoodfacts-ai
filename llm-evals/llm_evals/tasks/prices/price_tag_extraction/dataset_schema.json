@@ -1161,6 +1161,10 @@
             "type": "string"
           },
           {
+            "const": "CheckExtraction",
+            "type": "string"
+          },
+          {
             "$ref": "#/$defs/short_evaluator_IsCorrectJsonSchema"
           },
           {

@@ -1,25 +1,16 @@
 from pathlib import Path
-from typing import TypedDict
 
 from pydantic_evals import Dataset
 
-from llm_evals.evaluators import IsCorrectJsonSchema, IsJson
+from llm_evals.evaluators import IsJson
 
-from .schemas import ExpectedResult
+from .evaluators import CheckExtraction
+from .schemas import ExpectedResult, MetaData, PriceTagExtractionInput
 
 DATASET_PATH = Path(__file__).parent / "dataset.yaml"
 
 
-class PriceTagExtractionInput(TypedDict):
-    image_url: str
-
-
-class MetaData(TypedDict):
-    price_tag_id: int
-    tags: list[str] | None
-
-
-CUSTOM_EVALUATOR_TYPES = (IsJson, IsCorrectJsonSchema)
+CUSTOM_EVALUATOR_TYPES = (IsJson, CheckExtraction)
 
 
 dataset = Dataset[PriceTagExtractionInput, ExpectedResult, MetaData].from_file(

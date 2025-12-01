@@ -8,6 +8,7 @@ dependencies = [
     "deepdiff>=8.6.1",
     "openai>=2.8.1",
     "openfoodfacts>=3.3.0",
+    "orjson>=3.11.4",
     "pydantic-ai>=1.22.0",
     "pydantic-evals>=1.22.0",
 ]

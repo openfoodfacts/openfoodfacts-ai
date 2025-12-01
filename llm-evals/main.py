@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import typer
 
 from llm_evals.types import TaskType
@@ -47,6 +49,13 @@ def run_task(
 def evaluate(
     task: TaskType,
     model: str = DEFAULT_MODEL,
+    output_path: Path | None = None,
+    include_tags: list[str] | None = typer.Option(
+        default=None, help="List of tags to include in the evaluation report."
+    ),
+    only_errors: bool = typer.Option(
+        default=False, help="Whether to include only error cases in the report."
+    ),
     include_output: bool = True,
     include_expected_output: bool = True,
     include_reasons: bool = True,
@@ -68,6 +77,9 @@ def evaluate(
         include_output=include_output,
         include_expected_output=include_expected_output,
         include_reasons=include_reasons,
+        output_path=output_path,
+        include_tags=include_tags,
+        only_errors=only_errors,
     )
 
 
