@@ -19,7 +19,7 @@ class CheckExtraction(Evaluator[CategoryPredictionInput, ExpectedResult, MetaDat
     def evaluate(
         self,
         ctx: EvaluatorContext[CategoryPredictionInput, ExpectedResult, MetaData],
-    ) -> dict[str, EvaluationReason | bool]:
+    ) -> dict[str, EvaluationReason]:
         output = CategoryPredictionResponseModel.model_validate_json(
             typing.cast(str, ctx.output)
         )
@@ -28,41 +28,36 @@ class CheckExtraction(Evaluator[CategoryPredictionInput, ExpectedResult, MetaDat
         )
 
         assertions = {}
+        precise_match = False
+        broader_match = False
         for predicted_category in output.categories:
             predicted_category_tag = (
                 f"{predicted_category.language}:{get_tag(predicted_category.category)}"
             )
-            precise_match = (
-                predicted_category_tag in expected_output.precise_category_patterns
-            )
-            reason = (
-                None
-                if precise_match
-                else (
-                    f"Predicted category: '{predicted_category_tag}', expected one of: "
-                    f"{expected_output.precise_category_patterns}"
-                )
-            )
-            assertions["precise_category_match"] = EvaluationReason(
-                value=precise_match,
-                reason=reason,
-            )
-            broader_match = (
-                (predicted_category_tag in expected_output.broader_category_patterns)
-                if not precise_match
-                else True
-            )
-            reason = (
-                None
-                if broader_match
-                else (
-                    f"Predicted category: '{predicted_category_tag}', expected one of: "
-                    f"{expected_output.broader_category_patterns}"
-                )
-            )
-            assertions["broader_category_match"] = EvaluationReason(
-                value=broader_match,
-                reason=reason,
-            )
+            if predicted_category_tag in expected_output.precise_category_patterns:
+                precise_match = True
+            elif predicted_category_tag in expected_output.broader_category_patterns:
+                broader_match = True
+
+        reason = (
+            None
+            if precise_match
+            else (f"expected one of: {expected_output.precise_category_patterns}")
+        )
+        assertions["precise_category_match"] = EvaluationReason(
+            value=precise_match,
+            reason=reason,
+        )
+
+        broader_match = precise_match or broader_match
+        reason = (
+            None
+            if broader_match
+            else (f"expected one of: {expected_output.broader_category_patterns}")
+        )
+        assertions["broader_category_match"] = EvaluationReason(
+            value=broader_match,
+            reason=reason,
+        )
 
         return assertions
