@@ -119,17 +119,26 @@
     },
     "ExpectedResult": {
       "properties": {
-        "categories": {
-          "description": "List of expected categories for the product. The most precise category is listed first, then broader categories if possible.",
+        "precise_category_patterns": {
+          "description": "Most precise category. Several candidates can be listed, for comparison with the predicted category.",
           "items": {
             "type": "string"
           },
-          "title": "Categories",
+          "title": "Precise Category Patterns",
+          "type": "array"
+        },
+        "broader_category_patterns": {
+          "description": "Broader categories that also apply to the product. Several candidates can be listed, for comparison with the predicted categories.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Broader Category Patterns",
           "type": "array"
         }
       },
       "required": [
-        "categories"
+        "precise_category_patterns",
+        "broader_category_patterns"
       ],
       "title": "ExpectedResult",
       "type": "object"
