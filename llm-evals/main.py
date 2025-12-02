@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from typing import Any
 
@@ -48,7 +49,13 @@ def run_task(
 
     with agent.override(model=model):
         result = asyncio.run(task_func(func_argument))
-        print(result)
+
+        try:
+            json.loads(result)
+        except json.JSONDecodeError:
+            typer.echo(result)
+        else:
+            typer.echo(json.dumps(json.loads(result), indent=2, ensure_ascii=False))
 
 
 @app.command()
