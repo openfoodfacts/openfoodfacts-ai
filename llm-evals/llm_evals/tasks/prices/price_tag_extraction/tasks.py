@@ -2,7 +2,6 @@ import json
 from typing import Any
 
 import aiohttp
-import requests
 from pydantic_ai import Agent, BinaryContent, ImageUrl
 
 from llm_evals.cache import cache_llm_request_async

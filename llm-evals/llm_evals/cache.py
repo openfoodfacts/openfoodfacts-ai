@@ -10,6 +10,7 @@ CACHE_DIR = Path("~/.cache/llm_evals").expanduser()
 def get_query_cache_path(
     *, image_url: str, model: str, task_name: str, instructions: str, json_schema: str
 ) -> Path:
+    model = model.replace("/", "_")
     cache_key = (image_url, model, task_name, instructions, json_schema)
     cache_sha256 = DeepHash(cache_key)[cache_key]
 

@@ -59,6 +59,9 @@ def evaluate(
     include_output: bool = True,
     include_expected_output: bool = True,
     include_reasons: bool = True,
+    max_concurrency: int | None = typer.Option(
+        default=None, help="Maximum number of concurrent requests to the LLM API."
+    ),
 ):
     """Evaluate a specific task with the given model.
     The Agent (model, prompt, output schema), Dataset and task function are
@@ -80,6 +83,7 @@ def evaluate(
         output_path=output_path,
         include_tags=include_tags,
         only_errors=only_errors,
+        max_concurrency=max_concurrency,
     )
 
 

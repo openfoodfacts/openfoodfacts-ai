@@ -1,5 +1,4 @@
 import dataclasses
-import json
 from pathlib import Path
 from typing import Any, Callable
 
@@ -39,6 +38,7 @@ def evaluate_task_on_dataset(
     include_tags: list[str] | None = None,
     output_path: Path | None = None,
     only_errors: bool = False,
+    max_concurrency: int | None = None,
 ) -> None:
     if include_tags is not None:
         dataset.cases = [
@@ -53,6 +53,7 @@ def evaluate_task_on_dataset(
         report = dataset.evaluate_sync(
             name=task_name,
             task=task_func,
+            max_concurrency=max_concurrency,
         )
 
     if only_errors:
