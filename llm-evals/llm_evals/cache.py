@@ -40,14 +40,25 @@ def _save_cached_response(query_cache_path: Path, data: dict) -> None:
 def cache_llm_request_async(func):
     @functools.wraps(func)
     async def wrapper(*args, **kwargs):
-        image_url = kwargs["image_url"]
+        image_url = kwargs.get("image_url")
+        image_urls = kwargs.get("image_urls")
+
+        if image_urls is not None:
+            if image_url is not None:
+                raise ValueError("Provide either image_url or image_urls, not both.")
+            image_urls_str = ",".join(image_urls)
+        else:
+            if image_url is None:
+                raise ValueError("Either image_url or image_urls must be provided.")
+            image_urls_str = image_url
+
         model = kwargs["model"]
         task_name = kwargs["task_name"]
         instructions = kwargs["instructions"]
         json_schema = kwargs["json_schema"]
         # Implement caching logic here
         query_cache_path = get_query_cache_path(
-            image_url=image_url,
+            image_url=image_urls_str,
             model=model,
             task_name=task_name,
             instructions=instructions,

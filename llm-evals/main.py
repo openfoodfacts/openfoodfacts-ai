@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 import typer
 
@@ -11,8 +12,8 @@ app = typer.Typer()
 
 @app.command()
 def run_task(
-    image_url: str = typer.Argument(
-        default=..., help="The image URL to run the task on."
+    image_urls: list[str] = typer.Argument(
+        default=..., help="The image URL(s) to run the task on."
     ),
     model: str = typer.Option(
         default=DEFAULT_MODEL, help="The model to use for the task."
@@ -39,9 +40,14 @@ def run_task(
     task_config = TASK_CONFIG_MAPPING[task]
     task_func = task_config["task"]
     agent = task_config["agent"]
+    func_argument: dict[str, Any] = (
+        {"image_urls": image_urls}
+        if task_config.get("multiple_images", False)
+        else {"image_url": image_urls[0]}
+    )
 
     with agent.override(model=model):
-        result = asyncio.run(task_func({"image_url": image_url}))
+        result = asyncio.run(task_func(func_argument))
         print(result)
 
 

@@ -10,6 +10,9 @@ from pydantic_ai import Agent
 from pydantic_evals import Dataset
 from pydantic_evals.reporting import EvaluationReport
 
+from llm_evals.tasks.food.product_categorization.config import (
+    CONFIG as food_product_categorization_config,
+)
 from llm_evals.tasks.food.product_info_extraction.config import (
     CONFIG as food_product_info_extraction_config,
 )
@@ -20,6 +23,7 @@ from llm_evals.types import TaskConfig, TaskType
 
 TASK_CONFIG_MAPPING: dict[TaskType, TaskConfig] = {
     "food:product_info_extraction": food_product_info_extraction_config,
+    "food:product_categorization": food_product_categorization_config,
     "prices:price_tag_extraction": prices_price_tag_extraction_config,
 }
 
