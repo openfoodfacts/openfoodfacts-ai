@@ -146,7 +146,8 @@ cases:
     price_tag_id: 126807
   expected_output:
     type: PRODUCT
-    product_code: '20001102'
+    # Originally, it was '20001102'. As the displayed digits are '0001102', i updated it manually. 
+    product_code: '0001102'
     category_tag:
     labels_tags:
     origins_tags:
@@ -497,6 +498,7 @@ cases:
     - country:no
     - currency:nok
     - type:product
+    - data-quality:barcode-unreadable
     price_tag_id: 127541
   expected_output:
     type: PRODUCT
@@ -963,14 +965,17 @@ cases:
     - country:no
     - currency:nok
     - type:product
+    - data-quality:barcode-unreadable
+    - data-quality:price-unreadable
     price_tag_id: 120400
   expected_output:
     type: PRODUCT
-    product_code: '7033330080605'
+    # The barcode is totally unreadable in the image, so we override both fields to null
+    product_code: null
     category_tag:
     labels_tags:
     origins_tags:
-    price: 28.9
+    price: null
     price_is_discounted: false
     price_without_discount:
     discount_type:
@@ -1007,6 +1012,7 @@ cases:
     - country:no
     - currency:nok
     - type:product
+    - data-quality:barcode-unreadable
     price_tag_id: 120259
   expected_output:
     type: PRODUCT
@@ -1139,6 +1145,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - data-quality:price-truncated
     price_tag_id: 124357
   expected_output:
     type: PRODUCT
@@ -1227,6 +1234,7 @@ cases:
     - country:no
     - currency:nok
     - type:product
+    - data-quality:barcode-unreadable
     price_tag_id: 127525
   expected_output:
     type: PRODUCT
@@ -1802,6 +1810,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - data-quality:barcode-unreadable
     price_tag_id: 125791
   expected_output:
     type: PRODUCT
@@ -1890,6 +1899,7 @@ cases:
     - country:no
     - currency:nok
     - type:product
+    - data-quality:barcode-unreadable
     price_tag_id: 127604
   expected_output:
     type: PRODUCT
@@ -1912,6 +1922,7 @@ cases:
     - country:no
     - currency:nok
     - type:product
+    - data-quality:barcode-unreadable
     price_tag_id: 120560
   expected_output:
     type: PRODUCT
@@ -2137,7 +2148,8 @@ cases:
     price_tag_id: 120265
   expected_output:
     type: PRODUCT
-    product_code: '7039317008631'
+    # The barcode is not displayed on the image, so we override it to null.
+    product_code: null
     category_tag:
     labels_tags:
     origins_tags:
@@ -2178,6 +2190,7 @@ cases:
     - country:no
     - currency:nok
     - type:product
+    - data-quality:barcode-unreadable
     price_tag_id: 120577
   expected_output:
     type: PRODUCT

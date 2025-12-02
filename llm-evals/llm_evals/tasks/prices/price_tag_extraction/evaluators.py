@@ -88,7 +88,11 @@ class CheckExtraction(Evaluator[PriceTagExtractionInput, ExpectedResult, MetaDat
                 value=selected_price is None, reason="No price expected"
             )
 
-        if "data-quality:price-truncated" in (metadata["tags"] or []):
+        tags = metadata.get("tags") or []
+        if (
+            "data-quality:price-truncated" in tags
+            or "data-quality:price-unreadable" in tags
+        ):
             return None
 
         if selected_price is None:
