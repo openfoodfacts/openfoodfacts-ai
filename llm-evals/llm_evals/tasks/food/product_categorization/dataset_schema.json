@@ -45,7 +45,7 @@
           "items": {
             "anyOf": [
               {
-                "const": "IsJson",
+                "const": "CheckExtraction",
                 "type": "string"
               },
               {
@@ -1012,7 +1012,7 @@
       "items": {
         "anyOf": [
           {
-            "const": "IsJson",
+            "const": "CheckExtraction",
             "type": "string"
           },
           {

@@ -2,14 +2,13 @@ from pathlib import Path
 
 from pydantic_evals import Dataset
 
-from llm_evals.evaluators import IsJson
-
+from .evaluators import CheckExtraction
 from .schemas import CategoryPredictionInput, ExpectedResult, MetaData
 
 DATASET_PATH = Path(__file__).parent / "dataset.yaml"
 
 
-CUSTOM_EVALUATOR_TYPES = (IsJson,)
+CUSTOM_EVALUATOR_TYPES = (CheckExtraction,)
 
 
 dataset = Dataset[CategoryPredictionInput, ExpectedResult, MetaData].from_file(

@@ -1,4 +1,17 @@
 # yaml-language-server: $schema=dataset_schema.json
 name: null
-cases: []
-evaluators: []
+evaluators:
+- CheckExtraction
+cases:
+- name: '2038750003062'
+  inputs:
+    image_urls: [ 'https://images.openfoodfacts.org/images/products/203/875/000/3062/front_en.3.full.jpg' ]
+  expected_output:
+    precise_category_patterns: [ "it:formaggio", "en:cheese", "en:cheeses" ]
+    broader_category_patterns: []
+- name: '4069365216248'
+  inputs:
+    image_urls: [ 'https://images.openfoodfacts.org/images/products/406/936/521/6248/front_pl.3.full.jpg' ]
+  expected_output:
+    precise_category_patterns: [ "en:semolina-puddings", "en:semolina-puddings" ]
+    broader_category_patterns: [ "en:puddings", "en:pudding", "en:desserts", "en:dessert" ]
