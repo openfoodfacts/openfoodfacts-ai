@@ -1,5 +1,5 @@
 import enum
-from typing import Literal
+from typing import Literal, TypedDict
 
 from pydantic import BaseModel, Field, computed_field
 
@@ -258,8 +258,8 @@ class Label(BaseModel):
         description="true if the image is a price tag, false otherwise. If the image seems to come from a receipt or a catalogue, this should be set to false.",
     )
 
-    @property
     @computed_field
+    @property
     def selected_price(self) -> SelectedPrice | None:
         """From all individual price reference on the price tag, construct a
         Price ready to be added to Open Prices.
@@ -356,6 +356,22 @@ class Label(BaseModel):
 
 class ExpectedResult(BaseModel):
     type: Literal["PRODUCT", "CATEGORY"]
-    product_price_per_unit_with_discount: float | None = None
-    product_price_per_unit_without_discount: float | None = None
-    product_price_per_unit_discount_type: DiscountType | None = None
+    product_code: str | None = None
+    category_tag: str | None = None
+    labels_tags: list[str] | None = None
+    origins_tags: list[str] | None = None
+    price: float | None = None
+    price_is_discounted: bool | None = None
+    price_without_discount: float | None = None
+    discount_type: DiscountType | None = None
+    price_per: Unit | None = None
+    currency: str | None = None
+
+
+class PriceTagExtractionInput(TypedDict):
+    image_url: str
+
+
+class MetaData(TypedDict):
+    price_tag_id: int
+    tags: list[str] | None

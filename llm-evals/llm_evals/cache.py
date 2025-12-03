@@ -7,8 +7,11 @@ from deepdiff import DeepHash
 CACHE_DIR = Path("~/.cache/llm_evals").expanduser()
 
 
-def get_query_cache_path(model: str, task_name: str, args: tuple, kwargs: dict) -> Path:
-    cache_key = (task_name, args, kwargs)
+def get_query_cache_path(
+    *, image_url: str, model: str, task_name: str, instructions: str, json_schema: str
+) -> Path:
+    model = model.replace("/", "_")
+    cache_key = (image_url, model, task_name, instructions, json_schema)
     cache_sha256 = DeepHash(cache_key)[cache_key]
 
     # Split the cache sha256 into subdirectories for better file system
@@ -37,10 +40,30 @@ def _save_cached_response(query_cache_path: Path, data: dict) -> None:
 def cache_llm_request_async(func):
     @functools.wraps(func)
     async def wrapper(*args, **kwargs):
+        image_url = kwargs.get("image_url")
+        image_urls = kwargs.get("image_urls")
+
+        if image_urls is not None:
+            if image_url is not None:
+                raise ValueError("Provide either image_url or image_urls, not both.")
+            image_urls_str = ",".join(image_urls)
+        else:
+            if image_url is None:
+                raise ValueError("Either image_url or image_urls must be provided.")
+            image_urls_str = image_url
+
         model = kwargs["model"]
         task_name = kwargs["task_name"]
+        instructions = kwargs["instructions"]
+        json_schema = kwargs["json_schema"]
         # Implement caching logic here
-        query_cache_path = get_query_cache_path(model, task_name, args, kwargs)
+        query_cache_path = get_query_cache_path(
+            image_url=image_urls_str,
+            model=model,
+            task_name=task_name,
+            instructions=instructions,
+            json_schema=json_schema,
+        )
 
         # Check if result is in cache
         if (resp := _load_cached_response(query_cache_path)) is not None:
@@ -48,29 +71,14 @@ def cache_llm_request_async(func):
 
         # If not, call the function and store the result in cache
         result = await func(*args, **kwargs)
-        data = {"output": result, "model": model, "task_name": task_name}
-        _save_cached_response(query_cache_path, data)
-        return result
-
-    return wrapper
-
-
-def cache_llm_request_sync(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        model = kwargs["model"]
-        task_name = kwargs["task_name"]
-        # Implement caching logic here
-        query_cache_path = get_query_cache_path(model, task_name, args, kwargs)
-
-        # Check if result is in cache
-        if (resp := _load_cached_response(query_cache_path)) is not None:
-            print(resp)
-            return resp
-
-        # If not, call the function and store the result in cache
-        result = func(*args, **kwargs)
-        data = {"output": result, "model": model, "task_name": task_name}
+        data = {
+            "image_url": image_url,
+            "output": result,
+            "model": model,
+            "task_name": task_name,
+            "instructions": instructions,
+            "json_schema": json.loads(json_schema),
+        }
         _save_cached_response(query_cache_path, data)
         return result
 

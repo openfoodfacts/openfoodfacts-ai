@@ -16,8 +16,10 @@ agent = Agent(model=DEFAUT_MODEL, output_type=ProductInfoExtractionResponseModel
 
 
 @cache_llm_request_async
-async def run(image_url: str, instruction: str, model: str, task_name: str) -> str:
-    resp = await agent.run([instruction, ImageUrl(image_url)])
+async def run(
+    *, image_url: str, instructions: str, model: str, task_name: str, json_schema: str
+) -> str:
+    resp = await agent.run([instructions, ImageUrl(image_url)])
     return resp.output.model_dump_json()
 
 
@@ -25,7 +27,7 @@ async def task(inputs: dict[str, Any]) -> Any:
     model_name = get_model_name(agent)
     return await run(
         image_url=inputs["image_url"],
-        instruction=DEFAULT_INSTRUCTIONS,
+        instructions=DEFAULT_INSTRUCTIONS,
         model=model_name,
         task_name="food_product_info_extraction",
     )

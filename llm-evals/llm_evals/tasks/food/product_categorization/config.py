@@ -7,4 +7,5 @@ CONFIG = TaskConfig(
     agent=agent,
     dataset=dataset,
     task=task,
+    multiple_images=True,
 )
