@@ -9,9 +9,109 @@ cases:
   expected_output:
     precise_category_patterns: [ "it:formaggio", "en:cheese", "en:cheeses" ]
     broader_category_patterns: []
+    type: "food"
+  metadata:
+    barcode: '2038750003062'
+    tags: [ "country:it" ]
 - name: '4069365216248'
   inputs:
     image_urls: [ 'https://images.openfoodfacts.org/images/products/406/936/521/6248/front_pl.3.full.jpg' ]
   expected_output:
     precise_category_patterns: [ "en:semolina-puddings", "en:semolina-puddings" ]
     broader_category_patterns: [ "en:puddings", "en:pudding", "en:desserts", "en:dessert" ]
+    type: "food"
+  metadata:
+    barcode: '4069365216248'
+    tags: [ "country:pl" ]
+- name: '3565700001544'
+  inputs:
+    image_urls: [ 'https://images.openfoodfacts.org/images/products/356/570/000/1544/front_fr.3.400.jpg' ]
+  expected_output:
+    precise_category_patterns: [ "fr:pate-au-camembert", "fr:pates-au-camembert", "en:pates", "en:pate", "en:pork-pates", "en:pork-pate" ]
+    broader_category_patterns: [ "en:spreads", "en:spread" ]
+    type: "food"
+  metadata:
+    barcode: '3565700001544'
+    tags: [ "country:fr" ]
+- name: '6009207200064'
+  inputs:
+    image_urls: [ 'https://images.openfoodfacts.org/images/products/600/920/720/0064/front_fr.6.400.jpg' ]
+  expected_output:
+    precise_category_patterns: [ "en:rice-crackers", "en:rice-cracker" ]
+    broader_category_patterns: [ "en:crackers", "en:cracker", "en:snacks", "en:snack", "en:appetizers", "en:appetizer" ]
+    type: "food"
+  metadata:
+    barcode: '6009207200064'
+    tags: [ "country:za" ]
+- name: '3383110002025'
+  inputs:
+    image_urls: [ 'https://images.openfoodfacts.org/images/products/338/311/000/2025/1.400.jpg', 'https://images.openfoodfacts.org/images/products/338/311/000/2025/2.400.jpg' ]
+  expected_output:
+    precise_category_patterns: [ "en:cahors", "en:cahors-wines", "en:cahors-wine", "en:red-wines", "en:red-wine" ]
+    broader_category_patterns: [ "en:beverages", "en:french-wines", "en:french-wine" ]
+    type: "food"
+  metadata:
+    barcode: '3383110002025'
+    tags: [ "country:fr" ]
+- name: '0068100084245'
+  inputs:
+    image_urls: [ 'https://images.openfoodfacts.org/images/products/006/810/008/4245/front_en.117.400.jpg' ]
+  expected_output:
+    precise_category_patterns: [ "en:peanut-butters", "en:peanut-butter" ]
+    broader_category_patterns: [ "en:spreads", "en:spread" ]
+    type: "food"
+  metadata:
+    barcode: '0068100084245'
+    tags: [ "country:ca" ]
+- name: '0096619859696'
+  inputs:
+    image_urls: [ 'https://images.openfoodfacts.org/images/products/009/661/985/9696/front_en.68.400.jpg', 'https://images.openfoodfacts.org/images/products/009/661/985/9696/ingredients_en.16.400.jpg' ]
+  expected_output:
+    precise_category_patterns: [ "en:almond-butters", "en:almond-butter" ]
+    broader_category_patterns: [ "en:spreads", "en:spread" ]
+    type: "food"
+  metadata:
+    barcode: '0096619859696'
+    tags: [ "country:ca" ]
+- name: '4933267020251'
+  inputs:
+    image_urls: [ 'https://images.openfoodfacts.org/images/products/493/326/702/0251/front_fr.3.400.jpg', 'https://images.openfoodfacts.org/images/products/493/326/702/0251/ingredients_fr.9.400.jpg' ]
+  expected_output:
+    precise_category_patterns: [ "en:soy-sauces", "en:soy-sauce", "en:light-soy-sauces", "en:light-soy-sauce" ]
+    broader_category_patterns: [ "en:sauces" ]
+    type: "food"
+  metadata:
+    barcode: '4933267020251'
+    tags: [ "country:jp" ]
+- name: '3364699326573'
+  inputs:
+    image_urls: [ 'https://images.openfoodfacts.org/images/products/336/469/932/6573/1.jpg' ]
+  expected_output:
+    precise_category_patterns: [ "en:oyster-mushrooms", "en:oyster-mushroom" ]
+    broader_category_patterns: [ "en:mushrooms" ]
+    type: "food"
+  metadata:
+    barcode: '3364699326573'
+    # Difficulty hard, because the chinese characters are not entirely visible on the packaging, and we only provide front image.
+    # This is oyster mushrooms (pleurotus ostreatus) and not shiitake mushrooms.
+    tags: [ "country:fr", "difficulty:hard" ]
+- name: '6920208942718'
+  inputs:
+    image_urls: [ 'https://images.openfoodfacts.org/images/products/692/020/894/2718/1.jpg', 'https://images.openfoodfacts.org/images/products/692/020/894/2718/2.jpg' ]
+  expected_output:
+    precise_category_patterns: [ "en:mushroom-and-stewed-chicken-noodles", "en:mushroom-and-stewed-chicken-noodle", "en:instant-noodles", "en:instant-noodle" ]
+    broader_category_patterns: [ "en:noodles", "en:noodle" ]
+    type: "food"
+  metadata:
+    barcode: '6920208942718'
+    tags: [ "country:cn" ]
+- name: '0079656649567'
+  inputs:
+    image_urls: [ 'https://images.openbeautyfacts.org/images/products/007/965/664/9567/front_en.11.400.jpg' ]
+  expected_output:
+    precise_category_patterns: [ "en:sunscreens", "en:sunscreen", "en:sunscreen-lotions", "en:sunscreen-lotion" ]
+    broader_category_patterns: []
+    type: "beauty"
+  metadata:
+    barcode: '0079656649567'
+    tags: [ "country:au" ]

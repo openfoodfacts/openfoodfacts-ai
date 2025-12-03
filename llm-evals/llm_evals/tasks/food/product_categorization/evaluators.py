@@ -60,4 +60,13 @@ class CheckExtraction(Evaluator[CategoryPredictionInput, ExpectedResult, MetaDat
             reason=reason,
         )
 
+        if expected_output.type is not None:
+            assertions["type_match"] = EvaluationReason(
+                value=output.type == expected_output.type,
+                reason=(
+                    None
+                    if output.type == expected_output.type
+                    else f"expected: {expected_output.type}, got: {output.type}"
+                ),
+            )
         return assertions

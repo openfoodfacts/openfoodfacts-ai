@@ -410,7 +410,7 @@
       "properties": {
         "barcode": {
           "title": "Barcode",
-          "type": "integer"
+          "type": "string"
         },
         "tags": {
           "anyOf": [
