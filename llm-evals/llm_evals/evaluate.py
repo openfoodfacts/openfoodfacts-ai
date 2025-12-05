@@ -83,6 +83,8 @@ def evaluate_task_on_dataset(
     include_output: bool = True,
     include_expected_output: bool = True,
     include_reasons: bool = True,
+    include_input: bool = False,
+    include_durations: bool = False,
     include_tags: list[str] | None = None,
     output_path: Path | None = None,
     only_errors: bool = False,
@@ -102,6 +104,9 @@ def evaluate_task_on_dataset(
             in the report.
         include_reasons (bool): Whether to include the reasons for each
             assertion in the report.
+        include_input (bool): Whether to include the input in the report.
+        include_durations (bool): Whether to include the durations for each
+            case in the report.
         include_tags (list[str] | None): List of tags to filter the dataset
             cases. If None, all cases are included.
         output_path (Path | None): Path to save the evaluation report as a
@@ -144,6 +149,8 @@ def evaluate_task_on_dataset(
         include_output=include_output,
         include_expected_output=include_expected_output,
         include_reasons=include_reasons,
+        include_durations=include_durations,
+        include_input=include_input,
     )
     typer.echo("---" * 15)
     typer.echo(f"Number of cases: {len(report.cases)}")

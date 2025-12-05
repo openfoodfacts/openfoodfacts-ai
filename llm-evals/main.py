@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Any
+from typing import Annotated, Any
 
 import typer
 
@@ -60,24 +60,58 @@ def run_task(
 
 @app.command()
 def evaluate(
-    task: TaskType,
-    model: str = DEFAULT_MODEL,
-    output_path: Path | None = None,
-    include_tags: list[str] | None = typer.Option(
-        default=None, help="List of tags to include in the evaluation report."
-    ),
-    only_errors: bool = typer.Option(
-        default=False, help="Whether to include only error cases in the report."
-    ),
-    include_output: bool = True,
-    include_expected_output: bool = True,
-    include_reasons: bool = True,
-    max_concurrency: int | None = typer.Option(
-        default=None, help="Maximum number of concurrent requests to the LLM API."
-    ),
-    limit: int | None = typer.Option(
-        default=None, help="Limit the number of samples to evaluate."
-    ),
+    task: Annotated[TaskType, typer.Argument(..., help="The task to evaluate.")],
+    model: Annotated[
+        str, typer.Option(..., help="The model to evaluate.")
+    ] = DEFAULT_MODEL,
+    output_path: Annotated[
+        Path | None,
+        typer.Option(..., help="Path to save the evaluation report as a JSON file."),
+    ] = None,
+    include_tags: Annotated[
+        list[str] | None,
+        typer.Option(..., help="List of tags to include in the evaluation report."),
+    ] = None,
+    only_errors: Annotated[
+        bool,
+        typer.Option(
+            ..., help="Whether to display only error cases in the CLI report."
+        ),
+    ] = False,
+    include_output: Annotated[
+        bool,
+        typer.Option(
+            ..., help="Whether to display the model output in the CLI report."
+        ),
+    ] = False,
+    include_durations: Annotated[
+        bool,
+        typer.Option(
+            ...,
+            help="Whether to display the durations for each case in the CLI report.",
+        ),
+    ] = False,
+    include_input: Annotated[
+        bool,
+        typer.Option(..., help="Whether to display the input in the CLI report."),
+    ] = False,
+    include_expected_output: Annotated[
+        bool,
+        typer.Option(
+            ..., help="Whether to display the expected output in the CLI report."
+        ),
+    ] = False,
+    include_reasons: Annotated[
+        bool,
+        typer.Option(..., help="Whether to display the reasons for each assertion."),
+    ] = True,
+    max_concurrency: Annotated[
+        int | None,
+        typer.Option(..., help="Maximum number of concurrent requests to the LLM API."),
+    ] = None,
+    limit: Annotated[
+        int | None, typer.Option(..., help="Limit the number of samples to evaluate.")
+    ] = None,
 ):
     """Evaluate a specific task with the given model.
     The Agent (model, prompt, output schema), Dataset and task function are
@@ -98,6 +132,8 @@ def evaluate(
         include_reasons=include_reasons,
         output_path=output_path,
         include_tags=include_tags,
+        include_input=include_input,
+        include_durations=include_durations,
         only_errors=only_errors,
         max_concurrency=max_concurrency,
         limit=limit,
