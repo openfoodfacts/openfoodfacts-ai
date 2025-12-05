@@ -87,6 +87,7 @@ def evaluate_task_on_dataset(
     output_path: Path | None = None,
     only_errors: bool = False,
     max_concurrency: int | None = None,
+    limit: int | None = None,
 ) -> None:
     """Evaluate a specific task on a given dataset with the given model.
 
@@ -108,6 +109,8 @@ def evaluate_task_on_dataset(
         only_errors (bool): Whether to include only error cases in the report.
         max_concurrency (int | None): Maximum number of concurrent requests to
             the LLM API. If None, no limit is set.
+        limit (int | None): Limit the number of samples to evaluate. If None,
+            all samples are evaluated.
     """
     if include_tags is not None:
         dataset.cases = [
@@ -116,6 +119,9 @@ def evaluate_task_on_dataset(
             if case.metadata
             and any(tag in case.metadata.get("tags", []) for tag in include_tags)
         ]
+
+    if limit is not None:
+        dataset.cases = dataset.cases[:limit]
 
     task_name = f"{task_func.__name__}_{model}"
     with agent.override(model=model):

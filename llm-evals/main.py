@@ -75,6 +75,9 @@ def evaluate(
     max_concurrency: int | None = typer.Option(
         default=None, help="Maximum number of concurrent requests to the LLM API."
     ),
+    limit: int | None = typer.Option(
+        default=None, help="Limit the number of samples to evaluate."
+    ),
 ):
     """Evaluate a specific task with the given model.
     The Agent (model, prompt, output schema), Dataset and task function are
@@ -97,6 +100,7 @@ def evaluate(
         include_tags=include_tags,
         only_errors=only_errors,
         max_concurrency=max_concurrency,
+        limit=limit,
     )
 
 
