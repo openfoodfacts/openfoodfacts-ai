@@ -10,6 +10,7 @@ from pydantic_ai import Agent
 from pydantic_evals import Dataset
 from pydantic_evals.reporting import EvaluationReport
 
+from llm_evals.agent import EvaluationAgent
 from llm_evals.tasks.food.product_categorization.config import (
     CONFIG as food_product_categorization_config,
 )
@@ -77,9 +78,7 @@ def compute_assertion_accuracy(
 
 def evaluate_task_on_dataset(
     model: str,
-    agent: Agent[None, Any],
-    dataset: Dataset,
-    task_func: Callable,
+    task_config: TaskConfig,
     include_output: bool = True,
     include_expected_output: bool = True,
     include_reasons: bool = True,
@@ -95,9 +94,8 @@ def evaluate_task_on_dataset(
 
     Args:
         model (str): The model to evaluate. Overrides the model in the agent.
-        agent (Agent): The agent to use for evaluation.
-        dataset (Dataset): The dataset to evaluate on.
-        task_func (Callable): The task function to evaluate.
+        task_config (TaskConfig): The task configuration containing the task
+            function and other settings.
         include_output (bool): Whether to include the model output in the
             report.
         include_expected_output (bool): Whether to include the expected output
@@ -117,6 +115,8 @@ def evaluate_task_on_dataset(
         limit (int | None): Limit the number of samples to evaluate. If None,
             all samples are evaluated.
     """
+    dataset = task_config["dataset"]
+    task_func: Callable[[dict[str, Any]], Any] = task_config["task"]
     if include_tags is not None:
         dataset.cases = [
             case
@@ -129,12 +129,16 @@ def evaluate_task_on_dataset(
         dataset.cases = dataset.cases[:limit]
 
     task_name = f"{task_func.__name__}_{model}"
-    with agent.override(model=model):
-        report = dataset.evaluate_sync(
-            name=task_name,
-            task=task_func,
-            max_concurrency=max_concurrency,
-        )
+    instructions = task_config["instructions"]
+    task_output_type = task_config["output_type"]
+    EvaluationAgent.set(
+        model=model, instructions=instructions, output_type=task_output_type
+    )
+    report = dataset.evaluate_sync(
+        name=task_name,
+        task=task_func,
+        max_concurrency=max_concurrency,
+    )
 
     if only_errors:
         report.cases = [
@@ -200,8 +204,6 @@ def evaluate_task(model: str, task: TaskType, **kwargs) -> None:
     task_config = TASK_CONFIG_MAPPING[task]
     evaluate_task_on_dataset(
         model=model,
-        agent=task_config["agent"],
-        dataset=task_config["dataset"],
-        task_func=task_config["task"],
+        task_config=task_config,
         **kwargs,
     )

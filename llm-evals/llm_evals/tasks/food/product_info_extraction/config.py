@@ -1,10 +1,13 @@
 from llm_evals.types import TaskConfig
 
 from .datasets import dataset
-from .tasks import agent, task
+from .schemas import ProductInfoExtractionResponseModel
+from .tasks import DEFAULT_INSTRUCTIONS, task
 
 CONFIG = TaskConfig(
-    agent=agent,
     dataset=dataset,
     task=task,
+    instructions=DEFAULT_INSTRUCTIONS,
+    multiple_images=False,
+    output_type=ProductInfoExtractionResponseModel,
 )

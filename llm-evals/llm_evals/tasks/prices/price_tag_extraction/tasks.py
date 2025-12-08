@@ -2,20 +2,15 @@ import json
 from typing import Any
 
 import aiohttp
-from pydantic_ai import Agent, BinaryContent, ImageUrl
+from pydantic_ai import BinaryContent, ImageUrl
 
+from llm_evals.agent import EvaluationAgent
 from llm_evals.cache import cache_llm_request_async
-from llm_evals.utils import get_model_name
-
-from .schemas import Label
-
-DEFAUT_MODEL = "google-vertex:gemini-2.5-flash-lite"
 
 DEFAULT_INSTRUCTIONS = (
     "Here is one picture containing a price label, extract information "
     "from it. If you cannot decode an attribute, set it to an empty string."
 )
-agent = Agent(model=DEFAUT_MODEL, output_type=Label)
 
 
 @cache_llm_request_async
@@ -41,6 +36,8 @@ async def run(
     else:
         image_obj = ImageUrl(image_url)
 
+    evaluation_agent = EvaluationAgent.get()
+    agent = evaluation_agent.agent
     resp = await agent.run(
         [
             instructions,
@@ -51,12 +48,11 @@ async def run(
 
 
 async def task(inputs: dict[str, Any]) -> Any:
-    model_name = get_model_name(agent)
-    instructions = DEFAULT_INSTRUCTIONS
+    evaluation_agent = EvaluationAgent.get()
     return await run(
         image_url=inputs["image_url"],
-        instructions=instructions,
-        model=model_name,
+        instructions=evaluation_agent.instructions,
+        model=evaluation_agent.model,
         task_name="price_price_tag_extraction",
-        json_schema=json.dumps(Label.model_json_schema()),
+        json_schema=json.dumps(evaluation_agent.output_type.model_json_schema()),
     )

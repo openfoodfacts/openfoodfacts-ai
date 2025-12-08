@@ -4,6 +4,7 @@ from typing import Annotated, Any
 
 import typer
 
+from llm_evals.agent import EvaluationAgent
 from llm_evals.types import TaskType
 
 DEFAULT_MODEL = "google-vertex:gemini-2.5-flash-lite"
@@ -40,6 +41,7 @@ def run_task(
 
     task_config = TASK_CONFIG_MAPPING[task]
     task_func = task_config["task"]
+    instructions = task_config["instructions"]
     agent = task_config["agent"]
     func_argument: dict[str, Any] = (
         {"image_urls": image_urls}
@@ -47,6 +49,7 @@ def run_task(
         else {"image_url": image_urls[0]}
     )
 
+    EvaluationAgent.create(model_name=model, instructions=instructions)
     with agent.override(model=model):
         result = asyncio.run(task_func(func_argument))
 
