@@ -5,7 +5,7 @@ from typing import Annotated, Any
 import typer
 
 from llm_evals.agent import EvaluationAgent
-from llm_evals.types import TaskType
+from llm_evals.types import OutputMode, TaskType
 
 DEFAULT_MODEL = "google-vertex:gemini-2.5-flash-lite"
 
@@ -23,6 +23,9 @@ def run_task(
     task: TaskType = typer.Option(
         default="food:product_info_extraction", help="The task to run."
     ),
+    output_mode: Annotated[
+        OutputMode, typer.Option(..., help="The output mode of the agent.")
+    ] = "tool",
 ):
     """Run a specific task with the given model on a single image URL.
 
@@ -42,23 +45,25 @@ def run_task(
     task_config = TASK_CONFIG_MAPPING[task]
     task_func = task_config["task"]
     instructions = task_config["instructions"]
-    agent = task_config["agent"]
     func_argument: dict[str, Any] = (
         {"image_urls": image_urls}
         if task_config.get("multiple_images", False)
         else {"image_url": image_urls[0]}
     )
+    EvaluationAgent.set(
+        model=model,
+        instructions=instructions,
+        output_type=task_config["output_type"],
+        output_mode=output_mode,
+    )
+    result = asyncio.run(task_func(func_argument))
 
-    EvaluationAgent.create(model_name=model, instructions=instructions)
-    with agent.override(model=model):
-        result = asyncio.run(task_func(func_argument))
-
-        try:
-            json.loads(result)
-        except json.JSONDecodeError:
-            typer.echo(result)
-        else:
-            typer.echo(json.dumps(json.loads(result), indent=2, ensure_ascii=False))
+    try:
+        json.loads(result)
+    except json.JSONDecodeError:
+        typer.echo(result)
+    else:
+        typer.echo(json.dumps(json.loads(result), indent=2, ensure_ascii=False))
 
 
 @app.command()
@@ -67,6 +72,9 @@ def evaluate(
     model: Annotated[
         str, typer.Option(..., help="The model to evaluate.")
     ] = DEFAULT_MODEL,
+    output_mode: Annotated[
+        OutputMode, typer.Option(..., help="The output mode of the agent.")
+    ] = "tool",
     output_path: Annotated[
         Path | None,
         typer.Option(..., help="Path to save the evaluation report as a JSON file."),
@@ -130,6 +138,7 @@ def evaluate(
     evaluate_task(
         model=model,
         task=task,
+        output_mode=output_mode,
         include_output=include_output,
         include_expected_output=include_expected_output,
         include_reasons=include_reasons,

@@ -5,6 +5,7 @@ from pydantic_ai import ImageUrl
 
 from llm_evals.agent import EvaluationAgent
 from llm_evals.cache import cache_llm_request_async
+from llm_evals.types import OutputMode
 
 DEFAULT_INSTRUCTIONS = "Predict the categories of this product."
 
@@ -17,6 +18,7 @@ async def run(
     model: str,
     task_name: str,
     json_schema: str,
+    output_mode: OutputMode,
 ) -> str:
     evaluation_agent = EvaluationAgent.get()
     agent = evaluation_agent.agent
@@ -33,4 +35,5 @@ async def task(inputs: dict[str, Any]) -> Any:
         model=evaluation_agent.model,
         task_name="product_categorization",
         json_schema=json.dumps(evaluation_agent.output_type.model_json_schema()),
+        output_mode=evaluation_agent.output_mode,
     )

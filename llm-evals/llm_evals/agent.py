@@ -1,5 +1,7 @@
 from pydantic import BaseModel
-from pydantic_ai import Agent
+from pydantic_ai import Agent, NativeOutput, PromptedOutput, ToolOutput
+
+from llm_evals.types import OutputMode
 
 EVALUATION_AGENT_ALREADY_CREATED_ERROR = """An EvaluationAgent has already been created. Use EvaluationAgent.get() to
 retrieve the existing instance, or EvaluationAgent.reset() to clear the current instance."""
@@ -24,7 +26,13 @@ class EvaluationAgent:
     _evaluation_agent = None
 
     @classmethod
-    def set(cls, model: str, instructions: str, output_type: type[BaseModel]) -> None:
+    def set(
+        cls,
+        model: str,
+        instructions: str,
+        output_type: type[BaseModel],
+        output_mode: OutputMode = "tool",
+    ) -> None:
         """Set the evaluation agent with the specified model, instructions,
         and output type.
 
@@ -33,6 +41,8 @@ class EvaluationAgent:
             instructions (str): The instructions for the evaluation agent.
             output_type (type[BaseModel]): The expected output type of the
                 agent.
+            output_mode (OutputMode): The output mode of the agent, which can
+                be "tool", "native", or "prompted". Defaults to "tool".
         Raises:
             ValueError: If an evaluation agent has already been created.
         """
@@ -40,19 +50,40 @@ class EvaluationAgent:
             raise ValueError("Agent has already been created.")
 
         cls._evaluation_agent = cls(
-            model=model, instructions=instructions, output_type=output_type
+            model=model,
+            instructions=instructions,
+            output_type=output_type,
+            output_mode=output_mode,
         )
 
     def __init__(
-        self, model: str, instructions: str, output_type: type[BaseModel]
+        self,
+        model: str,
+        instructions: str,
+        output_type: type[BaseModel],
+        output_mode: OutputMode = "tool",
     ) -> None:
         if self._evaluation_agent is not None:
             raise ValueError(EVALUATION_AGENT_ALREADY_CREATED_ERROR)
 
-        self._agent = Agent(model=model, output_type=output_type)
+        output_mode_cls: ToolOutput | NativeOutput | PromptedOutput | None = None
+        if output_mode not in ("tool", "native", "prompted"):
+            raise ValueError(
+                f"Invalid output_mode: {output_mode}. Must be one of "
+                "'tool', 'native', or 'prompted'."
+            )
+        elif output_mode == "tool":
+            output_mode_cls = ToolOutput
+        elif output_mode == "native":
+            output_mode_cls = NativeOutput
+        else:
+            output_mode_cls = PromptedOutput
+
+        self._agent = Agent(model=model, output_type=output_mode_cls(output_type))
         self._instructions = instructions
         self._model = model
         self._output_type = output_type
+        self._output_mode = output_mode
 
     @classmethod
     def reset(cls) -> None:
@@ -76,27 +107,24 @@ class EvaluationAgent:
     @property
     def agent(self) -> "Agent":
         """Get the underlying Agent instance."""
-        if self._evaluation_agent is None:
-            raise ValueError(EVALUATION_AGENT_NOT_CREATED_ERROR)
         return self._agent
 
     @property
     def model(self) -> str:
         """Get the model used by the evaluation agent."""
-        if self._evaluation_agent is None:
-            raise ValueError(EVALUATION_AGENT_NOT_CREATED_ERROR)
         return self._model
 
     @property
     def output_type(self) -> type:
         """Get the expected output type of the evaluation agent."""
-        if self._evaluation_agent is None:
-            raise ValueError(EVALUATION_AGENT_NOT_CREATED_ERROR)
         return self._output_type
 
     @property
     def instructions(self) -> str:
         """Get the instructions for the evaluation agent."""
-        if self._evaluation_agent is None:
-            raise ValueError(EVALUATION_AGENT_NOT_CREATED_ERROR)
         return self._instructions
+
+    @property
+    def output_mode(self) -> OutputMode:
+        """Get the output mode of the evaluation agent."""
+        return self._output_mode

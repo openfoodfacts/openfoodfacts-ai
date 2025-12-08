@@ -6,8 +6,6 @@ from typing import Any, Callable
 import orjson
 import typer
 from pydantic import BaseModel
-from pydantic_ai import Agent
-from pydantic_evals import Dataset
 from pydantic_evals.reporting import EvaluationReport
 
 from llm_evals.agent import EvaluationAgent
@@ -20,7 +18,7 @@ from llm_evals.tasks.food.product_info_extraction.config import (
 from llm_evals.tasks.prices.price_tag_extraction.config import (
     CONFIG as prices_price_tag_extraction_config,
 )
-from llm_evals.types import TaskConfig, TaskType
+from llm_evals.types import OutputMode, TaskConfig, TaskType
 
 TASK_CONFIG_MAPPING: dict[TaskType, TaskConfig] = {
     "food:product_info_extraction": food_product_info_extraction_config,
@@ -79,6 +77,7 @@ def compute_assertion_accuracy(
 def evaluate_task_on_dataset(
     model: str,
     task_config: TaskConfig,
+    output_mode: OutputMode = "tool",
     include_output: bool = True,
     include_expected_output: bool = True,
     include_reasons: bool = True,
@@ -96,6 +95,8 @@ def evaluate_task_on_dataset(
         model (str): The model to evaluate. Overrides the model in the agent.
         task_config (TaskConfig): The task configuration containing the task
             function and other settings.
+        output_mode (OutputMode): The output mode of the agent, which can be
+            "tool", "native", or "prompted". Defaults to "tool".
         include_output (bool): Whether to include the model output in the
             report.
         include_expected_output (bool): Whether to include the expected output
@@ -132,7 +133,10 @@ def evaluate_task_on_dataset(
     instructions = task_config["instructions"]
     task_output_type = task_config["output_type"]
     EvaluationAgent.set(
-        model=model, instructions=instructions, output_type=task_output_type
+        model=model,
+        instructions=instructions,
+        output_type=task_output_type,
+        output_mode=output_mode,
     )
     report = dataset.evaluate_sync(
         name=task_name,

@@ -6,6 +6,7 @@ from pydantic_ai import BinaryContent, ImageUrl
 
 from llm_evals.agent import EvaluationAgent
 from llm_evals.cache import cache_llm_request_async
+from llm_evals.types import OutputMode
 
 DEFAULT_INSTRUCTIONS = (
     "Here is one picture containing a price label, extract information "
@@ -21,6 +22,7 @@ async def run(
     model: str,
     task_name: str,
     json_schema: str,
+    output_mode: OutputMode,
 ) -> str:
     image_obj: BinaryContent | ImageUrl
 
@@ -55,4 +57,5 @@ async def task(inputs: dict[str, Any]) -> Any:
         model=evaluation_agent.model,
         task_name="price_price_tag_extraction",
         json_schema=json.dumps(evaluation_agent.output_type.model_json_schema()),
+        output_mode=evaluation_agent.output_mode,
     )

@@ -8,10 +8,16 @@ CACHE_DIR = Path("~/.cache/llm_evals").expanduser()
 
 
 def get_query_cache_path(
-    *, image_url: str, model: str, task_name: str, instructions: str, json_schema: str
+    *,
+    image_url: str,
+    model: str,
+    task_name: str,
+    instructions: str,
+    json_schema: str,
+    output_mode: str,
 ) -> Path:
     model = model.replace("/", "_")
-    cache_key = (image_url, model, task_name, instructions, json_schema)
+    cache_key = (image_url, model, task_name, instructions, json_schema, output_mode)
     cache_sha256 = DeepHash(cache_key)[cache_key]
 
     # Split the cache sha256 into subdirectories for better file system
@@ -56,6 +62,7 @@ def cache_llm_request_async(func):
         task_name = kwargs["task_name"]
         instructions = kwargs["instructions"]
         json_schema = kwargs["json_schema"]
+        output_mode = kwargs["output_mode"]
         # Implement caching logic here
         query_cache_path = get_query_cache_path(
             image_url=image_urls_str,
@@ -63,6 +70,7 @@ def cache_llm_request_async(func):
             task_name=task_name,
             instructions=instructions,
             json_schema=json_schema,
+            output_mode=output_mode,
         )
 
         # Check if result is in cache
@@ -77,6 +85,7 @@ def cache_llm_request_async(func):
             "model": model,
             "task_name": task_name,
             "instructions": instructions,
+            "output_mode": output_mode,
             "json_schema": json.loads(json_schema),
         }
         _save_cached_response(query_cache_path, data)

@@ -10,6 +10,9 @@ TaskType = Literal[
 ]
 
 
+OutputMode = Literal["tool", "native", "prompted"]
+
+
 class TaskConfig(TypedDict):
     dataset: Dataset
     task: Callable[[dict[str, Any]], Any]
