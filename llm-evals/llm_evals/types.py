@@ -1,4 +1,4 @@
-from typing import Any, Callable, Literal, TypedDict
+from typing import Any, Callable, Literal
 
 from pydantic import BaseModel
 from pydantic_evals import Dataset
@@ -13,7 +13,7 @@ TaskType = Literal[
 OutputMode = Literal["tool", "native", "prompted"]
 
 
-class TaskConfig(TypedDict):
+class TaskConfig(BaseModel):
     dataset: Dataset
     task: Callable[[dict[str, Any]], Any]
     instructions: str

@@ -116,8 +116,8 @@ def evaluate_task_on_dataset(
         limit (int | None): Limit the number of samples to evaluate. If None,
             all samples are evaluated.
     """
-    dataset = task_config["dataset"]
-    task_func: Callable[[dict[str, Any]], Any] = task_config["task"]
+    dataset = task_config.dataset
+    task_func: Callable[[dict[str, Any]], Any] = task_config.task
     if include_tags is not None:
         dataset.cases = [
             case
@@ -130,8 +130,8 @@ def evaluate_task_on_dataset(
         dataset.cases = dataset.cases[:limit]
 
     task_name = f"{task_func.__name__}_{model}"
-    instructions = task_config["instructions"]
-    task_output_type = task_config["output_type"]
+    instructions = task_config.instructions
+    task_output_type = task_config.output_type
     EvaluationAgent.set(
         model=model,
         instructions=instructions,
