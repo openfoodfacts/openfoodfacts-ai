@@ -626,13 +626,17 @@
     "PriceTagExtractionInput": {
       "additionalProperties": false,
       "properties": {
-        "image_url": {
-          "title": "Umage Url",
-          "type": "string"
+        "image_urls": {
+          "title": "Image Urls",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
         }
       },
       "required": [
-        "image_url"
+        "image_urls"
       ],
       "title": "PriceTagExtractionInput",
       "type": "object"
