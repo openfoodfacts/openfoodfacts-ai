@@ -7,15 +7,11 @@ from llm_evals.agent import EvaluationAgent
 from llm_evals.cache import cache_llm_request_async
 from llm_evals.types import OutputMode
 
-DEFAULT_INSTRUCTIONS = (
-    "Extract all relevant information from this product packaging photo."
-)
-
 
 @cache_llm_request_async
-async def run(
+async def run_on_sample(
     *,
-    image_url: str,
+    image_urls: list[str],
     instructions: str,
     model: str,
     task_name: str,
@@ -24,14 +20,17 @@ async def run(
 ) -> str:
     evaluation_agent = EvaluationAgent.get()
     agent = evaluation_agent.agent
-    resp = await agent.run([instructions, ImageUrl(image_url)])
+    image_content = [ImageUrl(url) for url in image_urls]
+    resp = await agent.run(
+        [instructions] + image_content,
+    )
     return resp.output.model_dump_json()
 
 
-async def task(inputs: dict[str, Any]) -> Any:
+async def default_task_func(inputs: dict[str, Any]) -> Any:
     evaluation_agent = EvaluationAgent.get()
-    return await run(
-        image_url=inputs["image_url"],
+    return await run_on_sample(
+        image_url=inputs["image_urls"],
         instructions=evaluation_agent.instructions,
         model=evaluation_agent.model,
         task_name=evaluation_agent.task_name,

@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from pydantic_evals.reporting import EvaluationReport
 
 from llm_evals.agent import EvaluationAgent
+from llm_evals.default_task import default_task_func
 from llm_evals.tasks.food.product_categorization.config import (
     CONFIG as food_product_categorization_config,
 )
@@ -117,7 +118,7 @@ def evaluate_task_on_dataset(
             all samples are evaluated.
     """
     dataset = task_config.dataset
-    task_func: Callable[[dict[str, Any]], Any] = task_config.task
+    task_func: Callable[[dict[str, Any]], Any] = task_config.task or default_task_func
     if include_tags is not None:
         dataset.cases = [
             case
@@ -131,12 +132,12 @@ def evaluate_task_on_dataset(
 
     task_name = f"{task_func.__name__}_{model}"
     instructions = task_config.instructions
-    task_output_type = task_config.output_type
     EvaluationAgent.set(
         model=model,
         instructions=instructions,
-        output_type=task_output_type,
+        output_type=task_config.output_type,
         output_mode=output_mode,
+        task_name=task_config.name,
     )
     report = dataset.evaluate_sync(
         name=task_name,

@@ -2,13 +2,15 @@ from llm_evals.types import TaskConfig
 
 from .datasets import dataset
 from .schemas import Label
-from .tasks import DEFAULT_INSTRUCTIONS, task
+
+DEFAULT_INSTRUCTIONS = (
+    "Here is one picture containing a price label, extract information "
+    "from it. If you cannot decode an attribute, set it to an empty string."
+)
 
 CONFIG = TaskConfig(
     dataset=dataset,
-    task=task,
     instructions=DEFAULT_INSTRUCTIONS,
-    multiple_images=False,
     output_type=Label,
     name="price_price_tag_extraction",
 )

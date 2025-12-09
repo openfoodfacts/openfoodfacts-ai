@@ -1,10 +1,11 @@
 import json
 from pathlib import Path
-from typing import Annotated, Any
+from typing import Annotated
 
 import typer
 
 from llm_evals.agent import EvaluationAgent
+from llm_evals.default_task import default_task_func
 from llm_evals.types import OutputMode, TaskType
 
 DEFAULT_MODEL = "google-vertex:gemini-2.5-flash-lite"
@@ -43,20 +44,16 @@ def run_task(
     from llm_evals.evaluate import TASK_CONFIG_MAPPING
 
     task_config = TASK_CONFIG_MAPPING[task]
-    task_func = task_config["task"]
-    instructions = task_config["instructions"]
-    func_argument: dict[str, Any] = (
-        {"image_urls": image_urls}
-        if task_config.get("multiple_images", False)
-        else {"image_url": image_urls[0]}
-    )
+    task_func = task_config.task or default_task_func
+    instructions = task_config.instructions
     EvaluationAgent.set(
         model=model,
         instructions=instructions,
-        output_type=task_config["output_type"],
+        output_type=task_config.output_type,
         output_mode=output_mode,
+        task_name=task_config.name,
     )
-    result = asyncio.run(task_func(func_argument))
+    result = asyncio.run(task_func({"image_urls": image_urls}))
 
     try:
         json.loads(result)

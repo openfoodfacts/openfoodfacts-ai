@@ -15,8 +15,7 @@ OutputMode = Literal["tool", "native", "prompted"]
 
 class TaskConfig(BaseModel):
     dataset: Dataset
-    task: Callable[[dict[str, Any]], Any]
+    task: Callable[[dict[str, Any]], Any] | None = None
     instructions: str
-    multiple_images: bool
     output_type: type[BaseModel]
     name: str
