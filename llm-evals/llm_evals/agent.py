@@ -31,6 +31,7 @@ class EvaluationAgent:
         model: str,
         instructions: str,
         output_type: type[BaseModel],
+        task_name: str,
         output_mode: OutputMode = "tool",
     ) -> None:
         """Set the evaluation agent with the specified model, instructions,
@@ -41,6 +42,7 @@ class EvaluationAgent:
             instructions (str): The instructions for the evaluation agent.
             output_type (type[BaseModel]): The expected output type of the
                 agent.
+            task_name (str): Name of the task associated with the evaluation.
             output_mode (OutputMode): The output mode of the agent, which can
                 be "tool", "native", or "prompted". Defaults to "tool".
         Raises:
@@ -53,6 +55,7 @@ class EvaluationAgent:
             model=model,
             instructions=instructions,
             output_type=output_type,
+            task_name=task_name,
             output_mode=output_mode,
         )
 
@@ -61,6 +64,7 @@ class EvaluationAgent:
         model: str,
         instructions: str,
         output_type: type[BaseModel],
+        task_name: str,
         output_mode: OutputMode = "tool",
     ) -> None:
         if self._evaluation_agent is not None:
@@ -84,6 +88,7 @@ class EvaluationAgent:
         self._model = model
         self._output_type = output_type
         self._output_mode = output_mode
+        self._task_name = task_name
 
     @classmethod
     def reset(cls) -> None:
@@ -128,3 +133,8 @@ class EvaluationAgent:
     def output_mode(self) -> OutputMode:
         """Get the output mode of the evaluation agent."""
         return self._output_mode
+
+    @property
+    def task_name(self) -> str:
+        """Get the name of the task we're evaluating against."""
+        return self._task_name

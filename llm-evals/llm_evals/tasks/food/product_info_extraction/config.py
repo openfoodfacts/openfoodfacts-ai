@@ -10,4 +10,5 @@ CONFIG = TaskConfig(
     instructions=DEFAULT_INSTRUCTIONS,
     multiple_images=False,
     output_type=ProductInfoExtractionResponseModel,
+    name="food_product_info_extraction",
 )

@@ -10,4 +10,5 @@ CONFIG = TaskConfig(
     instructions=DEFAULT_INSTRUCTIONS,
     multiple_images=False,
     output_type=Label,
+    name="price_price_tag_extraction",
 )

@@ -19,3 +19,4 @@ class TaskConfig(BaseModel):
     instructions: str
     multiple_images: bool
     output_type: type[BaseModel]
+    name: str

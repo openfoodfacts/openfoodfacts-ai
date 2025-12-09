@@ -10,4 +10,5 @@ CONFIG = TaskConfig(
     instructions=DEFAULT_INSTRUCTIONS,
     output_type=CategoryPredictionResponseModel,
     multiple_images=True,
+    name="product_categorization",
 )

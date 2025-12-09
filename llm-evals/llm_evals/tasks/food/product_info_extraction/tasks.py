@@ -34,7 +34,7 @@ async def task(inputs: dict[str, Any]) -> Any:
         image_url=inputs["image_url"],
         instructions=evaluation_agent.instructions,
         model=evaluation_agent.model,
-        task_name="food_product_info_extraction",
+        task_name=evaluation_agent.task_name,
         json_schema=json.dumps(evaluation_agent.output_type.model_json_schema()),
         output_mode=evaluation_agent.output_mode,
     )
