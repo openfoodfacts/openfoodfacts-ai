@@ -9,7 +9,9 @@ dataset = Dataset(
     cases=[
         Case(
             inputs={
-                "image_url": "https://images.openfoodfacts.org/images/products/085/001/561/6501/2.jpg"
+                "image_urls": [
+                    "https://images.openfoodfacts.org/images/products/085/001/561/6501/2.jpg"
+                ]
             },
             expected_output=ProductInfoExtractionResponseModel(
                 brands=[],
@@ -26,7 +28,9 @@ dataset = Dataset(
         ),
         Case(
             inputs={
-                "image_url": "https://images.openfoodfacts.org/images/products/400/937/115/3199/1.jpg"
+                "image_urls": [
+                    "https://images.openfoodfacts.org/images/products/400/937/115/3199/1.jpg"
+                ]
             },
             expected_output=ProductInfoExtractionResponseModel(
                 brands=["Ginger People"],

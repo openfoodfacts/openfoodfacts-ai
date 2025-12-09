@@ -17,6 +17,7 @@ async def run_on_sample(
     task_name: str,
     json_schema: str,
     output_mode: OutputMode,
+    thinking_config: str | None = None,
 ) -> str:
     evaluation_agent = EvaluationAgent.get()
     agent = evaluation_agent.agent
@@ -30,10 +31,11 @@ async def run_on_sample(
 async def default_task_func(inputs: dict[str, Any]) -> Any:
     evaluation_agent = EvaluationAgent.get()
     return await run_on_sample(
-        image_url=inputs["image_urls"],
+        image_urls=inputs["image_urls"],
         instructions=evaluation_agent.instructions,
         model=evaluation_agent.model,
         task_name=evaluation_agent.task_name,
         json_schema=json.dumps(evaluation_agent.output_type.model_json_schema()),
         output_mode=evaluation_agent.output_mode,
+        thinking_config=evaluation_agent.thinking_config,
     )

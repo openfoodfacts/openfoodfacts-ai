@@ -15,6 +15,7 @@ def get_query_cache_path(
     instructions: str,
     json_schema: str,
     output_mode: str,
+    thinking_config: str | None,
 ) -> Path:
     model = model.replace("/", "_")
     image_urls_str = ",".join(image_urls)
@@ -25,6 +26,7 @@ def get_query_cache_path(
         instructions,
         json_schema,
         output_mode,
+        thinking_config,
     )
     cache_sha256 = DeepHash(cache_key)[cache_key]
 
@@ -60,6 +62,7 @@ def cache_llm_request_async(func):
         instructions = kwargs["instructions"]
         json_schema = kwargs["json_schema"]
         output_mode = kwargs["output_mode"]
+        thinking_config = kwargs["thinking_config"]
         # Implement caching logic here
         query_cache_path = get_query_cache_path(
             image_urls=image_urls,
@@ -68,6 +71,7 @@ def cache_llm_request_async(func):
             instructions=instructions,
             json_schema=json_schema,
             output_mode=output_mode,
+            thinking_config=thinking_config,
         )
 
         # Check if result is in cache
@@ -81,6 +85,7 @@ def cache_llm_request_async(func):
             "output": result,
             "model": model,
             "task_name": task_name,
+            "thinking_config": thinking_config,
             "instructions": instructions,
             "output_mode": output_mode,
             "json_schema": json.loads(json_schema),

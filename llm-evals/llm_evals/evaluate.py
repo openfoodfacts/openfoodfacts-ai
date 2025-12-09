@@ -79,6 +79,7 @@ def evaluate_task_on_dataset(
     model: str,
     task_config: TaskConfig,
     output_mode: OutputMode = "tool",
+    thinking_config: str | None = None,
     include_output: bool = True,
     include_expected_output: bool = True,
     include_reasons: bool = True,
@@ -98,6 +99,8 @@ def evaluate_task_on_dataset(
             function and other settings.
         output_mode (OutputMode): The output mode of the agent, which can be
             "tool", "native", or "prompted". Defaults to "tool".
+        thinking_config (str | None): Optional configuration for the
+            agent's thinking process.
         include_output (bool): Whether to include the model output in the
             report.
         include_expected_output (bool): Whether to include the expected output
@@ -138,6 +141,7 @@ def evaluate_task_on_dataset(
         output_type=task_config.output_type,
         output_mode=output_mode,
         task_name=task_config.name,
+        thinking_config=thinking_config,
     )
     report = dataset.evaluate_sync(
         name=task_name,

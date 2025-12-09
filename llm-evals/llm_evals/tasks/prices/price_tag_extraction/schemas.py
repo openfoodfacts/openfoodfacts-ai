@@ -369,7 +369,7 @@ class ExpectedResult(BaseModel):
 
 
 class PriceTagExtractionInput(TypedDict):
-    image_url: str
+    image_urls: list[str]
 
 
 class MetaData(TypedDict):

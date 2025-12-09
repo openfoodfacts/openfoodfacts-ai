@@ -72,6 +72,12 @@ def evaluate(
     output_mode: Annotated[
         OutputMode, typer.Option(..., help="The output mode of the agent.")
     ] = "tool",
+    thinking_config: Annotated[
+        str | None,
+        typer.Option(
+            ..., help="Optional configuration for the agent's thinking process."
+        ),
+    ] = None,
     output_path: Annotated[
         Path | None,
         typer.Option(..., help="Path to save the evaluation report as a JSON file."),
@@ -136,6 +142,7 @@ def evaluate(
         model=model,
         task=task,
         output_mode=output_mode,
+        thinking_config=thinking_config,
         include_output=include_output,
         include_expected_output=include_expected_output,
         include_reasons=include_reasons,

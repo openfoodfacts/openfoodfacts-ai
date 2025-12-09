@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 from pydantic_ai import Agent, NativeOutput, PromptedOutput, ToolOutput
+from pydantic_ai.models.google import GoogleModelSettings
+from pydantic_ai.models.openrouter import OpenRouterModelSettings
 
 from llm_evals.types import OutputMode
 
@@ -33,6 +35,7 @@ class EvaluationAgent:
         output_type: type[BaseModel],
         task_name: str,
         output_mode: OutputMode = "tool",
+        thinking_config: str | None = None,
     ) -> None:
         """Set the evaluation agent with the specified model, instructions,
         and output type.
@@ -45,6 +48,8 @@ class EvaluationAgent:
             task_name (str): Name of the task associated with the evaluation.
             output_mode (OutputMode): The output mode of the agent, which can
                 be "tool", "native", or "prompted". Defaults to "tool".
+            thinking_config (str | None): Optional configuration for the
+                agent's thinking process.
         Raises:
             ValueError: If an evaluation agent has already been created.
         """
@@ -57,6 +62,7 @@ class EvaluationAgent:
             output_type=output_type,
             task_name=task_name,
             output_mode=output_mode,
+            thinking_config=thinking_config,
         )
 
     def __init__(
@@ -66,6 +72,7 @@ class EvaluationAgent:
         output_type: type[BaseModel],
         task_name: str,
         output_mode: OutputMode = "tool",
+        thinking_config: str | None = None,
     ) -> None:
         if self._evaluation_agent is not None:
             raise ValueError(EVALUATION_AGENT_ALREADY_CREATED_ERROR)
@@ -83,12 +90,17 @@ class EvaluationAgent:
         else:
             output_mode_cls = PromptedOutput
 
-        self._agent = Agent(model=model, output_type=output_mode_cls(output_type))
+        self._agent = Agent(
+            model=model,
+            output_type=output_mode_cls(output_type),
+            model_settings=self.get_model_settings(thinking_config, model),
+        )
         self._instructions = instructions
         self._model = model
         self._output_type = output_type
         self._output_mode = output_mode
         self._task_name = task_name
+        self._thinking_config = thinking_config
 
     @classmethod
     def reset(cls) -> None:
@@ -138,3 +150,46 @@ class EvaluationAgent:
     def task_name(self) -> str:
         """Get the name of the task we're evaluating against."""
         return self._task_name
+
+    @property
+    def thinking_config(self):
+        return self._thinking_config
+
+    @classmethod
+    def get_model_settings(
+        cls, thinking_config: str | None, model: str
+    ) -> GoogleModelSettings | None:
+        if thinking_config is None:
+            return None
+
+        if model.startswith("gemini") or model.startswith("google-vertex:gemini"):
+            if thinking_config.isdigit():
+                return GoogleModelSettings(
+                    google_thinking_config={"thinking_budget": int(thinking_config)}
+                )
+
+            if thinking_config not in (
+                "LOW",
+                "HIGH",
+                "THINKING_LEVEL_UNSPECIFIED",
+            ):
+                raise ValueError(
+                    f"Invalid thinking_config: {thinking_config}. Must be one of "
+                    "'LOW', 'HIGH', or 'THINKING_LEVEL_UNSPECIFIED'."
+                )
+            return GoogleModelSettings(
+                google_thinking_config={"thinking_level": thinking_config}
+            )
+
+        if model.startswith("openrouter:"):
+            if thinking_config not in ("low", "medium", "high", "0"):
+                raise ValueError(
+                    f"Invalid thinking_config: {thinking_config}. Must be one of "
+                    "'low', 'medium', or 'high'."
+                )
+            if thinking_config == "0":
+                return OpenRouterModelSettings(openrouter_reasoning={"enabled": False})
+            return OpenRouterModelSettings(
+                openrouter_reasoning={"effort": thinking_config}
+            )
+        return None
