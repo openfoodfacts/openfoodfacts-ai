@@ -10,7 +10,7 @@ TaskType = Literal[
 ]
 
 
-OutputMode = Literal["tool", "native", "prompted"]
+OutputMode = Literal["tool", "native", "prompted", "native+prompted"]
 
 
 class TaskConfig(BaseModel):

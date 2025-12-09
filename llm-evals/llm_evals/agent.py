@@ -1,3 +1,5 @@
+import json
+
 from pydantic import BaseModel
 from pydantic_ai import Agent, NativeOutput, PromptedOutput, ToolOutput
 from pydantic_ai.models.google import GoogleModelSettings
@@ -78,14 +80,14 @@ class EvaluationAgent:
             raise ValueError(EVALUATION_AGENT_ALREADY_CREATED_ERROR)
 
         output_mode_cls: ToolOutput | NativeOutput | PromptedOutput | None = None
-        if output_mode not in ("tool", "native", "prompted"):
+        if output_mode not in ("tool", "native", "prompted", "native+prompted"):
             raise ValueError(
                 f"Invalid output_mode: {output_mode}. Must be one of "
                 "'tool', 'native', or 'prompted'."
             )
         elif output_mode == "tool":
             output_mode_cls = ToolOutput
-        elif output_mode == "native":
+        elif output_mode in ("native", "native+prompt"):
             output_mode_cls = NativeOutput
         else:
             output_mode_cls = PromptedOutput
@@ -139,6 +141,13 @@ class EvaluationAgent:
     @property
     def instructions(self) -> str:
         """Get the instructions for the evaluation agent."""
+
+        if self._output_mode == "native+prompted":
+            return (
+                self._instructions
+                + f"\n\nUse the following JSON schema for your response:\n{json.dumps(self._output_type.model_json_schema())}"
+            )
+
         return self._instructions
 
     @property
