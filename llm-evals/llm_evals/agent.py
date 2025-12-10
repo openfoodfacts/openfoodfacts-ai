@@ -171,7 +171,11 @@ class EvaluationAgent:
         if thinking_config is None:
             return None
 
-        if model.startswith("gemini") or model.startswith("google-vertex:gemini"):
+        if (
+            model.startswith("gemini")
+            or model.startswith("google-vertex:gemini")
+            or model.startswith("google-gla:gemini")
+        ):
             if thinking_config.isdigit():
                 return GoogleModelSettings(
                     google_thinking_config={"thinking_budget": int(thinking_config)}
