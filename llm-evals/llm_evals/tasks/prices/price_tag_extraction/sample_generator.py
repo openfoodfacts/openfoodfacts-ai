@@ -56,7 +56,7 @@ def fetch_sample(price_tag_id: str) -> dict[str, Any]:
     return {
         "name": price_tag_id,
         "inputs": {"image_urls": [price_tag_image_url]},
-        "metadata": {"tags": tags, "price_tag_id": price_tag_id},
+        "metadata": {"tags": tags, "price_tag_id": int(price_tag_id)},
         "expected_output": {
             "type": price["type"],
             "product_code": price["product_code"],
