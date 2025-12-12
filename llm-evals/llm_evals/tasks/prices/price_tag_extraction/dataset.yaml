@@ -35,6 +35,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 122445
   expected_output:
     type: PRODUCT
@@ -58,6 +59,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 124798
   expected_output:
     type: PRODUCT
@@ -81,6 +83,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:medium
     price_tag_id: 124154
   expected_output:
     type: PRODUCT
@@ -127,6 +130,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 126568
   expected_output:
     type: PRODUCT
@@ -150,6 +154,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 126807
   expected_output:
     type: PRODUCT
@@ -174,6 +179,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:medium
     price_tag_id: 126492
   expected_output:
     type: PRODUCT
@@ -197,6 +203,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 127190
   expected_output:
     type: PRODUCT
@@ -220,6 +227,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 124512
   expected_output:
     type: PRODUCT
@@ -243,6 +251,7 @@ cases:
     - country:us
     - currency:usd
     - type:product
+    - difficulty:easy
     price_tag_id: 124918
   expected_output:
     type: PRODUCT
@@ -266,6 +275,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 118516
   expected_output:
     type: PRODUCT
@@ -289,6 +299,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 126887
   expected_output:
     type: PRODUCT
@@ -336,6 +347,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:medium
     price_tag_id: 126299
   expected_output:
     type: PRODUCT
@@ -359,6 +371,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - data-quality:barcode-truncated
     price_tag_id: 119051
   expected_output:
     type: PRODUCT
@@ -382,6 +395,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 124784
   expected_output:
     type: PRODUCT
