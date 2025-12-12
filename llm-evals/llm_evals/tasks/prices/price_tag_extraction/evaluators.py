@@ -45,6 +45,7 @@ def barcode_fix_short_codes_from_usa(barcode: str) -> str:
 
 
 def normalize_barcode_for_compare(barcode: str, currency: str) -> str:
+    barcode = barcode.replace(" ", "")
     if (
         len(barcode) < 13
         and not barcode_is_valid(barcode)
@@ -127,16 +128,17 @@ class CheckExtraction(Evaluator[PriceTagExtractionInput, ExpectedResult, MetaDat
         if output.barcode is None:
             return EvaluationReason(value=False, reason="No barcode extracted")
 
-        if not output.barcode.isnumeric():
+        currency = expected_output.currency or "eur"
+        predicted_barcode = normalize_barcode_for_compare(
+            output.barcode, currency=currency
+        )
+
+        if not predicted_barcode.isnumeric():
             return EvaluationReason(
                 value=False,
                 reason=f"Extracted barcode is not numeric: {output.barcode}",
             )
 
-        currency = expected_output.currency or "eur"
-        predicted_barcode = normalize_barcode_for_compare(
-            output.barcode, currency=currency
-        )
         match = predicted_barcode == normalize_barcode(expected_output.product_code)
 
         if match:
