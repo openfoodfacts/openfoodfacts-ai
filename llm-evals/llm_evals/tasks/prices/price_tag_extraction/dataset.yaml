@@ -2341,3 +2341,229 @@ cases:
     price_per:
     currency: EUR
   evaluators: []
+- name: '70276'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/070/000070276.webp
+  metadata:
+    tags:
+    - country:jp
+    - currency:jpy
+    - type:product
+    - with-non-vat-price
+    - difficulty:easy
+    price_tag_id: 70276
+  expected_output:
+    type: PRODUCT
+    product_code: '4904110857072'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 376.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: JPY
+  evaluators: []
+- name: '70264'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/070/000070264.webp
+  metadata:
+    tags:
+    - country:jp
+    - currency:jpy
+    - type:product
+    - with-non-vat-price
+    - difficulty:easy
+    price_tag_id: 70264
+  expected_output:
+    type: PRODUCT
+    product_code: '4972222100041'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 430.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: JPY
+  evaluators: []
+- name: '69463'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/069/000069463.webp
+  metadata:
+    tags:
+    - country:jp
+    - currency:jpy
+    - type:product
+    - with-non-vat-price
+    # There is a price for fidelity members and for the general public. Price for the general public must be extracted.
+    - difficulty:medium
+    price_tag_id: 69463
+  expected_output:
+    type: PRODUCT
+    product_code: '4902106662549'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 322
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: JPY
+  evaluators: []
+- name: '70211'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/070/000070211.webp
+  metadata:
+    tags:
+    - country:jp
+    - currency:jpy
+    - type:product
+    - with-non-vat-price
+    - difficulty:easy
+    price_tag_id: 70211
+  expected_output:
+    type: PRODUCT
+    product_code: '4901870173688'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 161.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: JPY
+  evaluators: []
+- name: '70228'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/070/000070228.webp
+  metadata:
+    tags:
+    - country:jp
+    - currency:jpy
+    - type:product
+    - with-non-vat-price
+    - difficulty:easy
+    price_tag_id: 70228
+  expected_output:
+    type: PRODUCT
+    product_code: '4902560015189'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 431.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: JPY
+  evaluators: []
+- name: '70229'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/070/000070229.webp
+  metadata:
+    tags:
+    - country:jp
+    - currency:jpy
+    - type:product
+    - with-non-vat-price
+    - difficulty:easy
+    price_tag_id: 70229
+  expected_output:
+    type: PRODUCT
+    product_code: '4901870176511'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 301.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: JPY
+  evaluators: []
+- name: '70726'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/070/000070726.webp
+  metadata:
+    tags:
+    - country:jp
+    - currency:jpy
+    - type:product
+    - with-non-vat-price
+    - difficulty:easy
+    price_tag_id: 70726
+  expected_output:
+    type: PRODUCT
+    product_code: '4908011645851'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 171.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: JPY
+  evaluators: []
+- name: '70422'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/070/000070422.webp
+  metadata:
+    tags:
+    - country:jp
+    - currency:jpy
+    - type:product
+    - with-non-vat-price
+    - difficulty:easy
+    price_tag_id: 70422
+  expected_output:
+    type: PRODUCT
+    product_code: '4013200781019'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 678.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: JPY
+  evaluators: []
+- name: '70427'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/070/000070427.webp
+  metadata:
+    tags:
+    - country:jp
+    - currency:jpy
+    - type:product
+    - with-non-vat-price
+    - difficulty:easy
+    price_tag_id: 70427
+  expected_output:
+    type: PRODUCT
+    product_code: '7311312003447'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 734.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: JPY
+  evaluators: []
