@@ -156,5 +156,32 @@ def evaluate(
     )
 
 
+@app.command()
+def add_sample(
+    task: Annotated[
+        TaskType,
+        typer.Argument(..., help="The dataset task we should add the sample to."),
+    ],
+    inputs: Annotated[
+        str,
+        typer.Argument(
+            ...,
+            help="The input to the sampler fetcher function. "
+            "It is usally an ID, but it's project dependent.",
+        ),
+    ],
+):
+    """Add a sample to an existing dataset."""
+    from llm_evals.evaluate import TASK_CONFIG_MAPPING
+
+    task_config = TASK_CONFIG_MAPPING[task]
+
+    if task_config.add_sample_func is None:
+        typer.echo(f"No function to add sample is available for task '{task}'")
+        return
+
+    task_config.add_sample_func(inputs)
+
+
 if __name__ == "__main__":
     app()

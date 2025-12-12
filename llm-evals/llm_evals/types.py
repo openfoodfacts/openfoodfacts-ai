@@ -19,3 +19,4 @@ class TaskConfig(BaseModel):
     instructions: str
     output_type: type[BaseModel]
     name: str
+    add_sample_func: Callable[[str], None] | None = None

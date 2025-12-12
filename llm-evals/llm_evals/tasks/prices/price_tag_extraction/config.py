@@ -1,6 +1,7 @@
 from llm_evals.types import TaskConfig
 
 from .datasets import dataset
+from .sample_generator import add_sample
 from .schemas import Label
 
 DEFAULT_INSTRUCTIONS = (
@@ -13,4 +14,5 @@ CONFIG = TaskConfig(
     instructions=DEFAULT_INSTRUCTIONS,
     output_type=Label,
     name="price_price_tag_extraction",
+    add_sample_func=add_sample,
 )
