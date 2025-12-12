@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=dataset_schema.json
-name: null
+name: Open Prices - Price tag evaluation dataset
 evaluators:
 - CheckExtraction
 cases:
@@ -1029,11 +1029,11 @@ cases:
   expected_output:
     type: PRODUCT
     # The barcode is totally unreadable in the image, so we override both fields to null
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
-    price: null
+    price:
     price_is_discounted: false
     price_without_discount:
     discount_type:
@@ -2260,7 +2260,7 @@ cases:
   expected_output:
     type: PRODUCT
     # The barcode is not displayed on the image, so we override it to null.
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:

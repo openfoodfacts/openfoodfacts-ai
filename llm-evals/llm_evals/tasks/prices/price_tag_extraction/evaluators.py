@@ -116,9 +116,11 @@ class CheckExtraction(Evaluator[PriceTagExtractionInput, ExpectedResult, MetaDat
         expected_output: ExpectedResult,
         metadata: MetaData,
     ) -> EvaluationReason | bool | None:
+        tags = metadata.get("tags") or []
         if (
             expected_output.product_code is None
-            or "data-quality:barcode-unreadable" in (metadata["tags"] or [])
+            or "data-quality:barcode-unreadable" in tags
+            or "data-quality:barcode-truncated" in tags
         ):
             return None
 
