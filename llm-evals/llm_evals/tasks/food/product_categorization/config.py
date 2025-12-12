@@ -1,11 +1,14 @@
 from llm_evals.types import TaskConfig
 
 from .datasets import dataset
-from .tasks import agent, task
+from .schemas import CategoryPredictionResponseModel
+
+DEFAULT_INSTRUCTIONS = "Predict the categories of this product."
+
 
 CONFIG = TaskConfig(
-    agent=agent,
     dataset=dataset,
-    task=task,
-    multiple_images=True,
+    instructions=DEFAULT_INSTRUCTIONS,
+    output_type=CategoryPredictionResponseModel,
+    name="product_categorization",
 )

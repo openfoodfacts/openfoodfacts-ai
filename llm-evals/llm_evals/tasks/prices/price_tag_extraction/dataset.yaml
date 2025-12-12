@@ -1,11 +1,12 @@
 # yaml-language-server: $schema=dataset_schema.json
-name: null
+name: Open Prices - Price tag evaluation dataset
 evaluators:
 - CheckExtraction
 cases:
 - name: '127260'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/YVyqbaNLqk.webp&y_min=0.5579268292682927&x_min=0.07588075880758809&y_max=0.7804878048780488&x_max=0.9593495934959351
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127260.webp
   metadata:
     tags:
     - country:fr
@@ -27,12 +28,14 @@ cases:
   evaluators: []
 - name: '122445'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0150/UtNxW1l5m3.webp&y_min=0.33369407057762146&x_min=0.23343971371650696&y_max=0.5154870748519897&x_max=0.4856271743774414
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122445.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 122445
   expected_output:
     type: PRODUCT
@@ -49,12 +52,14 @@ cases:
   evaluators: []
 - name: '124798'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/jUMJEg17Ll.webp&y_min=0.34565916398713825&x_min=0.8586366559485531&y_max=0.4469453376205788&x_max=0.9849067524115755
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124798.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 124798
   expected_output:
     type: PRODUCT
@@ -71,12 +76,14 @@ cases:
   evaluators: []
 - name: '124154'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/OOgfF42LLQ.webp&y_min=0.7572703957557678&x_min=0.01407588366419077&y_max=0.8898450136184692&x_max=0.20581135153770447
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124154.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:medium
     price_tag_id: 124154
   expected_output:
     type: PRODUCT
@@ -93,7 +100,8 @@ cases:
   evaluators: []
 - name: '121551'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0149/xxsmxUEOWM.webp&y_min=0.08449963480234146&x_min=0.5775102972984314&y_max=0.20446094870567322&x_max=0.6851289868354797
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121551.webp
   metadata:
     tags:
     - country:us
@@ -115,12 +123,14 @@ cases:
   evaluators: []
 - name: '126568'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/tlItLAyV9C.webp&y_min=0.8448066711425781&x_min=0.21789515018463135&y_max=0.9241698384284973&x_max=0.34297311305999756
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126568.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 126568
   expected_output:
     type: PRODUCT
@@ -137,12 +147,14 @@ cases:
   evaluators: []
 - name: '126807'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/VYViP0kzYB.webp&y_min=0.0366126149892807&x_min=0.0169918704777956&y_max=0.777442991733551&x_max=0.9947853684425354
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126807.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 126807
   expected_output:
     type: PRODUCT
@@ -160,12 +172,14 @@ cases:
   evaluators: []
 - name: '126492'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/YgS0rqBxwq.webp&y_min=0.08260471373796463&x_min=0.1599583923816681&y_max=0.1543152928352356&x_max=0.3393042981624603
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126492.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:medium
     price_tag_id: 126492
   expected_output:
     type: PRODUCT
@@ -182,12 +196,14 @@ cases:
   evaluators: []
 - name: '127190'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/3IP4RQpF5O.webp&y_min=0.2901548445224762&x_min=0.24056220054626465&y_max=0.8396989107131958&x_max=0.8067951798439026
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127190.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 127190
   expected_output:
     type: PRODUCT
@@ -204,12 +220,14 @@ cases:
   evaluators: []
 - name: '124512'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/MwwOm5An13.webp&y_min=0.5046173930168152&x_min=0.03614521026611328&y_max=0.6475751399993896&x_max=0.22722648084163666
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124512.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 124512
   expected_output:
     type: PRODUCT
@@ -226,12 +244,14 @@ cases:
   evaluators: []
 - name: '124918'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/hO3xMDJ1aP.webp&y_min=0.7927150130271912&x_min=0.5250985026359558&y_max=0.9085131287574768&x_max=0.6765699982643127
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124918.webp
   metadata:
     tags:
     - country:us
     - currency:usd
     - type:product
+    - difficulty:easy
     price_tag_id: 124918
   expected_output:
     type: PRODUCT
@@ -248,12 +268,14 @@ cases:
   evaluators: []
 - name: '118516'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0144/o2W8G9bczE.webp&y_min=0.43247896432876587&x_min=0.05670356750488281&y_max=0.6137336492538452&x_max=0.32770946621894836
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118516.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 118516
   expected_output:
     type: PRODUCT
@@ -270,12 +292,14 @@ cases:
   evaluators: []
 - name: '126887'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/t1JCHkrgPW.webp&y_min=0.14774392545223236&x_min=0.37388116121292114&y_max=0.27730613946914673&x_max=0.5531964898109436
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126887.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 126887
   expected_output:
     type: PRODUCT
@@ -292,7 +316,8 @@ cases:
   evaluators: []
 - name: '126748'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/VhYf5sNekr.webp&y_min=0.10613792389631271&x_min=0.13004885613918304&y_max=0.224683940410614&x_max=0.2570923864841461
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126748.webp
   metadata:
     tags:
     - country:fr
@@ -315,12 +340,14 @@ cases:
   evaluators: []
 - name: '126299'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/863nR0XBZK.webp&y_min=0.7862913608551025&x_min=0.8676815032958984&y_max=0.8729813694953918&x_max=0.9998619556427002
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126299.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:medium
     price_tag_id: 126299
   expected_output:
     type: PRODUCT
@@ -337,12 +364,14 @@ cases:
   evaluators: []
 - name: '119051'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0145/zXXiw80t1s.webp&y_min=0.0&x_min=0.3691689670085907&y_max=0.7288550138473511&x_max=0.6207185387611389
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/119/000119051.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - data-quality:barcode-truncated
     price_tag_id: 119051
   expected_output:
     type: PRODUCT
@@ -359,12 +388,14 @@ cases:
   evaluators: []
 - name: '124784'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/rH3v9SJO2R.webp&y_min=0.4919614147909968&x_min=0.7203408360128617&y_max=0.6012861736334405&x_max=0.8538263665594855
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124784.webp
   metadata:
     tags:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:easy
     price_tag_id: 124784
   expected_output:
     type: PRODUCT
@@ -381,7 +412,8 @@ cases:
   evaluators: []
 - name: '127343'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0156/1qrF3Ecp7O.webp&y_min=0.8607617020606995&x_min=0.3183763027191162&y_max=0.988126814365387&x_max=0.4746583104133606
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127343.webp
   metadata:
     tags:
     - country:us
@@ -403,7 +435,8 @@ cases:
   evaluators: []
 - name: '120147'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0147/7So9WuTZaO.webp&y_min=0.2802280783653259&x_min=0.43498122692108154&y_max=0.6354430317878723&x_max=0.6582590937614441
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120147.webp
   metadata:
     tags:
     - country:fr
@@ -425,7 +458,8 @@ cases:
   evaluators: []
 - name: '122489'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0150/k7elqh4S5L.webp&y_min=0.5423439741134644&x_min=0.0656505823135376&y_max=0.6190098524093628&x_max=0.25647225975990295
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122489.webp
   metadata:
     tags:
     - country:fr
@@ -447,7 +481,8 @@ cases:
   evaluators: []
 - name: '123784'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0151/fQYP7yzCsr.png&y_min=0.0787709578871727&x_min=0.006690406706184149&y_max=0.9246327877044678&x_max=0.9733356833457947
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/123/000123784.webp
   metadata:
     tags:
     - country:fr
@@ -469,7 +504,8 @@ cases:
   evaluators: []
 - name: '122218'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0150/mPj2p9qmbq.webp&y_min=0.2023143321275711&x_min=0.8743060827255249&y_max=0.2643224895000458&x_max=1.0
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122218.webp
   metadata:
     tags:
     - country:no
@@ -492,7 +528,8 @@ cases:
   evaluators: []
 - name: '127541'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0156/lqb3zEAe1S.webp&y_min=0.1638622283935547&x_min=0.47990402579307556&y_max=0.4101181626319885&x_max=0.7328342199325562
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127541.webp
   metadata:
     tags:
     - country:no
@@ -515,7 +552,8 @@ cases:
   evaluators: []
 - name: '125828'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/Sj0ujv2G4B.webp&y_min=0.1177981048822403&x_min=0.6074991226196289&y_max=0.2504064738750458&x_max=0.788170576095581
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/125/000125828.webp
   metadata:
     tags:
     - country:fr
@@ -537,7 +575,8 @@ cases:
   evaluators: []
 - name: '120688'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0148/CF9nlbvltE.webp&y_min=0.7480027675628662&x_min=0.14572589099407196&y_max=0.9077296853065491&x_max=0.33522337675094604
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120688.webp
   metadata:
     tags:
     - country:us
@@ -559,7 +598,8 @@ cases:
   evaluators: []
 - name: '119415'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0146/4icXd2141k.webp&y_min=0.8769270181655884&x_min=0.6476525664329529&y_max=0.9658122658729553&x_max=0.7598639130592346
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/119/000119415.webp
   metadata:
     tags:
     - country:fr
@@ -581,7 +621,8 @@ cases:
   evaluators: []
 - name: '124407'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/7F1nvusDAW.webp&y_min=0.3421635329723358&x_min=0.7773503065109253&y_max=0.562568724155426&x_max=0.9998975992202759
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124407.webp
   metadata:
     tags:
     - country:fr
@@ -604,7 +645,8 @@ cases:
   evaluators: []
 - name: '126375'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/jYPnb0cNOm.webp&y_min=0.2629399299621582&x_min=0.17403869330883026&y_max=0.3972049951553345&x_max=0.24579329788684845
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126375.webp
   metadata:
     tags:
     - country:fr
@@ -628,7 +670,8 @@ cases:
   evaluators: []
 - name: '120843'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0148/WtTuPL7f0T.webp&y_min=0.22757068276405334&x_min=0.3573649823665619&y_max=0.3715525269508362&x_max=0.5633337497711182
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120843.webp
   metadata:
     tags:
     - country:es
@@ -650,7 +693,8 @@ cases:
   evaluators: []
 - name: '118647'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0144/bR8xWQ2soo.webp&y_min=0.45401671528816223&x_min=0.08673645555973053&y_max=0.5977813005447388&x_max=0.2908903658390045
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118647.webp
   metadata:
     tags:
     - country:fr
@@ -672,7 +716,8 @@ cases:
   evaluators: []
 - name: '123775'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0151/elaHRZA13w.png&y_min=0.19751010835170746&x_min=0.01720612868666649&y_max=0.9634119868278503&x_max=0.9975193738937378
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/123/000123775.webp
   metadata:
     tags:
     - country:fr
@@ -694,7 +739,8 @@ cases:
   evaluators: []
 - name: '125111'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0153/Rpnh7VAE87.webp&y_min=0.08758347481489182&x_min=0.05046825483441353&y_max=0.9264533519744873&x_max=0.933117151260376
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/125/000125111.webp
   metadata:
     tags:
     - country:fr
@@ -716,7 +762,8 @@ cases:
   evaluators: []
 - name: '118540'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0144/qYr24Xcz4c.webp&y_min=0.01021185889840126&x_min=0.791735053062439&y_max=0.15031485259532928&x_max=0.9676339626312256
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118540.webp
   metadata:
     tags:
     - country:fr
@@ -738,7 +785,8 @@ cases:
   evaluators: []
 - name: '124736'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/4CWCuxYTTQ.webp&y_min=0.3961180431768667&x_min=0.7166666666666667&y_max=0.5050505050505051&x_max=0.874074074074074
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124736.webp
   metadata:
     tags:
     - country:fr
@@ -760,7 +808,8 @@ cases:
   evaluators: []
 - name: '124795'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/vc3Ph0DvIF.webp&y_min=0.3215434083601286&x_min=0.596475884244373&y_max=0.4292604501607717&x_max=0.7299614147909967
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124795.webp
   metadata:
     tags:
     - country:fr
@@ -782,7 +831,8 @@ cases:
   evaluators: []
 - name: '118602'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0144/zcJD3NRZpw.webp&y_min=0.8314017653465271&x_min=0.5464781522750854&y_max=0.9578062891960144&x_max=0.7424978017807007
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118602.webp
   metadata:
     tags:
     - country:fr
@@ -804,7 +854,8 @@ cases:
   evaluators: []
 - name: '119071'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0145/64nTCoRNeH.webp&y_min=0.38632911443710327&x_min=0.14153453707695007&y_max=0.8268594741821289&x_max=0.4528792202472687
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/119/000119071.webp
   metadata:
     tags:
     - country:fr
@@ -826,7 +877,8 @@ cases:
   evaluators: []
 - name: '120383'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0147/frGUaoZTKH.webp&y_min=0.026362038664323375&x_min=0.4311657879320445&y_max=0.10896309314586997&x_max=0.5131810193321618
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120383.webp
   metadata:
     tags:
     - country:no
@@ -849,7 +901,8 @@ cases:
   evaluators: []
 - name: '125244'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0153/GBSqbTdcTE.webp&y_min=0.47934073209762573&x_min=0.5138037204742432&y_max=0.5552294254302979&x_max=0.683770477771759
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/125/000125244.webp
   metadata:
     tags:
     - country:fr
@@ -871,7 +924,8 @@ cases:
   evaluators: []
 - name: '127204'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/y5tHk8iKkU.webp&y_min=0.09143801033496857&x_min=0.0480077750980854&y_max=0.7948768734931946&x_max=0.8207094669342041
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127204.webp
   metadata:
     tags:
     - country:fr
@@ -893,7 +947,8 @@ cases:
   evaluators: []
 - name: '126265'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/oWiGEzFXy9.webp&y_min=0.8505429625511169&x_min=0.7529202699661255&y_max=0.9186637997627258&x_max=0.9463012218475342
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126265.webp
   metadata:
     tags:
     - country:fr
@@ -915,7 +970,8 @@ cases:
   evaluators: []
 - name: '124402'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/IB0qgdE4i5.webp&y_min=0.4348313510417938&x_min=0.7121949791908264&y_max=0.5486255884170532&x_max=0.8649768233299255
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124402.webp
   metadata:
     tags:
     - country:fr
@@ -937,7 +993,8 @@ cases:
   evaluators: []
 - name: '126471'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/0aaHbyh7mc.webp&y_min=0.22163674235343933&x_min=0.437402606010437&y_max=0.2933961749076843&x_max=0.6251125335693359
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126471.webp
   metadata:
     tags:
     - country:fr
@@ -959,7 +1016,8 @@ cases:
   evaluators: []
 - name: '120400'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0141/3AbTlpe3pH.webp&y_min=0.8699472759226714&x_min=0.7803163444639719&y_max=0.9086115992970124&x_max=0.8740480374926772
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120400.webp
   metadata:
     tags:
     - country:no
@@ -971,11 +1029,11 @@ cases:
   expected_output:
     type: PRODUCT
     # The barcode is totally unreadable in the image, so we override both fields to null
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
-    price: null
+    price:
     price_is_discounted: false
     price_without_discount:
     discount_type:
@@ -984,7 +1042,8 @@ cases:
   evaluators: []
 - name: '125351'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0153/pJ8794JK2k.webp&y_min=0.2722232937812805&x_min=0.6932077407836914&y_max=0.8185807466506958&x_max=0.94105064868927
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/125/000125351.webp
   metadata:
     tags:
     - country:fr
@@ -1006,7 +1065,8 @@ cases:
   evaluators: []
 - name: '120259'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0147/K2bXN5rCvG.webp&y_min=0.46019256114959717&x_min=0.6244363784790039&y_max=0.6580207943916321&x_max=0.8529834151268005
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120259.webp
   metadata:
     tags:
     - country:no
@@ -1029,7 +1089,8 @@ cases:
   evaluators: []
 - name: '118640'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0144/BOhBxa3RPP.webp&y_min=0.5649287104606628&x_min=0.3996770679950714&y_max=0.7932891249656677&x_max=0.7203969359397888
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118640.webp
   metadata:
     tags:
     - country:fr
@@ -1051,7 +1112,8 @@ cases:
   evaluators: []
 - name: '123564'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0151/Ub4ZQpXxVO.webp&y_min=0.5800074934959412&x_min=0.23783016204833984&y_max=0.693924605846405&x_max=0.3567042052745819
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/123/000123564.webp
   metadata:
     tags:
     - country:fr
@@ -1073,7 +1135,8 @@ cases:
   evaluators: []
 - name: '120674'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0148/TWeAZl5C5z.webp&y_min=0.6179771423339844&x_min=0.3219723403453827&y_max=0.7565070390701294&x_max=0.4455209970474243
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120674.webp
   metadata:
     tags:
     - country:us
@@ -1095,7 +1158,8 @@ cases:
   evaluators: []
 - name: '126087'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/s2Lu0jl9hX.webp&y_min=0.8889551162719727&x_min=0.04910587891936302&y_max=0.9658863544464111&x_max=0.24469996988773346
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126087.webp
   metadata:
     tags:
     - country:fr
@@ -1117,7 +1181,8 @@ cases:
   evaluators: []
 - name: '118569'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0144/g9V6wDLJfk.webp&y_min=0.505319356918335&x_min=0.6835047006607056&y_max=0.6648906469345093&x_max=0.9358498454093933
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118569.webp
   metadata:
     tags:
     - country:fr
@@ -1139,7 +1204,8 @@ cases:
   evaluators: []
 - name: '124357'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/rH3v9SJO2R.webp&y_min=0.3351351320743561&x_min=0.8978790044784546&y_max=0.4654533565044403&x_max=0.9999106526374817
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124357.webp
   metadata:
     tags:
     - country:fr
@@ -1162,7 +1228,8 @@ cases:
   evaluators: []
 - name: '122048'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0149/hBfPykY7Vz.webp&y_min=0.00307481549680233&x_min=0.06282507628202438&y_max=0.7904830574989319&x_max=0.8830742239952087
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122048.webp
   metadata:
     tags:
     - country:fr
@@ -1184,7 +1251,8 @@ cases:
   evaluators: []
 - name: '125427'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0153/JeqeNqI7mF.webp&y_min=0.30158570408821106&x_min=0.2520771026611328&y_max=0.6552346348762512&x_max=0.7605048418045044
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/125/000125427.webp
   metadata:
     tags:
     - country:fr
@@ -1206,7 +1274,8 @@ cases:
   evaluators: []
 - name: '126852'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/ZdRHOLeB2b.webp&y_min=0.7915570139884949&x_min=0.25623801350593567&y_max=0.8804047703742981&x_max=0.37569841742515564
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126852.webp
   metadata:
     tags:
     - country:fr
@@ -1228,7 +1297,8 @@ cases:
   evaluators: []
 - name: '127525'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0156/6wMJj6mP9Q.webp&y_min=0.5561126470565796&x_min=0.15833063423633575&y_max=0.6092321872711182&x_max=0.2944619059562683
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127525.webp
   metadata:
     tags:
     - country:no
@@ -1251,7 +1321,8 @@ cases:
   evaluators: []
 - name: '127243'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/Fth08XXuns.webp&y_min=0.009860455058515072&x_min=0.015314229764044285&y_max=0.9647523164749146&x_max=0.9732981324195862
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127243.webp
   metadata:
     tags:
     - country:fr
@@ -1273,7 +1344,8 @@ cases:
   evaluators: []
 - name: '126346'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/YmYvSqYR4G.webp&y_min=0.18453791737556458&x_min=0.7209155559539795&y_max=0.4960482716560364&x_max=0.8941221237182617
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126346.webp
   metadata:
     tags:
     - country:fr
@@ -1297,7 +1369,8 @@ cases:
   evaluators: []
 - name: '119143'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0145/sOwYxAOzCj.webp&y_min=0.3640778362751007&x_min=0.0&y_max=0.5961101651191711&x_max=0.996638834476471
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/119/000119143.webp
   metadata:
     tags:
     - country:fr
@@ -1320,7 +1393,8 @@ cases:
   evaluators: []
 - name: '122342'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0150/agOPa32D6i.webp&y_min=0.43425166606903076&x_min=0.007829220965504646&y_max=0.6268042325973511&x_max=0.288580060005188
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122342.webp
   metadata:
     tags:
     - country:fr
@@ -1342,7 +1416,8 @@ cases:
   evaluators: []
 - name: '127176'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/mNcxZUxkgS.webp&y_min=0.8306353092193604&x_min=0.697738528251648&y_max=0.9417418837547302&x_max=0.8596380949020386
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127176.webp
   metadata:
     tags:
     - country:fr
@@ -1364,7 +1439,8 @@ cases:
   evaluators: []
 - name: '126132'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/MAETM3KnJ5.webp&y_min=0.47462496161460876&x_min=0.36963722109794617&y_max=0.7108665704727173&x_max=0.6920540928840637
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126132.webp
   metadata:
     tags:
     - country:fr
@@ -1386,7 +1462,8 @@ cases:
   evaluators: []
 - name: '118868'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0145/inNppU47gA.webp&y_min=0.13546065986156464&x_min=0.49979865550994873&y_max=0.23861028254032135&x_max=0.6989039778709412
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118868.webp
   metadata:
     tags:
     - country:fr
@@ -1408,7 +1485,8 @@ cases:
   evaluators: []
 - name: '125956'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/IkxXrIX8Kg.webp&y_min=0.6197932362556458&x_min=0.7664952874183655&y_max=0.8673334717750549&x_max=0.9433284997940063
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/125/000125956.webp
   metadata:
     tags:
     - country:us
@@ -1430,7 +1508,8 @@ cases:
   evaluators: []
 - name: '122102'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0149/1IZCW9S5gb.webp&y_min=0.6769907474517822&x_min=0.4048619568347931&y_max=0.7799975872039795&x_max=0.6135752201080322
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122102.webp
   metadata:
     tags:
     - country:es
@@ -1452,7 +1531,8 @@ cases:
   evaluators: []
 - name: '120192'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0147/mGtPS3Yd9a.webp&y_min=0.8316885232925415&x_min=0.053520072251558304&y_max=0.9564684629440308&x_max=0.17940254509449005
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120192.webp
   metadata:
     tags:
     - country:es
@@ -1474,7 +1554,8 @@ cases:
   evaluators: []
 - name: '126502'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/u9y5fjpXnw.webp&y_min=0.3801727592945099&x_min=0.0&y_max=0.47188758850097656&x_max=0.14411374926567078
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126502.webp
   metadata:
     tags:
     - country:fr
@@ -1496,7 +1577,8 @@ cases:
   evaluators: []
 - name: '122064'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0149/eevALCL3Py.webp&y_min=0.3515935242176056&x_min=0.39687836170196533&y_max=0.4287055730819702&x_max=0.5561227202415466
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122064.webp
   metadata:
     tags:
     - country:fr
@@ -1518,7 +1600,8 @@ cases:
   evaluators: []
 - name: '122096'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0149/MqtVjwWTZb.webp&y_min=0.32513391971588135&x_min=0.3003607392311096&y_max=0.4314332604408264&x_max=0.41116294264793396
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122096.webp
   metadata:
     tags:
     - country:es
@@ -1540,7 +1623,8 @@ cases:
   evaluators: []
 - name: '118735'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0142/xXjuhxfRmj.webp&y_min=0.6748538011695907&x_min=0.8377192982456141&y_max=0.9918128654970761&x_max=0.9973684210526317
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118735.webp
   metadata:
     tags:
     - country:us
@@ -1562,7 +1646,8 @@ cases:
   evaluators: []
 - name: '124922'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/M2SzXWq8Gw.webp&y_min=0.8261328935623169&x_min=0.8885102868080139&y_max=0.9217942953109741&x_max=0.9997989535331726
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124922.webp
   metadata:
     tags:
     - country:us
@@ -1584,7 +1669,8 @@ cases:
   evaluators: []
 - name: '126694'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0155/0NzbAnGgmR.webp&y_min=0.4062199592590332&x_min=0.35997653007507324&y_max=0.5519108772277832&x_max=0.5917553305625916
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126694.webp
   metadata:
     tags:
     - country:fr
@@ -1606,7 +1692,8 @@ cases:
   evaluators: []
 - name: '122363'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0150/hLxyeGtEf6.webp&y_min=0.4314398765563965&x_min=0.7782451510429382&y_max=0.6029110550880432&x_max=1.0
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122363.webp
   metadata:
     tags:
     - country:fr
@@ -1628,7 +1715,8 @@ cases:
   evaluators: []
 - name: '124973'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/ZaX0KTqlII.webp&y_min=0.12296112626791&x_min=0.505881667137146&y_max=0.2348427176475525&x_max=0.6554276943206787
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124973.webp
   metadata:
     tags:
     - country:us
@@ -1650,7 +1738,8 @@ cases:
   evaluators: []
 - name: '124627'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/s4QDWt4EvQ.webp&y_min=0.5109629034996033&x_min=0.04881558567285538&y_max=0.641129195690155&x_max=0.2204955518245697
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124627.webp
   metadata:
     tags:
     - country:fr
@@ -1672,7 +1761,8 @@ cases:
   evaluators: []
 - name: '118703'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0145/n6VO32WUmv.webp&y_min=0.17665418982505798&x_min=0.3954020142555237&y_max=0.30659863352775574&x_max=0.6120090484619141
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118703.webp
   metadata:
     tags:
     - country:us
@@ -1694,7 +1784,8 @@ cases:
   evaluators: []
 - name: '118592'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0144/djuvImHkQh.webp&y_min=0.18990899622440338&x_min=0.8532480001449585&y_max=0.3059346675872803&x_max=1.0
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118592.webp
   metadata:
     tags:
     - country:fr
@@ -1716,7 +1807,8 @@ cases:
   evaluators: []
 - name: '118544'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0144/DCrr5Y9IXX.webp&y_min=0.46729663014411926&x_min=0.08841629326343536&y_max=0.587270200252533&x_max=0.26082170009613037
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118544.webp
   metadata:
     tags:
     - country:fr
@@ -1738,7 +1830,8 @@ cases:
   evaluators: []
 - name: '119032'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0145/TqM1Zg2mPO.webp&y_min=0.3384082615375519&x_min=0.3492189347743988&y_max=0.8024781942367554&x_max=0.5905590057373047
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/119/000119032.webp
   metadata:
     tags:
     - country:fr
@@ -1760,7 +1853,8 @@ cases:
   evaluators: []
 - name: '124507'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/LJqlaIKgV4.webp&y_min=0.6630793809890747&x_min=0.11275902390480042&y_max=0.8206000328063965&x_max=0.3420651853084564
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124507.webp
   metadata:
     tags:
     - country:fr
@@ -1782,7 +1876,8 @@ cases:
   evaluators: []
 - name: '127445'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0156/HkO0XWjx27.webp&y_min=0.5538247227668762&x_min=0.31414687633514404&y_max=0.6454412937164307&x_max=0.44809287786483765
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127445.webp
   metadata:
     tags:
     - country:fr
@@ -1804,7 +1899,8 @@ cases:
   evaluators: []
 - name: '125791'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/GKahsagwOG.webp&y_min=0.7259646058082581&x_min=0.7954522967338562&y_max=0.8521732687950134&x_max=0.9725438952445984
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/125/000125791.webp
   metadata:
     tags:
     - country:fr
@@ -1827,7 +1923,8 @@ cases:
   evaluators: []
 - name: '120680'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0148/FHsB2JGcdZ.webp&y_min=0.7792231440544128&x_min=0.8250643014907837&y_max=0.89436274766922&x_max=0.9953575730323792
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120680.webp
   metadata:
     tags:
     - country:us
@@ -1849,7 +1946,8 @@ cases:
   evaluators: []
 - name: '127496'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0156/WD6RkB7Nqf.webp&y_min=0.17722629010677338&x_min=0.6596447825431824&y_max=0.24917352199554443&x_max=0.8637557625770569
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127496.webp
   metadata:
     tags:
     - country:no
@@ -1871,7 +1969,8 @@ cases:
   evaluators: []
 - name: '120372'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0147/R8dFlq9hR9.webp&y_min=0.7680796384811401&x_min=0.0840604156255722&y_max=0.9946380853652954&x_max=0.7448097467422485
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120372.webp
   metadata:
     tags:
     - country:se
@@ -1893,7 +1992,8 @@ cases:
   evaluators: []
 - name: '127604'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0156/dHEHthp2mA.webp&y_min=0.8125658631324768&x_min=0.547727644443512&y_max=0.8503805994987488&x_max=0.6476060152053833
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127604.webp
   metadata:
     tags:
     - country:no
@@ -1916,7 +2016,8 @@ cases:
   evaluators: []
 - name: '120560'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0147/4Td7qsEKOv.webp&y_min=0.722320020198822&x_min=0.39722922444343567&y_max=0.7557753920555115&x_max=0.5030772089958191
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120560.webp
   metadata:
     tags:
     - country:no
@@ -1939,7 +2040,8 @@ cases:
   evaluators: []
 - name: '119600'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0146/zUfs55UKS5.webp&y_min=0.25710928440093994&x_min=0.35345032811164856&y_max=0.6901124119758606&x_max=0.6082229018211365
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/119/000119600.webp
   metadata:
     tags:
     - country:fr
@@ -1961,7 +2063,8 @@ cases:
   evaluators: []
 - name: '120337'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0147/VHXmC6di38.webp&y_min=0.025980547070503235&x_min=0.08935253322124481&y_max=0.21961092948913574&x_max=0.2650766372680664
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120337.webp
   metadata:
     tags:
     - country:es
@@ -1983,7 +2086,8 @@ cases:
   evaluators: []
 - name: '125930'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/w6HOlhOzf3.webp&y_min=0.6201373338699341&x_min=0.013808234594762325&y_max=0.8487611413002014&x_max=0.18658486008644104
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/125/000125930.webp
   metadata:
     tags:
     - country:us
@@ -2005,7 +2109,8 @@ cases:
   evaluators: []
 - name: '120645'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0148/lzYZWAyWw6.webp&y_min=0.8335641026496887&x_min=0.04101066291332245&y_max=0.9162118434906006&x_max=0.15759535133838654
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120645.webp
   metadata:
     tags:
     - country:us
@@ -2027,7 +2132,8 @@ cases:
   evaluators: []
 - name: '127489'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0156/9VXy5nm4wj.webp&y_min=0.2722778618335724&x_min=0.11573562771081924&y_max=0.42903128266334534&x_max=0.34168922901153564
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127489.webp
   metadata:
     tags:
     - country:fr
@@ -2049,7 +2155,8 @@ cases:
   evaluators: []
 - name: '125081'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0153/sVnEPmjiXQ.webp&y_min=0.10547236353158951&x_min=0.0052094776183366776&y_max=0.9622793793678284&x_max=0.968213677406311
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/125/000125081.webp
   metadata:
     tags:
     - country:fr
@@ -2071,7 +2178,8 @@ cases:
   evaluators: []
 - name: '118630'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0144/PhGEEaptow.webp&y_min=0.2969200015068054&x_min=0.20154298841953278&y_max=0.5438399314880371&x_max=0.5479028820991516
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/118/000118630.webp
   metadata:
     tags:
     - country:fr
@@ -2093,7 +2201,8 @@ cases:
   evaluators: []
 - name: '126394'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/CE1a1Jt8ko.webp&y_min=0.2281097173690796&x_min=0.3004057705402374&y_max=0.5395678877830505&x_max=0.4532642960548401
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126394.webp
   metadata:
     tags:
     - country:fr
@@ -2117,7 +2226,8 @@ cases:
   evaluators: []
 - name: '126174'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0154/QS4miCB1c7.webp&y_min=0.3328598737716675&x_min=0.1686411201953888&y_max=0.5753545761108398&x_max=0.5200150609016418
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126174.webp
   metadata:
     tags:
     - country:fr
@@ -2139,7 +2249,8 @@ cases:
   evaluators: []
 - name: '120265'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0147/tufbM4NJeo.webp&y_min=0.24812418222427368&x_min=0.4056583046913147&y_max=0.44358551502227783&x_max=0.6298797130584717
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120265.webp
   metadata:
     tags:
     - country:no
@@ -2149,7 +2260,7 @@ cases:
   expected_output:
     type: PRODUCT
     # The barcode is not displayed on the image, so we override it to null.
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -2162,7 +2273,8 @@ cases:
   evaluators: []
 - name: '123793'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0151/6nQ00vRhpM.png&y_min=0.08919228613376617&x_min=0.017300542443990707&y_max=0.908185601234436&x_max=1.0
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/123/000123793.webp
   metadata:
     tags:
     - country:fr
@@ -2184,7 +2296,8 @@ cases:
   evaluators: []
 - name: '120577'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0147/MOxBEpjlJM.webp&y_min=0.9414471983909607&x_min=0.15934023261070251&y_max=1.0&x_max=0.2484803944826126
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120577.webp
   metadata:
     tags:
     - country:no
@@ -2207,7 +2320,8 @@ cases:
   evaluators: []
 - name: '124503'
   inputs:
-    image_url: https://robotoff.openfoodfacts.org/api/v1/images/crop?image_url=https://prices.openfoodfacts.org/img/0152/Pfx1fCXGlv.webp&y_min=0.5613197088241577&x_min=0.29105859994888306&y_max=0.6985877752304077&x_max=0.47086653113365173
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/124/000124503.webp
   metadata:
     tags:
     - country:fr

@@ -6,10 +6,10 @@ from typing import Any, Callable
 import orjson
 import typer
 from pydantic import BaseModel
-from pydantic_ai import Agent
-from pydantic_evals import Dataset
 from pydantic_evals.reporting import EvaluationReport
 
+from llm_evals.agent import EvaluationAgent
+from llm_evals.default_task import default_task_func
 from llm_evals.tasks.food.product_categorization.config import (
     CONFIG as food_product_categorization_config,
 )
@@ -19,7 +19,7 @@ from llm_evals.tasks.food.product_info_extraction.config import (
 from llm_evals.tasks.prices.price_tag_extraction.config import (
     CONFIG as prices_price_tag_extraction_config,
 )
-from llm_evals.types import TaskConfig, TaskType
+from llm_evals.types import OutputMode, TaskConfig, TaskType
 
 TASK_CONFIG_MAPPING: dict[TaskType, TaskConfig] = {
     "food:product_info_extraction": food_product_info_extraction_config,
@@ -77,30 +77,39 @@ def compute_assertion_accuracy(
 
 def evaluate_task_on_dataset(
     model: str,
-    agent: Agent[None, Any],
-    dataset: Dataset,
-    task_func: Callable,
+    task_config: TaskConfig,
+    output_mode: OutputMode = "tool",
+    thinking_config: str | None = None,
     include_output: bool = True,
     include_expected_output: bool = True,
     include_reasons: bool = True,
+    include_input: bool = False,
+    include_durations: bool = False,
     include_tags: list[str] | None = None,
     output_path: Path | None = None,
     only_errors: bool = False,
     max_concurrency: int | None = None,
+    limit: int | None = None,
 ) -> None:
     """Evaluate a specific task on a given dataset with the given model.
 
     Args:
         model (str): The model to evaluate. Overrides the model in the agent.
-        agent (Agent): The agent to use for evaluation.
-        dataset (Dataset): The dataset to evaluate on.
-        task_func (Callable): The task function to evaluate.
+        task_config (TaskConfig): The task configuration containing the task
+            function and other settings.
+        output_mode (OutputMode): The output mode of the agent, which can be
+            "tool", "native", or "prompted". Defaults to "tool".
+        thinking_config (str | None): Optional configuration for the
+            agent's thinking process.
         include_output (bool): Whether to include the model output in the
             report.
         include_expected_output (bool): Whether to include the expected output
             in the report.
         include_reasons (bool): Whether to include the reasons for each
             assertion in the report.
+        include_input (bool): Whether to include the input in the report.
+        include_durations (bool): Whether to include the durations for each
+            case in the report.
         include_tags (list[str] | None): List of tags to filter the dataset
             cases. If None, all cases are included.
         output_path (Path | None): Path to save the evaluation report as a
@@ -108,7 +117,11 @@ def evaluate_task_on_dataset(
         only_errors (bool): Whether to include only error cases in the report.
         max_concurrency (int | None): Maximum number of concurrent requests to
             the LLM API. If None, no limit is set.
+        limit (int | None): Limit the number of samples to evaluate. If None,
+            all samples are evaluated.
     """
+    dataset = task_config.dataset
+    task_func: Callable[[dict[str, Any]], Any] = task_config.task or default_task_func
     if include_tags is not None:
         dataset.cases = [
             case
@@ -117,13 +130,24 @@ def evaluate_task_on_dataset(
             and any(tag in case.metadata.get("tags", []) for tag in include_tags)
         ]
 
+    if limit is not None:
+        dataset.cases = dataset.cases[:limit]
+
     task_name = f"{task_func.__name__}_{model}"
-    with agent.override(model=model):
-        report = dataset.evaluate_sync(
-            name=task_name,
-            task=task_func,
-            max_concurrency=max_concurrency,
-        )
+    instructions = task_config.instructions
+    EvaluationAgent.set(
+        model=model,
+        instructions=instructions,
+        output_type=task_config.output_type,
+        output_mode=output_mode,
+        task_name=task_config.name,
+        thinking_config=thinking_config,
+    )
+    report = dataset.evaluate_sync(
+        name=task_name,
+        task=task_func,
+        max_concurrency=max_concurrency,
+    )
 
     if only_errors:
         report.cases = [
@@ -138,6 +162,8 @@ def evaluate_task_on_dataset(
         include_output=include_output,
         include_expected_output=include_expected_output,
         include_reasons=include_reasons,
+        include_durations=include_durations,
+        include_input=include_input,
     )
     typer.echo("---" * 15)
     typer.echo(f"Number of cases: {len(report.cases)}")
@@ -187,8 +213,6 @@ def evaluate_task(model: str, task: TaskType, **kwargs) -> None:
     task_config = TASK_CONFIG_MAPPING[task]
     evaluate_task_on_dataset(
         model=model,
-        agent=task_config["agent"],
-        dataset=task_config["dataset"],
-        task_func=task_config["task"],
+        task_config=task_config,
         **kwargs,
     )

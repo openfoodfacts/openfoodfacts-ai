@@ -12,4 +12,5 @@ dependencies = [
     "orjson>=3.11.4",
     "pydantic-ai>=1.22.0",
     "pydantic-evals>=1.22.0",
+    "ruamel-yaml>=0.18.16",
 ]

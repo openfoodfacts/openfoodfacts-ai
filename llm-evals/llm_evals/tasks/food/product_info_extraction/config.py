@@ -1,10 +1,15 @@
 from llm_evals.types import TaskConfig
 
 from .datasets import dataset
-from .tasks import agent, task
+from .schemas import ProductInfoExtractionResponseModel
+
+DEFAULT_INSTRUCTIONS = (
+    "Extract all relevant information from this product packaging photo."
+)
 
 CONFIG = TaskConfig(
-    agent=agent,
     dataset=dataset,
-    task=task,
+    instructions=DEFAULT_INSTRUCTIONS,
+    output_type=ProductInfoExtractionResponseModel,
+    name="food_product_info_extraction",
 )

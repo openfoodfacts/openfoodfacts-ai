@@ -1,6 +1,6 @@
-from typing import Any, Callable, Literal, TypedDict
+from typing import Any, Callable, Literal
 
-from pydantic_ai import Agent
+from pydantic import BaseModel
 from pydantic_evals import Dataset
 
 TaskType = Literal[
@@ -10,8 +10,13 @@ TaskType = Literal[
 ]
 
 
-class TaskConfig(TypedDict):
-    agent: Agent[None, Any]
+OutputMode = Literal["tool", "native", "prompted", "native+prompted"]
+
+
+class TaskConfig(BaseModel):
     dataset: Dataset
-    task: Callable[[dict[str, Any]], Any]
-    multiple_images: bool
+    task: Callable[[dict[str, Any]], Any] | None = None
+    instructions: str
+    output_type: type[BaseModel]
+    name: str
+    add_sample_func: Callable[[str], None] | None = None
