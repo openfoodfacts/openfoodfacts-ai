@@ -166,10 +166,7 @@ def run(image_url: str, ocr_url: Optional[str] = None) -> None:
 
     if ocr_url is None:
         parsed_image_url = urlparse(image_url)
-        if parsed_image_url.netloc in (
-            "images.openfoodfacts.org",
-            "static.openfoodfacts.org",
-        ):
+        if parsed_image_url.netloc == "images.openfoodfacts.org":
             ocr_path = parsed_image_url.path.replace(".jpg", ".json")
             ocr_url = f"https://images.openfoodfacts.org{ocr_path}"
     else:
