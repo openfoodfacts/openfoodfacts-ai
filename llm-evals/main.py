@@ -82,9 +82,9 @@ def evaluate(
         Path | None,
         typer.Option(..., help="Path to save the evaluation report as a JSON file."),
     ] = None,
-    include_tags: Annotated[
-        list[str] | None,
-        typer.Option(..., help="List of tags to include in the evaluation report."),
+    filter_query: Annotated[
+        str | None,
+        typer.Option(..., help="Query to filter the cases, using dictquery syntax."),
     ] = None,
     only_errors: Annotated[
         bool,
@@ -147,7 +147,7 @@ def evaluate(
         include_expected_output=include_expected_output,
         include_reasons=include_reasons,
         output_path=output_path,
-        include_tags=include_tags,
+        filter_query=filter_query,
         include_input=include_input,
         include_durations=include_durations,
         only_errors=only_errors,
