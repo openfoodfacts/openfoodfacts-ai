@@ -41,18 +41,18 @@ The `evaluate` command has several options to customize the evaluation process:
 
 - `--task` (**required**): Specifies the task to be evaluated. The task should be defined in the tasks directory.
 - `--model`: Specifies the model to be evaluated. You can use models from different providers (e.g., Google Vertex AI, OpenAI, etc.) by specifying the provider prefix (e.g., `google-vertex:`, `google-gla:`, `openrouter:`,...). Default is set to `google-vertex:gemini-2.5-flash-lite`.
-- `òutput-mode`: The [output mode](https://ai.pydantic.dev/output/) of the pydantic-ai agent. Besides the output modes supported by pydantic-ai, llm-evals also supports `native+prompted` mode, which use the native mode with the JSON schema appended to the prompt. This mode is useful for models run through vLLM providers that don't provide the description of the output schema to the model.
-- `thinking-config`: Configuration for the model's "thinking" process, which can help improve response quality. If not provided, we keep the model default behavior. It can be a string or an int, depending on the provider.
-- `output-path`: Path to save the evaluation results. If not provided, results will only be printed to the console.
-- `filter`: A query string to filter samples from the dataset before evaluation. This allows you to evaluate only a subset of the data based on specific criteria (see below for mode details).
-- `max-concurrency`: Maximum number of concurrent requests to the LLM API, default to None (no limit).
-- `limit`: Limit the number of samples to evaluate. Only the first `n` samples will be evaluated. By default, all samples are evaluated.
-- `only-errors`: Whether to display only error cases (cases where the LLM failed) in the CLI report, default to false.
-- `include-output`: Whether to display the model output in the CLI report, default to false.
-- `include-durations`: Whether to display the durations for each case in the CLI report, default to false.
-- `include-input`: Whether to display the input in the CLI report, default to false.
-- `include-expected-output`: Whether to display the expected output in the CLI report, default to false.
-- `include-reasons`: Whether to display the reasons for each assertion in the CLI report, default to true.
+- `--òutput-mode`: The [output mode](https://ai.pydantic.dev/output/) of the pydantic-ai agent. Besides the output modes supported by pydantic-ai, llm-evals also supports `native+prompted` mode, which use the native mode with the JSON schema appended to the prompt. This mode is useful for models run through vLLM providers that don't provide the description of the output schema to the model.
+- `--thinking-config`: Configuration for the model's "thinking" process, which can help improve response quality. If not provided, we keep the model default behavior. It can be a string or an int, depending on the provider.
+- `--output-path`: Path to save the evaluation results. If not provided, results will only be printed to the console.
+- `--filter`: A query string to filter samples from the dataset before evaluation. This allows you to evaluate only a subset of the data based on specific criteria (see below for mode details).
+- `--max-concurrency`: Maximum number of concurrent requests to the LLM API, default to None (no limit).
+- `--limit`: Limit the number of samples to evaluate. Only the first `n` samples will be evaluated. By default, all samples are evaluated.
+- `--only-errors`: Whether to display only error cases (cases where the LLM failed) in the CLI report, default to false.
+- `--include-output`: Whether to display the model output in the CLI report, default to false.
+- `--include-durations`: Whether to display the durations for each case in the CLI report, default to false.
+- `--include-input`: Whether to display the input in the CLI report, default to false.
+- `--include-expected-output`: Whether to display the expected output in the CLI report, default to false.
+- `--include-reasons`: Whether to display the reasons for each assertion in the CLI report, default to true.
 
 
 #### Filtering Samples
