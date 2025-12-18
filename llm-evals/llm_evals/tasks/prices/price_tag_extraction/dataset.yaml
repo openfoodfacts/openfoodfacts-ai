@@ -35,7 +35,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 122445
   expected_output:
     type: PRODUCT
@@ -59,7 +59,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 124798
   expected_output:
     type: PRODUCT
@@ -83,7 +83,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:medium
+    - difficulty:barcode:medium
     price_tag_id: 124154
   expected_output:
     type: PRODUCT
@@ -130,7 +130,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 126568
   expected_output:
     type: PRODUCT
@@ -154,12 +154,11 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:easy
+    - with-internal-barcode
     price_tag_id: 126807
   expected_output:
     type: PRODUCT
-    # Originally, it was '20001102'. As the displayed digits are '0001102', i updated it manually. 
-    product_code: '0001102'
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -179,7 +178,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:medium
+    - difficulty:barcode:medium
     price_tag_id: 126492
   expected_output:
     type: PRODUCT
@@ -203,7 +202,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 127190
   expected_output:
     type: PRODUCT
@@ -227,7 +226,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 124512
   expected_output:
     type: PRODUCT
@@ -251,7 +250,7 @@ cases:
     - country:us
     - currency:usd
     - type:product
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 124918
   expected_output:
     type: PRODUCT
@@ -275,7 +274,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 118516
   expected_output:
     type: PRODUCT
@@ -299,7 +298,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 126887
   expected_output:
     type: PRODUCT
@@ -347,7 +346,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:medium
+    - difficulty:barcode:medium
     price_tag_id: 126299
   expected_output:
     type: PRODUCT
@@ -395,7 +394,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 124784
   expected_output:
     type: PRODUCT
@@ -442,6 +441,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:barcode:hard
     price_tag_id: 120147
   expected_output:
     type: PRODUCT
@@ -908,6 +908,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:barcode:hard
     price_tag_id: 125244
   expected_output:
     type: PRODUCT
@@ -1000,6 +1001,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:barcode:hard
     price_tag_id: 126471
   expected_output:
     type: PRODUCT
@@ -1165,6 +1167,8 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - difficulty:price:hard
+    - difficulty:barcode:easy
     price_tag_id: 126087
   expected_output:
     type: PRODUCT
@@ -1188,6 +1192,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - data-quality:barcode-truncated
     price_tag_id: 118569
   expected_output:
     type: PRODUCT
@@ -1492,6 +1497,7 @@ cases:
     - country:us
     - currency:usd
     - type:product
+    - difficulty:price:hard
     price_tag_id: 125956
   expected_output:
     type: PRODUCT
@@ -1607,6 +1613,7 @@ cases:
     - country:es
     - currency:eur
     - type:product
+    - difficulty:barcode:medium
     price_tag_id: 122096
   expected_output:
     type: PRODUCT
@@ -1653,6 +1660,7 @@ cases:
     - country:us
     - currency:usd
     - type:product
+    - difficulty:barcode:hard
     price_tag_id: 124922
   expected_output:
     type: PRODUCT
@@ -1883,6 +1891,7 @@ cases:
     - country:fr
     - currency:eur
     - type:product
+    - data-quality:barcode-unreadable
     price_tag_id: 127445
   expected_output:
     type: PRODUCT
@@ -1953,6 +1962,7 @@ cases:
     - country:no
     - currency:nok
     - type:product
+    - data-quality:barcode-unreadable
     price_tag_id: 127496
   expected_output:
     type: PRODUCT
@@ -2000,6 +2010,7 @@ cases:
     - currency:nok
     - type:product
     - data-quality:barcode-unreadable
+    - data-quality:price-unreadable
     price_tag_id: 127604
   expected_output:
     type: PRODUCT
@@ -2256,6 +2267,7 @@ cases:
     - country:no
     - currency:nok
     - type:product
+    - missing-barcode
     price_tag_id: 120265
   expected_output:
     type: PRODUCT
@@ -2351,7 +2363,7 @@ cases:
     - currency:jpy
     - type:product
     - with-non-vat-price
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 70276
   expected_output:
     type: PRODUCT
@@ -2376,7 +2388,7 @@ cases:
     - currency:jpy
     - type:product
     - with-non-vat-price
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 70264
   expected_output:
     type: PRODUCT
@@ -2402,7 +2414,7 @@ cases:
     - type:product
     - with-non-vat-price
     # There is a price for fidelity members and for the general public. Price for the general public must be extracted.
-    - difficulty:medium
+    - difficulty:barcode:medium
     price_tag_id: 69463
   expected_output:
     type: PRODUCT
@@ -2427,7 +2439,7 @@ cases:
     - currency:jpy
     - type:product
     - with-non-vat-price
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 70211
   expected_output:
     type: PRODUCT
@@ -2452,7 +2464,7 @@ cases:
     - currency:jpy
     - type:product
     - with-non-vat-price
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 70228
   expected_output:
     type: PRODUCT
@@ -2477,7 +2489,7 @@ cases:
     - currency:jpy
     - type:product
     - with-non-vat-price
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 70229
   expected_output:
     type: PRODUCT
@@ -2502,7 +2514,7 @@ cases:
     - currency:jpy
     - type:product
     - with-non-vat-price
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 70726
   expected_output:
     type: PRODUCT
@@ -2527,7 +2539,7 @@ cases:
     - currency:jpy
     - type:product
     - with-non-vat-price
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 70422
   expected_output:
     type: PRODUCT
@@ -2552,7 +2564,7 @@ cases:
     - currency:jpy
     - type:product
     - with-non-vat-price
-    - difficulty:easy
+    - difficulty:barcode:easy
     price_tag_id: 70427
   expected_output:
     type: PRODUCT
@@ -2566,4 +2578,8478 @@ cases:
     discount_type:
     price_per:
     currency: JPY
+  evaluators: []
+- name: '87768'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087768.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87768
+  expected_output:
+    type: PRODUCT
+    product_code: '4082100005006'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91902'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091902.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91902
+  expected_output:
+    type: PRODUCT
+    product_code: # only an internal barcode is visible
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87542'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087542.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87542
+  expected_output:
+    type: PRODUCT
+    product_code: '4008100154551'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87619'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087619.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87619
+  expected_output:
+    type: PRODUCT
+    product_code: '5010034012004'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.29
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87543'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087543.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87543
+  expected_output:
+    type: PRODUCT
+    product_code: '4008100151529'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91826'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091826.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91826
+  expected_output:
+    type: PRODUCT
+    product_code: # only an internal barcode is visible
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: true
+    price_without_discount: 2.79
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91813'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091813.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    - with-internal-barcode
+    price_tag_id: 91813
+  expected_output:
+    type: PRODUCT
+    product_code: # only an internal barcode is visible
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.59
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87436'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087436.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87436
+  expected_output:
+    type: PRODUCT
+    product_code: '4008366010981'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.0
+    price_is_discounted: true
+    price_without_discount: 3.59
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87382'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087382.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87382
+  expected_output:
+    type: PRODUCT
+    product_code: '4008577006186'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91811'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091811.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91811
+  expected_output:
+    type: PRODUCT
+    product_code: # only an internal barcode is visible
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.69
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87519'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087519.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87519
+  expected_output:
+    type: PRODUCT
+    product_code: '4337185876646'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.49
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87520'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087520.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87520
+  expected_output:
+    type: PRODUCT
+    product_code: '40122762'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.59
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '89741'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089741.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 89741
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87493'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087493.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87493
+  expected_output:
+    type: PRODUCT
+    product_code: '4006237642880'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.89
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91807'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091807.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91807
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.69
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87497'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087497.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87497
+  expected_output:
+    type: PRODUCT
+    product_code: '4063367396182'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.09
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91805'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091805.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91805
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '126977'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126977.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 126977
+  expected_output:
+    type: PRODUCT
+    product_code: '4337256936293'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87586'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087586.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87586
+  expected_output:
+    type: PRODUCT
+    product_code: '3487400006318'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.29
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87426'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087426.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87426
+  expected_output:
+    type: PRODUCT
+    product_code: '4013222923138'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87611'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087611.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87611
+  expected_output:
+    type: PRODUCT
+    product_code: '4000286004682'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '93706'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093706.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:screenshot
+    - missing-barcode
+    price_tag_id: 93706
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '89553'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089553.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 89553
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87435'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087435.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87435
+  expected_output:
+    type: PRODUCT
+    product_code: '4003082044852'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.45
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91821'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091821.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91821
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87577'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087577.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87577
+  expected_output:
+    type: PRODUCT
+    product_code: '4012200417201'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91610'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091610.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 91610
+  expected_output:
+    type: PRODUCT
+    product_code: # barcode is not visible on the image
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.44
+    price_is_discounted: true
+    price_without_discount: 4.79
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87764'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087764.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87764
+  expected_output:
+    type: PRODUCT
+    product_code: '4082100005006'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87528'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087528.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87528
+  expected_output:
+    type: PRODUCT
+    product_code: '4012200463505'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87444'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087444.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87444
+  expected_output:
+    type: PRODUCT
+    product_code: '4250262708787'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87420'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087420.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87420
+  expected_output:
+    type: PRODUCT
+    product_code: '4012200463604'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91828'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091828.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    - data-quality:barcode-unreadable
+    price_tag_id: 91828
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.09
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91800'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091800.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91800
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87406'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087406.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87406
+  expected_output:
+    type: PRODUCT
+    product_code: '9001400108229'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.0
+    price_is_discounted: true
+    price_without_discount: 3.79
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '88134'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/088/000088134.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 88134
+  expected_output:
+    type: PRODUCT
+    product_code: '4000417933003'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91815'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091815.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91815
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91792'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091792.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91792
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91914'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091914.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - missing-barcode
+    price_tag_id: 91914
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.44
+    price_is_discounted: true
+    price_without_discount: 4.79
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87537'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087537.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87537
+  expected_output:
+    type: PRODUCT
+    product_code: '4337185461088'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.39
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91790'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091790.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    - with-internal-barcode
+    price_tag_id: 91790
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91818'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091818.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    - with-internal-barcode
+    price_tag_id: 91818
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87591'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087591.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87591
+  expected_output:
+    type: PRODUCT
+    product_code: '4007951002721'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '127071'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127071.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 127071
+  expected_output:
+    type: PRODUCT
+    product_code: '7610900138913'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.1
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91830'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091830.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91830
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.09
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87618'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087618.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87618
+  expected_output:
+    type: PRODUCT
+    product_code: '3487400006349'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.29
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '93136'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093136.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - missing-barcode
+    price_tag_id: 93136
+  expected_output:
+    type: PRODUCT
+    product_code: # barcode is not visible on the image
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 23.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87525'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087525.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87525
+  expected_output:
+    type: PRODUCT
+    product_code: '4337185075827'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.49
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '86834'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/086/000086834.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 86834
+  expected_output:
+    type: PRODUCT
+    product_code: '4280001939547'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.69
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87487'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087487.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87487
+  expected_output:
+    type: PRODUCT
+    product_code: '4005500325352'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91787'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091787.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91787
+  expected_output:
+    type: PRODUCT
+    product_code: # only an internal barcode is visible
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.89
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87469'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087469.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87469
+  expected_output:
+    type: PRODUCT
+    product_code: '4250262708275'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87481'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087481.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87481
+  expected_output:
+    type: PRODUCT
+    product_code: '4012712001875'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87546'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087546.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87546
+  expected_output:
+    type: PRODUCT
+    product_code: '4034900032355'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87378'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087378.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87378
+  expected_output:
+    type: PRODUCT
+    product_code: '4063367317675'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87473'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087473.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87473
+  expected_output:
+    type: PRODUCT
+    product_code: '4250262708893'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '88913'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/088/000088913.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 88913
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.69
+    price_is_discounted: true
+    price_without_discount: 1.99
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87409'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087409.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87409
+  expected_output:
+    type: PRODUCT
+    product_code: '4015533014109'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 5.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87562'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087562.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87562
+  expected_output:
+    type: PRODUCT
+    product_code: '4012200417300'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91827'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091827.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91827
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '88921'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/088/000088921.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:magazine
+    - missing-barcode
+    price_tag_id: 88921
+  expected_output:
+    type: PRODUCT
+    product_code: # no barcode is visible on the image
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.29
+    price_is_discounted: true
+    price_without_discount: 1.65
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '89549'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089549.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - missing-barcode
+    price_tag_id: 89549
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87450'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087450.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87450
+  expected_output:
+    type: PRODUCT
+    product_code: '4000400130570'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91798'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091798.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91798
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87383'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087383.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87383
+  expected_output:
+    type: PRODUCT
+    product_code: '4063367234033'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87515'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087515.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87515
+  expected_output:
+    type: PRODUCT
+    product_code: '4000286004620'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '86833'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/086/000086833.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 86833
+  expected_output:
+    type: PRODUCT
+    product_code: '4280001939912'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.89
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87442'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087442.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87442
+  expected_output:
+    type: PRODUCT
+    product_code: '4012712001875'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87403'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087403.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87403
+  expected_output:
+    type: PRODUCT
+    product_code: '7622400005190'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.11
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '88064'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/088/000088064.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 88064
+  expected_output:
+    type: PRODUCT
+    product_code: '8718951032644'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 6.75
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '127033'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127033.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 127033
+  expected_output:
+    type: PRODUCT
+    product_code: '42469179'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.25
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87559'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087559.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87559
+  expected_output:
+    type: PRODUCT
+    product_code: '4337185755408'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '88083'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/088/000088083.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:magazine
+    price_tag_id: 88083
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: true
+    price_without_discount: 2.79
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87477'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087477.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87477
+  expected_output:
+    type: PRODUCT
+    product_code: '8003340801872'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.2
+    price_is_discounted: true
+    price_without_discount: 6.29
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87399'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087399.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87399
+  expected_output:
+    type: PRODUCT
+    product_code: '4012433027338'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '88165'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/088/000088165.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - missing-barcode
+    price_tag_id: 88165
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.09
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91819'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091819.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 91819
+  expected_output:
+    type: PRODUCT
+    product_code: '4014400905359'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87485'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087485.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87485
+  expected_output:
+    type: PRODUCT
+    product_code: '4002015000095'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91785'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091785.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91785
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87422'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087422.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87422
+  expected_output:
+    type: PRODUCT
+    product_code: '8710609016310'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '89551'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089551.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 89551
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.69
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87522'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087522.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87522
+  expected_output:
+    type: PRODUCT
+    product_code: '4337185852626'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87379'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087379.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87379
+  expected_output:
+    type: PRODUCT
+    product_code: '4071800059341'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91829'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091829.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91829
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '126954'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126954.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 126954
+  expected_output:
+    type: PRODUCT
+    product_code: '4337256304313'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91835'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091835.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91835
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.69
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '92763'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/092/000092763.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - missing-barcode
+    price_tag_id: 92763
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.79
+    price_is_discounted: true
+    price_without_discount: 0.99
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87624'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087624.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87624
+  expected_output:
+    type: PRODUCT
+    product_code: '3487400006332'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.29
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87376'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087376.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87376
+  expected_output:
+    type: PRODUCT
+    product_code: '4063367317774'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '89043'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089043.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:magazine
+    price_tag_id: 89043
+  expected_output:
+    type: PRODUCT
+    product_code: # barcode is not visible on the image
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: true
+    price_without_discount: 3.89
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91823'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091823.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 91823
+  expected_output:
+    type: PRODUCT
+    product_code: '2009010320700'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87593'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087593.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - difficulty:barcode:hard
+    price_tag_id: 87593
+  expected_output:
+    type: PRODUCT
+    product_code: '4046800110927'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.0
+    price_is_discounted: true
+    price_without_discount: 1.79
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87488'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087488.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87488
+  expected_output:
+    type: PRODUCT
+    product_code: '4012712002186'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87612'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087612.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87612
+  expected_output:
+    type: PRODUCT
+    product_code: '4063367379475'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.79
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '89046'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089046.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:magazine
+    - missing-barcode
+    price_tag_id: 89046
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: true
+    price_without_discount: 3.79
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87474'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087474.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87474
+  expected_output:
+    type: PRODUCT
+    product_code: '4063367234613'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.29
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87583'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087583.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87583
+  expected_output:
+    type: PRODUCT
+    product_code: '4028286101163'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87470'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087470.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87470
+  expected_output:
+    type: PRODUCT
+    product_code: '4012448396740'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.99
+    price_is_discounted: true
+    price_without_discount: 1.09
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '89579'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089579.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 89579
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: true
+    price_without_discount: 2.69
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87597'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087597.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87597
+  expected_output:
+    type: PRODUCT
+    product_code: '3487400006363'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.29
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87483'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087483.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87483
+  expected_output:
+    type: PRODUCT
+    product_code: '4250262708657'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87567'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087567.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87567
+  expected_output:
+    type: PRODUCT
+    product_code: '5902481050145'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87440'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087440.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - difficulty:barcode:hard
+    price_tag_id: 87440
+  expected_output:
+    type: PRODUCT
+    product_code: '4337185611995'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.49
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '86825'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/086/000086825.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:magazine
+    price_tag_id: 86825
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.99
+    price_is_discounted: true
+    price_without_discount: 1.19
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '88136'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/088/000088136.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 88136
+  expected_output:
+    type: PRODUCT
+    product_code: '7622400005190'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.59
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '91795'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/091/000091795.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 91795
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '126971'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/126/000126971.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 126971
+  expected_output:
+    type: PRODUCT
+    product_code: '4000405002605'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '88929'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/088/000088929.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:magazine
+    price_tag_id: 88929
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.99
+    price_is_discounted: true
+    price_without_discount: 1.46
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87620'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087620.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    price_tag_id: 87620
+  expected_output:
+    type: PRODUCT
+    product_code: '3487400006356'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.29
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '89740'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089740.webp
+  metadata:
+    tags:
+    - country:de
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 89740
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121174'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121174.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121174
+  expected_output:
+    type: PRODUCT
+    product_code: '8052575090889'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120209'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120209.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120209
+  expected_output:
+    type: PRODUCT
+    product_code: '3596710517442'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.38
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120354'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120354.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120354
+  expected_output:
+    type: PRODUCT
+    product_code: '8414100332657'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121183'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121183.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121183
+  expected_output:
+    type: PRODUCT
+    product_code: '8430175806695'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.09
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '122094'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122094.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 122094
+  expected_output:
+    type: PRODUCT
+    product_code: '8410069013446'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.02
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120305'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120305.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120305
+  expected_output:
+    type: PRODUCT
+    product_code: '8410737000327'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120816'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120816.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120816
+  expected_output:
+    type: PRODUCT
+    product_code: '8410109000542'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120858'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120858.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120858
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876367362'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120813'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120813.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120813
+  expected_output:
+    type: PRODUCT
+    product_code: '7622210293381'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120821'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120821.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120821
+  expected_output:
+    type: PRODUCT
+    product_code: '8445290926029'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120216'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120216.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120216
+  expected_output:
+    type: PRODUCT
+    product_code: '8435177072420'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.86
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120310'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120310.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120310
+  expected_output:
+    type: PRODUCT
+    product_code: '8410737000211'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.09
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120799'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120799.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120799
+  expected_output:
+    type: PRODUCT
+    product_code: '7622201109615'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.97
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120295'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120295.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120295
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876274509'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '122098'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122098.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 122098
+  expected_output:
+    type: PRODUCT
+    product_code: '8436546055365'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.77
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120863'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120863.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120863
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876245042'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120328'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120328.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 120328
+  expected_output:
+    type: PRODUCT
+    product_code: '8436026319123'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.75
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120833'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120833.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120833
+  expected_output:
+    type: PRODUCT
+    product_code: '8715700423852'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.59
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120322'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120322.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120322
+  expected_output:
+    type: PRODUCT
+    product_code: '8410069014382'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.45
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120296'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120296.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120296
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876061468'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.78
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121178'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121178.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121178
+  expected_output:
+    type: PRODUCT
+    product_code: '8430175811903'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121193'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121193.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121193
+  expected_output:
+    type: PRODUCT
+    product_code: '2820070001855'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.85
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120344'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120344.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 120344
+  expected_output:
+    type: PRODUCT
+    product_code: '8410679234507'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121221'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121221.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121221
+  expected_output:
+    type: PRODUCT
+    product_code: '3532345555558'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.12
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120829'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120829.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - difficulty:barcode:hard
+    price_tag_id: 120829
+  expected_output:
+    type: PRODUCT
+    product_code: '8008698007389'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.05
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120803'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120803.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120803
+  expected_output:
+    type: PRODUCT
+    product_code: '8445291295841'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.7
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120356'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120356.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120356
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876290257'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120191'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120191.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120191
+  expected_output:
+    type: PRODUCT
+    product_code: '8000500359556'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.07
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120315'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120315.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120315
+  expected_output:
+    type: PRODUCT
+    product_code: '8410845792367'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.52
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120211'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120211.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120211
+  expected_output:
+    type: PRODUCT
+    product_code: '8410376046687'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.26
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120177'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120177.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120177
+  expected_output:
+    type: PRODUCT
+    product_code: '8402001012198'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120187'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120187.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120187
+  expected_output:
+    type: PRODUCT
+    product_code: '8410191787093'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.47
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121218'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121218.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121218
+  expected_output:
+    type: PRODUCT
+    product_code: '8410376036169'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120815'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120815.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120815
+  expected_output:
+    type: PRODUCT
+    product_code: '8445290771490'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121191'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121191.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121191
+  expected_output:
+    type: PRODUCT
+    product_code: '2886890003356'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.35
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121169'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121169.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121169
+  expected_output:
+    type: PRODUCT
+    product_code: '8437017259817'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121222'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121222.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121222
+  expected_output:
+    type: PRODUCT
+    product_code: '3017760002073'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.04
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '122095'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122095.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 122095
+  expected_output:
+    type: PRODUCT
+    product_code: '7501017005062'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.35
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120332'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120332.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120332
+  expected_output:
+    type: PRODUCT
+    product_code: '8000300371031'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120807'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120807.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120807
+  expected_output:
+    type: PRODUCT
+    product_code: '7622202257759'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120363'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120363.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120363
+  expected_output:
+    type: PRODUCT
+    product_code: '8410721000395'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120318'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120318.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120318
+  expected_output:
+    type: PRODUCT
+    product_code: '8076809579346'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.7
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120820'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120820.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120820
+  expected_output:
+    type: PRODUCT
+    product_code: '8410109100655'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 6.09
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120173'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120173.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120173
+  expected_output:
+    type: PRODUCT
+    product_code: '8402001025747'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120802'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120802.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120802
+  expected_output:
+    type: PRODUCT
+    product_code: '8445291295810'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.7
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '122101'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122101.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 122101
+  expected_output:
+    type: PRODUCT
+    product_code: '8410771500173'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121216'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121216.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121216
+  expected_output:
+    type: PRODUCT
+    product_code: '8422962247033'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.86
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121223'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121223.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121223
+  expected_output:
+    type: PRODUCT
+    product_code: '8410000001051'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.68
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120293'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120293.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120293
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876366303'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.89
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120362'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120362.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120362
+  expected_output:
+    type: PRODUCT
+    product_code: '8410087615752'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.89
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120333'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120333.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120333
+  expected_output:
+    type: PRODUCT
+    product_code: '3046920028004'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.45
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120840'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120840.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120840
+  expected_output:
+    type: PRODUCT
+    product_code: '8434165646155'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.35
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120862'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120862.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120862
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876278330'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.09
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120836'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120836.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120836
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876213270'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.59
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120834'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120834.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120834
+  expected_output:
+    type: PRODUCT
+    product_code: '8410422001073'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: true
+    price_without_discount: 3.25
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120206'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120206.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120206
+  expected_output:
+    type: PRODUCT
+    product_code: '8410196076543'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.2
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120303'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120303.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120303
+  expected_output:
+    type: PRODUCT
+    product_code: '8410740901901'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121187'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121187.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121187
+  expected_output:
+    type: PRODUCT
+    product_code: '2887383001255'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.25
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120193'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120193.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120193
+  expected_output:
+    type: PRODUCT
+    product_code: '8410221110150'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 15.2
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120300'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120300.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120300
+  expected_output:
+    type: PRODUCT
+    product_code: '8410740901871'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120806'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120806.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120806
+  expected_output:
+    type: PRODUCT
+    product_code: '8410172652532'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.73
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87633'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087633.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 87633
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.04
+    price_is_discounted: true
+    price_without_discount: 2.55
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '122097'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122097.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 122097
+  expected_output:
+    type: PRODUCT
+    product_code: '8436546055204'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.85
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120309'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120309.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120309
+  expected_output:
+    type: PRODUCT
+    product_code: '4005900130761'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '122092'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122092.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 122092
+  expected_output:
+    type: PRODUCT
+    product_code: '8410069010056'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.38
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120212'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120212.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120212
+  expected_output:
+    type: PRODUCT
+    product_code: '8410376024999'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.82
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120850'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120850.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120850
+  expected_output:
+    type: PRODUCT
+    product_code: '8431487603064'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120190'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120190.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - data-quality:barcode-truncated
+    price_tag_id: 120190
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.07
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120335'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120335.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120335
+  expected_output:
+    type: PRODUCT
+    product_code: '3046920028363'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121176'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121176.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121176
+  expected_output:
+    type: PRODUCT
+    product_code: '8052575090858'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 9.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120186'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120186.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120186
+  expected_output:
+    type: PRODUCT
+    product_code: '8410191787192'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.98
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120321'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120321.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120321
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876185829'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120819'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120819.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 120819
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.2
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120339'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120339.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120339
+  expected_output:
+    type: PRODUCT
+    product_code: '8425197800332'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.65
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '122100'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122100.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 122100
+  expected_output:
+    type: PRODUCT
+    product_code: '8436546055181'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120202'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120202.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120202
+  expected_output:
+    type: PRODUCT
+    product_code: '5000299606292'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 14.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121172'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121172.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121172
+  expected_output:
+    type: PRODUCT
+    product_code: '5013665116417'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.52
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120217'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120217.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120217
+  expected_output:
+    type: PRODUCT
+    product_code: '8435177058875'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.3
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '122197'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122197.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 122197
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876366266'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.25
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120808'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120808.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120808
+  expected_output:
+    type: PRODUCT
+    product_code: '8445290907691'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.75
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120174'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120174.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120174
+  expected_output:
+    type: PRODUCT
+    product_code: '8402001035043'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121177'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121177.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121177
+  expected_output:
+    type: PRODUCT
+    product_code: '8052575090841'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.89
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120839'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120839.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120839
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876221039'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.97
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120334'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120334.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120334
+  expected_output:
+    type: PRODUCT
+    product_code: '7622201109615'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.97
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120818'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120818.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120818
+  expected_output:
+    type: PRODUCT
+    product_code: '8410109103205'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120844'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120844.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120844
+  expected_output:
+    type: PRODUCT
+    product_code: '8410376024326'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120845'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120845.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120845
+  expected_output:
+    type: PRODUCT
+    product_code: '8410376009392'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120336'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120336.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120336
+  expected_output:
+    type: PRODUCT
+    product_code: '8445291295810'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.7
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120297'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120297.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120297
+  expected_output:
+    type: PRODUCT
+    product_code: '8436548451097'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121214'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121214.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121214
+  expected_output:
+    type: PRODUCT
+    product_code: '8437019616342'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.56
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120346'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120346.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120346
+  expected_output:
+    type: PRODUCT
+    product_code: '8410679235009'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121167'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121167.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121167
+  expected_output:
+    type: PRODUCT
+    product_code: '8437017259824'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121225'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121225.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121225
+  expected_output:
+    type: PRODUCT
+    product_code: '8410000001075'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.88
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120298'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120298.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120298
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876291223'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.45
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120308'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120308.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120308
+  expected_output:
+    type: PRODUCT
+    product_code: '9300631115434'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120809'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120809.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120809
+  expected_output:
+    type: PRODUCT
+    product_code: '3560071006310'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120848'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120848.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120848
+  expected_output:
+    type: PRODUCT
+    product_code: '8425146000332'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: true
+    price_without_discount: 3.78
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120307'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120307.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120307
+  expected_output:
+    type: PRODUCT
+    product_code: '3560071196479'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.55
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120175'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120175.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120175
+  expected_output:
+    type: PRODUCT
+    product_code: '8480000651396'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120368'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120368.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120368
+  expected_output:
+    type: PRODUCT
+    product_code: '8410721000494'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120830'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120830.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 120830
+  expected_output:
+    type: PRODUCT
+    product_code: '8008698004678'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.75
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120855'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120855.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120855
+  expected_output:
+    type: PRODUCT
+    product_code: '8431487603088'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120359'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120359.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120359
+  expected_output:
+    type: PRODUCT
+    product_code: '8431876290264'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120342'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120342.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120342
+  expected_output:
+    type: PRODUCT
+    product_code: '8410014477750'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '122090'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/122/000122090.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - difficulty:barcode:hard
+    price_tag_id: 122090
+  expected_output:
+    type: PRODUCT
+    product_code: '8410069016904'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.54
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120208'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120208.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120208
+  expected_output:
+    type: PRODUCT
+    product_code: '3254560028722'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.75
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120331'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120331.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 120331
+  expected_output:
+    type: PRODUCT
+    product_code: '8436026317273'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 6.2
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121171'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121171.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121171
+  expected_output:
+    type: PRODUCT
+    product_code: '8410470182359'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.65
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120330'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120330.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 120330
+  expected_output:
+    type: PRODUCT
+    product_code: '8436026311011'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.85
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121205'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121205.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121205
+  expected_output:
+    type: PRODUCT
+    product_code: '8410069014382'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.66
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120352'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120352.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120352
+  expected_output:
+    type: PRODUCT
+    product_code: '8414100323044'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120851'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120851.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120851
+  expected_output:
+    type: PRODUCT
+    product_code: '8431487602975'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121181'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121181.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121181
+  expected_output:
+    type: PRODUCT
+    product_code: '8430175811606'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.09
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120215'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120215.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120215
+  expected_output:
+    type: PRODUCT
+    product_code: '8435177059605'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.03
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120326'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120326.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120326
+  expected_output:
+    type: PRODUCT
+    product_code: '8427230003007'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '121207'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/121/000121207.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 121207
+  expected_output:
+    type: PRODUCT
+    product_code: '8410069016812'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.93
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '120838'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/120/000120838.webp
+  metadata:
+    tags:
+    - country:es
+    - currency:eur
+    - type:product
+    price_tag_id: 120838
+  expected_output:
+    type: PRODUCT
+    product_code: '8437022182049'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130530'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130530.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130530
+  expected_output:
+    type: PRODUCT
+    product_code: '4041973853121'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.69
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130610'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130610.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130610
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170086333'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.15
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130563'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130563.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130563
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170059368'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.35
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130652'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130652.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130652
+  expected_output:
+    type: PRODUCT
+    product_code: '8031424840929'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130590'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130590.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130590
+  expected_output:
+    type: PRODUCT
+    product_code: '8012678000826'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.8
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130617'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130617.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130617
+  expected_output:
+    type: PRODUCT
+    product_code: '5010677714006'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 16.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130556'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130556.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130556
+  expected_output:
+    type: PRODUCT
+    product_code: '3033610067504'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 11.9
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130542'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130542.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130542
+  expected_output:
+    type: PRODUCT
+    product_code: '8003712009318'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.23
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130633'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130633.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130633
+  expected_output:
+    type: PRODUCT
+    product_code: '8057018221394'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130668'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130668.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130668
+  expected_output:
+    type: PRODUCT
+    product_code: '8000500111581'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 5.25
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130660'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130660.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130660
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170059771'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.75
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130594'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130594.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130594
+  expected_output:
+    type: PRODUCT
+    product_code: '8001100064703'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 7.45
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130628'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130628.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130628
+  expected_output:
+    type: PRODUCT
+    product_code: '8008440412218'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.3
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130521'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130521.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130521
+  expected_output:
+    type: PRODUCT
+    product_code: '8014190019317'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.48
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130664'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130664.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130664
+  expected_output:
+    type: PRODUCT
+    product_code: '8720182386045'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.92
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130589'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130589.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130589
+  expected_output:
+    type: PRODUCT
+    product_code: '5941390042001'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130657'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130657.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130657
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170100985'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.29
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130602'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130602.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130602
+  expected_output:
+    type: PRODUCT
+    product_code: '8000070036550'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 11.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130622'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130622.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130622
+  expected_output:
+    type: PRODUCT
+    product_code: '8000050009802'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.34
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130659'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130659.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130659
+  expected_output:
+    type: PRODUCT
+    product_code: '80459668'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.52
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130630'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130630.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130630
+  expected_output:
+    type: PRODUCT
+    product_code: '5741000169445'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.2
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130426'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130426.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130426
+  expected_output:
+    type: PRODUCT
+    product_code: # barcode is not visible on the image
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.4
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130422'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130422.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 130422
+  expected_output:
+    type: PRODUCT
+    product_code: # only an internal barcode is visible
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 15.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130591'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130591.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130591
+  expected_output:
+    type: PRODUCT
+    product_code: '8050450581392'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.24
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130593'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130593.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130593
+  expected_output:
+    type: PRODUCT
+    product_code: '8009915008905'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.55
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130608'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130608.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130608
+  expected_output:
+    type: PRODUCT
+    product_code: '8000070053823'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 11.41
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130538'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130538.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130538
+  expected_output:
+    type: PRODUCT
+    product_code: '8033749233059'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.6
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130653'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130653.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130653
+  expected_output:
+    type: PRODUCT
+    product_code: '80038047'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.85
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130540'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130540.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130540
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170080652'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.1
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130665'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130665.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130665
+  expected_output:
+    type: PRODUCT
+    product_code: '8032817248100'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130536'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130536.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130536
+  expected_output:
+    type: PRODUCT
+    product_code: '8010921002085'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130637'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130637.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130637
+  expected_output:
+    type: PRODUCT
+    product_code: '8001420011760'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130561'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130561.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130561
+  expected_output:
+    type: PRODUCT
+    product_code: '8002630010499'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 7.45
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130420'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130420.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 130420
+  expected_output:
+    type: PRODUCT
+    product_code: # only an internal barcode is visible
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 15.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130600'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130600.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130600
+  expected_output:
+    type: PRODUCT
+    product_code: '8721800400808'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.07
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130555'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130555.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130555
+  expected_output:
+    type: PRODUCT
+    product_code: '3033610067498'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 11.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130533'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130533.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130533
+  expected_output:
+    type: PRODUCT
+    product_code: '8005834009207'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 6.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130654'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130654.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130654
+  expected_output:
+    type: PRODUCT
+    product_code: '80038252'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130615'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130615.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130615
+  expected_output:
+    type: PRODUCT
+    product_code: '3163937011000'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 13.6
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130605'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130605.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130605
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170054905'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 6.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130527'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130527.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130527
+  expected_output:
+    type: PRODUCT
+    product_code: '4041973853206'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130612'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130612.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130612
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170074767'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130634'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130634.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 130634
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170008946'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.89
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '87283'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/087/000087283.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    - missing-barcode
+    price_tag_id: 87283
+  expected_output:
+    type: PRODUCT
+    product_code: # no barcode is visible on the image
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130529'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130529.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130529
+  expected_output:
+    type: PRODUCT
+    product_code: '4041973853138'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130667'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130667.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130667
+  expected_output:
+    type: PRODUCT
+    product_code: '8076800315264'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.03
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '93702'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093702.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 93702
+  expected_output:
+    type: PRODUCT
+    product_code: # only an internal barcode is visible
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.49
+    price_is_discounted: true
+    price_without_discount: 3.49
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130541'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130541.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130541
+  expected_output:
+    type: PRODUCT
+    product_code: '8003712004184'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130625'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130625.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130625
+  expected_output:
+    type: PRODUCT
+    product_code: '5410041339000'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.05
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130606'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130606.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130606
+  expected_output:
+    type: PRODUCT
+    product_code: '8003160520052'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.59
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130621'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130621.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130621
+  expected_output:
+    type: PRODUCT
+    product_code: '8002240121028'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 11.55
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130524'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130524.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130524
+  expected_output:
+    type: PRODUCT
+    product_code: '4009600851643'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130675'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130675.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130675
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170082557'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130641'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130641.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130641
+  expected_output:
+    type: PRODUCT
+    product_code: '8003000373503'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130642'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130642.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130642
+  expected_output:
+    type: PRODUCT
+    product_code: '8003000373701'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130543'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130543.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130543
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170072664'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.29
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130525'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130525.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130525
+  expected_output:
+    type: PRODUCT
+    product_code: '4009600851032'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130638'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130638.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130638
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170061989'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.49
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130539'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130539.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130539
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170077683'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130647'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130647.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130647
+  expected_output:
+    type: PRODUCT
+    product_code: '8058056343901'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 6.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130546'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130546.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130546
+  expected_output:
+    type: PRODUCT
+    product_code: '8009750930522'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 5.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130646'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130646.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130646
+  expected_output:
+    type: PRODUCT
+    product_code: '87157215'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.05
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130551'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130551.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130551
+  expected_output:
+    type: PRODUCT
+    product_code: '8003410247586'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130535'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130535.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130535
+  expected_output:
+    type: PRODUCT
+    product_code: '8005834009191'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 7.2
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130618'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130618.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130618
+  expected_output:
+    type: PRODUCT
+    product_code: '7640175745097'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 34.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130550'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130550.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130550
+  expected_output:
+    type: PRODUCT
+    product_code: '3412290055610'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.83
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130557'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130557.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130557
+  expected_output:
+    type: PRODUCT
+    product_code: '3033610067504'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 11.9
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130534'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130534.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    - difficulty:barcode:hard # barcode difficult to read, but doable
+    price_tag_id: 130534
+  expected_output:
+    type: PRODUCT
+    product_code: '8005834009184'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 16.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130640'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130640.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130640
+  expected_output:
+    type: PRODUCT
+    product_code: '8003000373602'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.97
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130643'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130643.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130643
+  expected_output:
+    type: PRODUCT
+    product_code: '8003000116025'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.8
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130423'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130423.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 130423
+  expected_output:
+    type: PRODUCT
+    product_code: # only an internal barcode is visible
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 6.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130562'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130562.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130562
+  expected_output:
+    type: PRODUCT
+    product_code: '8721201974458'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 7.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130421'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130421.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 130421
+  expected_output:
+    type: PRODUCT
+    product_code: # only an internal barcode is visible
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 15.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130532'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130532.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130532
+  expected_output:
+    type: PRODUCT
+    product_code: '8020537240801'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.69
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130624'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130624.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130624
+  expected_output:
+    type: PRODUCT
+    product_code: '7622300605438'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.65
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130547'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130547.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130547
+  expected_output:
+    type: PRODUCT
+    product_code: '8009750923852'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.96
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130616'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130616.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130616
+  expected_output:
+    type: PRODUCT
+    product_code: '8002230350599'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 10.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130604'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130604.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130604
+  expected_output:
+    type: PRODUCT
+    product_code: '8000070019232'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 16.63
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130648'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130648.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    - with-fidelity-card-discount
+    price_tag_id: 130648
+  expected_output:
+    type: PRODUCT
+    product_code: '8710522998892'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130559'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130559.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130559
+  expected_output:
+    type: PRODUCT
+    product_code: '8034097878039'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 12.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130658'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130658.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130658
+  expected_output:
+    type: PRODUCT
+    product_code: '8076800366273'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.03
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130523'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130523.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130523
+  expected_output:
+    type: PRODUCT
+    product_code: '5941390042261'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130627'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130627.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130627
+  expected_output:
+    type: PRODUCT
+    product_code: '8008440515025'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130558'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130558.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130558
+  expected_output:
+    type: PRODUCT
+    product_code: '8007465000905'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 10.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130531'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130531.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130531
+  expected_output:
+    type: PRODUCT
+    product_code: '8053670753839'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.63
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130656'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130656.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130656
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170073470'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130614'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130614.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130614
+  expected_output:
+    type: PRODUCT
+    product_code: '7640175742461'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.45
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130544'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130544.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130544
+  expected_output:
+    type: PRODUCT
+    product_code: '8003435004942'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.98
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130595'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130595.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130595
+  expected_output:
+    type: PRODUCT
+    product_code: '8003896001924'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 14.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130631'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130631.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130631
+  expected_output:
+    type: PRODUCT
+    product_code: '8714800007191'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.25
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130611'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130611.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130611
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170101937'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.79
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '93318'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093318.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 93318
+  expected_output:
+    type: PRODUCT
+    product_code: # barcode is not visible on the photo
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 5.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130655'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130655.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130655
+  expected_output:
+    type: PRODUCT
+    product_code: '8002470029972'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 8.66
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130619'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130619.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130619
+  expected_output:
+    type: PRODUCT
+    product_code: '5000281015279'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 15.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130650'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130650.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130650
+  expected_output:
+    type: PRODUCT
+    product_code: '8076809581202'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 5.11
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130613'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130613.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130613
+  expected_output:
+    type: PRODUCT
+    product_code: '7630040405225'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '93092'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093092.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 93092
+  expected_output:
+    type: PRODUCT
+    product_code: '8006837000109'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.89
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130424'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130424.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130424
+  expected_output:
+    type: PRODUCT
+    product_code: # barcode is not visible
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 9.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130560'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130560.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130560
+  expected_output:
+    type: PRODUCT
+    product_code: '8001100072197'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 8.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130603'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130603.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130603
+  expected_output:
+    type: PRODUCT
+    product_code: '80007128'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 8.06
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130588'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130588.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130588
+  expected_output:
+    type: PRODUCT
+    product_code: '5941390048126'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.69
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130629'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130629.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130629
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170077010'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 0.74
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130553'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130553.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130553
+  expected_output:
+    type: PRODUCT
+    product_code: '8034028334535'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 13.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130632'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130632.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130632
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170077362'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.2
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130607'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130607.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130607
+  expected_output:
+    type: PRODUCT
+    product_code: '8000070053847'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 11.41
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130549'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130549.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130549
+  expected_output:
+    type: PRODUCT
+    product_code: '8002004255013'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130645'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130645.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130645
+  expected_output:
+    type: PRODUCT
+    product_code: '8410066143368'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.74
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130599'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130599.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130599
+  expected_output:
+    type: PRODUCT
+    product_code: '8721800406008'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.6
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130639'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130639.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130639
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170105386'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.72
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130635'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130635.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    - data-quality:barcode-unreadable
+    price_tag_id: 130635
+  expected_output:
+    type: PRODUCT
+    product_code: '8056151920348'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 5.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130609'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130609.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130609
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170074743'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.59
+    price_is_discounted: true
+    price_without_discount:
+    discount_type: SALE
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130537'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130537.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130537
+  expected_output:
+    type: PRODUCT
+    product_code: '8033749230652'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '92844'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/092/000092844.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 92844
+  expected_output:
+    type: PRODUCT
+    product_code: '2010043012593'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 12.59
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130554'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130554.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130554
+  expected_output:
+    type: PRODUCT
+    product_code: '8014502100191'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.78
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130661'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130661.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130661
+  expected_output:
+    type: PRODUCT
+    product_code: '8006380226032'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 8.31
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130651'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130651.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130651
+  expected_output:
+    type: PRODUCT
+    product_code: '8031424840899'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 5.2
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130601'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130601.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130601
+  expected_output:
+    type: PRODUCT
+    product_code: '8003170040700'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130596'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130596.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130596
+  expected_output:
+    type: PRODUCT
+    product_code: '8003896013255'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 14.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130545'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130545.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130545
+  expected_output:
+    type: PRODUCT
+    product_code: '8003435004928'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.78
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130663'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130663.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130663
+  expected_output:
+    type: PRODUCT
+    product_code: '8001040415528'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130636'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130636.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130636
+  expected_output:
+    type: PRODUCT
+    product_code: '8051369005887'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.99 # Initially price was 4.19, but it was with fidelity card, real price is 4.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130620'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130620.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130620
+  expected_output:
+    type: PRODUCT
+    product_code: '8004400012504'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 14.69
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130528'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130528.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130528
+  expected_output:
+    type: PRODUCT
+    product_code: '4041973006183'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 4.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130623'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130623.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130623
+  expected_output:
+    type: PRODUCT
+    product_code: '8000050009604'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.3
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130597'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130597.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130597
+  expected_output:
+    type: PRODUCT
+    product_code: '8001663500519'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130552'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130552.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130552
+  expected_output:
+    type: PRODUCT
+    product_code: '8003410247722'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 5.69
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130666'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130666.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130666
+  expected_output:
+    type: PRODUCT
+    product_code: '8032817245185'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 1.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130662'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130662.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130662
+  expected_output:
+    type: PRODUCT
+    product_code: '8001040201640'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130522'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130522.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130522
+  expected_output:
+    type: PRODUCT
+    product_code: '4009600851339'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '130598'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130598.webp
+  metadata:
+    tags:
+    - country:it
+    - currency:eur
+    - type:product
+    price_tag_id: 130598
+  expected_output:
+    type: PRODUCT
+    product_code: '8001663003874'
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 2.39
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '89688'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089688.webp
+  metadata:
+    tags:
+    - country:nl
+    - currency:eur
+    - type:product
+    - with-internal-barcode
+    price_tag_id: 89688
+  expected_output:
+    type: PRODUCT
+    # barcode is `101421749`, but it's not a valid one, so we set it to null here.
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 5.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '132495'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/132/000132495.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - missing-barcode
+    - missing-price
+    price_tag_id: 132495
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '132482'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/132/000132482.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:not-a-price-tag
+    price_tag_id: 132482
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '132361'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/132/000132361.webp
+  metadata:
+    tags:
+    - country:in
+    - currency:unknown
+    - type:unknown
+    - data-quality:not-a-price-tag
+    price_tag_id: 132361
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '130976'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130976.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:not-a-price-tag
+    price_tag_id: 130976
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '130873'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130873.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:barcode-unreadable
+    - data-quality:price-unreadable
+    price_tag_id: 130873
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '130848'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130848.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:barcode-unreadable
+    - difficulty:price:hard
+    price_tag_id: 130848
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.99
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '130841'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130841.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:not-a-price-tag
+    price_tag_id: 130841
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '130736'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130736.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - difficulty:price:hard
+    - data-quality:barcode-unreadable
+    price_tag_id: 130736
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.43
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
   evaluators: []

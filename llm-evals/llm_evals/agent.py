@@ -182,7 +182,9 @@ class EvaluationAgent:
                 )
 
             if thinking_config not in (
+                "MINIMAL",
                 "LOW",
+                "MEDIUM",
                 "HIGH",
                 "THINKING_LEVEL_UNSPECIFIED",
             ):

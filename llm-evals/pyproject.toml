@@ -7,10 +7,12 @@ requires-python = ">=3.12"
 dependencies = [
     "aiohttp>=3.13.2",
     "deepdiff>=8.6.1",
+    "dictquery>=0.5.0",
     "openai>=2.8.1",
     "openfoodfacts>=3.3.0",
     "orjson>=3.11.4",
-    "pydantic-ai>=1.22.0",
-    "pydantic-evals>=1.22.0",
+    "pydantic-ai>=1.35.0",
+    "pydantic-evals>=1.35.0",
     "ruamel-yaml>=0.18.16",
+    "typer",
 ]

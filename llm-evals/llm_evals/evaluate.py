@@ -1,8 +1,10 @@
+import copy
 import dataclasses
 from collections import Counter
 from pathlib import Path
 from typing import Any, Callable
 
+import dictquery
 import orjson
 import typer
 from pydantic import BaseModel
@@ -85,7 +87,7 @@ def evaluate_task_on_dataset(
     include_reasons: bool = True,
     include_input: bool = False,
     include_durations: bool = False,
-    include_tags: list[str] | None = None,
+    filter_query: str | None = None,
     output_path: Path | None = None,
     only_errors: bool = False,
     max_concurrency: int | None = None,
@@ -110,8 +112,7 @@ def evaluate_task_on_dataset(
         include_input (bool): Whether to include the input in the report.
         include_durations (bool): Whether to include the durations for each
             case in the report.
-        include_tags (list[str] | None): List of tags to filter the dataset
-            cases. If None, all cases are included.
+        filter_query (str | None): Only run cases that match the query.
         output_path (Path | None): Path to save the evaluation report as a
             JSON file. If None, the report is not saved.
         only_errors (bool): Whether to include only error cases in the report.
@@ -122,13 +123,22 @@ def evaluate_task_on_dataset(
     """
     dataset = task_config.dataset
     task_func: Callable[[dict[str, Any]], Any] = task_config.task or default_task_func
-    if include_tags is not None:
-        dataset.cases = [
-            case
-            for case in dataset.cases
-            if case.metadata
-            and any(tag in case.metadata.get("tags", []) for tag in include_tags)
-        ]
+    if filter_query is not None:
+        new_cases = []
+        for case in dataset.cases:
+            tags = case.metadata.get("tags", [])
+            if tags:
+                formatted_case = copy.deepcopy(case)
+                # We cannot filter directly a list of string with dictquery
+                # library, only a list of dict. So we transform the string into
+                # a dict with a single `name` field, containing the tag value.
+                formatted_case.metadata["tags"] = [{"name": tag} for tag in tags]
+            else:
+                formatted_case = case
+            if dictquery.match(dataclasses.asdict(formatted_case), filter_query):
+                new_cases.append(case)
+
+        dataset.cases = new_cases
 
     if limit is not None:
         dataset.cases = dataset.cases[:limit]

@@ -83,18 +83,17 @@ class CheckExtraction(Evaluator[PriceTagExtractionInput, ExpectedResult, MetaDat
         metadata: MetaData,
     ) -> EvaluationReason | bool | None:
         selected_price = output.selected_price
-
-        if expected_output.price is None:
-            return EvaluationReason(
-                value=selected_price is None, reason="No price expected"
-            )
-
         tags = metadata.get("tags") or []
         if (
             "data-quality:price-truncated" in tags
             or "data-quality:price-unreadable" in tags
         ):
             return None
+
+        if expected_output.price is None:
+            return EvaluationReason(
+                value=selected_price is None, reason="No price expected"
+            )
 
         if selected_price is None:
             return EvaluationReason(value=False, reason="No price extracted")
@@ -119,13 +118,24 @@ class CheckExtraction(Evaluator[PriceTagExtractionInput, ExpectedResult, MetaDat
     ) -> EvaluationReason | bool | None:
         tags = metadata.get("tags") or []
         if (
-            expected_output.product_code is None
-            or "data-quality:barcode-unreadable" in tags
+            "data-quality:barcode-unreadable" in tags
             or "data-quality:barcode-truncated" in tags
+            or "with-internal-barcode" in tags
         ):
             return None
 
-        if output.barcode is None:
+        if expected_output.product_code is None:
+            return (
+                True
+                if not output.barcode
+                else EvaluationReason(
+                    value=False,
+                    reason="barcode extracted while no barcode was expected",
+                )
+            )
+
+        # We know that expected product_code is not null now
+        if not output.barcode:
             return EvaluationReason(value=False, reason="No barcode extracted")
 
         currency = expected_output.currency or "eur"
