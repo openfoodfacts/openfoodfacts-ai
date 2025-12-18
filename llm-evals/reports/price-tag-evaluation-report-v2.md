@@ -98,7 +98,7 @@ Below are the command run for each evaluation run along with the evaluation resu
 ### Gemini 3 Pro Preview (native high thinking - default)
 
 ```bash
-GOOGLE_GENAI_USE_VERTEXAI='false' uv run main.py evaluate prices:price_tag_extraction --model google-gla:gemini-3-pro-preview --max-concurrency 2 --thinking-config HIGH --output-mode native
+GOOGLE_GENAI_USE_VERTEXAI='false' uv run main.py evaluate --task prices:price_tag_extraction --model google-gla:gemini-3-pro-preview --max-concurrency 2 --thinking-config HIGH --output-mode native
 ```
 
 ```
@@ -110,7 +110,7 @@ Detailed scores:
 ### Gemini 3 flash preview native thinking
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model google-vertex:gemini-3-flash-preview --max-concurrency 5 --output-mode native
+uv run main.py evaluate --task prices:price_tag_extraction --model google-vertex:gemini-3-flash-preview --max-concurrency 5 --output-mode native
 ```
 
 ```
@@ -122,7 +122,7 @@ Detailed scores:
 ### Gemini 3 flash preview native minimal thinking
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model google-vertex:gemini-3-flash-preview --max-concurrency 5 --output-mode native --thinking-config MINIMAL
+uv run main.py evaluate --task prices:price_tag_extraction --model google-vertex:gemini-3-flash-preview --max-concurrency 5 --output-mode native --thinking-config MINIMAL
 ```
 
 ```
@@ -134,7 +134,7 @@ Detailed scores:
 ### Gemini 2.5-pro native thinking
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model google-vertex:gemini-2.5-pro --max-concurrency 5 --output-mode native
+uv run main.py evaluate --task prices:price_tag_extraction --model google-vertex:gemini-2.5-pro --max-concurrency 5 --output-mode native
 ```
 
 ```
@@ -146,7 +146,7 @@ Detailed scores:
 ### Gemini 2.5-pro native minimal thinking
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model google-vertex:gemini-2.5-pro --max-concurrency 5 --output-mode native --thinking-config 128
+uv run main.py evaluate --task prices:price_tag_extraction --model google-vertex:gemini-2.5-pro --max-concurrency 5 --output-mode native --thinking-config 128
 ```
 
 ```
@@ -158,7 +158,7 @@ Detailed scores:
 ### Gemini 2.5-flash native thinking
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model google-vertex:gemini-2.5-flash --max-concurrency 5
+uv run main.py evaluate --task prices:price_tag_extraction --model google-vertex:gemini-2.5-flash --max-concurrency 5
 ```
 
 ```
@@ -170,7 +170,7 @@ Detailed scores:
 ### Gemini 2.5-flash native no thinking
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model google-vertex:gemini-2.5-flash --max-concurrency 5 --output-mode native --thinking-config 0
+uv run main.py evaluate --task prices:price_tag_extraction --model google-vertex:gemini-2.5-flash --max-concurrency 5 --output-mode native --thinking-config 0
 ```
 
 ```
@@ -182,7 +182,7 @@ Detailed scores:
 ### Gemini 2.5-flash-preview-09-2025 native no thinking
 
 ```bash
-GOOGLE_GENAI_USE_VERTEXAI='false' uv run main.py evaluate prices:price_tag_extraction --model google-gla:gemini-2.5-flash-preview-09-2025 --max-concurrency 5 --output-mode native --thinking-config 0
+GOOGLE_GENAI_USE_VERTEXAI='false' uv run main.py evaluate --task prices:price_tag_extraction --model google-gla:gemini-2.5-flash-preview-09-2025 --max-concurrency 5 --output-mode native --thinking-config 0
 ```
 
 ```
@@ -194,7 +194,7 @@ Detailed scores:
 ### Gemini 2.5-flash-lite native no thinking (default)
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model google-vertex:gemini-2.5-flash-lite --max-concurrency 5 --output-mode native --thinking-config 0
+uv run main.py evaluate --task prices:price_tag_extraction --model google-vertex:gemini-2.5-flash-lite --max-concurrency 5 --output-mode native --thinking-config 0
 ```
 
 ```
@@ -206,7 +206,7 @@ Detailed scores:
 ### Gemini 2.5-flash-lite-preview-09-2025 native no thinking (default)
 
 ```bash
-GOOGLE_GENAI_USE_VERTEXAI='false' uv run main.py evaluate prices:price_tag_extraction --model google-gla:gemini-2.5-flash-lite-preview-09-2025 --max-concurrency 5 --output-mode native --thinking-config 0
+GOOGLE_GENAI_USE_VERTEXAI='false' uv run main.py evaluate --task prices:price_tag_extraction --model google-gla:gemini-2.5-flash-lite-preview-09-2025 --max-concurrency 5 --output-mode native --thinking-config 0
 ```
 
 ```
@@ -218,7 +218,7 @@ Detailed scores:
 ### OpenRouter Qwen 3 VL 235B A22B Instruct
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model openrouter:qwen/qwen3-vl-235b-a22b-instruct --max-concurrency 2 --output-mode 'native+prompted'
+uv run main.py evaluate --task prices:price_tag_extraction --model openrouter:qwen/qwen3-vl-235b-a22b-instruct --max-concurrency 2 --output-mode 'native+prompted'
 ```
 
 ```
@@ -230,7 +230,7 @@ Detailed scores:
 ### OpenRouter Qwen 3 VL 235B A22B Thinking (default thinking)
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model openrouter:qwen/qwen3-vl-235b-a22b-thinking --max-concurrency 2 --output-mode 'native+prompted'
+uv run main.py evaluate --task prices:price_tag_extraction --model openrouter:qwen/qwen3-vl-235b-a22b-thinking --max-concurrency 2 --output-mode 'native+prompted'
 ```
 
 ```
@@ -242,7 +242,7 @@ Detailed scores:
 ### OpenRouter Qwen 3 VL 8B Instruct
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model openrouter:qwen/qwen3-vl-8b-instruct --max-concurrency 2 --output-mode 'native+prompted'
+uv run main.py evaluate --task prices:price_tag_extraction --model openrouter:qwen/qwen3-vl-8b-instruct --max-concurrency 2 --output-mode 'native+prompted'
 ```
 
 ```
@@ -254,7 +254,7 @@ Detailed scores:
 ### OpenRouter Qwen 3 VL 8B Thinking (default thinking)
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model openrouter:qwen/qwen3-vl-8b-thinking --max-concurrency 2 --output-mode 'native+prompted'
+uv run main.py evaluate --task prices:price_tag_extraction --model openrouter:qwen/qwen3-vl-8b-thinking --max-concurrency 2 --output-mode 'native+prompted'
 ```
 
 ```
@@ -266,7 +266,7 @@ Detailed scores:
 ### Gemma 3 27B instruct
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model openrouter:google/gemma-3-27b-it --max-concurrency 2 --output-mode 'native+prompted'
+uv run main.py evaluate --task prices:price_tag_extraction --model openrouter:google/gemma-3-27b-it --max-concurrency 2 --output-mode 'native+prompted'
 ```
 
 ```
@@ -278,7 +278,7 @@ Detailed scores:
 ### Gemma 3 12B instruct
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model openrouter:google/gemma-3-12b-it --max-concurrency 2 --output-mode 'native+prompted'
+uv run main.py evaluate --task prices:price_tag_extraction --model openrouter:google/gemma-3-12b-it --max-concurrency 2 --output-mode 'native+prompted'
 ```
 
 ```
@@ -290,7 +290,7 @@ Detailed scores:
 ### Z.AI GLM 4.6V (106B)
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model openrouter:z-ai/glm-4.6v --max-concurrency 2 --output-mode 'native+prompted'
+uv run main.py evaluate --task prices:price_tag_extraction --model openrouter:z-ai/glm-4.6v --max-concurrency 2 --output-mode 'native+prompted'
 ```
 
 ```
@@ -302,7 +302,7 @@ Detailed scores:
 ### Mistral Ministral 14B 2512 Instruct
 
 ```bash
-uv run main.py evaluate prices:price_tag_extraction --model openrouter:mistralai/ministral-14b-2512 --max-concurrency 2 --output-mode 'native+prompted'
+uv run main.py evaluate --task prices:price_tag_extraction --model openrouter:mistralai/ministral-14b-2512 --max-concurrency 2 --output-mode 'native+prompted'
 ```
 
 ```

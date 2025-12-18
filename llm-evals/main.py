@@ -65,7 +65,7 @@ def run_task(
 
 @app.command()
 def evaluate(
-    task: Annotated[TaskType, typer.Argument(..., help="The task to evaluate.")],
+    task: Annotated[TaskType, typer.Option(..., help="The task to evaluate.")],
     model: Annotated[
         str, typer.Option(..., help="The model to evaluate.")
     ] = DEFAULT_MODEL,
@@ -82,9 +82,9 @@ def evaluate(
         Path | None,
         typer.Option(..., help="Path to save the evaluation report as a JSON file."),
     ] = None,
-    filter_query: Annotated[
+    filter: Annotated[
         str | None,
-        typer.Option(..., help="Query to filter the cases, using dictquery syntax."),
+        typer.Option(..., help="Query to filter the cases, using `dictquery` syntax."),
     ] = None,
     only_errors: Annotated[
         bool,
@@ -147,7 +147,7 @@ def evaluate(
         include_expected_output=include_expected_output,
         include_reasons=include_reasons,
         output_path=output_path,
-        filter_query=filter_query,
+        filter=filter,
         include_input=include_input,
         include_durations=include_durations,
         only_errors=only_errors,

@@ -87,7 +87,7 @@ def evaluate_task_on_dataset(
     include_reasons: bool = True,
     include_input: bool = False,
     include_durations: bool = False,
-    filter_query: str | None = None,
+    filter: str | None = None,
     output_path: Path | None = None,
     only_errors: bool = False,
     max_concurrency: int | None = None,
@@ -112,7 +112,7 @@ def evaluate_task_on_dataset(
         include_input (bool): Whether to include the input in the report.
         include_durations (bool): Whether to include the durations for each
             case in the report.
-        filter_query (str | None): Only run cases that match the query.
+        filter (str | None): Only run cases that match the filter query.
         output_path (Path | None): Path to save the evaluation report as a
             JSON file. If None, the report is not saved.
         only_errors (bool): Whether to include only error cases in the report.
@@ -123,7 +123,11 @@ def evaluate_task_on_dataset(
     """
     dataset = task_config.dataset
     task_func: Callable[[dict[str, Any]], Any] = task_config.task or default_task_func
-    if filter_query is not None:
+    if filter is not None:
+        # Hacky way to avoid having to type '`tags.name` = tag', as:
+        # - it's too verbose
+        # - we need to escape '`' char in bash, making it even less convenient.
+        filter = filter.replace("tags ==", "`metadata.tags.name` ==")
         new_cases = []
         for case in dataset.cases:
             tags = case.metadata.get("tags", [])
@@ -135,7 +139,7 @@ def evaluate_task_on_dataset(
                 formatted_case.metadata["tags"] = [{"name": tag} for tag in tags]
             else:
                 formatted_case = case
-            if dictquery.match(dataclasses.asdict(formatted_case), filter_query):
+            if dictquery.match(dataclasses.asdict(formatted_case), filter):
                 new_cases.append(case)
 
         dataset.cases = new_cases
