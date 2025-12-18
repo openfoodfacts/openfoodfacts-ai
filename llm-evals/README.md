@@ -18,7 +18,7 @@ To run evaluations using llm-evals, you can use the command line interface (CLI)
 
 ### Running on a single sample
 
-You can also run a specific task on a single image URL:
+You can run a specific task on a single image URL:
 
 ```bash
 python main.py run-task "https://prices.openfoodfacts.org/img/price-tags/000/070/000070276.webp" --model "google-vertex:gemini-2.5-flash-lite" --task "prices:price_tag_extraction"
