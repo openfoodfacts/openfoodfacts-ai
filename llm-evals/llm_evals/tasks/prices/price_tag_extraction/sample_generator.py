@@ -28,18 +28,20 @@ def fetch_sample(price_tag_id: str) -> dict[str, Any]:
             prediction["type"] == "PRICE_TAG_EXTRACTION"
             for prediction in price_tag["predictions"]
         )
-        and price_tag["price_id"] is not None
     ):
         raise ValueError(
             "Cannot add the sample: the sample does comply with the required "
-            "conditions (at least one prediction of type PRICE_TAG_EXTRACTION, "
-            "of schema version 2.0, and associated with a price ID)"
+            "conditions (at least one prediction of type PRICE_TAG_EXTRACTION "
+            "and associated with a price ID)"
         )
 
-    price = requests.get(f"{BASE_URL}/api/v1/prices/{price_tag['price_id']}").json()
-    location = price.pop("location")
-    price_tag["location"] = location
-    price_tag["proof"].pop("location")
+    if "price_id" in price_tag:
+        price = requests.get(f"{BASE_URL}/api/v1/prices/{price_tag['price_id']}").json()
+    else:
+        price = {}
+
+    proof = price_tag.pop("proof")
+    location = proof.pop("location")
     price_tag_image_path = price_tag["image_path"]
     price_tag_image_url = f"{BASE_URL}/img/{price_tag_image_path}"
 
@@ -50,25 +52,25 @@ def fetch_sample(price_tag_id: str) -> dict[str, Any]:
     )
     tags = [
         f"country:{country_code}",
-        f"currency:{price['currency'].lower() if price['currency'] else 'unknown'}",
-        f"type:{price['type'].lower()}",
+        f"currency:{price['currency'].lower() if price.get('currency') else 'unknown'}",
+        f"type:{price['type'].lower() if price.get('type') else 'unknown'}",
     ]
     return {
         "name": price_tag_id,
         "inputs": {"image_urls": [price_tag_image_url]},
         "metadata": {"tags": tags, "price_tag_id": int(price_tag_id)},
         "expected_output": {
-            "type": price["type"],
-            "product_code": price["product_code"],
-            "category_tag": price["category_tag"],
-            "labels_tags": price["labels_tags"],
-            "origins_tags": price["origins_tags"],
-            "price": price["price"],
-            "price_is_discounted": price["price_is_discounted"],
-            "price_without_discount": price["price_without_discount"],
-            "discount_type": price["discount_type"],
-            "price_per": price["price_per"],
-            "currency": price["currency"],
+            "type": price.get("type") or "PRODUCT",
+            "product_code": price.get("product_code"),
+            "category_tag": price.get("category_tag"),
+            "labels_tags": price.get("labels_tags"),
+            "origins_tags": price.get("origins_tags"),
+            "price": price.get("price"),
+            "price_is_discounted": price.get("price_is_discounted"),
+            "price_without_discount": price.get("price_without_discount"),
+            "discount_type": price.get("discount_type"),
+            "price_per": price.get("price_per"),
+            "currency": price.get("currency"),
         },
         "evaluators": [],
     }
