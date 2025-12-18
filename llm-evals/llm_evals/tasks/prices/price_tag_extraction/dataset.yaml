@@ -158,7 +158,7 @@ cases:
     price_tag_id: 126807
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -1497,6 +1497,7 @@ cases:
     - country:us
     - currency:usd
     - type:product
+    - difficulty:price:hard
     price_tag_id: 125956
   expected_output:
     type: PRODUCT
@@ -2266,6 +2267,7 @@ cases:
     - country:no
     - currency:nok
     - type:product
+    - missing-barcode
     price_tag_id: 120265
   expected_output:
     type: PRODUCT
@@ -2613,7 +2615,7 @@ cases:
     price_tag_id: 91902
   expected_output:
     type: PRODUCT
-    product_code: null # only an internal barcode is visible
+    product_code: # only an internal barcode is visible
     category_tag:
     labels_tags:
     origins_tags:
@@ -2706,7 +2708,7 @@ cases:
     price_tag_id: 91826
   expected_output:
     type: PRODUCT
-    product_code: null # only an internal barcode is visible
+    product_code: # only an internal barcode is visible
     category_tag:
     labels_tags:
     origins_tags:
@@ -2731,7 +2733,7 @@ cases:
     price_tag_id: 91813
   expected_output:
     type: PRODUCT
-    product_code: null # only an internal barcode is visible
+    product_code: # only an internal barcode is visible
     category_tag:
     labels_tags:
     origins_tags:
@@ -2801,7 +2803,7 @@ cases:
     price_tag_id: 91811
   expected_output:
     type: PRODUCT
-    product_code: null # only an internal barcode is visible
+    product_code: # only an internal barcode is visible
     category_tag:
     labels_tags:
     origins_tags:
@@ -2871,7 +2873,7 @@ cases:
     price_tag_id: 89741
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -2918,7 +2920,7 @@ cases:
     price_tag_id: 91807
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -2965,7 +2967,7 @@ cases:
     price_tag_id: 91805
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3081,7 +3083,7 @@ cases:
     price_tag_id: 93706
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3105,7 +3107,7 @@ cases:
     price_tag_id: 89553
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3152,7 +3154,7 @@ cases:
     price_tag_id: 91821
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3198,7 +3200,7 @@ cases:
     price_tag_id: 91610
   expected_output:
     type: PRODUCT
-    product_code: null # barcode is not visible on the image
+    product_code: # barcode is not visible on the image
     category_tag:
     labels_tags:
     origins_tags:
@@ -3315,7 +3317,7 @@ cases:
     price_tag_id: 91828
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3339,7 +3341,7 @@ cases:
     price_tag_id: 91800
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3409,7 +3411,7 @@ cases:
     price_tag_id: 91815
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3433,7 +3435,7 @@ cases:
     price_tag_id: 91792
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3457,7 +3459,7 @@ cases:
     price_tag_id: 91914
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3505,7 +3507,7 @@ cases:
     price_tag_id: 91790
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3530,7 +3532,7 @@ cases:
     price_tag_id: 91818
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3600,7 +3602,7 @@ cases:
     price_tag_id: 91830
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3647,7 +3649,7 @@ cases:
     price_tag_id: 93136
   expected_output:
     type: PRODUCT
-    product_code: null # barcode is not visible on the image
+    product_code: # barcode is not visible on the image
     category_tag:
     labels_tags:
     origins_tags:
@@ -3740,7 +3742,7 @@ cases:
     price_tag_id: 91787
   expected_output:
     type: PRODUCT
-    product_code: null # only an internal barcode is visible
+    product_code: # only an internal barcode is visible
     category_tag:
     labels_tags:
     origins_tags:
@@ -3879,7 +3881,7 @@ cases:
     price_tag_id: 88913
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3949,7 +3951,7 @@ cases:
     price_tag_id: 91827
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -3973,7 +3975,7 @@ cases:
     price_tag_id: 88921
   expected_output:
     type: PRODUCT
-    product_code: null # no barcode is visible on the image
+    product_code: # no barcode is visible on the image
     category_tag:
     labels_tags:
     origins_tags:
@@ -3997,7 +3999,7 @@ cases:
     price_tag_id: 89549
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -4044,7 +4046,7 @@ cases:
     price_tag_id: 91798
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -4251,7 +4253,7 @@ cases:
     price_tag_id: 88083
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -4321,7 +4323,7 @@ cases:
     price_tag_id: 88165
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -4392,7 +4394,7 @@ cases:
     price_tag_id: 91785
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -4439,7 +4441,7 @@ cases:
     price_tag_id: 89551
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -4509,7 +4511,7 @@ cases:
     price_tag_id: 91829
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -4556,7 +4558,7 @@ cases:
     price_tag_id: 91835
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -4580,7 +4582,7 @@ cases:
     price_tag_id: 92763
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -4649,7 +4651,7 @@ cases:
     price_tag_id: 89043
   expected_output:
     type: PRODUCT
-    product_code: null # barcode is not visible on the image
+    product_code: # barcode is not visible on the image
     category_tag:
     labels_tags:
     origins_tags:
@@ -4766,7 +4768,7 @@ cases:
     price_tag_id: 89046
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -4859,7 +4861,7 @@ cases:
     price_tag_id: 89579
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -4975,7 +4977,7 @@ cases:
     price_tag_id: 86825
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -5022,7 +5024,7 @@ cases:
     price_tag_id: 91795
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -5069,7 +5071,7 @@ cases:
     price_tag_id: 88929
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -5116,7 +5118,7 @@ cases:
     price_tag_id: 89740
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -6548,7 +6550,7 @@ cases:
     price_tag_id: 87633
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -6687,7 +6689,7 @@ cases:
     price_tag_id: 120190
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -6803,7 +6805,7 @@ cases:
     price_tag_id: 120819
   expected_output:
     type: PRODUCT
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -7631,6 +7633,7 @@ cases:
     - country:es
     - currency:eur
     - type:product
+    - data-quality:barcode-unreadable
     price_tag_id: 120330
   expected_output:
     type: PRODUCT
@@ -8324,7 +8327,7 @@ cases:
     price_tag_id: 130426
   expected_output:
     type: PRODUCT
-    product_code: null # barcode is not visible on the image
+    product_code: # barcode is not visible on the image
     category_tag:
     labels_tags:
     origins_tags:
@@ -8348,7 +8351,7 @@ cases:
     price_tag_id: 130422
   expected_output:
     type: PRODUCT
-    product_code: null # only an internal barcode is visible
+    product_code: # only an internal barcode is visible
     category_tag:
     labels_tags:
     origins_tags:
@@ -8602,7 +8605,7 @@ cases:
     price_tag_id: 130420
   expected_output:
     type: PRODUCT
-    product_code: null # only an internal barcode is visible
+    product_code: # only an internal barcode is visible
     category_tag:
     labels_tags:
     origins_tags:
@@ -8834,7 +8837,7 @@ cases:
     price_tag_id: 87283
   expected_output:
     type: PRODUCT
-    product_code: null # no barcode is visible on the image
+    product_code: # no barcode is visible on the image
     category_tag:
     labels_tags:
     origins_tags:
@@ -8904,7 +8907,7 @@ cases:
     price_tag_id: 93702
   expected_output:
     type: PRODUCT
-    product_code: null # only an internal barcode is visible
+    product_code: # only an internal barcode is visible
     category_tag:
     labels_tags:
     origins_tags:
@@ -9458,7 +9461,7 @@ cases:
     price_tag_id: 130423
   expected_output:
     type: PRODUCT
-    product_code: null # only an internal barcode is visible
+    product_code: # only an internal barcode is visible
     category_tag:
     labels_tags:
     origins_tags:
@@ -9505,7 +9508,7 @@ cases:
     price_tag_id: 130421
   expected_output:
     type: PRODUCT
-    product_code: null # only an internal barcode is visible
+    product_code: # only an internal barcode is visible
     category_tag:
     labels_tags:
     origins_tags:
@@ -9943,7 +9946,7 @@ cases:
     price_tag_id: 93318
   expected_output:
     type: PRODUCT
-    product_code: null # barcode is not visible on the photo
+    product_code: # barcode is not visible on the photo
     category_tag:
     labels_tags:
     origins_tags:
@@ -10081,7 +10084,7 @@ cases:
     price_tag_id: 130424
   expected_output:
     type: PRODUCT
-    product_code: null # barcode is not visible
+    product_code: # barcode is not visible
     category_tag:
     labels_tags:
     origins_tags:
@@ -10838,11 +10841,12 @@ cases:
     - country:nl
     - currency:eur
     - type:product
+    - with-internal-barcode
     price_tag_id: 89688
   expected_output:
     type: PRODUCT
     # barcode is `101421749`, but it's not a valid one, so we set it to null here.
-    product_code: null
+    product_code:
     category_tag:
     labels_tags:
     origins_tags:
@@ -10852,4 +10856,200 @@ cases:
     discount_type:
     price_per:
     currency: EUR
+  evaluators: []
+- name: '132495'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/132/000132495.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - missing-barcode
+    - missing-price
+    price_tag_id: 132495
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency: EUR
+  evaluators: []
+- name: '132482'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/132/000132482.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:not-a-price-tag
+    price_tag_id: 132482
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '132361'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/132/000132361.webp
+  metadata:
+    tags:
+    - country:in
+    - currency:unknown
+    - type:unknown
+    - data-quality:not-a-price-tag
+    price_tag_id: 132361
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '130976'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130976.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:not-a-price-tag
+    price_tag_id: 130976
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '130873'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130873.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:barcode-unreadable
+    - data-quality:price-unreadable
+    price_tag_id: 130873
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '130848'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130848.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:barcode-unreadable
+    - difficulty:price:hard
+    price_tag_id: 130848
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.99
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '130841'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130841.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:not-a-price-tag
+    price_tag_id: 130841
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '130736'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130736.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - difficulty:price:hard
+    - data-quality:barcode-unreadable
+    price_tag_id: 130736
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category_tag:
+    labels_tags:
+    origins_tags:
+    price: 3.43
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
   evaluators: []
