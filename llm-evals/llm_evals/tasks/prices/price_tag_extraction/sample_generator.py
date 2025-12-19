@@ -55,6 +55,10 @@ def fetch_sample(price_tag_id: str) -> dict[str, Any]:
         f"currency:{price['currency'].lower() if price.get('currency') else 'unknown'}",
         f"type:{price['type'].lower() if price.get('type') else 'unknown'}",
     ]
+
+    category = price.get("category_tag")
+    if category:
+        category = category.replace("en:", "").replace("-", " ").capitalize()
     return {
         "name": price_tag_id,
         "inputs": {"image_urls": [price_tag_image_url]},
@@ -62,7 +66,7 @@ def fetch_sample(price_tag_id: str) -> dict[str, Any]:
         "expected_output": {
             "type": price.get("type") or "PRODUCT",
             "product_code": price.get("product_code"),
-            "category_tag": price.get("category_tag"),
+            "category": [category],
             "labels_tags": price.get("labels_tags"),
             "origins_tags": price.get("origins_tags"),
             "price": price.get("price"),
