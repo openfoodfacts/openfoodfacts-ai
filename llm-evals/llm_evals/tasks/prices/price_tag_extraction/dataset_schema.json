@@ -121,12 +121,19 @@
     "ExpectedResult": {
       "properties": {
         "type": {
-          "enum": [
-            "PRODUCT",
-            "CATEGORY"
+          "anyOf": [
+            {
+              "enum": [
+                "PRODUCT",
+                "CATEGORY"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
           ],
-          "title": "Type",
-          "type": "string"
+          "title": "Type"
         },
         "product_code": {
           "anyOf": [
@@ -140,17 +147,20 @@
           "default": null,
           "title": "Product Code"
         },
-        "category_tag": {
+        "category": {
           "anyOf": [
             {
-              "type": "string"
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
             },
             {
               "type": "null"
             }
           ],
           "default": null,
-          "title": "Category Tag"
+          "title": "Category"
         },
         "labels_tags": {
           "anyOf": [

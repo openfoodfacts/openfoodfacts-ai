@@ -16,3 +16,8 @@ dependencies = [
     "ruamel-yaml>=0.18.16",
     "typer",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]

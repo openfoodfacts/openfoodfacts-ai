@@ -4,108 +4,6 @@ from typing import Literal, TypedDict
 from pydantic import BaseModel, Field, computed_field
 
 
-class RawCategory(enum.StrEnum):
-    APPLES = "en:apples"
-    APRICOTS = "en:apricots"
-    ARTICHOKES = "en:artichokes"
-    ASPARAGUS = "en:asparagus"
-    AUBERGINES = "en:aubergines"
-    AVOCADOS = "en:avocados"
-    BANANAS = "en:bananas"
-    BEETROOT = "en:beetroot"
-    BERRIES = "en:berries"
-    BLACKBERRIES = "en:blackberries"
-    BLUEBERRIES = "en:blueberries"
-    BOK_CHOY = "en:bok-choy"
-    BROCCOLI = "en:broccoli"
-    CABBAGES = "en:cabbages"
-    CARROTS = "en:carrots"
-    CAULIFLOWERS = "en:cauliflowers"
-    CELERY = "en:celery"
-    CELERIAC = "en:celeriac"
-    CELERY_STALK = "en:celery-stalk"
-    CEP_MUSHROOMS = "en:cep-mushrooms"
-    CHANTERELLES = "en:chanterelles"
-    CHARDS = "en:chards"
-    CHERRIES = "en:cherries"
-    CHERRY_TOMATOES = "en:cherry-tomatoes"
-    CHICKPEAS = "en:chickpeas"
-    CHIVES = "en:chives"
-    CLEMENTINES = "en:clementines"
-    COCONUTS = "en:coconuts"
-    CRANBERRIES = "en:cranberries"
-    CUCUMBERS = "en:cucumbers"
-    DATES = "en:dates"
-    ENDIVES = "en:endives"
-    FENNEL_BULBS = "en:fennel-bulbs"
-    FIGS = "en:figs"
-    GARLIC = "en:garlic"
-    GINGER = "en:ginger"
-    GRAPEFRUITS = "en:grapefruits"
-    GRAPES = "en:grapes"
-    GREEN_BEANS = "en:green-beans"
-    GREEN_SWEET_PEPPERS = "en:green-sweet-peppers"
-    KIWIS = "en:kiwis"
-    KAKIS = "en:kakis"
-    LEEKS = "en:leeks"
-    LEMONS = "en:lemons"
-    LETTUCES = "en:lettuces"
-    LIMES = "en:limes"
-    LYCHEES = "en:lychees"
-    MANDARIN_ORANGES = "en:mandarin-oranges"
-    MANGOES = "en:mangoes"
-    MELONS = "en:melons"
-    MUSHROOMS = "en:mushrooms"
-    NECTARINES = "en:nectarines"
-    ONIONS = "en:onions"
-    ORANGES = "en:oranges"
-    PAPAYAS = "en:papayas"
-    PARSNIP = "en:parsnip"
-    PASSION_FRUITS = "en:passion-fruits"
-    PEACHES = "en:peaches"
-    PEARS = "en:pears"
-    PEAS = "en:peas"
-    PEPPERS = "en:peppers"
-    PINEAPPLE = "en:pineapple"
-    PLUMS = "en:plums"
-    POMEGRANATES = "en:pomegranates"
-    POMELOS = "en:pomelos"
-    POTATOES = "en:potatoes"
-    PUMPKINS = "en:pumpkins"
-    RADISHES = "en:radishes"
-    RASPBERRIES = "en:raspberries"
-    RED_BELL_PEPPERS = "en:red-bell-peppers"
-    RED_ONIONS = "en:red-onions"
-    RHUBARBS = "en:rhubarbs"
-    SCALLIONS = "en:scallions"
-    SHALLOTS = "en:shallots"
-    SPINACHS = "en:spinachs"
-    SPROUTS = "en:sprouts"
-    STRAWBERRIES = "en:strawberries"
-    TOMATOES = "en:tomatoes"
-    TURNIP = "en:turnip"
-    WATERMELONS = "en:watermelons"
-    WALNUTS = "en:walnuts"
-    YELLOW_ONIONS = "en:yellow-onions"
-    ZUCCHINI = "en:zucchini"
-    OTHER = "other"
-
-
-class Origin(enum.StrEnum):
-    FRANCE = "en:france"
-    ITALY = "en:italy"
-    SPAIN = "en:spain"
-    POLAND = "en:poland"
-    CHINA = "en:china"
-    BELGIUM = "en:belgium"
-    MOROCCO = "en:morocco"
-    PERU = "en:peru"
-    PORTUGAL = "en:portugal"
-    MEXICO = "en:mexico"
-    OTHER = "other"
-    UNKNOWN = "unknown"
-
-
 class Unit(enum.StrEnum):
     KILOGRAM = "KILOGRAM"
     LITER = "LITER"
@@ -128,7 +26,7 @@ class SelectedPrice(BaseModel):
     price: float = Field(..., description="Price in the local currency")
     currency: str | None = Field(
         ...,
-        description="Currency of the price.",
+        description="Currency of the price",
     )
     price_per: Unit = Field(..., description="Unit of the price")
     price_is_discounted: bool = Field(
@@ -137,16 +35,16 @@ class SelectedPrice(BaseModel):
     price_without_discount: float | None = Field(
         ...,
         description="The price without discount, if the price is discounted. "
-        "If the price is not discounted, this should be set to None.",
+        "If the price is not discounted, this should be set to null.",
     )
-    discount_type: DiscountType | None = Field(
-        None,
+    discount_type: DiscountType = Field(
+        DiscountType.NO_DISCOUNT,
         description="The type of discount applied to the price, if any. "
-        "If no discount is applied, this should be set to None.",
+        "If no discount is applied, this should be set to NO_DISCOUNT.",
     )
     with_vat: bool = Field(
         True,
-        description="True if the price includes VAT (Value Added Tax), false otherwise.",
+        description="True if the price includes VAT (Value Added Tax), false otherwise",
     )
 
 
@@ -175,7 +73,24 @@ class LabelPrice(BaseModel):
     discount_type: DiscountType = Field(
         DiscountType.NO_DISCOUNT,
         description="The type of discount applied to the price, if any. "
-        "If no discount is applied, this should be set to NO_DISCOUNT.",
+        "If no discount is applied, this should be set to NO_DISCOUNT. "
+        "Possible discount types are: "
+        " - QUANTITY: example: buy 1 get 1 free, "
+        " - SALE: example: 50% off, "
+        " - SEASONAL: example: Christmas sale, "
+        " - LOYALTY_PROGRAM: example: 10% off for members, "
+        " - EXPIRES_SOON: example: 30% off expiring soon, "
+        " - PICK_IT_YOURSELF: example: 5% off for pick-up, "
+        " - SECOND_HAND: example: second hand books or clothes, "
+        " - OTHER: other types of discounts.",
+    )
+    uncertain: bool = Field(
+        False,
+        description="true if the price is uncertain: "
+        "1) if the price is occluded (even partially), or blurred, "
+        "2) if there is a reflection preventing accurate price reading, "
+        "3) if the image quality is not good enough to read the price. "
+        "Otherwise, the value must be false.",
     )
 
 
@@ -188,26 +103,27 @@ class Label(BaseModel):
 
     - Labels for packaged products, with barcode (type: PRODUCT): these are
     products that have a barcode, which is usually displayed on the price tag.
-    For this type of label, the category should be set to NO_CATEGORY, the
-    origin should be set to NO_ORIGIN.
+    For this type of label, the category and origin should be set to null.
     - Raw products, without barcode (type: CATEGORY): these are usually fruits
     and vegetables, but it can also be any product sold per weight (kg, 100g,
     etc.). For this type of label, the category should be set to the
-    corresponding RawCategory, the origin should be set to the country of
-    origin of the product (if indicated) and the barcode should be empty.
+    corresponding category, the origin should be set to the country of
+    origin of the product (if indicated) and the barcode should be null.
     """
 
-    type: Literal["PRODUCT", "CATEGORY"] = Field(
+    type: Literal["PRODUCT", "CATEGORY"] | None = Field(
         ...,
         description="The type of product the label is referring to. It should be "
         "`PRODUCT` for packaged products with barcode, and `CATEGORY` for raw "
-        "products without barcode.",
+        "products without barcode. If the type is unknown, this should be set to null.",
     )
-    category: RawCategory | None = Field(
+    category: str | None = Field(
         None,
-        description="The category of the product. "
-        "If type=PRODUCT, this should be set to the null.",
-    )  # category_tag
+        description="The category of the product. If type=CATEGORY, this should be set to the "
+        "category of the product, such as Apples, Bananas, Tomatoes, etc. The category must be in English, "
+        "even if the category is displayed in another language on the price tag. "
+        "If unknown, or if TYPE=PRODUCT, this should be set to null.",
+    )
     prices: list[LabelPrice] = Field(
         ...,
         description="All prices found on the label. Depending on the type of "
@@ -218,25 +134,27 @@ class Label(BaseModel):
         "There can also be a discount applied to the price. In such case, both "
         "the original price and the discounted price should be included in the list.",
     )
-    origin: Origin | None = Field(
+    origin: str | None = Field(
         ...,
-        description="The country of origin of the product. "
+        description="The country of origin of the product, in English. "
         "If type=PRODUCT, this should be set to null. If type=CATEGORY, this should "
-        "be set to the country of origin of the product, such as France, Italy, Spain, etc.",
+        "be set to the country of origin of the product, such as France, Italy, Spain, etc. "
+        "If type=CATEGORY and the origin is unknown, it should be set to null.",
     )
-    organic: bool = Field(
+    organic: bool | None = Field(
         ...,
         description="true if the product is organic, false otherwise. If true, "
         "there should be evidence on the label suggesting that the product is "
-        "organic, such as the EU organic logo.",
+        "organic, such as the EU organic logo. If the organic status is unknown, "
+        "it should be set to null.",
     )
-    barcode: str = Field(
+    barcode: str | None = Field(
         ...,
         description="The barcode of the product, if available. "
         "The barcode are usually numbers with 13 (EAN13) or 8 (EAN8) digits. You should "
         "*NOT* try to decode the barcode stripe (also called modules), but use the "
         "barcode number displayed on the label. "
-        "If type=CATEGORY, this should be empty.",
+        "If type=CATEGORY, this should be null.",
     )
     product_name: str = Field(
         ...,
@@ -244,18 +162,23 @@ class Label(BaseModel):
         "For raw products (type=CATEGORY), this is usually the name of the fruit or vegetable. "
         "For products with barcode (type=PRODUCT), it usually includes the brand, a short "
         "description of the product, and eventually the quantity. "
+        "If no product name is displayed on the label, this should be an empty string. "
         "examples: 'NOCCIOLATA BIO 650G', 'Simpson Donuts', 'GERBLE BISCUIT PIST ABRICOT160G', "
         "'Radis Blanc', 'Concombre lisse', 'Courget Butternut', 'Tomatoes', 'Organic Bananas'",
     )
-    truncated: bool = Field(
+    uncertain_barcode_or_product_name: bool = Field(
         False,
-        description="true if the photo of the price tag is truncated, false otherwise. A photo of a price tag is considered truncated if any of these occurs:\n"
-        "- the barcode (for packaged products) or the product name (for raw products) is not fully visible on the photo\n"
-        "- the price is not fully visible on the photo\n",
+        description="true if the barcode (for type=PRODUCT) or category (for TYPE=CATEGORY) is uncertain: "
+        "1) if the barcode (resp. product name) is occluded (even partially), or blurred,"
+        "2) if there is a reflection preventing accurate reading, "
+        "3) if the image quality is not good enough to read the barcode (resp. product name). "
+        "Otherwise, the value must be false.",
     )
     is_price_tag: bool = Field(
         True,
-        description="true if the image is a price tag, false otherwise. If the image seems to come from a receipt or a catalogue, this should be set to false.",
+        description="true if the image is a price tag, false otherwise. "
+        "For example, if the image seems to come from a receipt or a catalogue "
+        "(or is a random image), this should be set to false.",
     )
 
     @computed_field
@@ -263,8 +186,6 @@ class Label(BaseModel):
     def selected_price(self) -> SelectedPrice | None:
         """From all individual price reference on the price tag, construct a
         Price ready to be added to Open Prices.
-
-        In case
         """
         if not self.prices:
             return None
@@ -357,7 +278,7 @@ class Label(BaseModel):
 class ExpectedResult(BaseModel):
     type: Literal["PRODUCT", "CATEGORY"]
     product_code: str | None = None
-    category_tag: str | None = None
+    category: list[str] | None = None
     labels_tags: list[str] | None = None
     origins_tags: list[str] | None = None
     price: float | None = None
