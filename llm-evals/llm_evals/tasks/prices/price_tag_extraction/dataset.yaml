@@ -657,7 +657,7 @@ cases:
   expected_output:
     type: CATEGORY
     product_code:
-    category: [ 'Leaf salads' ]
+    category: [ Leaf salads ]
     labels_tags:
     - en:organic
     origins_tags:
@@ -889,7 +889,7 @@ cases:
   expected_output:
     type: CATEGORY
     product_code:
-    category: [ 'Garlics' ]
+    category: [ Garlics ]
     labels_tags:
     origins_tags:
     - en:unknown
@@ -1361,7 +1361,7 @@ cases:
   expected_output:
     type: CATEGORY
     product_code:
-    category: [ 'Kakis', 'Persimmons' ]
+    category: [ Kakis, Persimmons ]
     labels_tags:
     - en:organic
     origins_tags:
@@ -1386,7 +1386,7 @@ cases:
   expected_output:
     type: CATEGORY
     product_code:
-    category: [ 'Broccolis' ]
+    category: [ Broccolis ]
     labels_tags:
     origins_tags:
     - en:reunion
@@ -2224,7 +2224,7 @@ cases:
   expected_output:
     type: CATEGORY
     product_code:
-    category: [ 'Turnips' ]
+    category: [ Golden ball turnips ]
     labels_tags:
     - en:organic
     origins_tags:
@@ -11053,4 +11053,1397 @@ cases:
     discount_type:
     price_per:
     currency:
+  evaluators: []
+- name: '130696'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/130/000130696.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:category
+    price_tag_id: 130696
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category: [ Leeks, Fresh Leeks ]
+    labels_tags:
+    origins_tags:
+    price: 2.90
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency:
+  evaluators: []
+- name: '128704'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/128/000128704.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 128704
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category: [ Pomegranates ]
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:italy
+    price: 4.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '128705'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/128/000128705.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 128705
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Ataulfo mangos
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:ecuador
+    price: 15.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '128703'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/128/000128703.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 128703
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Pineapples
+    labels_tags:
+    - en:organic
+    origins_tags: []
+    price: 3.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: UNIT
+    currency: EUR
+  evaluators: []
+- name: '127105'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127105.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 127105
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Pears
+    - Comice pears
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 5.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '127106'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127106.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 127106
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Williams pears
+    - Pears
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 4.69
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '127107'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/127/000127107.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 127107
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Juicing oranges
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:spain
+    price: 2.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '94336'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/094/000094336.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 94336
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Green kiwis
+    labels_tags:
+    origins_tags:
+    - en:chile
+    price: 0.89
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: UNIT
+    currency: EUR
+  evaluators: []
+- name: '94337'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/094/000094337.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 94337
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Walnuts
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 9.98
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '93079'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093079.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 93079
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Fresh hazelnuts
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 10.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '93080'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093080.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 93080
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Yellow onions
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 3.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '93081'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093081.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    price_tag_id: 93081
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category:
+    - Preserved lemons
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '93082'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093082.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 93082
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Dry garlics
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 14.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '93083'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093083.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 93083
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Almonds in shell
+    - Raw almonds
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:italy
+    price: 10.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '93084'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093084.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 93084
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Red onions
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 3.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '93085'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093085.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 93085
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Shallots
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 7.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '93059'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093059.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 93059
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Green peppers
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 5.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '93060'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093060.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 93060
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Red chili peppers
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 9.49
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '93063'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093063.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 93063
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Yellow zucchini
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 2.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '93067'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093067.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:category-truncated
+    price_tag_id: 93067
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category: []
+    labels_tags:
+    origins_tags:
+    price: 2.00
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '93064'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/093/000093064.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 93064
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Charlotte potatoes
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 2.25
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '92958'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/092/000092958.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 92958
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Kent mangos
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:senegal
+    price: 1.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: UNIT
+    currency: EUR
+  evaluators: []
+- name: '92959'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/092/000092959.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 92959
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Yellow kiwis
+    - Kiwis
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:unknown
+    price: 1.19
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: UNIT
+    currency: EUR
+  evaluators: []
+- name: '92961'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/092/000092961.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 92961
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Hass avocados
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:peru
+    price: 1.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: UNIT
+    currency: EUR
+  evaluators: []
+- name: '89165'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089165.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 89165
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Blueberries
+    labels_tags:
+    origins_tags:
+    - en:france
+    price: 23.8
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '89166'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089166.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 89166
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Redcurrants
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 28.8
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '89167'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089167.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 89167
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Greengage plums
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 7.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '89168'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089168.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 89168
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Raspberries
+    labels_tags:
+    origins_tags:
+    - en:france
+    price: 5.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: UNIT
+    currency: EUR
+  evaluators: []
+- name: '89169'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089169.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 89169
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - White nectarines
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 8.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '89170'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089170.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    - data-quality:not-a-price-tag
+    price_tag_id: 89170
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category:
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '89153'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089153.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 89153
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Leeks
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 3.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '89154'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089154.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 89154
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Black radishes
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 3.3
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '89155'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089155.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 89155
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Round tomatoes
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 4.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '89158'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089158.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 89158
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Graffiti eggplants
+    - Graffiti aubergines
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 5.2
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '89161'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089161.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 89161
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Pink radishes
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 2.4
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: UNIT
+    currency: EUR
+  evaluators: []
+- name: '89156'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/089/000089156.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 89156
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Cherry tomatoes
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 11.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '80619'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/080/000080619.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 80619
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Broccoli
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 4.55
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '80620'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/080/000080620.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 80620
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Red onions
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 4.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '80621'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/080/000080621.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 80621
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Shallots
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 9.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: UNIT
+    currency: EUR
+  evaluators: []
+- name: '77515'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077515.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77515
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Zucchini
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 4.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '77516'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077516.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77516
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Beetroot
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 3.98
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '77517'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077517.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77517
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Eggplants
+    - Aubergines
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:spain
+    price: 6.79
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '77493'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077493.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77493
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Carrots
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 2.8
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '77494'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077494.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77494
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Carrots
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 2.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: UNIT
+    currency: EUR
+  evaluators: []
+- name: '77482'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077482.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77482
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Purple artichokes
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 5.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '77486'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077486.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77486
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Camus Artichokes
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 4.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '77476'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077476.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77476
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Strawberries
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 22.0
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '77463'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077463.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77463
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Yellow onions
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 2.95
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '77464'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077464.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77464
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Potatoes
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 2.65
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '77465'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077465.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77465
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Garlic
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:france
+    price: 13.9
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '77466'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/077/000077466.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 77466
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Cherries
+    labels_tags:
+    origins_tags:
+    - en:france
+    price: 15.5
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
+  evaluators: []
+- name: '76713'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/076/000076713.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 76713
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Charentais melons
+    - Melons
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:morocco
+    price: 4.99
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: UNIT
+    currency: EUR
+  evaluators: []
+- name: '76715'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/076/000076715.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:unknown
+    - type:unknown
+    price_tag_id: 76715
+  expected_output:
+    type: PRODUCT
+    product_code:
+    category: []
+    labels_tags:
+    origins_tags:
+    price:
+    price_is_discounted:
+    price_without_discount:
+    discount_type:
+    price_per:
+    currency:
+  evaluators: []
+- name: '76716'
+  inputs:
+    image_urls:
+    - https://prices.openfoodfacts.org/img/price-tags/000/076/000076716.webp
+  metadata:
+    tags:
+    - country:fr
+    - currency:eur
+    - type:category
+    price_tag_id: 76716
+  expected_output:
+    type: CATEGORY
+    product_code:
+    category:
+    - Lemons
+    labels_tags:
+    - en:organic
+    origins_tags:
+    - en:italy
+    price: 2.65
+    price_is_discounted: false
+    price_without_discount:
+    discount_type:
+    price_per: KILOGRAM
+    currency: EUR
   evaluators: []
