@@ -122,6 +122,8 @@ class Label(BaseModel):
         description="The category of the product. If type=CATEGORY, this should be set to the "
         "category of the product, such as Apples, Bananas, Tomatoes, etc. The category must be in English, "
         "even if the category is displayed in another language on the price tag. "
+        "The category must be the most precise category possible: for example, if the label says 'Red Onions', "
+        "category should be 'Red onions', and not 'Onions'."
         "If unknown, or if TYPE=PRODUCT, this should be set to null.",
     )
     prices: list[LabelPrice] = Field(
