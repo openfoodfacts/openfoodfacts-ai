@@ -30,7 +30,7 @@ def generate_pluralization_forms_single_word(category: str) -> set[str]:
     forms = set()
     forms.add(category)
 
-    if category.lower() in ("tomatoes", "potatoes"):
+    if category.lower() in ("tomatoes", "potatoes", "radishes"):
         forms.add(category[:-2])
     elif category.endswith("ies"):
         forms.add(category[:-3] + "y")
