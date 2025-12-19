@@ -133,6 +133,11 @@ class CheckExtraction(Evaluator[PriceTagExtractionInput, ExpectedResult, MetaDat
             "category": self.check_category(
                 output, expected_output, metadata=ctx.metadata
             ),
+            "uncertain_barcode_or_product_name": self.check_uncertain_barcode_or_product_name(
+                output,
+                expected_output,
+                metadata=ctx.metadata,
+            ),
         }
         return {k: v for k, v in evaluation.items() if v is not None}
 
@@ -259,5 +264,41 @@ class CheckExtraction(Evaluator[PriceTagExtractionInput, ExpectedResult, MetaDat
                         f"Expected categories: {expected_output.category}, got: {output.category}"
                     ),
                 )
+
+        return None
+
+    def check_uncertain_barcode_or_product_name(
+        self,
+        output: Label,
+        expected_output: ExpectedResult,
+        metadata: MetaData,
+    ) -> EvaluationReason | bool | None:
+        tags = metadata.get("tags") or []
+        if expected_output.type == "CATEGORY":
+            output.uncertain_barcode_or_product_name
+            match = (
+                "data-quality:category-unreadable" in tags
+            ) is output.uncertain_barcode_or_product_name
+            if not match:
+                return EvaluationReason(
+                    value=match,
+                    reason=f"Expected: '{"data-quality:category-unreadable" in tags}', got: '{output.uncertain_barcode_or_product_name}'",
+                )
+            return match
+        elif expected_output.type == "PRODUCT":
+            matched_tags = [
+                "data-quality:barcode-unreadable",
+                "data-quality:barcode-truncated",
+            ]
+            match = (
+                any(tag in matched_tags for tag in tags)
+                is output.uncertain_barcode_or_product_name
+            )
+            if not match:
+                return EvaluationReason(
+                    value=match,
+                    reason=f"Expected: '{any(tag in matched_tags for tag in tags)}', got: '{output.uncertain_barcode_or_product_name}'",
+                )
+            return match
 
         return None
