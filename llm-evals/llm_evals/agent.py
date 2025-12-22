@@ -145,7 +145,7 @@ class EvaluationAgent:
         if self._output_mode == "native+prompted":
             return (
                 self._instructions
-                + f"\n\nUse the following JSON schema for your response:\n{json.dumps(self._output_type.model_json_schema())}"
+                + f"\n\nResponse must be formatted as JSON, and follow this JSON schema:\n{json.dumps(self._output_type.model_json_schema())}"
             )
 
         return self._instructions
