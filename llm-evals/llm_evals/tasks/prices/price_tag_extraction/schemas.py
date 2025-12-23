@@ -97,17 +97,17 @@ class LabelPrice(BaseModel):
 class Label(BaseModel):
     """A label (also called price tag) indicates in a store the price of the
     product and possibly other information such as the category, price per kg,
-    origin, etc.
+    origins, etc.
 
     We distinguish between two types of labels:
 
     - Labels for packaged products, with barcode (type: PRODUCT): these are
     products that have a barcode, which is usually displayed on the price tag.
-    For this type of label, the category and origin should be set to null.
+    For this type of label, the category and origins should be set to null.
     - Raw products, without barcode (type: CATEGORY): these are usually fruits
     and vegetables, but it can also be any product sold per weight (kg, 100g,
     etc.). For this type of label, the category should be set to the
-    corresponding category, the origin should be set to the country of
+    corresponding category, the origins should be set to the countries of
     origin of the product (if indicated) and the barcode should be null.
     """
 
@@ -136,11 +136,14 @@ class Label(BaseModel):
         "There can also be a discount applied to the price. In such case, both "
         "the original price and the discounted price should be included in the list.",
     )
-    origin: str | None = Field(
+    origins: list[str] | None = Field(
         ...,
-        description="The country of origin of the product, in English. "
+        description="The countries of origin of the product, in English. "
         "If type=PRODUCT, this should be set to null. If type=CATEGORY, this should "
-        "be set to the country of origin of the product, such as France, Italy, Spain, etc. "
+        "be set to the countries of origin of the product, such as France, Italy, Spain, etc. "
+        "Most of the time, there is only one country of origin indicated on the label, "
+        "but sometimes there can be multiple countries (for example: 'France and Spain'), in "
+        "which case all countries should be included in the list. "
         "If type=CATEGORY and the origin is unknown, it should be set to null.",
     )
     organic: bool | None = Field(
