@@ -12042,6 +12042,7 @@ cases:
     - country:fr
     - currency:eur
     - type:category
+    - data-quality:category-truncated
     price_tag_id: 80621
   expected_output:
     type: CATEGORY
@@ -12409,9 +12410,9 @@ cases:
     - type:unknown
     price_tag_id: 76715
   expected_output:
-    type: PRODUCT
+    type: CATEGORY
     product_code:
-    category: []
+    category: [ "Watermelons" ]
     labels_tags:
     origins_tags:
     price:
