@@ -28,9 +28,15 @@ class SelectedPrice(BaseModel):
         ...,
         description="Currency of the price",
     )
-    price_per: Unit = Field(..., description="Unit of the price")
+    price_per: Unit = Field(
+        ...,
+        description="Unit of the price. Can be one of: KILOGRAM: price is per kg, only if type = CATEGORY; "
+        "LITER: price is per liter, only if type = CATEGORY; "
+        "UNIT: price is per unit (available for both CATEGORY and PRODUCT types)",
+    )
     price_is_discounted: bool = Field(
-        False, description="true if the price is discounted, false otherwise"
+        False,
+        description="true if this particular price entry is a discounted price, false otherwise",
     )
     price_without_discount: float | None = Field(
         ...,
@@ -49,7 +55,7 @@ class SelectedPrice(BaseModel):
 
 
 class LabelPrice(BaseModel):
-    """One of the price displayed on a price tag.
+    """One of the prices displayed on a price tag.
 
     For raw products (without barcode), if the price is indicated per weight
     but is not per kilogram (example: per 100g or per 500g), the price per
@@ -60,7 +66,7 @@ class LabelPrice(BaseModel):
     with_vat: bool = Field(
         True,
         description="True if the price includes VAT (Value Added Tax), false otherwise. "
-        "If there are no VAT in the country, set to false. In most cases, this should be set to true.",
+        "If there is no VAT in the country, set to false. In most cases, this should be set to true.",
     )
     currency: str | None = Field(
         ...,
@@ -123,24 +129,32 @@ class Label(BaseModel):
         "category of the product, such as Apples, Bananas, Tomatoes, etc. The category must be in English, "
         "even if the category is displayed in another language on the price tag. "
         "The category must be the most precise category possible: for example, if the label says 'Red Onions', "
-        "category should be 'Red onions', and not 'Onions'."
+        "category should be 'Red onions', and not 'Onions'. "
+        "If more than one category is present on the price tag, only the first category should be considered, and "
+        "`has_multiple_categories` should be set to true. "
         "If unknown, or if TYPE=PRODUCT, this should be set to null.",
+    )
+    has_multiple_categories: bool | None = Field(
+        None,
+        description="If type is CATEGORY: if more than one category is present on the price tag, this should be true, "
+        "false otherwise. If type is PRODUCT: it should be null",
     )
     prices: list[LabelPrice] = Field(
         ...,
         description="All prices found on the label. Depending on the type of "
         "price tag, there can be multiple prices displayed. "
         "For packaged products (type=PRODUCT), the price per unit is the most common one. "
-        "The price per kg is also often included as well. "
+        "The price per kg is also often included. "
         "For raw products (type=CATEGORY), the price per kg is the most common one. "
-        "There can also be a discount applied to the price. In such case, both "
+        "There can also be a discount applied to the price. In such a case, both "
         "the original price and the discounted price should be included in the list.",
     )
     origins: list[str] | None = Field(
         ...,
         description="The countries of origin of the product, in English. "
         "If type=PRODUCT, this should be set to null. If type=CATEGORY, this should "
-        "be set to the countries of origin of the product, such as France, Italy, Spain, etc. "
+        """be set to the countries of origin of the product, such as ["France"], ["Italy"], """
+        """["Spain"], etc. """
         "Most of the time, there is only one country of origin indicated on the label, "
         "but sometimes there can be multiple countries (for example: 'France and Spain'), in "
         "which case all countries should be included in the list. "
@@ -150,13 +164,13 @@ class Label(BaseModel):
         ...,
         description="true if the product is organic, false otherwise. If true, "
         "there should be evidence on the label suggesting that the product is "
-        "organic, such as the EU organic logo. If the organic status is unknown, "
+        "organic, such as the EU organic logo or other recognized organic certifications. If the organic status is unknown, "
         "it should be set to null.",
     )
     barcode: str | None = Field(
         ...,
         description="The barcode of the product, if available. "
-        "The barcode are usually numbers with 13 (EAN13) or 8 (EAN8) digits. You should "
+        "The barcode is usually a number with 13 (EAN13) or 8 (EAN8) digits. You should "
         "*NOT* try to decode the barcode stripe (also called modules), but use the "
         "barcode number displayed on the label. "
         "If type=CATEGORY, this should be null.",
@@ -166,7 +180,7 @@ class Label(BaseModel):
         description="The name of the product, as displayed on the label. "
         "For raw products (type=CATEGORY), this is usually the name of the fruit or vegetable. "
         "For products with barcode (type=PRODUCT), it usually includes the brand, a short "
-        "description of the product, and eventually the quantity. "
+        "description of the product, and optionally the quantity. "
         "If no product name is displayed on the label, this should be an empty string. "
         "examples: 'NOCCIOLATA BIO 650G', 'Simpson Donuts', 'GERBLE BISCUIT PIST ABRICOT160G', "
         "'Radis Blanc', 'Concombre lisse', 'Courget Butternut', 'Tomatoes', 'Organic Bananas'",
@@ -174,14 +188,14 @@ class Label(BaseModel):
     uncertain_barcode_or_product_name: bool = Field(
         False,
         description="true if the barcode (for type=PRODUCT) or category (for TYPE=CATEGORY) is uncertain: "
-        "1) if the barcode (resp. product name) is occluded (even partially), or blurred,"
+        "1) if the barcode (respectively the product name) is occluded (even partially), or blurred,"
         "2) if there is a reflection preventing accurate reading, "
-        "3) if the image quality is not good enough to read the barcode (resp. product name). "
+        "3) if the image quality is not good enough to read the barcode (respectively the product name). "
         "Otherwise, the value must be false.",
     )
     is_price_tag: bool = Field(
         True,
-        description="true if the image is a price tag, false otherwise. "
+        description="indicates whether the image shows a physical price tag attached to a product. "
         "For example, if the image seems to come from a receipt or a catalogue "
         "(or is a random image), this should be set to false.",
     )
