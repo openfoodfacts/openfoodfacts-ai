@@ -23,35 +23,13 @@ class DiscountType(enum.StrEnum):
 
 
 class SelectedPrice(BaseModel):
-    price: float = Field(..., description="Price in the local currency")
-    currency: str | None = Field(
-        ...,
-        description="Currency of the price",
-    )
-    price_per: Unit = Field(
-        ...,
-        description="Unit of the price. Can be one of: KILOGRAM: price is per kg, only if type = CATEGORY; "
-        "LITER: price is per liter, only if type = CATEGORY; "
-        "UNIT: price is per unit (available for both CATEGORY and PRODUCT types)",
-    )
-    price_is_discounted: bool = Field(
-        False,
-        description="true if this particular price entry is a discounted price, false otherwise",
-    )
-    price_without_discount: float | None = Field(
-        ...,
-        description="The price without discount, if the price is discounted. "
-        "If the price is not discounted, this should be set to null.",
-    )
-    discount_type: DiscountType = Field(
-        DiscountType.NO_DISCOUNT,
-        description="The type of discount applied to the price, if any. "
-        "If no discount is applied, this should be set to NO_DISCOUNT.",
-    )
-    with_vat: bool = Field(
-        True,
-        description="True if the price includes VAT (Value Added Tax), false otherwise",
-    )
+    price: float
+    currency: str | None
+    price_per: Unit
+    price_is_discounted: bool = False
+    price_without_discount: float | None
+    discount_type: DiscountType = DiscountType.NO_DISCOUNT
+    with_vat: bool = True
 
 
 class LabelPrice(BaseModel):
@@ -72,9 +50,15 @@ class LabelPrice(BaseModel):
         ...,
         description="Currency of the price. Set to null if unknown. Examples: 'EUR', 'USD', 'GBP'",
     )
-    price_per: Unit = Field(..., description="Unit of the price")
+    price_per: Unit = Field(
+        ...,
+        description="Unit of the price. Can be one of: KILOGRAM: price is per kg, only if type = CATEGORY; "
+        "LITER: price is per liter, only if type = CATEGORY; "
+        "UNIT: price is per unit (available for both CATEGORY and PRODUCT types)",
+    )
     price_is_discounted: bool = Field(
-        False, description="true if the price is discounted, false otherwise"
+        False,
+        description="true if this particular price entry is a discounted price, false otherwise",
     )
     discount_type: DiscountType = Field(
         DiscountType.NO_DISCOUNT,
