@@ -1,6 +1,6 @@
 # Price tag evaluation
 
-The evaluation was performed on the dataset with tag [llm-evals-price-tags-ds-2.0](https://github.com/openfoodfacts/openfoodfacts-ai/blob/llm-evals-price-tags-ds-2.0/llm-evals/llm_evals/tasks/prices/price_tag_extraction/dataset.yaml).
+The evaluation was performed on the dataset with tag [llm-evals-price-tags-ds-1.2](https://github.com/openfoodfacts/openfoodfacts-ai/blob/llm-evals-price-tags-ds-1.2/llm-evals/llm_evals/tasks/prices/price_tag_extraction/dataset.yaml).
 
 
 ## Dataset characteristics
