@@ -8,6 +8,7 @@ from llm_evals.agent import EvaluationAgent
 from llm_evals.cache import (
     _load_cached_response,
     _save_cached_response,
+    disk_cache,
     get_query_cache_path,
 )
 
@@ -21,7 +22,7 @@ async def run_on_sample(*, image_urls: list[str], instructions: str) -> AgentRun
     )
 
 
-async def default_task_func(inputs: dict[str, Any]) -> dict[str, Any]:
+async def default_task_func(inputs: dict[str, Any]) -> str:
     evaluation_agent = EvaluationAgent.get()
     image_urls = inputs["image_urls"]
     json_schema = json.dumps(evaluation_agent.output_type.model_json_schema())
@@ -58,3 +59,23 @@ async def default_task_func(inputs: dict[str, Any]) -> dict[str, Any]:
     }
     _save_cached_response(query_cache_path, data)
     return json_response
+
+
+async def default_task_func_from_file(inputs: dict[str, Any]) -> str:
+    """Task function that retrieves the model output from the disk cache
+    and returns it.
+
+    Args:
+        inputs: A dictionary containing the input data for the task function.
+            We expect it to contain the key `image_id`.
+    Returns:
+        The model output as a string.
+    """
+    image_id = inputs["image_id"]
+    output: str | None = disk_cache.get(image_id)
+    if output is None:
+        raise ValueError(
+            f"missing key from cache: '{image_id}'. "
+            "Ensure that all samples in the dataset can be found in the JSONL prediction file."
+        )
+    return output

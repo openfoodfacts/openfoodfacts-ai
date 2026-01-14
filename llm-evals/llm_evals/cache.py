@@ -2,9 +2,14 @@ import functools
 import json
 from pathlib import Path
 
+import orjson
 from deepdiff import DeepHash
+from diskcache import Cache
 
 CACHE_DIR = Path("~/.cache/llm_evals").expanduser()
+
+# A temporary disk cache to store model outputs
+disk_cache = Cache()
 
 
 def get_query_cache_path(
@@ -94,3 +99,26 @@ def cache_llm_request_async(func):
         return result
 
     return wrapper
+
+
+def populate_disk_cache(disk_cache: Cache, prediction_path: Path) -> None:
+    """Populate the disk cache from a JSONL prediction file.
+
+    We expect each line of the file to be a JSON object with the following
+    keys:
+    - `image_id`: The ID of the image (str). Each sample in the original
+        dataset is indeed identified by its image ID.
+    - `output`: The model output (str)
+
+    We store each output in the disk cache, using the image ID as the key.
+
+    Args:
+        disk_cache: The disk cache to populate.
+        prediction_path: Path to the JSONL prediction file.
+    """
+    with prediction_path.open("r") as f:
+        for line in f:
+            item = orjson.loads(line)
+            image_id = str(item["image_id"])
+            output = item["output"]
+            disk_cache[image_id] = output
