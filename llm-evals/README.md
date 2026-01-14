@@ -24,12 +24,12 @@ You can run a specific task on a single image URL:
 python main.py run-task "https://prices.openfoodfacts.org/img/price-tags/000/070/000070276.webp" --model "google-vertex:gemini-2.5-flash-lite" --task "prices:price_tag_extraction"
 ```
 
-### Evaluate
+### Evaluate using LLM APIs
 
 To evaluate a model on a specific task using a predefined dataset, you can use the following command:
 
 ```bash
-python main.py evaluate --model "google-vertex:gemini-2.5-flash-lite" --task "prices:price_tag_extraction"
+python main.py evaluate from-api --model "google-vertex:gemini-2.5-flash-lite" --task "prices:price_tag_extraction"
 ```
 
 Each task has a specific configuration that defines the dataset, the instruction prompt, the output schema we expect from the model.
@@ -37,7 +37,7 @@ The dataset comes with custom evaluators that need to be developed. Evaluators a
 
 A list of available tasks can be found in the [tasks directory](./llm_evals/tasks).
 
-The `evaluate` command has several options to customize the evaluation process:
+The `evaluate from-api` command has several options to customize the evaluation process:
 
 - `--task` (**required**): Specifies the task to be evaluated. The task should be defined in the tasks directory.
 - `--model`: Specifies the model to be evaluated. You can use models from different providers (e.g., Google Vertex AI, OpenAI, etc.) by specifying the provider prefix (e.g., `google-vertex:`, `google-gla:`, `openrouter:`,...). Default is set to `google-vertex:gemini-2.5-flash-lite`.
@@ -60,8 +60,9 @@ The `evaluate` command has several options to customize the evaluation process:
 During evaluation, you can filter samples based on specific criteria. For example, to evaluate only samples with a `country:es` tag, you can use:
 
 ```bash
-python main.py evaluate --model "google-vertex:gemini-2.5-flash-lite" --task "prices:price_tag_extraction" --filter "tags == 'country:es'"
+python main.py evaluate from-api --model "google-vertex:gemini-2.5-flash-lite" --task "prices:price_tag_extraction" --filter "tags == 'country:es'"
 ```
+
 We use [dictquery](https://github.com/cyberlis/dictquery) under the hood for query parsing and filtering, so you can use any valid `dictquery` expression.
 
 The "real" syntax for filtering tags is actually ```--filter "\`metadata.tags.name\` == 'country:es'"```, but we provide `tags ==` as a convenient shortcut. Note that in the full syntax:
@@ -74,3 +75,27 @@ In short, we advice to use the `tags` shorthand out of convenience.
 To filter by case name (usually it's the ID), you can use `--filter "name == '89688'"`.
 
 For example, to filter price tags from France or the Netherlands that are of type 'product', you can use ```tags == 'type:product' AND (tags == 'country:nl' or tags == 'country:fr')```.
+
+
+### Evaluate using a prediction file
+
+In some case, benchmarking through a LLM API is not convenient, notably if the model is not supported by LLM API providers such as Open Router: these model require us to launch a vLLM server. Similarly, models we fine-tune ourselves can't be benchmarked easily without launching a vLLM server.
+
+That's why we support running the benchmark using a JSONL prediction file as input. You first need the model to generate output for each sample in the validation set, and save the results in a JSONL file. You can use vLLM to perform batch inference. This is especially convenient as this job can launched just after fine-tuning a new model (`labelr` provides this feature out of the box).
+
+Make sure that the instruction and schema provided during batch inference match the ones configured in the benchmark task. 
+
+To launch benchmark from a prediction file:
+
+```bash
+python main.py evaluate from-prediction-file --task "prices:price_tag_extraction" --prediction_path output_val.jsonl
+```
+
+The JSONL prediction file must contain one item per line, corresponding to a model prediction on a sample. Each line must have the following fields:
+
+- `image_id` (str): the ID of the image, as set in the sample found in the  original HF dataset that was used for training This value is compared to the `name` field in each dataset case, to match the case with the  model prediction.
+- `output`: the model generated output (str)
+
+Another option is to provide the ID of an Hugging Face model repository with `--hf-repo-id`. labelr will look for a file called `validation_output.jsonl` at the root of the repository and use this file as input. The name of the file is the repo can be customized with `--validation-file-name`.
+
+All options provided by the `from-api` command are also available with `from-prediction-file`, except the options related to model generation: `--model`, `--output-mode`, `--thinking-config`, and `--max-concurrency`.
