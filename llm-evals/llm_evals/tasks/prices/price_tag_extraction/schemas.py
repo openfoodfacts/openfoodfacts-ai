@@ -102,13 +102,11 @@ class Label(BaseModel):
     """
 
     type: Literal["PRODUCT", "CATEGORY"] | None = Field(
-        ...,
         description="The type of product the label is referring to. It should be "
         "`PRODUCT` for packaged products with barcode, and `CATEGORY` for raw "
         "products without barcode. If the type is unknown, this should be set to null.",
     )
     category: str | None = Field(
-        None,
         description="The category of the product. If type=CATEGORY, this should be set to the "
         "category of the product, such as Apples, Bananas, Tomatoes, etc. The category must be in English, "
         "even if the category is displayed in another language on the price tag. "
@@ -119,12 +117,10 @@ class Label(BaseModel):
         "If unknown, or if TYPE=PRODUCT, this should be set to null.",
     )
     has_multiple_categories: bool | None = Field(
-        None,
         description="If type is CATEGORY: if more than one category is present on the price tag, this should be true, "
         "false otherwise. If type is PRODUCT: it should be null",
     )
     prices: list[LabelPrice] = Field(
-        ...,
         description="All prices found on the label. Depending on the type of "
         "price tag, there can be multiple prices displayed. "
         "For packaged products (type=PRODUCT), the price per unit is the most common one. "
@@ -134,7 +130,6 @@ class Label(BaseModel):
         "the original price and the discounted price should be included in the list.",
     )
     origins: list[str] | None = Field(
-        ...,
         description="The countries of origin of the product, in English. "
         "If type=PRODUCT, this should be set to null. If type=CATEGORY, this should "
         """be set to the countries of origin of the product, such as ["France"], ["Italy"], """
@@ -145,14 +140,12 @@ class Label(BaseModel):
         "If type=CATEGORY and the origin is unknown, it should be set to null.",
     )
     organic: bool | None = Field(
-        ...,
         description="true if the product is organic, false otherwise. If true, "
         "there should be evidence on the label suggesting that the product is "
         "organic, such as the EU organic logo or other recognized organic certifications. If the organic status is unknown, "
         "it should be set to null.",
     )
     barcode: str | None = Field(
-        ...,
         description="The barcode of the product, if available. "
         "The barcode is usually a number with 13 (EAN13) or 8 (EAN8) digits. You should "
         "*NOT* try to decode the barcode stripe (also called modules), but use the "
@@ -160,7 +153,6 @@ class Label(BaseModel):
         "If type=CATEGORY, this should be null.",
     )
     product_name: str = Field(
-        ...,
         description="The name of the product, as displayed on the label. "
         "For raw products (type=CATEGORY), this is usually the name of the fruit or vegetable. "
         "For products with barcode (type=PRODUCT), it usually includes the brand, a short "
@@ -170,7 +162,6 @@ class Label(BaseModel):
         "'Radis Blanc', 'Concombre lisse', 'Courget Butternut', 'Tomatoes', 'Organic Bananas'",
     )
     uncertain_barcode_or_product_name: bool = Field(
-        False,
         description="true if the barcode (for type=PRODUCT) or category (for TYPE=CATEGORY) is uncertain: "
         "1) if the barcode (respectively the product name) is occluded (even partially), or blurred,"
         "2) if there is a reflection preventing accurate reading, "
@@ -178,7 +169,6 @@ class Label(BaseModel):
         "Otherwise, the value must be false.",
     )
     is_price_tag: bool = Field(
-        True,
         description="indicates whether the image shows a physical price tag attached to a product. "
         "For example, if the image seems to come from a receipt or a catalogue "
         "(or is a random image), this should be set to false.",
