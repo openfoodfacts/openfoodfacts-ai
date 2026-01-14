@@ -118,7 +118,7 @@ def from_prediction_file(
             "original HF dataset that was used for training. This value is compared "
             "to the `name` field in each dataset case, to match the case with the "
             "model prediction.\n"
-            "- `output`: the model output (str)",
+            "- `output`: the model generated output (str)",
         ),
     ] = None,
     hf_repo_id: Annotated[
@@ -134,6 +134,15 @@ def from_prediction_file(
             "Only one of `--hf-repo-id` or `--prediction-path` can be set.",
         ),
     ] = None,
+    validation_file_name: Annotated[
+        str,
+        typer.Option(
+            ...,
+            help="Name of the validation file inside the HF repo. Default is "
+            "`validation_output.jsonl`. This option is only used when "
+            "`--hf-repo-id` is set.",
+        ),
+    ] = "validation_output.jsonl",
     output_path: Annotated[
         Path | None,
         typer.Option(..., help="Path to save the evaluation report as a JSON file."),
@@ -202,7 +211,7 @@ def from_prediction_file(
 
     if hf_repo_id is not None:
         prediction_path_str = hf_hub_download(
-            repo_id=hf_repo_id, filename="validation_output.jsonl"
+            repo_id=hf_repo_id, filename=validation_file_name
         )
 
         if prediction_path_str is None:
