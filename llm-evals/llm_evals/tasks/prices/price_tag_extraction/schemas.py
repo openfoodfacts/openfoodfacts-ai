@@ -40,24 +40,20 @@ class LabelPrice(BaseModel):
     kilogram should be calculated.
     """
 
-    price: float = Field(..., description="Price in the local currency")
+    price: float = Field(description="Price in the local currency")
     with_vat: bool = Field(
-        True,
         description="True if the price includes VAT (Value Added Tax), false otherwise. "
         "If there is no VAT in the country, set to false. In most cases, this should be set to true.",
     )
     currency: str | None = Field(
-        ...,
         description="Currency of the price. Set to null if unknown. Examples: 'EUR', 'USD', 'GBP'",
     )
     price_per: Unit = Field(
-        ...,
         description="Unit of the price. Can be one of: KILOGRAM: price is per kg, only if type = CATEGORY; "
         "LITER: price is per liter, only if type = CATEGORY; "
         "UNIT: price is per unit (available for both CATEGORY and PRODUCT types)",
     )
     price_is_discounted: bool = Field(
-        False,
         description="true if this particular price entry is a discounted price, false otherwise",
     )
     discount_type: DiscountType = Field(
@@ -75,7 +71,6 @@ class LabelPrice(BaseModel):
         " - OTHER: other types of discounts.",
     )
     uncertain: bool = Field(
-        False,
         description="true if the price is uncertain: "
         "1) if the price is occluded (even partially), or blurred, "
         "2) if there is a reflection preventing accurate price reading, "
