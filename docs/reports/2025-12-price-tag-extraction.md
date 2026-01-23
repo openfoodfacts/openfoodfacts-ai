@@ -310,7 +310,6 @@ class LabelPrice(BaseModel):
         description="true if this particular price entry is a discounted price, false otherwise",
     )
     discount_type: DiscountType = Field(
-        DiscountType.NO_DISCOUNT,
         description="The type of discount applied to the price, if any. "
         "If no discount is applied, this should be set to NO_DISCOUNT. "
         "Possible discount types are: "
@@ -478,6 +477,12 @@ uv run main.py train --ds-repo-id openfoodfacts/price-tag-extraction --output-re
 
 `--preprocess-num-proc 8` and `--preprocess-writer-batch-size 2000` allow to make the dataset preprocessing much faster. Adapt the values to how memory-hungry the preprocessing is.
 
+The following environment variables were added to a .envrc file:
+
+- `HF_TOKEN`: token for HF Hub, it's used to push the model weights
+- `WANDB_API_KEY: API for Wandb, used for training tracking
+- `WANDB_PROJECT`, `WANDB_NAME`: configure the Wandb project and run name respectively
+
 ### 2026-01-14
 
 The training is over.
@@ -497,14 +502,14 @@ There were two issues with the current version of the dataset:
 
 I uploaded a new version of the dataset, with shuffled samples and all images with maximum size of 1024 (height or width).
 
-I also added the following improvements to the training script:
+I also added the following improvements to the training script (effective during next run):
 
 - add a default warmup ratio (ratio of number of steps) of 0.1, instead of a fixed `warmup_steps` value of 5
 - by default, don't shuffle the dataset (we did this before uploading the dataset)
 - set recommended default values recommended by Unsloth:
-    - `lora_dropout=0.05` (instead of 0)
     - `weight_decay=0.01` (instead of 0.001)
 
+LoRA dropout value was kept to 0.0, as Unsloth training is optimized for a LORA dropout of 0.0.
 
 Benchmark results (v2.0) using `llm-evals`:
 
@@ -530,20 +535,44 @@ So we get:
 - price: +4.3% (89.10 > 95.41%)
 - barcode: +3.6% (84.56 > 88.24%)
 - uncertain_barcode_or_product_name: -1.7% (94.13 > 92.42%)
+- category: -28.79% (28.79 > 0%)
 
-The 0% accuracy for category seems to arise from the fact the category names are in their original language (ex: French, German,...). To be confirmed, but it seems to be the case as well for all samples of type `CATEGORY` in the training set, which would explain this behavior.
+The 0% accuracy for category arises from the fact the category names predicted by the fine-tuned model are in their original language (ex: French, German,...). It is the case as well for all samples of type `CATEGORY` in the training set, which explains this behavior.
+
+After further analysis, it turns out the `origins` field are always in their original language as well.
 
 
-### Next steps
+## 2025-01-19 - 2025-01-23
 
-#### Fix the dataset
+I fixed the translation issues in the `category` and `origins` fields by:
 
-Ensure that all `category` values are in English, translate if needed.
+- automatically translate the category using gpt-oss-120b. After this automatic translation, a few issues were spotted and fixed manually.
+- map ~80% of origins to English using a harcoded mapping, and translate the remaining using gpt-oss-120b.
 
-#### Next training
+I used [directus](https://directus.io/) (a headless CMS) locally to act as a backend as a service, in order to store and update easily the JSON data thanks to the provided API. The search functionality (using filters on any field) was also really convenient to spot issues and correct them using the UI.
 
-Next training to be run: higher LORA (32, 64)
+I first created a `price_tag` collection and configured all the fields using the UI. I allowed public access (without authentication) by providing all permissions on the `price_tag` collection in the `Public` policy. I then generated a JSONL file from the dataset on the HF Hub, and uploaded the data on directus:
 
 ```bash
-uv run main.py train --ds-repo-id openfoodfacts/price-tag-extraction --output-repo-id openfoodfacts/price-tag-extractor --lora-r 32 lora-alpha 32 --preprocess-num-proc 8 --preprocess-writer-batch-size 2000
+uv run labelr directus upload-data --dataset-path dataset.jsonl --collection-name price_tag
+```
+
+I exported the data from directus using labelr:
+
+```bash
+uv run labelr directus export-data --output-path - --collection price_tag | jq -c '{image_id: .price_tag_id, output: {type, prices, origins, organic, barcode, product_name, category, has_multiple_categories, is_price_tag, uncertain_barcode_or_product_name}}' > updated_train_dataset.jsonl
+```
+
+I then uploaded the new dataset version to the HF Hub:
+
+```bash
+uv run labelr datasets update-llm-ds --dataset-path updated_train_dataset.jsonl --repo-id openfoodfacts/price-tag-extraction --split train
+```
+
+I used the `--show-diff` to verify the updates before uploading the new version of the dataset (before actually uploading it).
+
+A new training run was launched with higher LORA k value (`k=32`), and with the updated default values for hyperparameters (warmup ratio of 0.1, weight_decay of 0.01, shuffled dataset):
+
+```bash
+uv run main.py train --ds-repo-id openfoodfacts/price-tag-extraction --output-repo-id openfoodfacts/price-tag-extractor --lora-r 32 --lora-alpha 32 --preprocess-num-proc 8 --preprocess-writer-batch-size 2000
 ```
