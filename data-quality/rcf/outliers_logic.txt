@@ -1,0 +1,29 @@
+Problem:
+In product data, some numeric values are clearly wrong or extreme
+(for example very high sugar, salt, or price).
+These wrong values reduce data quality and lead to bad analysis.
+
+Aim:
+Find such extreme values (outliers) in a simple and reliable way.
+
+Solution logic (IQR method):-
+1. Take a list of numeric values.
+2. Ignore missing values (NaN / None).
+
+3. Find:-
+    Q1 -> 25% point of the data
+    Q3 -> 75% point of the data
+
+4. Compute IQR = Q3 - Q1.
+
+5. Define valid range:-
+    Lower bound = Q1 - (1.5 × IQR)
+    Upper bound = Q3 + (1.5 × IQR)
+
+6. Any value outside this range is an outlier.
+
+Output:
+1.Either a True/False mask for each value
+2.Or the index positions of outlier values
+
+
