@@ -515,15 +515,15 @@ Benchmark results (v2.0) using `llm-evals`:
 
 ```
 Detailed scores:
-  price: 499/523 (95.41% accuracy)
-  barcode: 360/408 (88.24% accuracy)
+  price: 501/523 (95.79% accuracy)
+  barcode: 359/408 (87.99% accuracy)
   uncertain_barcode_or_product_name: 488/528 (92.42% accuracy)
-  category: 0/55 (0.00% accuracy)
+  category: 3/59 (5.08% accuracy)
 ```
 
 For reference, the original model:
-```
 
+```
 Detailed scores:
   price: 466/523 (89.10% accuracy)
   barcode: 345/408 (84.56% accuracy)
@@ -532,17 +532,17 @@ Detailed scores:
 ```
 
 So we get:
-- price: +4.3% (89.10 > 95.41%)
-- barcode: +3.6% (84.56 > 88.24%)
+- price: +4.6% (89.10 > 95.79%)
+- barcode: +3.6% (84.56 > 87.99%)
 - uncertain_barcode_or_product_name: -1.7% (94.13 > 92.42%)
-- category: -28.79% (28.79 > 0%)
+- category: -23.71% (28.79 > 5.08%)
 
 The 0% accuracy for category arises from the fact the category names predicted by the fine-tuned model are in their original language (ex: French, German,...). It is the case as well for all samples of type `CATEGORY` in the training set, which explains this behavior.
 
 After further analysis, it turns out the `origins` field are always in their original language as well.
 
 
-## 2026-01-19 - 2026-01-23
+### 2026-01-19 - 2026-01-23
 
 I fixed the translation issues in the `category` and `origins` fields by:
 
@@ -576,3 +576,34 @@ A new training run was launched with higher LORA k value (`k=32`), and with the 
 ```bash
 uv run main.py train --ds-repo-id openfoodfacts/price-tag-extraction --output-repo-id openfoodfacts/price-tag-extractor --lora-r 32 --lora-alpha 32 --preprocess-num-proc 8 --preprocess-writer-batch-size 2000
 ```
+
+### 2026-01-26
+
+> **notes**: I made vLLM predictions reproducible by setting VLLM_ENABLE_V1_MULTIPROCESSING=0 as adviced in [vLLM documentation](https://docs.vllm.ai/en/latest/usage/reproducibility/). I relaunched predictions on validation set for the previous run and updated the metrics showed above accordingly.
+
+The training is over, let's run validation (with structured output):
+
+```bash
+uv run main.py validate --ds-repo-id openfoodfacts/price-tag-extraction --lora-repo-revision 2026-01-23-qwen3-vl-8b-lora-r-32 --lora-repo-id openfoodfacts/price-tag-extractor --output-path val.jsonl --base-model unsloth/Qwen3-VL-8B-Instruct
+```
+
+The results are the following:
+
+Detailed scores:
+  price: 500/523 (95.60% accuracy)
+  barcode: 360/408 (88.24% accuracy)
+  uncertain_barcode_or_product_name: 491/528 (92.99% accuracy)
+  category: 34/59 (57.63% accuracy)
+
+Training with LoRA `rank=32` does not bring noticable benefits compared to `rank=16`. We can also notice that the category extraction works much better after we fixed the category translations in the training set, we get a +28.84% improvement over the baseline.
+
+I suspect the training dataset generated using Gemini Flash 3 Preview (with minimal thinking) to contains errors which prevent the model to reach better performance. A manual analysis of the training set is needed. We could consider switching to a better (but more expensive) model such as Gemini 3 Pro to generate the training set.
+
+## Future research directions
+
+As a note, here are a few possible research directions we coul could explore in the future:
+
+- checking the training dataset for errors
+- generating the training dataset using Gemini 3 Pro
+- include vision layers in the blocks to fine-tune: currently, we don't add LoRA adapters on these layers, as vLLM does not support it. We could at least give it a try and generate the output with the transformers library instead of vLLM, to see whether it's interesting in our use case.
+- try other models from the Qwen family: it would be interesting to see the results on smaller models (such as [Qwen3 VL 4B](https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct))
