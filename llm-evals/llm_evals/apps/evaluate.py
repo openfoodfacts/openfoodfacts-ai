@@ -110,7 +110,6 @@ def from_prediction_file(
     prediction_path: Annotated[
         Path | None,
         typer.Option(
-            ...,
             help="Path to a JSONL file containing the model predictions. "
             "The file must contain one item per line, corresponding to a model "
             "prediction on a sample. Each line must have the following fields:\n"
@@ -124,7 +123,6 @@ def from_prediction_file(
     hf_repo_id: Annotated[
         str | None,
         typer.Option(
-            ...,
             help="ID of a Hugging Face model repository, containing a "
             "`validation_output.jsonl` JSONL file at the root of the repo. "
             "The file will be downloaded and be used instead of the file "
@@ -134,15 +132,21 @@ def from_prediction_file(
             "Only one of `--hf-repo-id` or `--prediction-path` can be set.",
         ),
     ] = None,
-    validation_file_name: Annotated[
+    revision: Annotated[
         str,
         typer.Option(
-            ...,
-            help="Name of the validation file inside the HF repo. Default is "
-            "`validation_output.jsonl`. This option is only used when "
-            "`--hf-repo-id` is set.",
+            help="The git revision (branch, tag or commit hash) to use when "
+            "downloading the prediction file from the Hugging Face Hub. Default is 'main'. "
+            "This option is only used when `--hf-repo-id` is set.",
         ),
-    ] = "validation_output.jsonl",
+    ] = "main",
+    hf_prediction_path: Annotated[
+        str,
+        typer.Option(
+            help="Name of the path containing predictions inside the HF repo. Default is "
+            "`predictions/val.jsonl`. This option is only used when `--hf-repo-id` is set.",
+        ),
+    ] = "predictions/val.jsonl",
     output_path: Annotated[
         Path | None,
         typer.Option(..., help="Path to save the evaluation report as a JSON file."),
@@ -211,7 +215,7 @@ def from_prediction_file(
 
     if hf_repo_id is not None:
         prediction_path_str = hf_hub_download(
-            repo_id=hf_repo_id, filename=validation_file_name
+            repo_id=hf_repo_id, filename=hf_prediction_path, revision=revision
         )
 
         if prediction_path_str is None:
