@@ -134,7 +134,7 @@ The price tag distribution is as follows:
 - all available samples associated with a price from other countries
 - 4,000 samples with invalid price tags (unreadable, truncated, not a price tag, no barcode,...). These allow the future trained model to correctly handle such cases.
 
-We first fetch all price tag IDs that are part of the benchmark to exclude them from the training dataset. In the `llm-evals` repository:
+We first fetch all price tag IDs that are part of the benchmark ([version v2.0](https://github.com/openfoodfacts/openfoodfacts-ai/blob/llm-evals-price-tags-ds-v2.0/llm-evals/llm_evals/tasks/prices/price_tag_extraction/dataset.yaml)) to exclude them from the training dataset. In the `llm-evals` repository:
 
 ```bash
 yq e -o=json llm_evals/tasks/prices/price_tag_extraction/dataset.yaml | jq -r '.cases[] | .name' | tr '\n' ',' | sed 's/,/),(/g' | sed 's/^/(/' | head -c -2```
@@ -465,6 +465,8 @@ Then, we upload the validation set to Hugging Face:
 uv run labelr datasets export-llm-ds --dataset-path dataset_val.jsonl --repo-id openfoodfacts/price-tag-extraction --split val --image-max-size 1024
 ```
 
+This first dataset version was tagged as `v1.0` [on the HF Hub repo](https://huggingface.co/datasets/openfoodfacts/price-tag-extraction/tree/v1.0).
+
 ## Training
 
 ### 2026-01-13
@@ -571,6 +573,8 @@ uv run labelr datasets update-llm-ds --dataset-path updated_train_dataset.jsonl 
 
 I used the `--show-diff` to verify the updates before uploading the new version of the dataset (before actually uploading it).
 
+The new version of the dataset was tagged as `v1.1` [on the HF Hub repo](https://huggingface.co/datasets/openfoodfacts/price-tag-extraction/tree/v1.1).
+
 A new training run was launched with higher LORA k value (`k=32`), and with the updated default values for hyperparameters (warmup ratio of 0.1, weight_decay of 0.01, shuffled dataset):
 
 ```bash
@@ -597,13 +601,17 @@ Detailed scores:
 
 Training with LoRA `rank=32` does not bring noticable benefits compared to `rank=16`. We can also notice that the category extraction works much better after we fixed the category translations in the training set, we get a +28.84% improvement over the baseline.
 
+The category metric is currently computed as exact match over the most specific category (or synonyms of it), which is quite harsh. We could consider introducing a secondary metric that would use a broader category match (for example, if the ground truth is "Red onions" and the prediction is "Onions", it would be considered as correct for the secondary metric).
+
 I suspect the training dataset generated using Gemini Flash 3 Preview (with minimal thinking) to contains errors which prevent the model to reach better performance. A manual analysis of the training set is needed. We could consider switching to a better (but more expensive) model such as Gemini 3 Pro to generate the training set.
 
 ## Future research directions
 
-As a note, here are a few possible research directions we coul could explore in the future:
+As a note, here are a few possible research directions we could explore in the future:
 
-- checking the training dataset for errors
-- generating the training dataset using Gemini 3 Pro
+- assessing the training dataset quality by examining more samples manually
+- generating the training dataset using a better vision model (ex: Gemini 3 Pro)
 - include vision layers in the blocks to fine-tune: currently, we don't add LoRA adapters on these layers, as vLLM does not support it. We could at least give it a try and generate the output with the transformers library instead of vLLM, to see whether it's interesting in our use case.
 - try other models from the Qwen family: it would be interesting to see the results on smaller models (such as [Qwen3 VL 4B](https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct))
+- introduce additional metrics to better capture the model performance over the other fields (`origins`, `organic`, `is_price_tag`, etc.)
+- add a secondary metric for category with broader matching
