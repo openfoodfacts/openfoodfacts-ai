@@ -2,6 +2,11 @@
 
 This report outlines the methodology and results of training a visual language model to extract price tag data from images, as part of the NLNet NGI0 project.
 
+[Model card on HF Hub](https://huggingface.co/openfoodfacts/price-tag-extractor)
+
+[Dataset card on HF Hub](https://huggingface.co/datasets/openfoodfacts/price-tag-extraction)
+
+
 ## Evaluation benchmark
 
 An evaluation benchmark was created using data from the Open Prices database. For each detected price tag, user confirmed or corrected the price, the product barcode or category, and discount information.
