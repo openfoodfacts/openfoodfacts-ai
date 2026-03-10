@@ -27,11 +27,11 @@ then
 fi
 
 # Clone OpenFoodFacts AI
-git clone --depth=1 https://github.com/openfoodfacts/openfoodfacts-ai.git
+git clone https://github.com/openfoodfacts/labelr.git
 
-export folder="/home/onyxia/work/openfoodfacts-ai"
+export folder="/home/onyxia/work/labelr"
 
-sudo -u ${USERNAME} sed -i "s/cd \/home\/onyxia\/work/cd \/home\/onyxia\/work\/openfoodfacts-ai/" /home/onyxia/.bashrc
+sudo -u ${USERNAME} sed -i "s/cd \/home\/onyxia\/work/cd \/home\/onyxia\/work\/labelr/" /home/onyxia/.bashrc
 
 # Install uv
 
