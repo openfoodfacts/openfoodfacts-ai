@@ -66,6 +66,12 @@ Detailed scores:
   category: 48/57 (84.21% accuracy)
 ```
 
+### OpenRouter Qwen3.5 397B A17B
+
+```bash
+uv run main.py evaluate from-api --task prices:price_tag_extraction --model openrouter:qwen/qwen3.5-397b-a17b --max-concurrency 2 --output-mode 'native+prompted'
+```
+
 ### OpenRouter Qwen 3 VL 8B Instruct
 
 ```bash
