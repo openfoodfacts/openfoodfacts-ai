@@ -190,6 +190,12 @@ I annotated ~100 samples of proofs in the US. I wanted to see whether the model 
 labelr datasets export --from ls --to hf --repo-id openfoodfacts/price-tag-detection --view-id 112 --image-max-size 1500 --label-names price-tag --skip-labels product
 ```
 
+I tagged the dataset as v1.1 with:
+
+```bash
+hf repo tag create openfoodfacts/price-tag-detection v1.1 --repo-type dataset --revision e71a5b765a5a7d4f47992906669378f2f2625567
+```
+
 Image max size is higher than on the previous export (=1024), in case we want to see the impact on metrics of larger images.
 
 I then launched a training run with similar hyperparameters as the model we have in production: 250 epochs, max image size of 960px, with yolo11x:
@@ -220,3 +226,10 @@ To compare with other versions of yolo, I also launched, with the same hyperpara
 - `yolo26x`
 
 For all these training runs, the validation set changed, so the metrics are not directly comparable to the model in production.
+
+The training lasted more than 24h, so Google Batch stopped the job and relaunched it..
+The model weights were not saved, as these are synced on Hugging Face at the end of the training, but we have the mAP50-95 metric for all runs:
+
+![image](assets/price_tag_detection_map_first_runs.png)
+
+Yolov8x was the best-performer, so I use this model for a new run. This time, I rented a RTX 6000 Ada GPU on Verda, which allowed to increase batch size from 2 (auto-batch size) to 16.
