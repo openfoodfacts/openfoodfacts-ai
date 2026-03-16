@@ -72,8 +72,8 @@ Here are different experiments.
 
 ### To be documented
 
-* ocr-cleaning (please add a description)
-* object-detection (related to logos and labels)
+* ocr-cleaning - tools for cleaning OCR text extracted from product images.
+* object-detection - experimentsfor detecting logos or labels in product images.
 
 ## 👷 Contributing
 
