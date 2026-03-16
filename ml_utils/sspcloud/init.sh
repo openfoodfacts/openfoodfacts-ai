@@ -11,12 +11,6 @@ exec 3>&1 4>&2
 trap 'exec 2>&4 1>&3' 0 1 2 3
 exec 1>log.out 2>&1
 
-# We save envvar to file for debugging
-env | sort > env_init.out
-
-# And for the used init script
-wget -O init_originel.sh ${PERSONAL_INIT_SCRIPT}
-
 # We retrieve the SSP Cloud username from the vault dir
 export SSP_USER_NAME=${VAULT_TOP_DIR:1}
 
@@ -29,13 +23,18 @@ fi
 # Clone OpenFoodFacts AI
 git clone https://github.com/openfoodfacts/labelr.git
 
-export folder="/home/onyxia/work/labelr"
-
-sudo -u ${USERNAME} sed -i "s/cd \/home\/onyxia\/work/cd \/home\/onyxia\/work\/labelr/" /home/onyxia/.bashrc
+# We change the default directory to labelr/packages/train-yolo, which is where the training code is located
+sudo -u ${USERNAME} sed -i "s/cd \/home\/onyxia\/work/cd \/home\/onyxia\/work\/labelr\/packages\/train-yolo/" /home/onyxia/.bashrc
 
 # Install uv
 
 curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install direnv
+
+curl -sfL https://direnv.net/install.sh | bash
+echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
+
 
 # Add ~/.local/bin to PATH in .bashrc
 if ! grep -q 'export PATH="$HOME/.local/bin:$PATH"' /home/onyxia/.bashrc; then
@@ -44,6 +43,3 @@ fi
 
 # Download install.sh script
 wget -O install.sh https://raw.githubusercontent.com/openfoodfacts/openfoodfacts-ai/refs/heads/develop/ml_utils/sspcloud/install.sh
-
-# Final env (for debugging)
-env | sort > env_final.out
