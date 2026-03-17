@@ -23,9 +23,6 @@ fi
 # Clone OpenFoodFacts AI
 git clone https://github.com/openfoodfacts/labelr.git
 
-# We change the default directory to labelr/packages/train-yolo, which is where the training code is located
-sudo -u ${USERNAME} sed -i "s/cd \/home\/onyxia\/work/cd \/home\/onyxia\/work\/labelr\/packages\/train-yolo/" /home/onyxia/.bashrc
-
 # Install uv
 
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -43,3 +40,17 @@ fi
 
 # Download install.sh script
 wget -O install.sh https://raw.githubusercontent.com/openfoodfacts/openfoodfacts-ai/refs/heads/develop/ml_utils/sspcloud/install.sh
+
+# We change the default directory to labelr/packages/train-yolo, which is where the training code is located
+sudo -u ${USERNAME} echo 'cd /home/onyxia/work/labelr/packages/train-yolo' >> /home/onyxia/.bashrc
+
+# Run uv sync to install the python dependencies
+cd /home/onyxia/work/labelr/packages/train-yolo && uv sync
+
+
+# Install useful packages and dependencies for Ultralytics
+apt update
+apt install -y tmux htop
+
+# This is required for Ultralytics package
+apt install -y ffmpeg libsm6 libxext6
