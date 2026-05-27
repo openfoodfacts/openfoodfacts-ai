@@ -7,6 +7,7 @@ TaskType = Literal[
     "food:product_info_extraction",
     "food:product_categorization",
     "prices:price_tag_extraction",
+    "prices:receipt_anonymization",
 ]
 
 

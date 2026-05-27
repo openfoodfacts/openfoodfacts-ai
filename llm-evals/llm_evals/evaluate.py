@@ -23,12 +23,16 @@ from llm_evals.tasks.food.product_info_extraction.config import (
 from llm_evals.tasks.prices.price_tag_extraction.config import (
     CONFIG as prices_price_tag_extraction_config,
 )
+from llm_evals.tasks.prices.receipt_anonymization.config import (
+    CONFIG as prices_receipt_anonymization_config,
+)
 from llm_evals.types import OutputMode, TaskConfig, TaskType
 
 TASK_CONFIG_MAPPING: dict[TaskType, TaskConfig] = {
     "food:product_info_extraction": food_product_info_extraction_config,
     "food:product_categorization": food_product_categorization_config,
     "prices:price_tag_extraction": prices_price_tag_extraction_config,
+    "prices:receipt_anonymization": prices_receipt_anonymization_config,
 }
 
 
