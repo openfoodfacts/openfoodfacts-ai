@@ -15,6 +15,7 @@ dataset = Dataset(
             },
             expected_output=ProductInfoExtractionResponseModel(
                 brands=[],
+                product_names=[],
                 ingredients=[
                     IngredientList(
                         language="en",
@@ -22,7 +23,11 @@ dataset = Dataset(
                         truncated=False,
                     )
                 ],
+                nutrition=None,
+                quantity=None,
+                comment=None,
                 labels=[],
+                main_lang=None,
             ),
             metadata={"country": "us", "langs": ["en"]},
         ),
@@ -33,9 +38,14 @@ dataset = Dataset(
                 ]
             },
             expected_output=ProductInfoExtractionResponseModel(
+                product_names=[],
                 brands=["Ginger People"],
                 ingredients=[],
                 labels=[],
+                nutrition=None,
+                quantity=None,
+                comment=None,
+                main_lang=None,
             ),
         ),
     ],
