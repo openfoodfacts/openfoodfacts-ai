@@ -6,6 +6,7 @@ from .evaluators import CheckExtraction
 from .schemas import IngredientList, ProductInfoExtractionResponseModel
 
 dataset = Dataset(
+    name="Product Information Extraction",
     cases=[
         Case(
             inputs={

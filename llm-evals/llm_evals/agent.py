@@ -134,7 +134,7 @@ class EvaluationAgent:
         return self._model
 
     @property
-    def output_type(self) -> type:
+    def output_type(self) -> type[BaseModel]:
         """Get the expected output type of the evaluation agent."""
         return self._output_type
 

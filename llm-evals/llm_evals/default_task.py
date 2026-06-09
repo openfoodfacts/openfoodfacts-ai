@@ -43,7 +43,7 @@ async def default_task_func(inputs: dict[str, Any]) -> str:
     result = await run_on_sample(
         image_urls=image_urls, instructions=evaluation_agent.instructions
     )
-    usage = result.usage()
+    usage = result.usage
 
     json_response = result.output.model_dump_json()
     data = {
