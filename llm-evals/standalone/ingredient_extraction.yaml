@@ -12,7 +12,7 @@ cases:
             Carne de cerdo, tocino, lactosa, sal, proteínas de la leche, dextrosa,
             especias, aromas, aromas de humo, estabilizantes (E-450, E-451), antioxidante
             (E-301), conservadores (E-250, E-252), colorante (E-120) y extracto de pimentón.
-          truncated: false
+          invalid: false
     evaluators: []
   - name: "3481910513854"
     inputs:
@@ -31,7 +31,7 @@ cases:
             antioxydants : acide ascorbique, ascorbate de sodium ; colorant : carmins
             ; enveloppe : boyau naturel de mouton. Traces éventuelles de moutarde, gluten,
             pistache."
-          truncated: false
+          invalid: false
     evaluators: []
   - name: "3594800001116"
     inputs:
@@ -45,7 +45,7 @@ cases:
             ascorbique, enzymes : xylanase (BLE), alpha-amylase (BLE)}, vin blanc (18,1%)
             (SULFITES), huile d'ARACHIDE, sucre, poudre levante (diphosphate disodique
             E450i, carbonate acide de sodium E500ii, farine de BLE)."
-          truncated: false
+          invalid: false
     evaluators: []
   - name: "5410046001766"
     inputs:
@@ -60,24 +60,24 @@ cases:
           ingredients:
             "fruits: fraises 37%; rhubarbe 25%, sucre, gélifiant: pectines,
             correcteurs d'acidité: acide citrique; citrates de calcium, jus de cassis
-            concentré, antioxydant: acide ascorbique. Sans édulcorant ni conservateur."
-          truncated: false
+            concentré, antioxydant: acide ascorbique.<VARIANT_ Sans édulcorant ni conservateur.||>"
+          invalid: false
         - language: nl
           # Google Cloud OCR replaced "calciumcitraten" by "calciumcitrate"
           ingredients:
             "vruchten: aardbeien 37%; rabarber 25%, suiker, geleermiddel: pectinen,
             zuurteregelaars: citroenzuur; calciumcitraten, zwarte bessap concentraat,
-            antioxidant: ascorbinezuur. Zonder zoetstof noch conserveermiddel."
-          truncated: false
+            antioxidant: ascorbinezuur.<VARIANT_ Zonder zoetstof noch conserveermiddel.||>"
+          invalid: false
         - language: de
           # Google Cloud OCR errors:
           # - ";" was missing after "Erdbeeren 37%"
           # note: typo in the ingredient list, "Johannisbeerensaft-konzentrat" instead of "Johannisbeersaft-konzentrat"
           ingredients:
             "Früchte: Erdbeeren 37%; Rhabarber 25%, Zucker, Geliermittel: Pektine,
-            Säureregulatoren: Citronensäure; Calciumcitrate, schwarzes Johannisbeerensaft-konzentrat,
-            Antioxidationsmittel: Ascorbinsäure. Ohne Süßungsmittel und Konservierungsstoffe."
-          truncated: false
+            Säureregulatoren: Citronensäure; Calciumcitrate, schwarzes <VARIANT_Johannisbeerensaft||Johannisbeersaft>-konzentrat,
+            Antioxidationsmittel: Ascorbinsäure.<VARIANT_ Ohne Süßungsmittel und Konservierungsstoffe.||>"
+          invalid: false
     evaluators: []
   - name: "3392590205277"
     inputs:
@@ -100,7 +100,7 @@ cases:
             équitable français Agri-Éthique. MIX POUR FRANGIPANE : Sucre, farine de blé,
             amandes en poudre (12%), arôme. Peut contenir des traces d'œuf, de soja,
             de sésame et de fruits à coque."
-          truncated: false
+          invalid: false
     evaluators: []
   - name: "5410046000028"
     inputs:
@@ -111,13 +111,13 @@ cases:
         - language: fr
           # No need to add ingredients as the field is truncated.
           ingredients: ""
-          truncated: true
+          invalid: true
         - language: nl
           ingredients: ""
-          truncated: true
+          invalid: true
         - language: de
           ingredients: ""
-          truncated: true
+          invalid: true
     evaluators: []
   - name: "3760275810168"
     inputs:
@@ -145,7 +145,7 @@ cases:
             d''acides gras), farine de blé tendre de type "00", fromage râpé (lait, sel,
             présure), fibre de bambou, vin rouge (sulfites), plantes aromatiques, arômes,
             épices. Peut contenir des traces de soja et de noix.'
-          truncated: false
+          invalid: false
     evaluators: []
   - name: "3230140005031"
     inputs:
@@ -157,27 +157,27 @@ cases:
     expected_output:
       ingredient_lists:
         - language: fr
-          #                         # Google Cloud OCR errors:
-          #                         # - "Comichons" instead of "Cornichons"
-          #                         # - "grains coriandre" instead of "graines de coriandre"
-          #                         # - "aromes" instead of "arômes"
+          # Google Cloud OCR errors:
+          # - "Comichons" instead of "Cornichons"
+          # - "grains coriandre" instead of "graines de coriandre"
+          # - "aromes" instead of "arômes"
           ingredients:
             "Cornichons (dont conservateur : disulfite de potassium), eau,
             vinaigre d'alcool, oignons, sel, estragon, graines de moutarde jaune, graines
             de coriandre, arômes naturels, affermissant : chlorure de calcium."
-          truncated: false
+          invalid: false
         - language: en
           ingredients:
             "Gherkins (preservative : potassium metabisulphite), water, vinegar,
             onions, salt, tarragon, yellow mustard seeds, coriander seeds, natural flavours,
             firming agent : calcium chloride."
-          truncated: false
+          invalid: false
         - language: de
           ingredients:
             "Essiggurken (Konservierungsmittel : Kaliummetabisulfit), Wasser,
             Branntweinessig, Silberzwiebeln, Salz, Estragon, Senfkörner, Koriadersamen,
-            natürliche Aromen, Festigunsmittel : Calciumchlorid."
-          truncated: false
+            natürliche Aromen, <VARIANT_Festigunsmittel||Festigungsmittel> : Calciumchlorid."
+          invalid: false
     evaluators: []
 evaluators:
   - CustomEvaluator

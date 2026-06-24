@@ -18,6 +18,8 @@ uv run --env-file=.env evaluate_ingredient_extraction.py qwen3.5-397b-a17b
 ```
 """
 
+import itertools
+import re
 import typing
 from dataclasses import dataclass
 
@@ -51,8 +53,8 @@ class IngredientList(BaseModel):
         "visible part of the ingredient list. Do *NOT* modify the ingredient list in any "
         "way.",
     )
-    truncated: bool = Field(
-        description="Whether the ingredient list is truncated or occluded on the image",
+    invalid: bool = Field(
+        description="Whether the ingredient list is truncated, occluded or too blurry to read accurately",
     )
 
 
@@ -88,6 +90,30 @@ def get_instructions(inputs: Inputs) -> str | list:
     return [instructions, ImageUrl(url=inputs.image_url)]
 
 
+variant_regex = re.compile(r"<VARIANT_[^|]+\|\|[^>]*>")
+
+
+def generate_string_variants(s: str):
+    offset = 0
+    combinations = []
+    has_match = False
+    for match in variant_regex.finditer(s):
+        has_match = True
+        combinations.append([s[offset : match.start()]])
+        variant_1, variant_2 = match.group(0).split("||")
+        variant_1 = variant_1.removeprefix("<VARIANT_")
+        variant_2 = variant_2.removesuffix(">")
+        combinations.append([variant_1, variant_2])
+        offset = match.end()
+
+    if has_match:
+        if offset < len(s):
+            combinations.append([s[offset:]])
+        return ["".join(x) for x in itertools.product(*combinations)]
+    else:
+        return [s]
+
+
 @dataclass
 class CustomEvaluator(Evaluator[Inputs, ExpectedOutput, MetaData]):
     def evaluate(
@@ -104,12 +130,10 @@ class CustomEvaluator(Evaluator[Inputs, ExpectedOutput, MetaData]):
                     value=False,
                     reason=f"output has {len(output.ingredient_lists)} ingredient lists, expected {len(expected_output.ingredient_lists)}",
                 )
-            for i, (output_list, expected_list) in enumerate(
-                zip(
-                    output.ingredient_lists,
-                    expected_output.ingredient_lists,
-                    strict=True,
-                )
+            for output_list, expected_list in zip(
+                output.ingredient_lists,
+                expected_output.ingredient_lists,
+                strict=True,
             ):
                 if output_list != expected_list:
                     if output_list.language != expected_list.language:
@@ -117,18 +141,23 @@ class CustomEvaluator(Evaluator[Inputs, ExpectedOutput, MetaData]):
                             value=False,
                             reason=f"language mismatch: output={output_list.language}, expected={expected_list.language}",
                         )
-                    if output_list.truncated != expected_list.truncated:
+                    if output_list.invalid != expected_list.invalid:
                         return EvaluationReason(
                             value=False,
-                            reason=f"truncated mismatch for lang {output_list.language}: output={output_list.truncated}, expected={expected_list.truncated}",
+                            reason=f"invalid mismatch for lang {output_list.language}: output={output_list.invalid}, expected={expected_list.invalid}",
                         )
 
-                    if output_list.truncated:
+                    if output_list.invalid:
                         continue
+
                     normalized_output = normalize(output_list.ingredients)
-                    normalized_expected = normalize(expected_list.ingredients)
-                    diff = get_diff(normalized_output, normalized_expected)
-                    if diff:
+                    matched = False
+                    for expected in generate_string_variants(expected_list.ingredients):
+                        normalized_expected = normalize(expected)
+                        diff = get_diff(normalized_output, normalized_expected)
+                        if not diff:
+                            matched = True
+                    if not matched:
                         return EvaluationReason(
                             value=False,
                             reason=f"ingredients mismatch\ndiff:\n{diff}\noutput:\n{output_list.ingredients}\nexpected:\n{expected_list.ingredients}",

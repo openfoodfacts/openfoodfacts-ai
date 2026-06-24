@@ -94,9 +94,7 @@
           "type": "array"
         }
       },
-      "required": [
-        "inputs"
-      ],
+      "required": ["inputs"],
       "title": "Case",
       "type": "object"
     },
@@ -112,17 +110,13 @@
           "title": "Ingredients",
           "type": "string"
         },
-        "truncated": {
-          "description": "Whether the ingredient list is truncated or occluded on the image",
-          "title": "Truncated",
+        "invalid": {
+          "description": "Whether the ingredient list is truncated, occluded or too blurry to read accurately",
+          "title": "Invalid",
           "type": "boolean"
         }
       },
-      "required": [
-        "language",
-        "ingredients",
-        "truncated"
-      ],
+      "required": ["language", "ingredients", "invalid"],
       "title": "IngredientList",
       "type": "object"
     },
@@ -133,9 +127,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "image_url"
-      ],
+      "required": ["image_url"],
       "title": "Inputs",
       "type": "object"
     },
@@ -709,11 +701,7 @@
         "tool_choice": {
           "anyOf": [
             {
-              "enum": [
-                "none",
-                "required",
-                "auto"
-              ],
+              "enum": ["none", "required", "auto"],
               "type": "string"
             },
             {
@@ -770,25 +758,14 @@
               "type": "boolean"
             },
             {
-              "enum": [
-                "minimal",
-                "low",
-                "medium",
-                "high",
-                "xhigh"
-              ],
+              "enum": ["minimal", "low", "medium", "high", "xhigh"],
               "type": "string"
             }
           ],
           "title": "Thinking"
         },
         "service_tier": {
-          "enum": [
-            "auto",
-            "default",
-            "flex",
-            "priority"
-          ],
+          "enum": ["auto", "default", "flex", "priority"],
           "title": "Service Tier",
           "type": "string"
         },
@@ -810,9 +787,7 @@
           "type": "array"
         }
       },
-      "required": [
-        "ingredient_lists"
-      ],
+      "required": ["ingredient_lists"],
       "title": "Output",
       "type": "object"
     },
@@ -970,9 +945,7 @@
           "type": "array"
         }
       },
-      "required": [
-        "function_tools"
-      ],
+      "required": ["function_tools"],
       "title": "ToolOrOutput",
       "type": "object"
     },
@@ -983,9 +956,7 @@
           "title": "Contains"
         }
       },
-      "required": [
-        "Contains"
-      ],
+      "required": ["Contains"],
       "title": "short_spec_Contains",
       "type": "object"
     },
@@ -996,9 +967,7 @@
           "title": "Equals"
         }
       },
-      "required": [
-        "Equals"
-      ],
+      "required": ["Equals"],
       "title": "short_spec_Equals",
       "type": "object"
     },
@@ -1027,9 +996,7 @@
           "$ref": "#/$defs/SpanQuery"
         }
       },
-      "required": [
-        "HasMatchingSpan"
-      ],
+      "required": ["HasMatchingSpan"],
       "title": "short_spec_HasMatchingSpan",
       "type": "object"
     },
@@ -1041,9 +1008,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "IsInstance"
-      ],
+      "required": ["IsInstance"],
       "title": "short_spec_IsInstance",
       "type": "object"
     },
@@ -1055,9 +1020,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "LLMJudge"
-      ],
+      "required": ["LLMJudge"],
       "title": "short_spec_LLMJudge",
       "type": "object"
     },
@@ -1077,9 +1040,7 @@
           "title": "Maxduration"
         }
       },
-      "required": [
-        "MaxDuration"
-      ],
+      "required": ["MaxDuration"],
       "title": "short_spec_MaxDuration",
       "type": "object"
     },
@@ -1090,9 +1051,7 @@
           "$ref": "#/$defs/spec_params_ConfusionMatrixEvaluator"
         }
       },
-      "required": [
-        "ConfusionMatrixEvaluator"
-      ],
+      "required": ["ConfusionMatrixEvaluator"],
       "title": "spec_ConfusionMatrixEvaluator",
       "type": "object"
     },
@@ -1103,9 +1062,7 @@
           "$ref": "#/$defs/spec_params_Contains"
         }
       },
-      "required": [
-        "Contains"
-      ],
+      "required": ["Contains"],
       "title": "spec_Contains",
       "type": "object"
     },
@@ -1116,9 +1073,7 @@
           "$ref": "#/$defs/spec_params_Equals"
         }
       },
-      "required": [
-        "Equals"
-      ],
+      "required": ["Equals"],
       "title": "spec_Equals",
       "type": "object"
     },
@@ -1129,9 +1084,7 @@
           "$ref": "#/$defs/spec_params_HasMatchingSpan"
         }
       },
-      "required": [
-        "HasMatchingSpan"
-      ],
+      "required": ["HasMatchingSpan"],
       "title": "spec_HasMatchingSpan",
       "type": "object"
     },
@@ -1142,9 +1095,7 @@
           "$ref": "#/$defs/spec_params_IsInstance"
         }
       },
-      "required": [
-        "IsInstance"
-      ],
+      "required": ["IsInstance"],
       "title": "spec_IsInstance",
       "type": "object"
     },
@@ -1155,9 +1106,7 @@
           "$ref": "#/$defs/spec_params_KolmogorovSmirnovEvaluator"
         }
       },
-      "required": [
-        "KolmogorovSmirnovEvaluator"
-      ],
+      "required": ["KolmogorovSmirnovEvaluator"],
       "title": "spec_KolmogorovSmirnovEvaluator",
       "type": "object"
     },
@@ -1168,9 +1117,7 @@
           "$ref": "#/$defs/spec_params_LLMJudge"
         }
       },
-      "required": [
-        "LLMJudge"
-      ],
+      "required": ["LLMJudge"],
       "title": "spec_LLMJudge",
       "type": "object"
     },
@@ -1181,9 +1128,7 @@
           "$ref": "#/$defs/spec_params_PrecisionRecallEvaluator"
         }
       },
-      "required": [
-        "PrecisionRecallEvaluator"
-      ],
+      "required": ["PrecisionRecallEvaluator"],
       "title": "spec_PrecisionRecallEvaluator",
       "type": "object"
     },
@@ -1194,9 +1139,7 @@
           "$ref": "#/$defs/spec_params_ROCAUCEvaluator"
         }
       },
-      "required": [
-        "ROCAUCEvaluator"
-      ],
+      "required": ["ROCAUCEvaluator"],
       "title": "spec_ROCAUCEvaluator",
       "type": "object"
     },
@@ -1204,12 +1147,7 @@
       "additionalProperties": false,
       "properties": {
         "predicted_from": {
-          "enum": [
-            "expected_output",
-            "output",
-            "metadata",
-            "labels"
-          ],
+          "enum": ["expected_output", "output", "metadata", "labels"],
           "title": "Predicted From",
           "type": "string"
         },
@@ -1225,12 +1163,7 @@
           "title": "Predicted Key"
         },
         "expected_from": {
-          "enum": [
-            "expected_output",
-            "output",
-            "metadata",
-            "labels"
-          ],
+          "enum": ["expected_output", "output", "metadata", "labels"],
           "title": "Expected From",
           "type": "string"
         },
@@ -1279,9 +1212,7 @@
           "title": "Evaluation Name"
         }
       },
-      "required": [
-        "value"
-      ],
+      "required": ["value"],
       "title": "spec_params_Contains",
       "type": "object"
     },
@@ -1303,9 +1234,7 @@
           "title": "Evaluation Name"
         }
       },
-      "required": [
-        "value"
-      ],
+      "required": ["value"],
       "title": "spec_params_Equals",
       "type": "object"
     },
@@ -1327,9 +1256,7 @@
           "title": "Evaluation Name"
         }
       },
-      "required": [
-        "query"
-      ],
+      "required": ["query"],
       "title": "spec_params_HasMatchingSpan",
       "type": "object"
     },
@@ -1352,9 +1279,7 @@
           "title": "Evaluation Name"
         }
       },
-      "required": [
-        "type_name"
-      ],
+      "required": ["type_name"],
       "title": "spec_params_IsInstance",
       "type": "object"
     },
@@ -1366,11 +1291,7 @@
           "type": "string"
         },
         "positive_from": {
-          "enum": [
-            "expected_output",
-            "assertions",
-            "labels"
-          ],
+          "enum": ["expected_output", "assertions", "labels"],
           "title": "Positive From",
           "type": "string"
         },
@@ -1386,10 +1307,7 @@
           "title": "Positive Key"
         },
         "score_from": {
-          "enum": [
-            "scores",
-            "metrics"
-          ],
+          "enum": ["scores", "metrics"],
           "title": "Score From",
           "type": "string"
         },
@@ -1402,10 +1320,7 @@
           "type": "integer"
         }
       },
-      "required": [
-        "score_key",
-        "positive_from"
-      ],
+      "required": ["score_key", "positive_from"],
       "title": "spec_params_KolmogorovSmirnovEvaluator",
       "type": "object"
     },
@@ -1473,9 +1388,7 @@
           "title": "Assertion"
         }
       },
-      "required": [
-        "rubric"
-      ],
+      "required": ["rubric"],
       "title": "spec_params_LLMJudge",
       "type": "object"
     },
@@ -1487,11 +1400,7 @@
           "type": "string"
         },
         "positive_from": {
-          "enum": [
-            "expected_output",
-            "assertions",
-            "labels"
-          ],
+          "enum": ["expected_output", "assertions", "labels"],
           "title": "Positive From",
           "type": "string"
         },
@@ -1507,10 +1416,7 @@
           "title": "Positive Key"
         },
         "score_from": {
-          "enum": [
-            "scores",
-            "metrics"
-          ],
+          "enum": ["scores", "metrics"],
           "title": "Score From",
           "type": "string"
         },
@@ -1523,10 +1429,7 @@
           "type": "integer"
         }
       },
-      "required": [
-        "score_key",
-        "positive_from"
-      ],
+      "required": ["score_key", "positive_from"],
       "title": "spec_params_PrecisionRecallEvaluator",
       "type": "object"
     },
@@ -1538,11 +1441,7 @@
           "type": "string"
         },
         "positive_from": {
-          "enum": [
-            "expected_output",
-            "assertions",
-            "labels"
-          ],
+          "enum": ["expected_output", "assertions", "labels"],
           "title": "Positive From",
           "type": "string"
         },
@@ -1558,10 +1457,7 @@
           "title": "Positive Key"
         },
         "score_from": {
-          "enum": [
-            "scores",
-            "metrics"
-          ],
+          "enum": ["scores", "metrics"],
           "title": "Score From",
           "type": "string"
         },
@@ -1574,10 +1470,7 @@
           "type": "integer"
         }
       },
-      "required": [
-        "score_key",
-        "positive_from"
-      ],
+      "required": ["score_key", "positive_from"],
       "title": "spec_params_ROCAUCEvaluator",
       "type": "object"
     }
@@ -1685,9 +1578,7 @@
       "type": "string"
     }
   },
-  "required": [
-    "cases"
-  ],
+  "required": ["cases"],
   "title": "Dataset",
   "type": "object"
 }
