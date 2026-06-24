@@ -1,0 +1,184 @@
+# yaml-language-server: $schema=ingredient_extraction_schema.json
+name: ingredient_extraction
+cases:
+  - name: "8480000590909"
+    inputs:
+      image_url: https://images.openfoodfacts.org/images/products/848/000/059/0909/ingredients_es.15.400.jpg
+    metadata: null
+    expected_output:
+      ingredient_lists:
+        - language: es
+          ingredients:
+            Carne de cerdo, tocino, lactosa, sal, proteínas de la leche, dextrosa,
+            especias, aromas, aromas de humo, estabilizantes (E-450, E-451), antioxidante
+            (E-301), conservadores (E-250, E-252), colorante (E-120) y extracto de pimentón.
+          truncated: false
+    evaluators: []
+  - name: "3481910513854"
+    inputs:
+      image_url: https://images.openfoodfacts.org/images/products/348/191/051/3854/ingredients_fr.20.full.jpg
+    metadata:
+      difficulty: null
+      tags:
+        - google-cloud-error
+    expected_output:
+      ingredient_lists:
+        - language: fr
+          # Google Cloud OCR was missing the ";" after "carmins"
+          ingredients:
+            "viande de bœuf 86%, eau, sel, dextrose, épices et plante aromatique,
+            arômes naturels, acidifiants : lactate de potassium, acétates de sodium ;
+            antioxydants : acide ascorbique, ascorbate de sodium ; colorant : carmins
+            ; enveloppe : boyau naturel de mouton. Traces éventuelles de moutarde, gluten,
+            pistache."
+          truncated: false
+    evaluators: []
+  - name: "3594800001116"
+    inputs:
+      image_url: https://images.openfoodfacts.org/images/products/359/480/000/1116/ingredients_fr.7.full.jpg
+    metadata: null
+    expected_output:
+      ingredient_lists:
+        - language: fr
+          ingredients:
+            "Farine de BLE {(GLUTEN, agent de traitement de la farine: acide
+            ascorbique, enzymes : xylanase (BLE), alpha-amylase (BLE)}, vin blanc (18,1%)
+            (SULFITES), huile d'ARACHIDE, sucre, poudre levante (diphosphate disodique
+            E450i, carbonate acide de sodium E500ii, farine de BLE)."
+          truncated: false
+    evaluators: []
+  - name: "5410046001766"
+    inputs:
+      image_url: https://images.openfoodfacts.org/images/products/541/004/600/1766/ingredients_fr.7.full.jpg
+    metadata:
+      difficulty: null
+      tags:
+        - google-cloud-error
+    expected_output:
+      ingredient_lists:
+        - language: fr
+          ingredients:
+            "fruits: fraises 37%; rhubarbe 25%, sucre, gélifiant: pectines,
+            correcteurs d'acidité: acide citrique; citrates de calcium, jus de cassis
+            concentré, antioxydant: acide ascorbique. Sans édulcorant ni conservateur."
+          truncated: false
+        - language: nl
+          # Google Cloud OCR replaced "calciumcitraten" by "calciumcitrate"
+          ingredients:
+            "vruchten: aardbeien 37%; rabarber 25%, suiker, geleermiddel: pectinen,
+            zuurteregelaars: citroenzuur; calciumcitraten, zwarte bessap concentraat,
+            antioxidant: ascorbinezuur. Zonder zoetstof noch conserveermiddel."
+          truncated: false
+        - language: de
+          # Google Cloud OCR errors:
+          # - ";" was missing after "Erdbeeren 37%"
+          # note: typo in the ingredient list, "Johannisbeerensaft-konzentrat" instead of "Johannisbeersaft-konzentrat"
+          ingredients:
+            "Früchte: Erdbeeren 37%; Rhabarber 25%, Zucker, Geliermittel: Pektine,
+            Säureregulatoren: Citronensäure; Calciumcitrate, schwarzes Johannisbeerensaft-konzentrat,
+            Antioxidationsmittel: Ascorbinsäure. Ohne Süßungsmittel und Konservierungsstoffe."
+          truncated: false
+    evaluators: []
+  - name: "3392590205277"
+    inputs:
+      image_url: https://images.openfoodfacts.org/images/products/339/259/020/5277/ingredients_fr.11.full.jpg
+    metadata:
+      difficulty: null
+      tags:
+        - google-cloud-error
+    expected_output:
+      ingredient_lists:
+        - language: fr
+          # 3 google cloud errors:
+          # - "euf" instead of "œuf"
+          # - missing ":" after "MIX POUR FRANGIPANE"
+          # - "blé française" instead of "blé française*"
+          ingredients:
+            "2 PÂTES FEUILLETÉES PUR BEURRE PRÊTES À DÉROULER : Farine de blé
+            française* (54%), eau, beurre concentré origine France (19%), alcool éthylique,
+            sel, levure désactivée, jus de citron concentré. *Ingrédient issu du commerce
+            équitable français Agri-Éthique. MIX POUR FRANGIPANE : Sucre, farine de blé,
+            amandes en poudre (12%), arôme. Peut contenir des traces d'œuf, de soja,
+            de sésame et de fruits à coque."
+          truncated: false
+    evaluators: []
+  - name: "5410046000028"
+    inputs:
+      image_url: https://images.openfoodfacts.org/images/products/541/004/600/0028/ingredients_fr.7.full.jpg
+    metadata: null
+    expected_output:
+      ingredient_lists:
+        - language: fr
+          # No need to add ingredients as the field is truncated.
+          ingredients: ""
+          truncated: true
+        - language: nl
+          ingredients: ""
+          truncated: true
+        - language: de
+          ingredients: ""
+          truncated: true
+    evaluators: []
+  - name: "3760275810168"
+    inputs:
+      image_url: https://images.openfoodfacts.org/images/products/376/027/581/0168/ingredients_fr.23.400.jpg
+    metadata:
+      difficulty: null
+      tags:
+        - google-cloud-error
+    expected_output:
+      ingredient_lists:
+        - language: fr
+          # Google Cloud OCR errors:
+          # - "ceufs" instead of "oeufs"
+          # - "40%;" instead of "40% :"
+          # - "conser - vateur" instead of "conser - vateur"
+          # - "mono et. diglycérides" instead of "mono et diglycérides"
+          ingredients: 'Pâtes fraîches à l''oeuf farcies à la viande.
+
+            Ingrédients des pâtes (60%) : Farine de blé tendre type "00", semoule de blé
+            dur, oeufs mixte pasteurisé (17%), eau, sel. Ingrédients de la farce (40%)
+            : Préparation de porc et de boeuf cuits 37% (porc 79%, boeuf 15%, sel, épices,
+            arômes, antioxydant : ascorbate de sodium, conservateur : nitrite de sodium),
+            chapelure (farine de blé tendre, eau, sel), eau, sel, huile de tournesol,
+            flocons de pommes de terre (pommes de terre, émulsifiants : mono et diglycérides
+            d''acides gras), farine de blé tendre de type "00", fromage râpé (lait, sel,
+            présure), fibre de bambou, vin rouge (sulfites), plantes aromatiques, arômes,
+            épices. Peut contenir des traces de soja et de noix.'
+          truncated: false
+    evaluators: []
+  - name: "3230140005031"
+    inputs:
+      image_url: https://images.openfoodfacts.org/images/products/323/014/000/5031/ingredients_fr.5.full.jpg
+    metadata:
+      difficulty: null
+      tags:
+        - google-cloud-error
+    expected_output:
+      ingredient_lists:
+        - language: fr
+          #                         # Google Cloud OCR errors:
+          #                         # - "Comichons" instead of "Cornichons"
+          #                         # - "grains coriandre" instead of "graines de coriandre"
+          #                         # - "aromes" instead of "arômes"
+          ingredients:
+            "Cornichons (dont conservateur : disulfite de potassium), eau,
+            vinaigre d'alcool, oignons, sel, estragon, graines de moutarde jaune, graines
+            de coriandre, arômes naturels, affermissant : chlorure de calcium."
+          truncated: false
+        - language: en
+          ingredients:
+            "Gherkins (preservative : potassium metabisulphite), water, vinegar,
+            onions, salt, tarragon, yellow mustard seeds, coriander seeds, natural flavours,
+            firming agent : calcium chloride."
+          truncated: false
+        - language: de
+          ingredients:
+            "Essiggurken (Konservierungsmittel : Kaliummetabisulfit), Wasser,
+            Branntweinessig, Silberzwiebeln, Salz, Estragon, Senfkörner, Koriadersamen,
+            natürliche Aromen, Festigunsmittel : Calciumchlorid."
+          truncated: false
+    evaluators: []
+evaluators:
+  - CustomEvaluator
+report_evaluators: []

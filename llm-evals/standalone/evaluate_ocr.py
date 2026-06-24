@@ -11,21 +11,17 @@
 # ///
 """Evaluate OCR models on Open Food Facts images."""
 
-import re
 import typing
 from dataclasses import dataclass
-from difflib import Differ
-from pathlib import Path
 
-import orjson
 import typer
-from deepdiff import DeepHash
+from llm_eval import ModelOutputCache, get_diff, normalize
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, ImageUrl
 from pydantic_ai.capabilities import Thinking
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
-from pydantic_ai.settings import ThinkingEffort, ThinkingLevel
+from pydantic_ai.settings import ThinkingEffort
 from pydantic_evals import Case, Dataset, increment_eval_metric, set_eval_attribute
 from pydantic_evals.evaluators import (
     EvaluationReason,
@@ -69,88 +65,6 @@ def get_instructions(inputs: Inputs) -> list:
     ]
 
 
-class ModelOutputCache:
-    def __init__(
-        self,
-        task_name: str,
-        cache_dir: Path | None = None,
-    ):
-        if cache_dir is None:
-            cache_dir = Path("~/.cache/llm_evals").expanduser()
-        self.cache_dir = cache_dir
-        self.task_name = task_name
-
-    def get_query_cache_path(
-        self,
-        *,
-        model: str,
-        instructions: list,
-        thinking_effort: ThinkingLevel,
-    ) -> Path:
-        model = model.replace("/", "_")
-        cache_key = (
-            model,
-            self.task_name,
-            instructions,
-            thinking_effort,
-        )
-        cache_sha256 = DeepHash(cache_key)[cache_key]
-
-        # Split the cache sha256 into subdirectories for better file system
-        # performance
-        cache_sha256_str = str(cache_sha256)
-        subdirs = [cache_sha256_str[i : i + 2] for i in range(0, 6, 2)]
-        cache_subdir = Path(*subdirs)
-        full_cache_dir = self.cache_dir / self.task_name / model / cache_subdir
-        return full_cache_dir / f"{cache_sha256}.json"
-
-    def check_cache(
-        self,
-        *,
-        model: str,
-        instructions: list,
-        thinking_effort: ThinkingLevel,
-    ) -> str | None:
-        query_cache_path = self.get_query_cache_path(
-            model=model,
-            instructions=instructions,
-            thinking_effort=thinking_effort,
-        )
-        if query_cache_path.exists():
-            return orjson.loads(query_cache_path.read_bytes())["output"]
-        return None
-
-    def save_to_cache(
-        self,
-        *,
-        inputs: Inputs,
-        model: str,
-        instructions: list,
-        thinking_effort: ThinkingLevel,
-        output: str,
-    ) -> None:
-        query_cache_path = self.get_query_cache_path(
-            model=model,
-            instructions=instructions,
-            thinking_effort=thinking_effort,
-        )
-        query_cache_path.parent.mkdir(parents=True, exist_ok=True)
-        data = {
-            "inputs": inputs.model_dump(),
-            "output": output,
-            "model": model,
-            "task_name": self.task_name,
-            "thinking_effort": thinking_effort,
-            "instructions": instructions,
-        }
-        with query_cache_path.open("wb") as f:
-            f.write(orjson.dumps(data))
-
-
-def normalize(s: str) -> str:
-    return re.sub(r"\s+", " ", s).replace("’", "'").strip()
-
-
 @dataclass
 class CustomEvaluator(Evaluator[Inputs, ExpectedOutput, MetaData]):
     def evaluate(
@@ -161,21 +75,15 @@ class CustomEvaluator(Evaluator[Inputs, ExpectedOutput, MetaData]):
             raise RuntimeError("expected_output should not be null")
 
         output = typing.cast(str, ctx.output)
-        output = output.strip()
-
         normalized_output = normalize(output)
 
         if expected_output.full_exact_match is not None:
             normalized_expected = normalize(expected_output.full_exact_match)
-            # Split by words
-            expected_words = normalized_expected.split(" ")
-            actual_words = normalized_output.split(" ")
-            diffs = list(Differ().compare(expected_words, actual_words))
-            differences = [d for d in diffs if not d.startswith("  ")]
-            if differences:
+            diff = get_diff(normalized_expected, normalized_output)
+            if diff:
                 return EvaluationReason(
                     value=False,
-                    reason=f"differences: {differences}",
+                    reason=f"diff:\n{diff}",
                 )
 
         if expected_output.partial_exact_matches:
@@ -287,7 +195,7 @@ def evaluate(
         output_type=str,
         capabilities=[Thinking(effort=thinking_effort)],
     )
-    llm_output_cache = ModelOutputCache(task_name=TASK_NAME)
+    llm_output_cache = ModelOutputCache(task_name=TASK_NAME, output_type=str)
 
     async def run_task(inputs: Inputs) -> str:
         instructions = get_instructions(inputs)
@@ -296,6 +204,7 @@ def evaluate(
             model=model,
             instructions=instructions,
             thinking_effort=thinking_effort,
+            output_mode=None,
         ):
             set_eval_attribute("cache_hit", True)
             return cached
@@ -304,13 +213,15 @@ def evaluate(
         increment_eval_metric("api_calls", 1)
         response = await agent.run(user_prompt=instructions)
         increment_eval_metric("tokens", response.usage.total_tokens)
+        increment_eval_metric("input_tokens", response.usage.input_tokens)
+        increment_eval_metric("output_tokens", response.usage.output_tokens)
         result = response.output
         llm_output_cache.save_to_cache(
-            inputs=inputs,
             model=model,
             instructions=instructions,
             thinking_effort=thinking_effort,
             output=result,
+            output_mode=None,
         )
         return result
 
