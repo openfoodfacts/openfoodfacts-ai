@@ -6,6 +6,7 @@
 #     "pydantic-ai>=1.104.0",
 #     "pydantic-evals>=1.104.0",
 #     "typer",
+#     "r-llm-evals",
 # ]
 # ///
 """This template can be used to quickly set up an evaluation benchmark for a LLM model
@@ -29,23 +30,17 @@ To use this template:
 
 import typing
 from dataclasses import dataclass
-from pathlib import Path
 
-import orjson
 import typer
-from deepdiff import DeepHash
 from pydantic import BaseModel
 from pydantic_ai import Agent, PromptedOutput
 from pydantic_ai.capabilities import Thinking
 from pydantic_ai.models.openai import OpenAIChatModel
-from pydantic_ai.providers.openai import OpenAIProvider
-from pydantic_ai.settings import ThinkingEffort, ThinkingLevel
+from pydantic_ai.settings import ThinkingEffort
 from pydantic_evals import Case, Dataset, increment_eval_metric, set_eval_attribute
-from pydantic_evals.evaluators import (
-    EvaluationReason,
-    Evaluator,
-    EvaluatorContext,
-)
+from pydantic_evals.evaluators import EvaluationReason, Evaluator, EvaluatorContext
+from r_llm_evals import get_model_provider
+from r_llm_evals.cache import ModelOutputCache
 
 # Define schema of Output, ExpectedOutput, and Inputs classes below
 # Name the task in TASK_NAME
@@ -75,102 +70,6 @@ def get_instructions(inputs: Inputs) -> str | list:
     """Return the agent instructions for the given inputs.
     The instructions must include the input."""
     return "instructions"
-
-
-class ModelOutputCache[BaseModelType: BaseModel]:
-    def __init__(
-        self,
-        task_name: str,
-        output_type: type[BaseModelType],
-        cache_dir: Path | None = None,
-    ):
-        if cache_dir is None:
-            cache_dir = Path("~/.cache/llm_evals").expanduser()
-        self.cache_dir = cache_dir
-        self.task_name = task_name
-        self.output_type = output_type
-
-    def get_query_cache_path(
-        self,
-        *,
-        inputs: Inputs,
-        model: str,
-        instructions: str | list,
-        output_mode: str,
-        thinking_effort: ThinkingLevel,
-    ) -> Path:
-        json_schema = self.output_type.model_json_schema()
-        model = model.replace("/", "_")
-        cache_key = (
-            inputs,
-            model,
-            self.task_name,
-            instructions,
-            json_schema,
-            output_mode,
-            thinking_effort,
-        )
-        cache_sha256 = DeepHash(cache_key)[cache_key]
-
-        # Split the cache sha256 into subdirectories for better file system
-        # performance
-        cache_sha256_str = str(cache_sha256)
-        subdirs = [cache_sha256_str[i : i + 2] for i in range(0, 6, 2)]
-        cache_subdir = Path(*subdirs)
-        full_cache_dir = self.cache_dir / self.task_name / model / cache_subdir
-        return full_cache_dir / f"{cache_sha256}.json"
-
-    def check_cache(
-        self,
-        *,
-        inputs: Inputs,
-        model: str,
-        instructions: str | list,
-        output_mode: str,
-        thinking_effort: ThinkingLevel,
-    ) -> BaseModelType | None:
-        query_cache_path = self.get_query_cache_path(
-            inputs=inputs,
-            model=model,
-            instructions=instructions,
-            output_mode=output_mode,
-            thinking_effort=thinking_effort,
-        )
-        if query_cache_path.exists():
-            output = orjson.loads(query_cache_path.read_bytes())["output"]
-            return self.output_type.model_validate(output)
-        return None
-
-    def save_to_cache(
-        self,
-        *,
-        inputs: Inputs,
-        model: str,
-        instructions: str | list,
-        output_mode: str,
-        thinking_effort: ThinkingLevel,
-        output: BaseModelType,
-    ) -> None:
-        query_cache_path = self.get_query_cache_path(
-            inputs=inputs,
-            model=model,
-            instructions=instructions,
-            output_mode=output_mode,
-            thinking_effort=thinking_effort,
-        )
-        query_cache_path.parent.mkdir(parents=True, exist_ok=True)
-        data = {
-            "inputs": inputs.model_dump(),
-            "output": output.model_dump(),
-            "model": model,
-            "task_name": self.task_name,
-            "thinking_effort": thinking_effort,
-            "instructions": instructions,
-            "output_mode": output_mode,
-            "json_schema": self.output_type.model_json_schema(),
-        }
-        with query_cache_path.open("wb") as f:
-            f.write(orjson.dumps(data))
 
 
 @dataclass
@@ -206,7 +105,7 @@ def evaluate(
     include_output: bool = False,
     include_reasons: bool = True,
 ):
-    chat_model = OpenAIChatModel(model, provider=OpenAIProvider())
+    chat_model = OpenAIChatModel(model, provider=get_model_provider())
     output_type = PromptedOutput(OUTPUT_TYPE)
     agent = Agent(
         chat_model,

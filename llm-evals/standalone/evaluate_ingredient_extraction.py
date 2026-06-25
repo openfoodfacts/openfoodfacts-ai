@@ -5,6 +5,7 @@
 #     "pillow>=12.2.0",
 #     "pydantic-ai>=1.104.0",
 #     "pydantic-evals>=1.104.0",
+#     "r-llm-evals",
 #     "typer",
 # ]
 # ///
@@ -24,12 +25,10 @@ import typing
 from dataclasses import dataclass
 
 import typer
-from llm_eval import ModelOutputCache, get_diff, normalize
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent, ImageUrl, PromptedOutput
+from pydantic_ai import Agent, ImageUrl, ModelSettings, NativeOutput, PromptedOutput
 from pydantic_ai.capabilities import Thinking
 from pydantic_ai.models.openai import OpenAIChatModel
-from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.settings import ThinkingEffort
 from pydantic_evals import Dataset, increment_eval_metric, set_eval_attribute
 from pydantic_evals.evaluators import (
@@ -37,6 +36,12 @@ from pydantic_evals.evaluators import (
     Evaluator,
     EvaluatorContext,
 )
+from r_llm_evals import (
+    get_model_provider,
+    is_qwen_3_5,
+)
+from r_llm_evals.cache import ModelOutputCache
+from r_llm_evals.text import get_diff, normalize
 
 
 class IngredientList(BaseModel):
@@ -175,13 +180,25 @@ def evaluate(
     thinking_effort: ThinkingEffort = "minimal",
     include_output: bool = False,
     include_reasons: bool = True,
+    output_mode: str = "prompted",
 ):
-    chat_model = OpenAIChatModel(model, provider=OpenAIProvider())
-    output_type = PromptedOutput(OUTPUT_TYPE)
+    chat_model = OpenAIChatModel(model, provider=get_model_provider())
+    output_type = (
+        NativeOutput(OUTPUT_TYPE)
+        if output_mode == "native"
+        else PromptedOutput(OUTPUT_TYPE)
+    )
+
+    model_settings = (
+        ModelSettings(extra_body={"chat_template_kwargs": {"enable_thinking": "none"}})
+        if (is_qwen_3_5(model) and thinking_effort == "minimal")
+        else None
+    )
     agent = Agent(
         chat_model,
         output_type=output_type,
         capabilities=[Thinking(effort=thinking_effort)],
+        model_settings=model_settings,
     )
     llm_output_cache = ModelOutputCache(task_name=TASK_NAME, output_type=OUTPUT_TYPE)
 
@@ -191,7 +208,7 @@ def evaluate(
         if cached := llm_output_cache.check_cache(
             model=model,
             instructions=instructions,
-            output_mode="prompted",
+            output_mode=output_mode,
             thinking_effort=thinking_effort,
         ):
             set_eval_attribute("cache_hit", True)
@@ -207,7 +224,7 @@ def evaluate(
         llm_output_cache.save_to_cache(
             model=model,
             instructions=instructions,
-            output_mode="prompted",
+            output_mode=output_mode,
             thinking_effort=thinking_effort,
             output=result,
         )

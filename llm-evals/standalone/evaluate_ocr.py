@@ -5,6 +5,7 @@
 #     "pillow>=12.2.0",
 #     "pydantic-ai>=1.104.0",
 #     "pydantic-evals>=1.104.0",
+#      "r-llm-evals",
 #     "levenshtein",
 #     "typer",
 # ]
@@ -15,12 +16,10 @@ import typing
 from dataclasses import dataclass
 
 import typer
-from llm_eval import ModelOutputCache, get_diff, normalize
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, ImageUrl
 from pydantic_ai.capabilities import Thinking
 from pydantic_ai.models.openai import OpenAIChatModel
-from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.settings import ThinkingEffort
 from pydantic_evals import Case, Dataset, increment_eval_metric, set_eval_attribute
 from pydantic_evals.evaluators import (
@@ -28,6 +27,9 @@ from pydantic_evals.evaluators import (
     Evaluator,
     EvaluatorContext,
 )
+from r_llm_evals import get_model_provider
+from r_llm_evals.cache import ModelOutputCache
+from r_llm_evals.text import get_diff, normalize
 
 TASK_NAME = "off_ocr"
 
@@ -189,7 +191,7 @@ def evaluate(
     include_output: bool = False,
     include_reasons: bool = True,
 ):
-    chat_model = OpenAIChatModel(model, provider=OpenAIProvider())
+    chat_model = OpenAIChatModel(model, provider=get_model_provider(model))
     agent = Agent(
         chat_model,
         output_type=str,
