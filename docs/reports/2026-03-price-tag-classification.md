@@ -205,4 +205,4 @@ I then run a [first training run](https://huggingface.co/openfoodfacts/price-tag
 - base model: yolov8n-cls
 - custom classification
 
-The model reached 94.8% accuracy on the validation set. Visual inspection of the predictions showed that model failed on tricky samples. It was then integrated into Robotoff/Triton (https://github.com/openfoodfacts/robotoff/pull/1875) and Open Prices (https://github.com/openfoodfacts/open-prices/pull/1284).
+The model reached 94.8% accuracy on the validation set. Visual inspection of the predictions showed that model only failed on tricky samples. It was then integrated into Robotoff/Triton (https://github.com/openfoodfacts/robotoff/pull/1875) and Open Prices (https://github.com/openfoodfacts/open-prices/pull/1284).
