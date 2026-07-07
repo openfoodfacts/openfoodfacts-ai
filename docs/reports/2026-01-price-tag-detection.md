@@ -183,7 +183,9 @@ LIMIT 200;
 I run the same commands as above.
 
 I also normalized the `image_id` field of all tasks in Label Studio to ensure it was always the `proof_id` (for consistency). The `image_id`s of previous samples were a sub-string of the image URL, which made it difficult to know the ID of the proof. 
-### 2026-02-19
+
+### 2026-02-19 - 2026-02-27
+
 I annotated ~100 samples of proofs in the US. I wanted to see whether the model was significantly better by training a new model based on this refined dataset. I first exported the dataset:
 
 ```bash
@@ -222,8 +224,8 @@ There was another error during the pre-processing phase in the training run, as 
 I relaunched the job.
 
 To compare with other versions of yolo, I also launched, with the same hyperparameters, runs with the following models:
-- `yolov8x`
-- `yolo26x`
+- `yolov8x` ([Wandb](https://wandb.ai/raphaeloff/price-tag-detection/runs/qkljt4wx))
+- `yolo26x` ([Wandb](https://wandb.ai/raphaeloff/price-tag-detection/runs/yolo26x-e-250-i-960-20260220-114704_20260220_105317))
 
 For all these training runs, the validation set changed, so the metrics are not directly comparable to the model in production.
 
@@ -232,4 +234,7 @@ The model weights were not saved, as these are synced on Hugging Face at the end
 
 ![image](assets/price_tag_detection_map_first_runs.png)
 
-Yolov8x was the best-performer, so I use this model for a new run. This time, I rented a RTX 6000 Ada GPU on Verda, which allowed to increase batch size from 2 (auto-batch size) to 16.
+Yolov8x and Yolo26x were the best-performers, so I launched two new training runs with these models. This time, I rented a RTX 6000 Ada GPU on Verda, which allowed to increase batch size from 2 (auto-batch size) to 16.
+
+- `yolov8x`
+- `yolo26x` ([Wandb](https://wandb.ai/raphaeloff/price-tag-detection/runs/yolo11x-e-200-i-960_20260227_102910) [Hugging Face](https://huggingface.co/openfoodfacts/price-tag-detection/commits/yolo11x-e-200-i-960))
