@@ -67,7 +67,7 @@ def _get_image_from_url(
 
 def get_image_from_url(image_url: str, error_raise: bool = True):
     s3_url = image_url.replace(
-        "https://static.openfoodfacts.org/images/products/",
+        "https://images.openfoodfacts.org/images/products/",
         "https://openfoodfacts-images.s3.eu-west-3.amazonaws.com/data/",
     )
     r = _get_image_from_url(s3_url, error_raise=error_raise)

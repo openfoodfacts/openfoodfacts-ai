@@ -270,7 +270,7 @@ def split_barcode(barcode: str) -> List[str]:
 def generate_image_url(barcode: str, image_name: str) -> str:
     splitted_barcode = split_barcode(barcode)
     path = "/{}/{}.jpg".format("/".join(splitted_barcode), image_name)
-    return "https://static.openfoodfacts.org/images/products" + path
+    return "https://images.openfoodfacts.org/images/products" + path
 
 
 def iter_images_batch(
