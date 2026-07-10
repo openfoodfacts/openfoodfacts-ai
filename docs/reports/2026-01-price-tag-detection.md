@@ -261,21 +261,27 @@ Visual inspection of the results showed that the new model performs better, and 
 A few examples are show below (production vs new model):
 
 Production model:
+
 ![image](assets/2026-01-price-tag-detection/1_before.jpg)
 
 New model:
+
 ![image](assets/2026-01-price-tag-detection/1_after.jpg)
 
 Production model:
+
 ![image](assets/2026-01-price-tag-detection/2_before.jpg)
 
 New model:
+
 ![image](assets/2026-01-price-tag-detection/2_after.jpg)
 
 Production model:
+
 ![image](assets/2026-01-price-tag-detection/3_before.jpg)
 
 New model:
+
 ![image](assets/2026-01-price-tag-detection/3_after.jpg)
 
 To use this new model in production, I merged the `yolo11x-e-200-i-960` branch in main, and added the model to our Triton server ([commit](https://github.com/openfoodfacts/robotoff/commit/1b80f339cbb133967aa874ec110d919124b7c8d5)).
