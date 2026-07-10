@@ -30,11 +30,11 @@ I noticed that predictions added to the project using the ultralytics library (g
 
 For example, for [this image](https://prices.openfoodfacts.org/img/0009/HcYxr7g79z.webp), the API prediction is the following:
 
-![image](assets/2025-12-price-tag-extraction-robotoff-pred.jpeg)
+![image](assets/2026-01-price-tag-detection/robotoff-pred.jpeg)
 
 while the prediction using the yolo CLI (using the same ONNX export) is the following:
 
-![image](assets/2025-12-price-tag-extraction-onnx.jpg)
+![image](assets/2026-01-price-tag-detection/onnx-pred.jpg)
 
 After some investigation, the issue came from a bug in how we used the NMSBoxes function provided by openCV: the bounding boxes were not in the right format.
 I fixed the issue in [this PR](https://github.com/openfoodfacts/openfoodfacts-python/pull/417). There was another bug in how we called the bounding box visualization function (which powers the predict API): only 20 bounding boxes were displayed, and all bounding boxes with a confidence score below 0.5 were filtered out.
@@ -225,6 +225,7 @@ I relaunched the job.
 
 To compare with other versions of yolo, I also launched, with the same hyperparameters, runs with the following models:
 - `yolov8x` ([Wandb](https://wandb.ai/raphaeloff/price-tag-detection/runs/qkljt4wx))
+- `yolo11x` ([Wandb](https://wandb.ai/raphaeloff/price-tag-detection/runs/qo6xflny))
 - `yolo26x` ([Wandb](https://wandb.ai/raphaeloff/price-tag-detection/runs/yolo26x-e-250-i-960-20260220-114704_20260220_105317))
 
 For all these training runs, the validation set changed, so the metrics are not directly comparable to the model in production.
@@ -232,9 +233,49 @@ For all these training runs, the validation set changed, so the metrics are not 
 The training lasted more than 24h, so Google Batch stopped the job and relaunched it..
 The model weights were not saved, as these are synced on Hugging Face at the end of the training, but we have the mAP50-95 metric for all runs:
 
-![image](assets/price_tag_detection_map_first_runs.png)
+![image](assets/2026-01-price-tag-detection/price_tag_detection_map_first_runs.png)
 
-Yolov8x and Yolo26x were the best-performers, so I launched two new training runs with these models. This time, I rented a RTX 6000 Ada GPU on Verda, which allowed to increase batch size from 2 (auto-batch size) to 16.
+Yolov8x and Yolo11x were the best-performers, so I launched two new training runs with these models. In the meantime, I added some improvements to the dataset, and created a v1.2 version of the dataset that I now use for training.
 
-- `yolov8x`
-- `yolo26x` ([Wandb](https://wandb.ai/raphaeloff/price-tag-detection/runs/yolo11x-e-200-i-960_20260227_102910) [Hugging Face](https://huggingface.co/openfoodfacts/price-tag-detection/commits/yolo11x-e-200-i-960))
+I rented a RTX 6000 Ada GPU on Verda, which allowed to increase batch size from 2 (auto-batch size) to 16.
+
+- `yolov8x`: ([Wandb](https://wandb.ai/raphaeloff/price-tag-detection/runs/yolov8x-e-250-i-9604_20260223_133023))
+- `yolo11x` ([Wandb](https://wandb.ai/raphaeloff/price-tag-detection/runs/yolo11x-e-200-i-960_20260227_102910) [Hugging Face](https://huggingface.co/openfoodfacts/price-tag-detection/commits/yolo11x-e-200-i-960))
+
+Yolov8x was tracked correctly on Wandb, but the weights were not saved correctly in Hugging Face.
+
+## 2026-07-06 - 2026-07-10
+
+After several months of pause, I continued the project. I evaluated the yolo11x model that I trained on the v1.2 dataset.
+
+I first ran inference on all images of the v1.2 dataset with the model we currently have in production, and saved the results on [Hugging Face](https://huggingface.co/openfoodfacts/price-tag-detection/commit/142682835938dfe1b3d12343d9d155d077826b8b).
+
+Using FiftyOne, I could compare the results of the two models.
+With the production model, we reach a mAP50 of 0.793, and with the new model, a mAP50 of 0.9491 (+0.15).
+
+Visual inspection of the results showed that the new model performs better, and specifically on the type of samples we cared about:
+
+- US price tags
+- price tags of fruits/vegetables
+
+A few examples are show below (production vs new model):
+
+Production model:
+![image](assets/2026-01-price-tag-detection/1_before.jpg)
+
+New model:
+![image](assets/2026-01-price-tag-detection/1_after.jpg)
+
+Production model:
+![image](assets/2026-01-price-tag-detection/2_before.jpg)
+
+New model:
+![image](assets/2026-01-price-tag-detection/2_after.jpg)
+
+Production model:
+![image](assets/2026-01-price-tag-detection/3_before.jpg)
+
+New model:
+![image](assets/2026-01-price-tag-detection/3_after.jpg)
+
+To use this new model in production, I merged the `yolo11x-e-200-i-960` branch in main, and added the model to our Triton server ([commit](https://github.com/openfoodfacts/robotoff/commit/1b80f339cbb133967aa874ec110d919124b7c8d5)).
