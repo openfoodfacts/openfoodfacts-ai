@@ -6,7 +6,7 @@ import numpy as np
 
 def plot_correlations(df):
     corr_matrix = df.corr()
-    mask = np.zeros_like(corr_matrix, dtype=np.bool)
+    mask = np.zeros_like(corr_matrix, dtype=bool)
     mask[np.triu_indices_from(mask)] = True
     plt.figure(figsize=(25, 15))
     heatmap = sns.heatmap(
