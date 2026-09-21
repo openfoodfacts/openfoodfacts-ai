@@ -66,10 +66,89 @@ Detailed scores:
   category: 48/57 (84.21% accuracy)
 ```
 
+### Tensorxai deepseek/deepseek-v4.1-flash thinking high
+
+```bash
+uv run main.py evaluate from-api --task prices:price_tag_extraction --model openai-chat:deepseek/deepseek-v4.1-flash --max-concurrency 2 --output-mode 'native+prompted' --thinking-config HIGH
+```
+
+```
+Detailed scores:
+  price: 493/523 (94.26% accuracy)
+  barcode: 375/408 (91.91% accuracy)
+  uncertain_barcode_or_product_name: 491/528 (92.99% accuracy)
+  category: 28/57 (49.12% accuracy)
+```
+
+
+### Tensorxai OpenRouter deepseek/deepseek-v4.1-flash
+
+```bash
+uv run main.py evaluate from-api --task prices:price_tag_extraction --model openai-chat:deepseek/deepseek-v4.1-flash --max-concurrency 2 --output-mode 'native+prompted'
+```
+
+```
+Detailed scores:
+  price: 502/523 (95.98% accuracy)
+  barcode: 378/408 (92.65% accuracy)
+  uncertain_barcode_or_product_name: 490/528 (92.80% accuracy)
+  category: 29/59 (49.15% accuracy)
+```
+
 ### OpenRouter Qwen3.5 397B A17B
 
 ```bash
 uv run main.py evaluate from-api --task prices:price_tag_extraction --model openrouter:qwen/qwen3.5-397b-a17b --max-concurrency 2 --output-mode 'native+prompted'
+```
+
+```
+Detailed scores:
+  price: 504/523 (96.37% accuracy)
+  barcode: 367/408 (89.95% accuracy)
+  uncertain_barcode_or_product_name: 495/528 (93.75% accuracy)
+  category: 39/68 (57.35% accuracy)
+```
+
+### OpenRouter GLM 5.3 Flash default thinking
+
+```bash
+uv run main.py evaluate from-api --task prices:price_tag_extraction --model openrouter:z-ai/glm-5.3-flash --max-concurrency 2 --output-mode 'native+prompted'
+```
+
+```
+Detailed scores:
+  price: 476/523 (91.01% accuracy)
+  barcode: 342/408 (83.82% accuracy)
+  uncertain_barcode_or_product_name: 466/528 (88.26% accuracy)
+  category: 44/57 (77.19% accuracy)
+```
+
+### OpenRouter GLM 5.3 Flash low thinking
+
+```bash
+uv run main.py evaluate from-api --task prices:price_tag_extraction --model openrouter:z-ai/glm-5.3-flash --max-concurrency 2 --output-mode 'native+prompted' --thinking-config low
+```
+
+```
+Detailed scores:
+  price: 491/523 (93.88% accuracy)
+  barcode: 350/408 (85.78% accuracy)
+  uncertain_barcode_or_product_name: 473/528 (89.58% accuracy)
+  category: 38/66 (57.58% accuracy)
+```
+
+### OpenRouter Qwen 3.8 27B default thinking
+
+```bash
+uv run main.py evaluate from-api --task prices:price_tag_extraction --model openrouter:qwen/qwen3.8-27b:exacto --max-concurrency 2 --output-mode 'native+prompted'
+```
+
+```
+Detailed scores:
+  price: 496/523 (94.84% accuracy)
+  barcode: 357/408 (87.50% accuracy)
+  uncertain_barcode_or_product_name: 498/528 (94.32% accuracy)
+  category: 37/67 (55.22% accuracy)
 ```
 
 ### OpenRouter Qwen 3 VL 8B Instruct
@@ -84,13 +163,6 @@ Detailed scores:
   barcode: 345/408 (84.56% accuracy)
   uncertain_barcode_or_product_name: 497/528 (94.13% accuracy)
   category: 19/66 (28.79% accuracy)
-```
-
-
-### OpenRouter Molmo 8B
-
-```bash
-uv run main.py evaluate from-api --task prices:price_tag_extraction --model openrouter:allenai/molmo-2-8b:free --max-concurrency 2 --output-mode 'native+prompted'
 ```
 
 
