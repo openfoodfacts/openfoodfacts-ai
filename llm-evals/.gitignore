@@ -1,1 +1,2 @@
 .envrc
+llm_evals/tasks/prices/receipt_anonymization/dataset.yaml
