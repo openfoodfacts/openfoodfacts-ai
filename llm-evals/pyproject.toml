@@ -13,8 +13,8 @@ dependencies = [
     "openfoodfacts>=3.3.0",
     "orjson>=3.11.4",
     "pillow>=12.2.0",
-    "pydantic-ai>=1.107.2,<2.0",
-    "pydantic-evals>=1.107.2,<2.0",
+    "pydantic-ai>=2.0",
+    "pydantic-evals>=2.0",
     "ruamel-yaml>=0.18.16",
     "typer",
 ]
