@@ -79,18 +79,17 @@ class EvaluationAgent:
         if self._evaluation_agent is not None:
             raise ValueError(EVALUATION_AGENT_ALREADY_CREATED_ERROR)
 
-        output_mode_cls: ToolOutput | NativeOutput | PromptedOutput | None = None
-        if output_mode not in ("tool", "native", "prompted", "native+prompted"):
+        if output_mode == "tool":
+            output_mode_cls = ToolOutput
+        elif output_mode in ("native", "native+prompted"):
+            output_mode_cls = NativeOutput
+        elif output_mode == "prompted":
+            output_mode_cls = PromptedOutput
+        else:
             raise ValueError(
                 f"Invalid output_mode: {output_mode}. Must be one of "
                 "'tool', 'native', or 'prompted'."
             )
-        elif output_mode == "tool":
-            output_mode_cls = ToolOutput
-        elif output_mode in ("native", "native+prompt"):
-            output_mode_cls = NativeOutput
-        else:
-            output_mode_cls = PromptedOutput
 
         self._agent = Agent(
             model=model,
