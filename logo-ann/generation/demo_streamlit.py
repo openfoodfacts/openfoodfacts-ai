@@ -25,7 +25,7 @@ else:
 PREDICTIONS_URL = ROBOTOFF_BASE_URL + "/images/predictions"
 API_URL = "https://world.openfoodfacts.org/api/v0"
 PRODUCT_URL = API_URL + "/product"
-OFF_IMAGE_BASE_URL = "https://static.openfoodfacts.org/images/products"
+OFF_IMAGE_BASE_URL = "https://images.openfoodfacts.org/images/products"
 BARCODE_PATH_REGEX = re.compile(r"^(...)(...)(...)(.*)$")
 
 

@@ -204,7 +204,7 @@ def generate_identifier(barcode: str, image_id: str, prompt_version: str):
 def get_image_url_from_identifier(identifier: str):
     barcode, image_id, *_ = identifier.split("_")
     image_path = generate_image_path(barcode, image_id)
-    return f"https://static.openfoodfacts.org/images/products{image_path}"
+    return f"https://images.openfoodfacts.org/images/products{image_path}"
 
 
 def fetch_annotations() -> dict[str, dict]:
