@@ -237,7 +237,7 @@ def generate_samples(
             image, ymin, xmin, ymax, xmax, np.array(category_ids), category_text
         ).save(f"/home/raphael/Desktop/{barcode}_{off_image_id}.jpg")
 
-        image_url = f"https://static.openfoodfacts.org/images/products{image_path}"
+        image_url = f"https://images.openfoodfacts.org/images/products{image_path}"
 
         width = image.width
         height = image.height

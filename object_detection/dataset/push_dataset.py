@@ -131,7 +131,7 @@ def get_full_image(
     if requests.head(image_url).status_code != 200:
         # The image is not available on S3, try the static server
         print(f"Image not found on S3 ({image_url}), trying the static server")
-        image_url = f"https://static.openfoodfacts.org/images/products{image_path}"
+        image_url = f"https://images.openfoodfacts.org/images/products{image_path}"
 
     full_image, image_bytes = get_image_from_url(
         image_url, session=session, error_raise=False
@@ -201,7 +201,7 @@ def generate_samples(
         category_ids = [category_names.index(x) for x in category_text]
 
         image_path = generate_image_path(barcode, off_image_id)
-        image_url = f"https://static.openfoodfacts.org/images/products{image_path}"
+        image_url = f"https://images.openfoodfacts.org/images/products{image_path}"
         full_image, full_image_bytes = get_full_image(
             image_path, width, height, raise_if_error=raise_if_error
         )

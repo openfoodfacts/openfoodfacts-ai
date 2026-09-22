@@ -96,7 +96,7 @@ def run(barcode: str, aggregation_strategy: str, min_threshold: float = 0.5):
             continue
 
         ocr_path = generate_ocr_path(barcode, image_id)
-        ocr_url = f"https://static.openfoodfacts.org/images/products{ocr_path}"
+        ocr_url = f"https://images.openfoodfacts.org/images/products{ocr_path}"
         prediction = send_prediction_request(ocr_url, aggregation_strategy)
 
         entities = prediction["entities"]
@@ -106,7 +106,7 @@ def run(barcode: str, aggregation_strategy: str, min_threshold: float = 0.5):
         if filtered_entities:
             st.divider()
             image_path = generate_image_path(barcode, image_id)
-            image_url = f"https://static.openfoodfacts.org/images/products{image_path}"
+            image_url = f"https://images.openfoodfacts.org/images/products{image_path}"
             st.image(image_url)
             display_ner_tags(text, filtered_entities)
 
