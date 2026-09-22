@@ -1,0 +1,16 @@
+# Logo ANN dependencies are organized by functionality
+# Install the appropriate requirements file from generation/ subdirectory:
+
+# For basic functionality:
+# pip install -r generation/requirements.txt
+
+# For machine learning models:
+# pip install -r generation/requirements_ml.txt  
+
+# For Streamlit demo:
+# pip install -r generation/requirements_streamlit.txt
+
+# Or install all at once:
+-r generation/requirements.txt
+-r generation/requirements_ml.txt
+-r generation/requirements_streamlit.txt

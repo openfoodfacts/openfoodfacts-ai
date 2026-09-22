@@ -1,0 +1,14 @@
+# Front Image Classification uses PEP 723 inline script dependencies
+# Dependencies are defined directly in the Python script files
+
+# For manual installation, install these packages:
+typer>=0.12.0
+tqdm>=4.60.0  
+Pillow>=8.0.0
+ultralytics>=8.0.0
+albumentations>=1.0.0
+opencv-python>=4.5.0
+numpy>=1.20.0
+openfoodfacts>=0.2.0
+duckdb>=0.8.0
+torch>=1.12.0

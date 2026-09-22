@@ -1,0 +1,7 @@
+requests>=2.25.0
+jupyter
+matplotlib
+numpy
+pandas
+tensorflow>=2.0.0
+Pillow
