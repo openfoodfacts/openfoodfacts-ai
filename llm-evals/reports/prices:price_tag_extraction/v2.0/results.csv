@@ -1,0 +1,6 @@
+Models,price accuracy (%),barcode accuracy (%)
+Gemini 3 flash (min),99.04,97.30
+Deepseek v4.1 flash (high),95.98,92.65
+Qwen 3.5 397B A17B,96.37,89.95
+Qwen 3.8 27B,94.84,87.50
+Finetuned Qwen3 VL 8B,95.79,87.99
